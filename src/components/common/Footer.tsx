@@ -5,7 +5,7 @@ export function Footer() {
     <footer className="bg-teal text-white">
       <div className="shell grid gap-10 py-12 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
-          <p className="font-display text-2xl font-bold">Tinted Academy</p>
+          <p className="font-display text-2xl font-bold">Tinted Learning</p>
           <p className="mt-3 max-w-xs text-sm leading-6 text-white/70">Free AI education for everyone.</p>
         </div>
         <div>

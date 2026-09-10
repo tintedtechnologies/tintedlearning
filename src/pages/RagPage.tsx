@@ -3,12 +3,12 @@ import { useState } from 'react'
 import { PlaygroundFrame } from '../components/playground/PlaygroundFrame'
 
 const steps = [
-  ['Question', 'What is Tinted Academy?'],
+  ['Question', 'What is Tinted Learning?'],
   ['Search', 'Look through the knowledge base for matching information.'],
-  ['Relevant information', 'Tinted Academy is a free AI education platform.'],
+  ['Relevant information', 'Tinted Learning is a free AI education platform.'],
   ['Context', 'The retrieved passage is added to the model request.'],
   ['Model', 'The model uses the question and context to draft an answer.'],
-  ['Answer', 'Tinted Academy helps people learn AI from the basics to building.'],
+  ['Answer', 'Tinted Learning helps people learn AI from the basics to building.'],
 ]
 
 export function RagPage() {
