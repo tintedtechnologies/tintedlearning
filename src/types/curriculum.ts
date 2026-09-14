@@ -2,18 +2,34 @@ export interface GuidedProject {
   goal: string
   prerequisites: string[]
   setup: string[]
+  files?: { path: string; purpose: string }[]
+  platformNotes?: string[]
   dependencies: string[]
   steps: { title: string; instructions: string[]; commands?: string[]; code?: string; checkpoint: string }[]
+  verification?: string[]
   nextSteps: string[]
+}
+
+export interface PortfolioTrack {
+  id: string
+  title: string
+  description: string
+  deliverables: string[]
+  evidence: string[]
+  resources: LearningResource[]
+  tone: 'teal' | 'gold' | 'neutral'
 }
 export type Difficulty = 'Beginner' | 'Intermediate'
 export type LessonCategory =
   | 'AI Foundations'
   | 'Math and Computing'
   | 'Python'
+  | 'Software Engineering'
   | 'Modern AI Systems'
   | 'Using AI'
   | 'AI Engineering'
+  | 'Cloud Engineering'
+  | 'AI Architecture'
   | 'Build Chatbots'
   | 'AI Security'
   | 'Projects and Practice'
@@ -40,6 +56,14 @@ export interface LessonCallout {
   tone: 'teal' | 'gold'
 }
 
+export interface LessonExample {
+  title: string
+  explanation: string
+  kind: 'code' | 'math' | 'json' | 'diagram'
+  content: string
+  language?: string
+}
+
 export interface LessonQuiz {
   question: string
   options: string[]
@@ -52,6 +76,8 @@ export interface LessonContent {
   learningPoints: string[]
   sections: LessonSection[]
   callouts: LessonCallout[]
+  examples?: LessonExample[]
+  resources?: LearningResource[]
   quiz?: LessonQuiz
   deeper: string
   takeaway: string
@@ -65,21 +91,44 @@ export interface LearningResource {
   url: string
 }
 
-export interface LearningPath {
+export type CurriculumStageId = 'foundation' | 'software-engineering' | 'ai-engineering' | 'cloud-engineering' | 'ai-architecture' | 'projects'
+
+export type CareerLevelId = 'start-here' | 'ai-developer' | 'ai-engineer' | 'ai-architect'
+
+export interface CurriculumModule {
   id: string
-  eyebrow: string
   title: string
   description: string
   lessons: Lesson[]
-  tone: 'teal' | 'gold' | 'neutral'
-  level?: 'Start here' | 'Core theory' | 'Systems' | 'Practice' | 'Engineering' | 'Build' | 'Projects' | 'Programming'
+  prerequisites: string[]
   resources?: LearningResource[]
+  status?: 'available' | 'coming-soon'
+  provider?: 'shared' | 'azure' | 'aws' | 'gcp'
 }
 
-export interface CareerPath {
-  id: string
+export interface CurriculumStage {
+  id: CurriculumStageId
+  eyebrow: string
   title: string
   description: string
-  steps: { title: string; description: string; lessons: string[]; resources: LearningResource[] }[]
+  modules: CurriculumModule[]
+  tone: 'teal' | 'gold' | 'neutral'
+  status?: 'available' | 'coming-soon'
+}
+
+export interface CareerLevel {
+  id: CareerLevelId
+  title: string
+  description: string
+  unlockText: string
+  requiredModuleIds: string[]
+  requiredLessonIds?: string[]
+  projectId?: string
+  requiredProjectLessonIds?: string[]
+  projectCompletion?: 'any' | 'all'
+  providerModuleIds?: string[]
+  portfolioArtifacts: string[]
   tone: 'teal' | 'gold' | 'neutral'
 }
+
+

@@ -1,4 +1,6 @@
-import type { LearningPath, Lesson } from '../types/curriculum'
+import type { CareerLevel, CurriculumModule, CurriculumStage, Lesson, LearningResource, PortfolioTrack } from '../types/curriculum'
+import { orientationLessons } from './orientationLessons'
+import { portfolioProjects } from './portfolioProjects'
 
 const supportingResources = {
   foundations: [
@@ -13,6 +15,12 @@ const supportingResources = {
     { title: 'Algorithms', provider: 'Khan Academy', description: 'Review algorithmic thinking, efficiency, and core data structures.', url: 'https://www.khanacademy.org/computing/computer-science/algorithms' },
     { title: 'Python Tutorial', provider: 'W3Schools', description: 'Practice Python syntax, files, data, and small programs before building AI projects.', url: 'https://www.w3schools.com/python/' },
     { title: 'Python Tutorial', provider: 'Python.org', description: 'Use the official Python tutorial as a reference while you work locally.', url: 'https://docs.python.org/3/tutorial/' },
+  ],
+  python: [
+    { title: 'Python Tutorial', provider: 'Python.org', description: 'Use the official tutorial as a reference for syntax, control flow, data structures, files, and modules.', url: 'https://docs.python.org/3/tutorial/' },
+    { title: 'Python beginner guide', provider: 'Python.org', description: 'Find beginner-friendly learning paths, setup guidance, and community resources.', url: 'https://wiki.python.org/moin/BeginnersGuide' },
+    { title: 'Python tutorial', provider: 'W3Schools', description: 'Practice Python syntax interactively with short examples and exercises.', url: 'https://www.w3schools.com/python/' },
+    { title: 'Automate the Boring Stuff', provider: 'Al Sweigart', description: 'Apply Python to practical files, text, spreadsheets, and automation tasks.', url: 'https://automatetheboringstuff.com/' },
   ],
   systems: [
     { title: 'Machine Learning Crash Course', provider: 'Google for Developers', description: 'Practice core machine learning concepts with explanations and exercises.', url: 'https://developers.google.com/machine-learning/crash-course' },
@@ -98,45 +106,233 @@ export const lessons: Lesson[] = [
   { id: 'capstone-rag', title: 'Project: Build a Knowledge Assistant', description: 'Build a complete retrieval-augmented AI application from data to evaluation.', duration: 15, difficulty: 'Intermediate', category: 'Projects and Practice', order: 1 },
   { id: 'capstone-agent', title: 'Project: Design a Tool-Using Agent', description: 'Build an agent with goals, tools, permissions, limits, and tests.', duration: 15, difficulty: 'Intermediate', category: 'Projects and Practice', order: 2 },
   { id: 'capstone-evaluation', title: 'Project: Evaluate an AI System', description: 'Create an evaluation plan that measures quality, safety, cost, and reliability.', duration: 15, difficulty: 'Intermediate', category: 'Projects and Practice', order: 3 },
+  ...orientationLessons,
 ]
 
-export const learningPaths: LearningPath[] = [
-  { id: 'foundations', eyebrow: 'Stage 01', title: 'AI Foundations', description: 'Learn what AI is, what problems it solves, and how learning systems differ from ordinary software.', lessons: lessons.filter((lesson) => lesson.category === 'AI Foundations'), tone: 'teal', level: 'Start here', resources: supportingResources.foundations },
-  { id: 'math-and-computing', eyebrow: 'Stage 02', title: 'Math and Computing', description: 'Build the intuitive math, programming, data, and experimentation foundations that explain how models learn.', lessons: lessons.filter((lesson) => lesson.category === 'Math and Computing'), tone: 'gold', level: 'Core theory', resources: supportingResources.math },
-  { id: 'python', eyebrow: 'Stage 03', title: 'Python', description: 'Learn Python from the beginning and use it to work with data, APIs, and AI projects.', lessons: lessons.filter((lesson) => lesson.category === 'Python'), tone: 'teal', level: 'Programming', resources: [...supportingResources.math, { title: 'Try Python in the browser', provider: 'Tinted Learning', description: 'Run small Python examples without installing anything.', url: '#/playground/python' }] },
-  { id: 'modern-ai-systems', eyebrow: 'Stage 04', title: 'Modern AI Systems', description: 'Connect neural networks to transformers, language models, multimodality, and deployment.', lessons: lessons.filter((lesson) => lesson.category === 'Modern AI Systems'), tone: 'neutral', level: 'Systems', resources: supportingResources.systems },
-  { id: 'using-ai', eyebrow: 'Stage 05', title: 'Using AI Well', description: 'Practice prompting, evaluation, responsible use, and security in real situations.', lessons: lessons.filter((lesson) => lesson.category === 'Using AI'), tone: 'gold', level: 'Practice' },
-  { id: 'ai-engineering', eyebrow: 'Stage 06', title: 'AI Engineering', description: 'Learn the architecture, product, governance, and operating practices behind useful AI products.', lessons: lessons.filter((lesson) => lesson.category === 'AI Engineering'), tone: 'teal', level: 'Engineering', resources: supportingResources.engineering },
-  { id: 'build-chatbots', eyebrow: 'Stage 07', title: 'Build Chatbots', description: 'Build the same conversational application with hosted APIs and a local model.', lessons: lessons.filter((lesson) => lesson.category === 'Build Chatbots'), tone: 'neutral', level: 'Build', resources: supportingResources.engineering },
-  { id: 'ai-security', eyebrow: 'Stage 08', title: 'AI Security', description: 'Protect models, data, tools, and users from injection, leakage, misuse, and unsafe actions.', lessons: lessons.filter((lesson) => lesson.category === 'AI Security'), tone: 'gold', level: 'Practice', resources: supportingResources.security },
-  { id: 'projects-and-practice', eyebrow: 'Stage 09', title: 'Projects and Practice', description: 'Build complete AI systems and defend their tradeoffs through guided, hands-on work.', lessons: lessons.filter((lesson) => lesson.category === 'Projects and Practice'), tone: 'gold', level: 'Projects' },
+const resource = (title: string, provider: string, description: string, url: string): LearningResource => ({ title, provider, description, url })
+
+const sourceMapResources = {
+  foundations: supportingResources.foundations,
+  math: supportingResources.math,
+  python: supportingResources.python,
+  security: supportingResources.security,
+  git: [resource('Git handbook', 'Git SCM', 'Learn the core workflow for commits, branches, merges, and history.', 'https://git-scm.com/book/en/v2')],
+  linux: [resource('The Linux command line', 'Linux Foundation', 'Build confidence navigating files, processes, permissions, and pipes.', 'https://training.linuxfoundation.org/resources/?_sft_content-type=free-course')],
+  web: [resource('HTTP overview', 'MDN Web Docs', 'Understand requests, responses, methods, headers, status codes, and browser-server boundaries.', 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview')],
+  sql: [resource('SQL tutorial', 'W3Schools', 'Practice querying, filtering, joining, grouping, and updating relational data.', 'https://www.w3schools.com/sql/')],
+  testing: [resource('Python testing guide', 'Python.org', 'Use the standard library to write repeatable tests for small programs.', 'https://docs.python.org/3/library/unittest.html')],
+  docker: [resource('Get started with Docker', 'Docker', 'Learn images, containers, volumes, networks, and repeatable environments.', 'https://docs.docker.com/get-started/')],
+  azure: [resource('Azure fundamentals', 'Microsoft Learn', 'Learn Azure concepts, services, identity, and architecture through free learning paths.', 'https://learn.microsoft.com/en-us/training/azure/')],
+  aws: [resource('AWS Cloud Practitioner', 'AWS', 'Build a provider-specific foundation in cloud services, security, pricing, and operations.', 'https://aws.amazon.com/training/digital/aws-cloud-practitioner-essentials/')],
+  gcp: [resource('Google Cloud basics', 'Google Cloud', 'Explore core Google Cloud services, architecture, and hands-on labs.', 'https://www.cloudskillsboost.google/paths/8')],
+  architecture: [resource('Architecture fundamentals', 'Microsoft Learn', 'Practice designing systems around requirements, tradeoffs, reliability, and cost.', 'https://learn.microsoft.com/en-us/azure/architecture/guide/')],
+  iac: [resource('Terraform tutorials', 'HashiCorp', 'Learn infrastructure as code by provisioning and changing infrastructure declaratively.', 'https://developer.hashicorp.com/terraform/tutorials')],
+}
+
+const modulePrerequisites: Record<string, string[]> = {
+  'ai-fundamentals': ['No prior AI knowledge.'],
+  'computing-math': ['AI fundamentals or equivalent curiosity about how software learns.'],
+  python: ['Basic computer use: files, folders, and opening a terminal.', 'No prior Python or advanced mathematics is required.', 'A computer with Python 3.12+ and a text editor or VS Code.', 'Willingness to type, run, and modify small programs before moving to AI-specific code.'],
+  'git-github': ['A small Python project or willingness to create one.', 'A GitHub account for publishing work.'],
+  'linux-cli': ['Basic computer use and a willingness to use a terminal.'],
+  'apis-rest': ['Python basics and functions.', 'Basic request/response vocabulary.'],
+  'http-networking': ['APIs and REST basics.', 'Basic client/server vocabulary.'],
+  'databases-sql': ['Python or another programming language.', 'Basic data structures and application state.'],
+  'data-structures': ['Python basics and simple algorithms.'],
+  'testing-debugging': ['Python files, functions, and exceptions.', 'A small program that can fail and be tested.'],
+  docker: ['A working application and basic Linux/CLI commands.'],
+  llms: ['AI fundamentals, vectors, and basic neural-network vocabulary.'],
+  prompting: ['LLM basics, tokens, and context windows.'],
+  'structured-outputs': ['Prompting basics and JSON objects.'],
+  embeddings: ['Vectors, distance, and basic Python collections.'],
+  'vector-databases': ['Embeddings and similarity search.'],
+  rag: ['Embeddings, vector databases, APIs, and basic document handling.'],
+  'tool-calling': ['APIs, structured outputs, and authorization basics.'],
+  agents: ['Tool/function calling, structured outputs, and testing.'],
+  evaluation: ['Data splits, metrics, baselines, and basic Python.'],
+  guardrails: ['LLMs, prompting, structured outputs, and threat modeling basics.'],
+  observability: ['APIs, distributed requests, evaluation, and basic logging.'],
+  'cloud-fundamentals': ['Software engineering basics and networking vocabulary.', 'A billing-aware cloud learning account.'],
+  'azure-track': ['Cloud fundamentals and IAM concepts.', 'An Azure subscription for hands-on work.'],
+  'aws-track': ['Cloud fundamentals and IAM concepts.', 'An AWS account for hands-on work.'],
+  'gcp-track': ['Cloud fundamentals and IAM concepts.', 'A Google Cloud project with billing enabled for hands-on work.'],
+  'iam-security': ['Cloud fundamentals and authentication versus authorization.'],
+  'cloud-storage-compute': ['Cloud fundamentals and basic data persistence concepts.'],
+  'cloud-networking': ['HTTP/networking basics and cloud fundamentals.'],
+  'containers-serverless': ['Docker basics and cloud compute concepts.'],
+  'ci-cd': ['Git/GitHub, testing, Docker, and one deployable application.'],
+  'infrastructure-as-code': ['Cloud fundamentals, IAM, and Git.', 'A disposable cloud project with budget alerts.'],
+  'system-design': ['Software engineering, APIs, databases, and cloud fundamentals.'],
+  'distributed-systems': ['HTTP/networking, databases, queues, and system-design basics.'],
+  scalability: ['System design, distributed systems, and basic performance metrics.'],
+  reliability: ['Distributed systems, observability, and basic incident-response vocabulary.'],
+  'security-governance': ['AI security, IAM, privacy, and threat modeling.'],
+  'cost-optimization': ['Cloud fundamentals, model selection, observability, and basic arithmetic.'],
+  'architecture-patterns': ['System design and distributed-systems basics.'],
+  'enterprise-integration': ['APIs, databases, IAM, and system design.'],
+  'architecture-decision-records': ['System design and experience comparing technical tradeoffs.'],
+  'developer-project': ['Foundation and Software Engineering stages, or equivalent experience.'],
+  'engineer-project': ['AI Developer-level software foundations plus LLM, RAG, tools, and evaluation basics.'],
+  'architecture-project': ['AI Engineer-level systems knowledge plus cloud and architecture fundamentals.'],
+}
+
+function getModulePrerequisites(id: string) {
+  const prerequisites = modulePrerequisites[id]
+  if (!prerequisites) throw new Error(`Missing prerequisites for curriculum module: ${id}`)
+  return prerequisites
+}
+
+const moduleWithLessons = (id: string, title: string, description: string, moduleLessons: Lesson[], resources?: LearningResource[], provider: CurriculumModule['provider'] = 'shared'): CurriculumModule => ({ id, title, description, lessons: moduleLessons, prerequisites: getModulePrerequisites(id), resources, provider })
+
+const resourceModule = (id: string, title: string, description: string, resources: LearningResource[], provider: CurriculumModule['provider'] = 'shared'): CurriculumModule => ({ id, title, description, lessons: [], prerequisites: getModulePrerequisites(id), resources, provider, status: 'coming-soon' })
+
+const lessonIds = (...ids: string[]) => lessons.filter((lesson) => ids.includes(lesson.id))
+
+export const curriculumStages: CurriculumStage[] = [
+  {
+    id: 'foundation', eyebrow: 'Stage 01', title: 'Foundation', tone: 'teal',
+    description: 'Build the mental models, programming habits, and working environment that make later engineering concepts stick.',
+    modules: [
+      moduleWithLessons('ai-fundamentals', 'AI fundamentals', 'Understand what AI is, how learning systems work, and how to frame useful problems.', lessons.filter((lesson) => lesson.category === 'AI Foundations'), sourceMapResources.foundations),
+      moduleWithLessons('computing-math', 'Computing and math', 'Build intuition for algorithms, data, probability, vectors, matrices, and optimization.', lessons.filter((lesson) => lesson.category === 'Math and Computing'), sourceMapResources.math),
+      moduleWithLessons('python', 'Python', 'Learn Python from the ground up: write scripts, organize data, call APIs, handle errors, and build the application code used throughout the AI pathway.', lessons.filter((lesson) => lesson.category === 'Python'), sourceMapResources.python),
+      moduleWithLessons('git-github', 'Git and GitHub', 'Track changes, collaborate, review code, and publish a portfolio of your work.', lessonIds('git-github'), sourceMapResources.git),
+      moduleWithLessons('linux-cli', 'Linux and the CLI', 'Navigate systems, automate repeatable work, and understand the environment where software runs.', lessonIds('linux-cli'), sourceMapResources.linux),
+    ],
+  },
+  {
+    id: 'software-engineering', eyebrow: 'Stage 02', title: 'Software Engineering', tone: 'gold',
+    description: 'Learn the durable software practices around AI systems: boundaries, persistence, correctness, and repeatable delivery.',
+    modules: [
+      moduleWithLessons('apis-rest', 'APIs and REST', 'Design and consume stable service boundaries with clear inputs, outputs, and errors.', lessonIds('ai-apis'), sourceMapResources.web),
+      moduleWithLessons('http-networking', 'HTTP and networking', 'Understand how requests travel, how services communicate, and where latency and failure enter the system.', lessonIds('http-networking'), sourceMapResources.web),
+      moduleWithLessons('databases-sql', 'Databases and SQL', 'Model relational data and query it deliberately before reaching for a specialized data store.', lessonIds('databases-sql'), sourceMapResources.sql),
+      moduleWithLessons('data-structures', 'Data structures', 'Choose structures and algorithms that make application behavior correct and efficient.', lessonIds('python-data-structures', 'algorithms-and-data-structures'), sourceMapResources.math),
+      moduleWithLessons('testing-debugging', 'Testing and debugging', 'Turn failures into evidence and build confidence through repeatable checks.', lessonIds('python-files-and-errors', 'experiment-design', 'testing-debugging'), sourceMapResources.testing),
+      moduleWithLessons('docker', 'Docker', 'Package an application so it behaves consistently across a laptop, CI, and deployment.', lessonIds('docker'), sourceMapResources.docker),
+    ],
+  },
+  {
+    id: 'ai-engineering', eyebrow: 'Stage 03', title: 'AI Engineering', tone: 'teal',
+    description: 'Compose models, prompts, data, tools, evaluation, and operations into useful AI applications.',
+    modules: [
+      moduleWithLessons('llms', 'LLMs', 'Understand language models, tokens, context, transformers, multimodality, and adaptation.', lessons.filter((lesson) => lesson.category === 'Modern AI Systems').concat(lessonIds('models'))),
+      moduleWithLessons('prompting', 'Prompting', 'Write clear instructions, layer behavior, and make model interactions testable.', lessonIds('talk-to-ai', 'prompt-engineering', 'system-prompts')),
+      moduleWithLessons('structured-outputs', 'Structured outputs', 'Ask for machine-readable results and validate them before application code uses them.', lessonIds('structured-outputs')),
+      moduleWithLessons('embeddings', 'Embeddings', 'Represent meaning numerically so applications can compare and retrieve information.', lessonIds('embeddings')),
+      moduleWithLessons('vector-databases', 'Vector databases', 'Store and search embeddings while preserving metadata and access boundaries.', lessonIds('vector-databases')),
+      moduleWithLessons('rag', 'Retrieval-augmented generation', 'Connect user questions to relevant evidence before generating an answer.', lessonIds('rag')),
+      moduleWithLessons('tool-calling', 'Tool and function calling', 'Let a model request actions while the application validates permissions and arguments.', lessonIds('tool-calling', 'mcp')),
+      moduleWithLessons('agents', 'Agents', 'Design bounded workflows where models plan, use tools, and stop safely.', lessonIds('ai-agents')),
+      moduleWithLessons('evaluation', 'Evaluation', 'Compare systems against representative examples and inspect failures instead of trusting demos.', lessonIds('data-and-evaluation', 'evaluating-ai-responses')),
+      moduleWithLessons('guardrails', 'Guardrails', 'Design for uncertainty, misuse, privacy, human review, and safe recovery.', lessonIds('ai-assistants', 'hallucinations', 'responsible-ai')),
+      moduleWithLessons('observability', 'Observability', 'Monitor quality, cost, latency, failures, and the behavior of a changing system.', lessonIds('ai-observability', 'ai-product-design', 'ai-cost-and-performance')),
+    ],
+  },
+  {
+    id: 'cloud-engineering', eyebrow: 'Stage 04', title: 'Cloud Engineering', tone: 'neutral',
+    description: 'Learn the shared cloud vocabulary, then choose a provider track for hands-on deployment and operations.',
+    modules: [
+      moduleWithLessons('cloud-fundamentals', 'Cloud fundamentals', 'Compare managed services, regions, availability zones, pricing, and operational responsibility.', lessonIds('cloud-fundamentals'), [...sourceMapResources.azure, ...sourceMapResources.aws, ...sourceMapResources.gcp]),
+      moduleWithLessons('azure-track', 'Azure track', 'Follow Azure services and labs from identity through deployment.', lessonIds('azure-track'), sourceMapResources.azure, 'azure'),
+      moduleWithLessons('aws-track', 'AWS track', 'Follow AWS services and labs from identity through deployment.', lessonIds('aws-track'), sourceMapResources.aws, 'aws'),
+      moduleWithLessons('gcp-track', 'GCP track', 'Follow Google Cloud services and labs from identity through deployment.', lessonIds('gcp-track'), sourceMapResources.gcp, 'gcp'),
+      moduleWithLessons('iam-security', 'IAM and security', 'Control identities, permissions, secrets, network boundaries, and operational access.', lessonIds('iam-security'), sourceMapResources.security),
+      moduleWithLessons('cloud-storage-compute', 'Storage and compute', 'Choose durable storage and compute shapes that match workload, scale, and cost.', lessonIds('cloud-storage-compute'), sourceMapResources.azure),
+      moduleWithLessons('cloud-networking', 'Cloud networking', 'Design private connectivity, routing, gateways, service boundaries, and traffic flow.', lessonIds('cloud-networking'), sourceMapResources.web),
+      moduleWithLessons('containers-serverless', 'Containers and serverless', 'Choose between packaged services and managed execution based on control and operational needs.', lessonIds('containers-serverless'), sourceMapResources.docker),
+      moduleWithLessons('ci-cd', 'CI/CD', 'Automate validation, releases, environments, rollback, and promotion between stages.', lessonIds('ci-cd'), sourceMapResources.git),
+      moduleWithLessons('infrastructure-as-code', 'Infrastructure as code', 'Make infrastructure reviewable, repeatable, and recoverable as a versioned artifact.', lessonIds('infrastructure-as-code'), sourceMapResources.iac),
+    ],
+  },
+  {
+    id: 'ai-architecture', eyebrow: 'Stage 05', title: 'AI Architecture', tone: 'gold',
+    description: 'Turn requirements into defensible system decisions across models, software, data, infrastructure, risk, and cost.',
+    modules: [
+      moduleWithLessons('system-design', 'System design', 'Decompose a problem into responsibilities, interfaces, data flows, and explicit constraints.', lessonIds('system-design'), sourceMapResources.architecture),
+      moduleWithLessons('distributed-systems', 'Distributed systems', 'Reason about coordination, consistency, queues, retries, and partial failure.', lessonIds('distributed-systems'), sourceMapResources.architecture),
+      moduleWithLessons('scalability', 'Scalability', 'Design for changing traffic, workload shape, throughput, and capacity.', lessonIds('scalability'), sourceMapResources.architecture),
+      moduleWithLessons('reliability', 'Reliability', 'Make availability, recovery, graceful degradation, and incident response part of the design.', lessonIds('reliability'), sourceMapResources.architecture),
+      moduleWithLessons('security-governance', 'Security and governance', 'Make trust boundaries, privacy, ownership, risk, and change management visible.', lessons.filter((lesson) => lesson.category === 'AI Security').concat(lessonIds('ai-governance')), sourceMapResources.security),
+      moduleWithLessons('cost-optimization', 'Cost optimization', 'Compare quality, latency, infrastructure, model, and operational costs as one system.', lessonIds('cost-optimization'), sourceMapResources.architecture),
+      moduleWithLessons('architecture-patterns', 'Architecture patterns', 'Choose patterns deliberately for retrieval, eventing, workflows, providers, and human review.', lessonIds('architecture-patterns'), sourceMapResources.architecture),
+      moduleWithLessons('enterprise-integration', 'Enterprise integration', 'Connect identity, existing systems, data ownership, and change processes without losing control.', lessonIds('enterprise-integration'), sourceMapResources.architecture),
+      moduleWithLessons('architecture-decision-records', 'Architecture decision records', 'Record why a choice was made, what it costs, and when it should be revisited.', lessonIds('architecture-decision-records'), sourceMapResources.architecture),
+    ],
+  },
+  {
+    id: 'projects', eyebrow: 'Stage 06', title: 'Projects', tone: 'teal',
+    description: 'Prove what you can build and explain. Each project should leave behind code, evidence, and architectural decisions.',
+    modules: [
+      moduleWithLessons('developer-project', 'AI Developer project', 'Build a small model-powered application with a clear API boundary and tested behavior.', lessonIds('chatbot-concepts', 'chatbot-openai', 'chatbot-gemini', 'chatbot-local')),
+      moduleWithLessons('engineer-project', 'AI Engineer project', 'Build a knowledge assistant or tool-using system with evaluation, guardrails, and observability.', lessonIds('chatbot-production', 'capstone-rag', 'capstone-agent')),
+      moduleWithLessons('architecture-project', 'AI Architect project', 'Produce an architecture review that defends system boundaries, risks, costs, and tradeoffs.', lessonIds('capstone-evaluation', 'ai-governance')),
+    ],
+  },
 ]
 
-export const careerPaths = [
-  { id: 'ai-engineer', title: 'AI Engineer', description: 'Build model-powered features, APIs, RAG systems, tools, and reliable product workflows.', tone: 'teal', steps: [
-    { title: 'Start at 0: Learn the foundations', description: 'Understand AI, Python, data, models, prompting, and how applications use APIs.', lessons: ['what-is-ai', 'machine-learning', 'programming-and-data-workflows', 'ai-apis'], resources: [{ title: 'Python Tutorial', provider: 'W3Schools', description: 'Learn the Python syntax used in the project code: variables, functions, collections, and files.', url: 'https://www.w3schools.com/python/' }, { title: 'Python Virtual Environments', provider: 'Python.org', description: 'Learn how to isolate packages for each project with venv.', url: 'https://docs.python.org/3/library/venv.html' }] },
-    { title: 'Build model features', description: 'Learn structured outputs, chatbots, embeddings, retrieval, and evaluation.', lessons: ['structured-outputs', 'chatbot-openai', 'embeddings', 'rag', 'evaluating-ai-responses'], resources: [{ title: 'OpenAI API Quickstart', provider: 'OpenAI', description: 'Install the SDK, configure an API key, and make a first model request.', url: 'https://platform.openai.com/docs/quickstart' }, { title: 'Gemini API Quickstart', provider: 'Google', description: 'Build the same first chatbot request with Gemini and compare provider APIs.', url: 'https://ai.google.dev/gemini-api/docs/quickstart' }, { title: 'Structured Outputs', provider: 'OpenAI', description: 'Learn how to request validated data your application can safely parse.', url: 'https://platform.openai.com/docs/guides/structured-outputs' }, { title: 'Embeddings Guide', provider: 'OpenAI', description: 'Learn how to turn text into vectors for semantic search and retrieval.', url: 'https://platform.openai.com/docs/guides/embeddings' }, { title: 'RAG Tutorial', provider: 'LangChain', description: 'Follow a focused Python tutorial for loading, indexing, retrieving, and answering from documents.', url: 'https://python.langchain.com/docs/tutorials/rag/' }] },
-    { title: 'Add tools and autonomy', description: 'Build safe tool calls and agents with clear permissions and stopping rules.', lessons: ['tool-calling', 'ai-agents', 'chatbot-production'], resources: [{ title: 'Function Calling', provider: 'OpenAI', description: 'Learn how a model requests a tool while your application validates and executes it.', url: 'https://platform.openai.com/docs/guides/function-calling' }, { title: 'Agents Course', provider: 'Hugging Face', description: 'Study planning, tools, and agent design in an ordered course.', url: 'https://huggingface.co/learn/agents-course/en/unit0/introduction' }] },
-    { title: 'Become job-ready', description: 'Show your work through a knowledge assistant, agent, evaluation harness, and production design review.', lessons: ['capstone-rag', 'capstone-agent', 'capstone-evaluation', 'ai-observability'], resources: [] },
-  ] },
-  { id: 'ai-architect', title: 'AI Architect', description: 'Design the boundaries between models, data, tools, infrastructure, users, and risk.', tone: 'gold', steps: [
-    { title: 'Start at 0: Learn systems thinking', description: 'Build foundations in models, APIs, context, data, and problem framing.', lessons: ['what-is-ai', 'ai-problem-solving', 'models', 'ai-apis'], resources: [{ title: 'AI Architecture Center', provider: 'Microsoft Learn', description: 'Study reference architectures and production design patterns for AI workloads.', url: 'https://learn.microsoft.com/en-us/azure/architecture/ai-ml/' }, { title: 'Generative AI Architecture', provider: 'Google Cloud', description: 'Compare the components and tradeoffs in production generative AI systems.', url: 'https://cloud.google.com/architecture/generative-ai' }] },
-    { title: 'Design the AI application', description: 'Connect retrieval, tools, agents, deployment, cost, and observability into one system.', lessons: ['rag', 'tool-calling', 'ai-agents', 'inference-and-deployment', 'ai-cost-and-performance'], resources: [{ title: 'Full Stack Deep Learning', provider: 'Full Stack Deep Learning', description: 'Learn how AI systems move from prototype to production.', url: 'https://fullstackdeeplearning.com/' }] },
-    { title: 'Design for trust', description: 'Make security, governance, privacy, evaluation, and human control part of the architecture.', lessons: ['ai-security', 'ai-governance', 'responsible-ai', 'ai-observability'], resources: [{ title: 'OWASP LLM Top 10', provider: 'OWASP', description: 'Review concrete application risks your architecture must defend against.', url: 'https://owasp.org/www-project-top-10-for-large-language-model-applications/' }, { title: 'MITRE ATLAS', provider: 'MITRE', description: 'Map adversary tactics and techniques to the AI systems you design.', url: 'https://atlas.mitre.org/' }] },
-    { title: 'Become job-ready', description: 'Create architecture diagrams, threat models, cost plans, and tradeoff documents for complete AI systems.', lessons: ['capstone-rag', 'capstone-agent', 'capstone-evaluation'], resources: [] },
-  ] },
-  { id: 'ai-security', title: 'AI Security', description: 'Protect models, data, tools, and users from misuse, injection, leakage, and unsafe actions.', tone: 'neutral', steps: [
-    { title: 'Start at 0: Learn security foundations', description: 'Understand identity, privacy, trust boundaries, data flows, and how AI applications are assembled.', lessons: ['what-is-ai', 'ai-apis', 'ai-problem-solving', 'ai-security'], resources: [{ title: 'OWASP LLM Top 10', provider: 'OWASP', description: 'Start with injection, insecure outputs, data poisoning, excessive agency, and related risks.', url: 'https://owasp.org/www-project-top-10-for-large-language-model-applications/' }, { title: 'MITRE ATLAS', provider: 'MITRE', description: 'Practice thinking like an attacker by studying adversary techniques for ML systems.', url: 'https://atlas.mitre.org/' }] },
-    { title: 'Secure the application', description: 'Practice prompt injection defense, RAG permissions, tool validation, secrets, and agent sandboxing.', lessons: ['ai-threat-modeling', 'ai-identity-and-secrets', 'ai-rag-security', 'ai-agent-security'], resources: [{ title: 'MITRE ATLAS', provider: 'MITRE', description: 'Explore adversary tactics and techniques for machine learning systems.', url: 'https://atlas.mitre.org/' }] },
-    { title: 'Secure the model and data', description: 'Learn privacy, supply chain risk, poisoning, extraction, model abuse, and cost attacks.', lessons: ['ai-privacy', 'ai-supply-chain', 'ai-poisoning-and-abuse', 'ai-availability-and-cost'], resources: [{ title: 'AI Security Guidance', provider: 'Microsoft Learn', description: 'Use practical controls for identity, data, model, application, and operational security.', url: 'https://learn.microsoft.com/en-us/security/ai-security/' }, { title: 'OWASP AI Security and Privacy Guide', provider: 'OWASP', description: 'Turn security and privacy lessons into repeatable engineering checks.', url: 'https://owasp.org/www-project-ai-security-and-privacy-guide/' }] },
-    { title: 'Become job-ready', description: 'Build a threat model, red-team test suite, incident playbook, and secure agent boundary.', lessons: ['ai-secure-deployment', 'capstone-agent', 'capstone-evaluation'], resources: [] },
-  ] },
-  { id: 'ai-data', title: 'AI Data', description: 'Prepare data, design evaluations, document provenance, and improve the evidence models learn from.', tone: 'teal', steps: [
-    { title: 'Start at 0: Learn data and Python', description: 'Build programming, statistics, data-cleaning, and problem-framing foundations.', lessons: ['programming-and-data-workflows', 'probability-and-statistics', 'data-collection-and-cleaning'], resources: [{ title: 'Python Tutorial', provider: 'W3Schools', description: 'Practice Python syntax, files, data, and small programs.', url: 'https://www.w3schools.com/python/' }, { title: 'Python Data Structures', provider: 'Python.org', description: 'Learn the built-in lists, dictionaries, tuples, and sets used in data workflows.', url: 'https://docs.python.org/3/tutorial/datastructures.html' }] },
-    { title: 'Build trustworthy datasets', description: 'Learn sampling, labeling, provenance, privacy, representations, and evaluation design.', lessons: ['vectors-and-representations', 'data-and-evaluation', 'experiment-design', 'ai-privacy'], resources: [{ title: 'TensorFlow Datasets Catalog', provider: 'TensorFlow', description: 'Inspect how datasets are described, versioned, and made usable for ML.', url: 'https://www.tensorflow.org/datasets/catalog/overview' }, { title: 'Dataset Cards', provider: 'Hugging Face', description: 'Learn how dataset documentation communicates purpose, limits, and risks.', url: 'https://huggingface.co/docs/hub/datasets-cards' }] },
-    { title: 'Work with modern AI data', description: 'Understand embeddings, vector search, RAG evidence, multimodal inputs, and model feedback.', lessons: ['embeddings', 'vector-databases', 'rag', 'multimodal-ai', 'ai-observability'], resources: [{ title: 'Hugging Face Datasets', provider: 'Hugging Face', description: 'Learn how datasets are loaded, explored, and prepared for model workflows.', url: 'https://huggingface.co/docs/datasets/en/index' }, { title: 'RAG Tutorial', provider: 'LangChain', description: 'Follow the exact retrieval workflow from documents to grounded answers.', url: 'https://python.langchain.com/docs/tutorials/rag/' }] },
-    { title: 'Become job-ready', description: 'Create dataset documentation, a data-quality audit, an evaluation set, and a failure-analysis report.', lessons: ['capstone-rag', 'capstone-evaluation', 'ai-governance'], resources: [] },
-  ] },
+export const careerLevels: CareerLevel[] = [
+  { id: 'start-here', title: 'Start Here', description: 'Build the foundation that makes engineering practice approachable.', unlockText: 'Begin with the Foundation stage.', requiredModuleIds: ['ai-fundamentals', 'computing-math', 'python'], requiredLessonIds: lessonIds('what-is-ai', 'how-ai-learns', 'machine-learning', 'python-basics').map((lesson) => lesson.id), portfolioArtifacts: ['A written learning plan and a first working Python program.'], tone: 'neutral' },
+  { id: 'ai-developer', title: 'AI Developer', description: 'Build and explain a working AI application with dependable software boundaries.', unlockText: 'Complete Foundation, Software Engineering, and the developer project.', requiredModuleIds: ['git-github', 'linux-cli', 'apis-rest', 'http-networking', 'databases-sql', 'data-structures', 'testing-debugging', 'docker'], requiredLessonIds: lessonIds('what-is-ai', 'machine-learning', 'python-basics', 'python-data-structures', 'python-files-and-errors', 'python-apis', 'algorithms-and-data-structures', 'ai-apis', 'git-github', 'linux-cli', 'http-networking', 'databases-sql', 'testing-debugging', 'docker').map((lesson) => lesson.id), projectId: 'developer-project', requiredProjectLessonIds: lessonIds('chatbot-concepts', 'chatbot-openai', 'chatbot-gemini', 'chatbot-local').map((lesson) => lesson.id), projectCompletion: 'any', portfolioArtifacts: ['A public Git repository', 'README with setup and decisions', 'Automated tests', 'A working API-backed or local AI application'], tone: 'teal' },
+  { id: 'ai-engineer', title: 'AI Engineer', description: 'Ship model-powered systems with retrieval, tools, evaluation, guardrails, and observability.', unlockText: 'Complete AI Engineering and the engineer project.', requiredModuleIds: ['llms', 'prompting', 'structured-outputs', 'embeddings', 'vector-databases', 'rag', 'tool-calling', 'agents', 'evaluation', 'guardrails', 'observability'], requiredLessonIds: lessonIds('large-language-models', 'tokens', 'context-windows', 'prompt-engineering', 'structured-outputs', 'embeddings', 'vector-databases', 'rag', 'tool-calling', 'ai-agents', 'data-and-evaluation', 'evaluating-ai-responses', 'ai-assistants', 'responsible-ai', 'ai-observability').map((lesson) => lesson.id), projectId: 'engineer-project', requiredProjectLessonIds: lessonIds('chatbot-production', 'capstone-rag', 'capstone-agent').map((lesson) => lesson.id), projectCompletion: 'any', portfolioArtifacts: ['A tested RAG or agent repository', 'Evaluation dataset and results', 'Threat model and guardrail decisions', 'Tracing or observability evidence'], tone: 'gold' },
+  { id: 'ai-architect', title: 'AI Architect', description: 'Defend system decisions across cloud, reliability, security, enterprise integration, and cost.', unlockText: 'Complete architecture lessons, one cloud provider track, and the architecture project.', requiredModuleIds: ['cloud-fundamentals', 'iam-security', 'cloud-storage-compute', 'cloud-networking', 'containers-serverless', 'ci-cd', 'infrastructure-as-code', 'system-design', 'distributed-systems', 'scalability', 'reliability', 'security-governance', 'cost-optimization', 'architecture-patterns', 'enterprise-integration', 'architecture-decision-records'], requiredLessonIds: lessonIds('inference-and-deployment', 'ai-cost-and-performance', 'ai-security', 'ai-threat-modeling', 'ai-identity-and-secrets', 'ai-privacy', 'ai-secure-deployment', 'ai-governance', 'cloud-fundamentals', 'iam-security', 'cloud-storage-compute', 'cloud-networking', 'containers-serverless', 'ci-cd', 'infrastructure-as-code', 'system-design', 'distributed-systems', 'scalability', 'reliability', 'cost-optimization', 'architecture-patterns', 'enterprise-integration', 'architecture-decision-records').map((lesson) => lesson.id), providerModuleIds: ['azure-track', 'aws-track', 'gcp-track'], projectId: 'architecture-project', requiredProjectLessonIds: ['capstone-evaluation'], projectCompletion: 'all', portfolioArtifacts: ['Deployed cloud architecture', 'Architecture diagram and ADRs', 'Reliability and incident plan', 'Threat model and security controls', 'Cost estimate and optimization plan', 'Final design review presentation'], tone: 'neutral' },
 ]
+
+export const curriculumModules = curriculumStages.flatMap((stage) => stage.modules)
+
+export const portfolioTracks: PortfolioTrack[] = [
+  {
+    id: 'github-pages-portfolio', title: 'Publish your engineering portfolio', tone: 'teal',
+    description: 'Use GitHub to publish a simple portfolio site that links to your repositories, deployed demos, architecture decisions, and evaluation evidence.',
+    deliverables: ['A public GitHub repository with a clear README', 'A GitHub Pages site with project summaries and links', 'A short About page describing your target role and technical focus', 'A projects page showing screenshots, live URLs, architecture diagrams, and tradeoffs'],
+    evidence: ['Each project has setup and verification instructions', 'Every live demo links to source code', 'Secrets and private data are excluded', 'The portfolio explains what changed after testing or deployment'],
+    resources: [resource('GitHub Pages documentation', 'GitHub', 'Publish a static portfolio directly from a GitHub repository.', 'https://docs.github.com/en/pages/getting-started-with-github-pages'), resource('GitHub Skills', 'GitHub', 'Practice repositories, pull requests, reviews, and Actions with guided exercises.', 'https://skills.github.com/')],
+  },
+  {
+    id: 'cloud-deployment', title: 'Deploy a real AI application', tone: 'gold',
+    description: 'Use the complete Google Cloud walkthrough now, then compare the equivalent Azure Container Apps and AWS ECS Express Mode architecture paths.',
+    deliverables: ['A deployed service on Azure, AWS, or GCP', 'A public or authenticated demo URL', 'A deployment README with architecture and operating costs', 'A threat model covering identity, data, tools, and provider boundaries'],
+    evidence: ['Deployment works from a clean checkout', 'Secrets are stored outside the repository', 'Logs and health checks are visible', 'The service has a documented rollback or recovery path', 'The portfolio records provider, region, service choices, and cost assumptions'],
+    resources: [resource('Azure Container Apps quickstart', 'Microsoft Learn', 'Deploy source code to Azure Container Apps with the current Azure CLI workflow.', 'https://learn.microsoft.com/en-us/azure/container-apps/quickstart-code-to-cloud'), resource('Azure Container Apps GitHub Actions', 'Microsoft Learn', 'Automate revisions with Azure login, managed identity, ACR, and the deployment action.', 'https://learn.microsoft.com/en-us/azure/container-apps/github-actions'), resource('AWS ECS Express Mode migration', 'AWS', 'Use the current AWS path recommended for new deployments after App Runner availability changes.', 'https://docs.aws.amazon.com/apprunner/latest/dg/apprunner-availability-change.html'), resource('Google Cloud Architecture Center', 'Google Cloud', 'Study Google Cloud architecture patterns and implementation guidance.', 'https://cloud.google.com/architecture')],
+  },
+  {
+    id: 'cicd-deployment', title: 'Automate CI/CD deployment', tone: 'neutral',
+    description: 'Make every change pass tests and security checks before a repeatable deployment promotes the same artifact to an environment.',
+    deliverables: ['A GitHub Actions workflow', 'Automated tests and linting on pull requests', 'A built and scanned artifact', 'A staging deployment with a documented promotion or rollback path'],
+    evidence: ['A failing test blocks the workflow', 'A successful commit produces a traceable artifact', 'Deployment status and logs are visible', 'The README explains environment variables and approvals', 'The workflow does not expose secrets in logs'],
+    resources: [resource('GitHub Actions documentation', 'GitHub', 'Build workflows for testing, artifacts, releases, and deployment automation.', 'https://docs.github.com/en/actions'), resource('DevOps architecture', 'Google Cloud', 'Study continuous integration, delivery, deployment strategies, and operational feedback.', 'https://cloud.google.com/architecture/devops')],
+  },
+  {
+    id: 'infrastructure-as-code-execution', title: 'Execute infrastructure as code', tone: 'gold',
+    description: 'Provision a small cloud environment from versioned Terraform, review the plan, apply it safely, and destroy it when finished.',
+    deliverables: ['A Terraform repository with variables and outputs', 'A reviewed terraform plan artifact', 'A provisioned environment with least-privilege access', 'A documented destroy and recovery procedure'],
+    evidence: ['The infrastructure can be recreated from a clean checkout', 'Remote state and credentials are protected', 'Manual drift is detected or documented', 'Resources are tagged and cost-bounded', 'The portfolio includes the plan, diagram, and provider tradeoffs'],
+    resources: [resource('Terraform tutorials', 'HashiCorp', 'Learn providers, state, modules, plans, applies, and infrastructure lifecycle.', 'https://developer.hashicorp.com/terraform/tutorials'), resource('Terraform on Azure', 'Microsoft Learn', 'Practice repeatable Azure infrastructure with Terraform and deployment pipelines.', 'https://learn.microsoft.com/en-us/training/paths/automate-azure-tasks-with-terraform/')],
+  },
+]
+
+export { portfolioProjects }
+
+export function getModuleProgress(module: CurriculumModule, completedLessonIds: string[]) {
+  const completed = module.lessons.filter((lesson) => completedLessonIds.includes(lesson.id)).length
+  return { completed, total: module.lessons.length, complete: module.lessons.length > 0 && completed === module.lessons.length }
+}
+
+export function getOrderedModuleLessons(moduleId: string) {
+  const module = curriculumModules.find((item) => item.id === moduleId)
+  return module ? [...module.lessons].sort((a, b) => a.order - b.order) : []
+}
+
+export function getCurriculumLessonSequence() {
+  return curriculumStages.flatMap((stage) => stage.modules.flatMap((module) => getOrderedModuleLessons(module.id)))
+}
+
+export function isCareerLevelComplete(level: CareerLevel, completedLessonIds: string[]) {
+  const lessonsComplete = (level.requiredLessonIds ?? []).every((lessonId) => completedLessonIds.includes(lessonId))
+  const projectIds = level.requiredProjectLessonIds ?? []
+  const projectsComplete = !projectIds.length || (level.projectCompletion === 'all' ? projectIds.every((lessonId) => completedLessonIds.includes(lessonId)) : projectIds.some((lessonId) => completedLessonIds.includes(lessonId)))
+  const providerComplete = !level.providerModuleIds?.length || level.providerModuleIds.some((moduleId) => getModuleProgress(curriculumModules.find((module) => module.id === moduleId)!, completedLessonIds).complete)
+  return lessonsComplete && projectsComplete && providerComplete
+}
 
 export const firstLesson = lessons[0]

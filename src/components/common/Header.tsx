@@ -17,7 +17,7 @@ export function Header() {
         <Link to="/" className="group flex items-center gap-3" onClick={() => setIsOpen(false)}>
           <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-teal text-lg font-bold text-white transition-transform group-hover:-rotate-6">T</span>
           <span>
-            <span className="block font-display text-xl font-bold leading-none text-teal">Tinted Learning</span>
+            <span className="flex items-center gap-2"><span className="block font-display text-xl font-bold leading-none text-teal">Tinted Learning</span><span className="rounded-full bg-sand px-2 py-1 text-[9px] font-bold uppercase tracking-widest text-teal">v0.4.0</span></span>
           </span>
         </Link>
 
