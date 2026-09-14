@@ -1,12 +1,16 @@
 import { useCallback, useEffect, useState } from 'react'
+import { lessons } from '../data/curriculum'
 
 const STORAGE_KEY = 'tinted-academy-progress'
+const VALID_LESSON_IDS = new Set(lessons.map((lesson) => lesson.id))
 
 function readProgress(): string[] {
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY)
     const parsed: unknown = stored ? JSON.parse(stored) : []
-    return Array.isArray(parsed) && parsed.every((item) => typeof item === 'string') ? parsed : []
+    return Array.isArray(parsed) && parsed.every((item) => typeof item === 'string')
+      ? parsed.filter((item) => VALID_LESSON_IDS.has(item))
+      : []
   } catch {
     return []
   }

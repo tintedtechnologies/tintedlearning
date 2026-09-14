@@ -15,6 +15,7 @@ import { AgentsPage } from './pages/AgentsPage'
 import { ScrollToTop } from './components/common/ScrollToTop'
 import { CareerPage } from './pages/CareerPage'
 import { PythonPage } from './pages/PythonPage'
+import { PortfolioPage } from './pages/PortfolioPage'
 
 export default function App() {
   return (
@@ -26,6 +27,8 @@ export default function App() {
         <Route path="/learn" element={<LearnPage />} />
         <Route path="/learn/:lessonId" element={<LessonPage />} />
         <Route path="/careers/:careerId" element={<CareerPage />} />
+        <Route path="/portfolio" element={<PortfolioPage />} />
+        <Route path="/portfolio/:trackId" element={<PortfolioPage />} />
         <Route path="/playground/python" element={<PythonPage />} />
         <Route path="/playground" element={<PlaygroundPage />} />
         <Route path="/playground/tokens" element={<TokensPage />} />

@@ -1,4 +1,5 @@
 import type { LessonContent } from '../types/curriculum'
+import { orientationLessonContent } from './orientationLessons'
 
 export const lessonContent: Record<string, LessonContent> = {
   'python-basics': {
@@ -535,3 +536,186 @@ export const lessonContent: Record<string, LessonContent> = {
     takeaway: 'MCP provides a common connection pattern for AI applications and external capabilities. Trust and permissions still belong in the design.',
   },
 }
+
+const lessonEnhancements: Record<string, Pick<LessonContent, 'examples' | 'resources'>> = {
+  'python-apis': {
+    examples: [{ title: 'A defensive API client', explanation: 'Treat the network as unreliable: set a timeout, check the status, and validate the fields you plan to use.', kind: 'code', language: 'python', content: 'import requests\n\nresponse = requests.get(\n    "https://api.example.com/books",\n    params={"topic": "distributed systems"},\n    timeout=10,\n)\nresponse.raise_for_status()\ndata = response.json()\n\nfor book in data["items"]:\n    if isinstance(book.get("title"), str):\n        print(book["title"])' }],
+    resources: [
+      { title: 'HTTP messages', provider: 'MDN Web Docs', description: 'Understand methods, headers, status codes, and the request-response boundary.', url: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Messages' },
+      { title: 'Requests quickstart', provider: 'Requests', description: 'Practice sending Python HTTP requests with parameters, timeouts, and responses.', url: 'https://requests.readthedocs.io/en/latest/user/quickstart/' },
+    ],
+  },
+  'matrices-and-linear-algebra': {
+    examples: [{ title: 'One neural-network layer by hand', explanation: 'A layer multiplies an input vector by a weight matrix and adds a bias. The shapes explain why the operation is valid.', kind: 'math', content: 'x = [2, 3]\nW = [[1, 0],\n     [0, 2]]\nb = [1, -1]\n\nWx + b = [1*2 + 0*3 + 1,\n          0*2 + 2*3 - 1]\n       = [3, 5]\n\nIn general: z = Wx + b' }],
+    resources: [
+      { title: 'Linear algebra', provider: 'Khan Academy', description: 'Practice vectors, matrices, transformations, and the operations used in model layers.', url: 'https://www.khanacademy.org/math/linear-algebra' },
+      { title: 'NumPy quickstart', provider: 'NumPy', description: 'Run matrix and vector operations in Python using the standard numerical computing library.', url: 'https://numpy.org/doc/stable/user/quickstart.html' },
+    ],
+  },
+  'calculus-and-gradients': {
+    examples: [{ title: 'One gradient-descent update', explanation: 'For f(w) = (w - 3)^2, the derivative is 2(w - 3). Starting at w = 0 with learning rate 0.1 moves w toward the minimum at 3.', kind: 'math', content: 'f(w) = (w - 3)^2\nf\'(w) = 2(w - 3)\n\nAt w = 0:\ngradient = 2(0 - 3) = -6\n\nnew_w = w - learning_rate * gradient\n      = 0 - 0.1 * (-6)\n      = 0.6' }],
+    resources: [
+      { title: 'Derivatives', provider: 'Khan Academy', description: 'Build intuition for rates of change before connecting gradients to training.', url: 'https://www.khanacademy.org/math/calculus-1/derivatives' },
+      { title: 'Automatic differentiation', provider: 'PyTorch', description: 'See how a machine-learning framework records operations and computes gradients.', url: 'https://pytorch.org/tutorials/beginner/blitz/autograd_tutorial.html' },
+    ],
+  },
+  'optimization-and-training': {
+    examples: [{ title: 'A binary classification loss', explanation: 'Binary cross-entropy penalizes confident wrong predictions more heavily than uncertain ones.', kind: 'math', content: 'loss(y, p) = -[y log(p) + (1-y) log(1-p)]\n\nIf y = 1 and p = 0.9:\nloss = -log(0.9) ~= 0.105\n\nIf y = 1 and p = 0.1:\nloss = -log(0.1) ~= 2.303\n\nThe second prediction is much worse because it was confidently wrong.' }],
+    resources: [
+      { title: 'Machine learning crash course', provider: 'Google for Developers', description: 'Study loss, gradient descent, validation, and practical model training exercises.', url: 'https://developers.google.com/machine-learning/crash-course' },
+      { title: 'Training and evaluation', provider: 'scikit-learn', description: 'Use established estimators and metrics while learning the modeling workflow.', url: 'https://scikit-learn.org/stable/getting_started.html' },
+    ],
+  },
+  'large-language-models': {
+    examples: [{ title: 'Next-token probabilities', explanation: 'A language model does not retrieve one fixed answer. It assigns probabilities to possible next tokens, then decoding chooses a continuation.', kind: 'code', language: 'text', content: 'context: "The server returned a"\n\npossible next tokens:\n  0.62  " 200"\n  0.18  " success"\n  0.07  " response"\n  0.03  " error"\n\nThe generated sequence is a chain of these choices.\nChanging context or decoding settings changes the distribution.' }],
+    resources: [
+      { title: 'The Illustrated Transformer', provider: 'Jay Alammar', description: 'Visualize attention, token representations, and the architecture behind modern LLMs.', url: 'https://jalammar.github.io/illustrated-transformer/' },
+      { title: 'LLM course', provider: 'Hugging Face', description: 'Go deeper into transformer models, tokenizers, datasets, and practical code.', url: 'https://huggingface.co/learn/llm-course/chapter1/1' },
+    ],
+  },
+  'structured-outputs': {
+    examples: [{ title: 'Validate before using model data', explanation: 'The schema makes the contract explicit, but the application still checks values and permissions before acting.', kind: 'json', language: 'python', content: 'result = {"priority": "urgent", "owner": "sam", "hours": 3}\n\nallowed_priorities = {"low", "normal", "urgent"}\nif result["priority"] not in allowed_priorities:\n    raise ValueError("invalid priority")\nif not isinstance(result["hours"], int) or result["hours"] < 0:\n    raise ValueError("invalid hours")' }],
+    resources: [
+      { title: 'Structured outputs', provider: 'OpenAI', description: 'Study schema-constrained model responses and the limits applications still need to handle.', url: 'https://platform.openai.com/docs/guides/structured-outputs' },
+      { title: 'Pydantic models', provider: 'Pydantic', description: 'Define and validate typed data contracts in Python.', url: 'https://docs.pydantic.dev/latest/concepts/models/' },
+    ],
+  },
+  embeddings: {
+    examples: [{ title: 'Cosine similarity', explanation: 'Cosine similarity compares direction rather than magnitude. Vectors pointing the same way have similarity 1; perpendicular vectors have similarity 0.', kind: 'math', content: 'a = [1, 2]\nb = [2, 4]\n\ncos(a, b) = (a dot b) / (||a|| ||b||)\n          = (1*2 + 2*4) / (sqrt(5) * sqrt(20))\n          = 10 / 10\n          = 1\n\nThe vectors have the same direction, so this simple example is maximally similar.' }],
+    resources: [
+      { title: 'Embeddings guide', provider: 'OpenAI', description: 'Learn how text becomes vectors for semantic search and retrieval systems.', url: 'https://platform.openai.com/docs/guides/embeddings' },
+      { title: 'Vector embeddings', provider: 'Google for Developers', description: 'Compare semantic similarity, dimensions, and retrieval use cases.', url: 'https://ai.google.dev/gemini-api/docs/embeddings' },
+    ],
+  },
+  rag: {
+    examples: [{ title: 'A minimal retrieval pipeline', explanation: 'Keep retrieval separate from generation so you can test whether the right evidence was found before blaming the model.', kind: 'code', language: 'python', content: 'question_vector = embed(question)\nscores = [cosine(question_vector, item.vector) for item in documents]\nretrieved = sorted(\n    zip(scores, documents),\n    key=lambda pair: pair[0],\n    reverse=True,\n)[:3]\n\ncontext = "\\n\\n".join(item.text for _, item in retrieved)\nanswer = model.ask(f"Use only this context:\\n{context}\\n\\nQuestion: {question}")' }],
+    resources: [
+      { title: 'RAG from first principles', provider: 'Full Stack Deep Learning', description: 'Study retrieval, context construction, evaluation, and production tradeoffs.', url: 'https://fullstackdeeplearning.com/llm-bootcamp/' },
+      { title: 'RAG tutorial', provider: 'LangChain', description: 'Follow a practical workflow from documents to indexing, retrieval, and grounded answers.', url: 'https://python.langchain.com/docs/tutorials/rag/' },
+    ],
+  },
+  'tool-calling': {
+    examples: [{ title: 'The application owns execution', explanation: 'The model proposes a function call. Your code validates the arguments and decides whether the action is permitted.', kind: 'json', language: 'python', content: 'tool_call = {\n    "name": "get_order",\n    "arguments": {"order_id": "A-1042"},\n}\n\nif tool_call["name"] not in allowed_tools:\n    raise PermissionError("tool is not enabled")\nif not order_id_pattern.fullmatch(tool_call["arguments"]["order_id"]):\n    raise ValueError("invalid order id")\n\nresult = get_order(tool_call["arguments"]["order_id"])' }],
+    resources: [
+      { title: 'Function calling', provider: 'OpenAI', description: 'Learn how models request functions while applications validate and execute them.', url: 'https://platform.openai.com/docs/guides/function-calling' },
+      { title: 'OWASP LLM risks', provider: 'OWASP', description: 'Review excessive agency, insecure output handling, and other risks around tool-enabled systems.', url: 'https://owasp.org/www-project-top-10-for-large-language-model-applications/' },
+    ],
+  },
+  'data-and-evaluation': {
+    examples: [{ title: 'Choose a metric from the failure cost', explanation: 'Accuracy can hide an important minority class. A confusion matrix shows which errors the system is actually making.', kind: 'math', content: '                 predicted\n                 positive negative\nactual positive      TP       FN\nactual negative      FP       TN\n\nprecision = TP / (TP + FP)\nrecall    = TP / (TP + FN)\n\nIf missing a positive case is costly, recall may matter more than accuracy.' }],
+    resources: [
+      { title: 'Classification metrics', provider: 'scikit-learn', description: 'Use precision, recall, F1, calibration, and confusion matrices in real experiments.', url: 'https://scikit-learn.org/stable/modules/model_evaluation.html' },
+      { title: 'ML fairness and representation', provider: 'Google for Developers', description: 'Consider how data coverage and metric choices affect people differently.', url: 'https://developers.google.com/machine-learning/crash-course/fairness/overview' },
+    ],
+  },
+  'ai-observability': {
+    examples: [{ title: 'A useful trace record', explanation: 'A trace should connect user intent to retrieval, model calls, tools, quality signals, and cost without leaking sensitive content.', kind: 'json', language: 'json', content: '{\n  "trace_id": "req-1042",\n  "model": "provider/model-version",\n  "latency_ms": 842,\n  "input_tokens": 640,\n  "output_tokens": 128,\n  "retrieved_sources": ["handbook.md#access"],\n  "tool_calls": 1,\n  "evaluation": {"grounded": true, "helpful": 1}\n}' }],
+    resources: [
+      { title: 'OpenTelemetry', provider: 'CNCF', description: 'Learn vendor-neutral traces, metrics, and logs for distributed applications.', url: 'https://opentelemetry.io/docs/what-is-opentelemetry/' },
+      { title: 'LLM evaluation guide', provider: 'Full Stack Deep Learning', description: 'Connect offline evaluation, production feedback, tracing, and iteration.', url: 'https://fullstackdeeplearning.com/llm-bootcamp/' },
+    ],
+  },
+}
+
+Object.entries(lessonEnhancements).forEach(([lessonId, enhancement]) => {
+  lessonContent[lessonId] = { ...lessonContent[lessonId], ...enhancement }
+})
+
+Object.assign(lessonContent, orientationLessonContent)
+
+const providerProjectReplacements: Record<string, Array<[string, string]>> = {
+  'chatbot-openai': [
+    ['model="gpt-4.1-mini"', 'model=os.environ["OPENAI_MODEL"]'],
+  ],
+  'chatbot-gemini': [
+    ['response = client.models.generate_content(\n        model="gemini-2.0-flash",\n        contents=text,\n    )\n    return response.text', 'interaction = client.interactions.create(\n        model=os.environ["GEMINI_MODEL"],\n        input=text,\n    )\n    return interaction.output_text'],
+  ],
+}
+
+Object.entries(providerProjectReplacements).forEach(([lessonId, replacements]) => {
+  const project = lessonContent[lessonId]?.project
+  if (!project) return
+  project.steps = project.steps.map((step) => ({
+    ...step,
+    code: replacements.reduce((code, [from, to]) => code?.replace(from, to), step.code),
+  }))
+})
+
+  const evaluationRunnerCode = `import argparse
+  import json
+
+
+  def score_response(response, required_terms):
+    return sum(term.lower() in response.lower() for term in required_terms)
+
+
+  def load_responses(path):
+    with open(path, encoding="utf-8") as file:
+      return {item["id"]: item["response"] for item in json.load(file)}
+
+
+  parser = argparse.ArgumentParser()
+  parser.add_argument("--responses", default="responses-v1.json")
+  args = parser.parse_args()
+
+  with open("eval_cases.json", encoding="utf-8") as file:
+    cases = json.load(file)
+  responses = load_responses(args.responses)
+
+  for case in cases:
+    response = responses[case["id"]]
+    score = score_response(response, case["must_include"])
+    print(case["id"], score)
+  `
+
+  const evaluationProject = lessonContent['capstone-evaluation']?.project
+  const evaluationRunner = evaluationProject?.steps.find((step) => step.title === 'Build a repeatable runner')
+  if (evaluationRunner) evaluationRunner.code = evaluationRunnerCode
+
+  const openAiProject = lessonContent['chatbot-openai']?.project
+  if (openAiProject) {
+    openAiProject.setup = openAiProject.setup.map((item) => item.includes('OPENAI_API_KEY=') ? `${item} Add OPENAI_MODEL=the-current-model-name-from-the-provider-docs.` : item)
+    openAiProject.platformNotes = ['Use a current model name listed in the provider documentation; model IDs and availability change.', 'Never commit .env, API keys, or provider credentials.', 'If a request fails, check the selected model, account access, quota, timeout, and rate limits before changing application code.']
+    openAiProject.verification = ['python chatbot.py starts without printing the API key.', 'A configured current model returns one response.', 'The chat loop handles quit, empty input, and a provider error without exposing secrets.', 'The repository contains .env in .gitignore and no credentials.']
+  }
+
+  const geminiProject = lessonContent['chatbot-gemini']?.project
+  if (geminiProject) {
+    geminiProject.setup = geminiProject.setup.map((item) => item.includes('GEMINI_API_KEY=') ? `${item} Add GEMINI_MODEL=the-current-model-name-from-the-provider-docs.` : item)
+    geminiProject.platformNotes = ['Use a current model name listed in the Gemini model documentation; model IDs and availability change.', 'Never commit .env, API keys, or provider credentials.', 'If a request fails, check the selected model, account access, quota, and current SDK/API documentation.']
+    geminiProject.verification = ['python chatbot.py starts without printing the API key.', 'A configured current model returns one response.', 'The provider adapter can be compared against the OpenAI version using the same prompts.', 'The repository contains .env in .gitignore and no credentials.']
+  }
+
+  const projectMetadata: Record<string, Pick<NonNullable<LessonContent['project']>, 'files' | 'platformNotes' | 'verification'>> = {
+    'chatbot-local': {
+      files: [{ path: 'chatbot.py', purpose: 'Call the local Ollama HTTP endpoint and run the conversation loop.' }, { path: '.gitignore', purpose: 'Keep local environment files and generated data out of version control.' }],
+      platformNotes: ['The Ollama server must be running before Python sends requests.', 'The model name in ollama pull, ollama run, and the Python request must match.', 'Local inference uses your machine resources; measure response time and memory instead of assuming hosted-model behavior.'],
+      verification: ['ollama list shows the selected model.', 'python chatbot.py returns a local response while Ollama is running.', 'The program handles an unavailable server without printing a traceback as the user-facing answer.', 'No API keys or private documents are committed.'],
+    },
+    'chatbot-production': {
+      files: [{ path: 'provider.py', purpose: 'Isolate the model provider call behind a small interface.' }, { path: 'chatbot.py', purpose: 'Own the conversation loop, validation, and user-facing behavior.' }, { path: 'eval_cases.json', purpose: 'Store repeatable evaluation prompts and expected properties.' }, { path: '.env.example', purpose: 'Document required variable names without real secrets.' }, { path: 'README.md', purpose: 'Document setup, threat model, evaluation, deployment, and operational decisions.' }],
+      platformNotes: ['Use .env.example for names only; keep real values in a secret manager or ignored local .env.', 'Do not call production provider APIs from tests unless the test explicitly opts in and has a budget.', 'Treat model, prompt, schema, and provider changes as versioned changes that require evaluation.'],
+      verification: ['The provider adapter can be replaced without changing the conversation loop.', 'Missing credentials, timeouts, rate limits, empty input, and oversized context have tested behavior.', 'The evaluation harness records quality, latency, and usage evidence.', 'README.md documents deployment, secrets, rollback, monitoring, and known limitations.'],
+    },
+    'capstone-rag': {
+      files: [{ path: 'app.py', purpose: 'Load documents, retrieve relevant chunks, and print an evidence-based result.' }, { path: 'documents/notes.txt', purpose: 'Small local source material for the first retrieval baseline.' }, { path: 'eval_questions.json', purpose: 'Record retrieval questions and expected source documents.' }, { path: 'README.md', purpose: 'Record the baseline, evaluation score, decisions, and next steps.' }],
+      platformNotes: ['Use the virtual-environment activation command for your shell; Windows PowerShell uses .venv\\Scripts\\Activate.ps1.', 'The first version uses TF-IDF retrieval, not a hosted embedding API, so it remains local and free.', 'Do not place private documents in a project you plan to publish.'],
+      verification: ['A covered question retrieves the expected source in the top three.', 'An uncovered question returns the not-enough-information response.', 'Changing chunk size produces a recorded before-and-after evaluation.', 'README.md documents permissions, citations, update behavior, and known retrieval failures.'],
+    },
+    'capstone-agent': {
+      files: [{ path: 'planner.py', purpose: 'Own explicit state, planning, approval, and stopping behavior.' }, { path: 'tools.py', purpose: 'Expose safe deterministic tools with validation.' }, { path: 'test_planner.py', purpose: 'Test allowed actions, rejected actions, and cancellation.' }, { path: 'README.md', purpose: 'Document the agent boundary, threat model, and tool permissions.' }],
+      platformNotes: ['The first version intentionally simulates tools and does not change a real calendar or external system.', 'Keep the deterministic baseline before adding a model so failures have a clear comparison point.', 'Never grant a model credentials or unrestricted tools while experimenting.'],
+      verification: ['An unavailable time is rejected by the tool boundary.', 'Approval cancellation leaves no retained events.', 'The test suite passes with python -m unittest.', 'README.md documents tool permissions, limits, failure handling, and human approval.'],
+    },
+    'capstone-evaluation': {
+      files: [{ path: 'eval_cases.json', purpose: 'Store stable evaluation cases and expected properties.' }, { path: 'responses-v1.json', purpose: 'Store the first response set using the case IDs.' }, { path: 'responses-v2.json', purpose: 'Store the changed response set for comparison.' }, { path: 'evaluator.py', purpose: 'Score a selected response file using the same rubric.' }, { path: 'README.md', purpose: 'Explain the rubric, results, regressions, and limitations.' }],
+      platformNotes: ['Use fictional data rather than private user prompts.', 'Keep the rubric versioned so score changes are explainable.', 'An automated score is evidence, not proof; include human review and limitations.'],
+      verification: ['python evaluator.py --responses responses-v1.json runs successfully.', 'python evaluator.py --responses responses-v2.json runs successfully.', 'The output identifies case-level regressions rather than only an average.', 'README.md explains what the evaluation can and cannot prove.'],
+    },
+  }
+
+  Object.entries(projectMetadata).forEach(([lessonId, metadata]) => {
+    const project = lessonContent[lessonId]?.project
+    if (!project) return
+    Object.assign(project, metadata)
+  })
