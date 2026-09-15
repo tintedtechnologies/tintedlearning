@@ -1,6 +1,6 @@
-import { Check, LockKeyhole } from 'lucide-react'
+import { ArrowRight, Check, LockKeyhole } from 'lucide-react'
 import { Link, Navigate, useParams } from 'react-router-dom'
-import { careerLevels, curriculumModules, isCareerLevelComplete, lessons } from '../data/curriculum'
+import { careerLevels, curriculumModules, curriculumStages, isCareerLevelComplete, lessons } from '../data/curriculum'
 import { useProgress } from '../hooks/useProgress'
 
 export function CareerPage() {
@@ -9,7 +9,11 @@ export function CareerPage() {
   const progress = useProgress(lessons.length)
   if (!level) return <Navigate to="/learn" replace />
   const complete = isCareerLevelComplete(level, progress.completedLessons)
-  const modules = level.requiredModuleIds.map((id) => curriculumModules.find((module) => module.id === id)).filter(Boolean)
+  const modules = level.requiredModuleIds.map((id) => {
+    const module = curriculumModules.find((item) => item.id === id)
+    const stage = curriculumStages.find((item) => item.modules.some((stageModule) => stageModule.id === id))
+    return module && stage ? { module, stageId: stage.id } : undefined
+  }).filter(Boolean)
   const projectLessons = level.requiredProjectLessonIds?.map((id) => lessons.find((lesson) => lesson.id === id)).filter(Boolean) ?? []
 
   return <div>
@@ -30,7 +34,7 @@ export function CareerPage() {
           <p className="eyebrow">Required learning</p>
           <h2 className="mt-2 font-display text-3xl font-bold text-teal">Modules to understand</h2>
           <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            {modules.map((module) => <div key={module?.id} className="rounded-2xl bg-white p-4"><p className="font-bold text-teal">{module?.title}</p><p className="mt-1 text-sm leading-6 text-muted">{module?.description}</p></div>)}
+            {modules.map((entry) => entry && <Link key={entry.module.id} to={`/learn?stage=${entry.stageId}#${entry.module.id}`} className="group rounded-2xl bg-white p-4 transition-colors hover:bg-cream"><span className="flex items-start justify-between gap-3"><span><p className="font-bold text-teal">{entry.module.title}</p><p className="mt-1 text-sm leading-6 text-muted">{entry.module.description}</p></span><ArrowRight size={17} className="mt-1 shrink-0 text-teal transition-transform group-hover:translate-x-1" /></span><span className="mt-3 block text-xs font-bold text-teal">Open this module →</span></Link>)}
           </div>
           {level.providerModuleIds && <p className="mt-5 text-sm leading-6 text-muted">Choose one provider track: Azure, AWS, or GCP. Compare the other providers, but demonstrate one deeply.</p>}
         </section>

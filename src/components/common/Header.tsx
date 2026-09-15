@@ -15,9 +15,9 @@ export function Header() {
     <header className="border-b border-line/80 bg-cream/90 backdrop-blur">
       <div className="shell flex h-20 items-center justify-between">
         <Link to="/" className="group flex items-center gap-3" onClick={() => setIsOpen(false)}>
-          <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-teal text-lg font-bold text-white transition-transform group-hover:-rotate-6">T</span>
+          <img src="/tintedlearninglogo.png" alt="Tinted Learning logo" className="h-12 w-12 shrink-0 rounded-2xl object-contain transition-transform group-hover:-rotate-6" />
           <span>
-            <span className="flex items-center gap-2"><span className="block font-display text-xl font-bold leading-none text-teal">Tinted Learning</span><span className="rounded-full bg-sand px-2 py-1 text-[9px] font-bold uppercase tracking-widest text-teal">v0.4.0</span></span>
+            <span className="flex items-center gap-2"><span className="block font-display text-xl font-bold leading-none text-teal">Tinted Learning</span><span className="rounded-full bg-sand px-2 py-1 text-[9px] font-bold uppercase tracking-widest text-teal">v0.5.0</span></span>
           </span>
         </Link>
 

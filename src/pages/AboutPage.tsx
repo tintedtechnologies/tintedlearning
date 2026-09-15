@@ -1,5 +1,22 @@
-import { Heart, Lightbulb, Users } from 'lucide-react'
+import { ArrowRight, CheckCircle2 } from 'lucide-react'
+import { Link } from 'react-router-dom'
+
+const promises = ['Plain-language lessons and visual explanations', 'Browser practice with Python, algorithms, and AI workflows', 'Projects and portfolio evidence for your next opportunity']
 
 export function AboutPage() {
-  return <div><section className="bg-teal text-white"><div className="shell py-20 sm:py-28"><p className="text-xs font-bold uppercase tracking-[0.2em] text-gold">Why Tinted Learning exists</p><h1 className="mt-5 max-w-3xl font-display text-5xl font-bold leading-tight sm:text-7xl">Understanding AI should belong to everyone.</h1><p className="mt-7 max-w-2xl text-lg leading-8 text-white/75">Artificial intelligence is becoming part of everyday life. Learning how it works should not require an expensive course, a technical background, or a login.</p></div></section><section className="shell grid gap-12 py-20 md:grid-cols-[1.1fr_0.9fr] md:py-28"><div><p className="eyebrow">The idea</p><h2 className="section-title mt-3">Technology is only as powerful as the people who understand it.</h2><p className="mt-6 text-lg leading-8 text-muted">Tinted Learning is a free learning space for curious people. It starts with plain language and everyday examples, then gradually opens the door to deeper technical ideas.</p><p className="mt-5 text-lg leading-8 text-muted">No accounts. No paywalls. No pressure to be a programmer before you begin.</p></div><div className="space-y-4"><div className="rounded-3xl bg-mist p-7"><Users className="text-teal" /><h3 className="mt-8 font-display text-2xl font-bold text-teal">For everyone</h3><p className="mt-2 leading-7 text-muted">Meet AI at the level that feels right for you.</p></div><div className="rounded-3xl bg-sand p-7"><Lightbulb className="text-teal" /><h3 className="mt-8 font-display text-2xl font-bold text-teal">Built for clarity</h3><p className="mt-2 leading-7 text-muted">Every concept starts with a human explanation.</p></div><div className="rounded-3xl bg-white p-7 shadow-soft"><Heart className="text-teal" /><h3 className="mt-8 font-display text-2xl font-bold text-teal">Powered by Tinted Technologies</h3><p className="mt-2 leading-7 text-muted">A shared belief that technology works best when more people can understand it.</p></div></div></section></div>
+  return <main className="min-h-[calc(100vh-5rem)] overflow-hidden bg-cream">
+    <div className="bg-teal px-5 py-16 text-white sm:px-8 sm:py-20">
+      <div className="mx-auto flex w-full max-w-4xl flex-col items-center text-center">
+      <img src="/tintedlearninglogo.png" alt="Tinted Learning" className="h-40 w-40 rounded-[2.5rem] object-contain shadow-soft sm:h-52 sm:w-52" />
+      <p className="mt-8 text-xs font-bold uppercase tracking-[0.24em] text-gold">A free way into AI</p>
+      <h1 className="mt-5 max-w-3xl font-display text-5xl font-bold leading-tight sm:text-7xl">A stepping stone into the world of AI.</h1>
+      <p className="mt-6 max-w-2xl text-lg leading-8 text-white/75">Tinted Learning helps people build real AI understanding without needing a college degree, an expensive course, a technical network, or a login.</p>
+      <div className="mt-9 grid w-full gap-3 text-left sm:grid-cols-3">{promises.map((promise) => <div key={promise} className="rounded-2xl border border-white/15 bg-white/10 p-4 text-sm leading-6 text-white/85"><CheckCircle2 className="mb-3 text-gold" size={19} />{promise}</div>)}</div>
+      </div>
+    </div>
+    <div className="px-5 py-12 text-center text-ink sm:px-8 sm:py-16">
+      <p className="mx-auto max-w-2xl text-base leading-7 text-muted">Start where you are. Learn the idea, practice the skill, build something real, and collect evidence you can use for your next step.</p>
+      <div className="mt-8 flex flex-wrap justify-center gap-3"><Link to="/learn" className="button button-primary">Explore the pathway <ArrowRight size={17} className="ml-2" /></Link><Link to="/playground/python" className="button button-secondary">Try Python <ArrowRight size={17} className="ml-2" /></Link></div>
+    </div>
+  </main>
 }

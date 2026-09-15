@@ -1,6 +1,6 @@
 import { ArrowRight, Check, LockKeyhole } from 'lucide-react'
 import { useEffect } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useLocation, useSearchParams } from 'react-router-dom'
 import { CurriculumStage } from '../components/learning/CurriculumStage'
 import { careerLevels, curriculumStages, isCareerLevelComplete, lessons } from '../data/curriculum'
 import { useProgress } from '../hooks/useProgress'
@@ -8,12 +8,15 @@ import { useProgress } from '../hooks/useProgress'
 export function LearnPage() {
   const progress = useProgress(lessons.length)
   const [searchParams] = useSearchParams()
+  const location = useLocation()
+  const nextLesson = lessons.find((lesson) => !progress.isLessonComplete(lesson.id))
 
   useEffect(() => {
     const stageId = searchParams.get('stage')
-    if (!stageId) return
-    document.getElementById(stageId)?.scrollIntoView({ block: 'start' })
-  }, [searchParams])
+    const targetId = location.hash.replace(/^#/, '') || stageId
+    if (!targetId) return
+    window.setTimeout(() => document.getElementById(targetId)?.scrollIntoView({ block: 'start' }), 50)
+  }, [location.hash, searchParams])
 
   return <div>
     <section className="shell py-12 sm:py-16">
@@ -25,10 +28,18 @@ export function LearnPage() {
           <p className="mt-4 text-sm font-bold text-teal">{lessons.length} in-app lessons · {curriculumStages.length} stages · {progress.getProgressPercentage()}% complete</p>
         </div>
         <div className="flex items-center gap-4 rounded-2xl border border-line bg-white px-5 py-4">
-          <div><p className="text-xs font-bold uppercase tracking-widest text-muted">Your local progress</p><p className="mt-1 font-display text-2xl font-bold text-teal">{progress.getProgressPercentage()}% complete</p></div>
+          <div><p className="text-xs font-bold uppercase tracking-widest text-muted">Your local progress</p><p className="mt-1 font-display text-2xl font-bold text-teal">{progress.getProgressPercentage()}% complete</p>{nextLesson && <Link to={`/learn/${nextLesson.id}`} className="mt-1 block max-w-48 truncate text-xs font-bold text-teal hover:text-gold">Continue with: {nextLesson.title}</Link>}</div>
           <button type="button" onClick={progress.clearProgress} className="text-xs font-bold text-muted underline decoration-line underline-offset-4 hover:text-teal">Clear progress</button>
         </div>
       </div>
+    </section>
+
+    <section className="border-y border-line bg-mist/60 py-8 sm:py-10">
+      <div className="shell"><p className="eyebrow">Where should I start?</p><h2 className="mt-2 font-display text-2xl font-bold text-teal">Choose the route that matches your goal.</h2><div className="mt-5 grid gap-3 md:grid-cols-3">
+        <Link to="/learn?stage=foundation" className="rounded-2xl border border-line bg-white p-5 transition-transform hover:-translate-y-0.5 hover:shadow-soft"><span className="text-xs font-bold uppercase tracking-widest text-muted">New to AI</span><h3 className="mt-2 font-display text-xl font-bold text-teal">Start with the foundations</h3><p className="mt-2 text-sm leading-6 text-muted">Build the mental models, math, Python, and software habits that make later AI concepts easier.</p><span className="mt-4 block text-xs font-bold text-teal">Start Foundation →</span></Link>
+        <Link to="/learn#python" className="rounded-2xl border border-line bg-white p-5 transition-transform hover:-translate-y-0.5 hover:shadow-soft"><span className="text-xs font-bold uppercase tracking-widest text-muted">Already know Python</span><h3 className="mt-2 font-display text-xl font-bold text-teal">Jump into AI engineering</h3><p className="mt-2 text-sm leading-6 text-muted">Move toward models, prompts, retrieval, tools, evaluation, and production AI systems.</p><span className="mt-4 block text-xs font-bold text-teal">Explore the pathway →</span></Link>
+        <Link to="/careers/ai-developer" className="rounded-2xl border border-line bg-white p-5 transition-transform hover:-translate-y-0.5 hover:shadow-soft"><span className="text-xs font-bold uppercase tracking-widest text-muted">Want employable skills</span><h3 className="mt-2 font-display text-xl font-bold text-teal">Build toward AI Developer</h3><p className="mt-2 text-sm leading-6 text-muted">Follow the software route and finish with a working project, tests, README, and portfolio evidence.</p><span className="mt-4 block text-xs font-bold text-teal">See the milestone →</span></Link>
+      </div></div>
     </section>
 
     <section className="border-y border-line bg-white py-8 sm:py-10">
