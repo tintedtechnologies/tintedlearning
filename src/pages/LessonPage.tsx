@@ -2,11 +2,12 @@ import { Check, ChevronDown, Clock3, ExternalLink } from 'lucide-react'
 import { useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { ProjectGuide } from '../components/learning/ProjectGuide'
+import { LessonConceptArea } from '../components/learning/LessonConceptArea'
 import { getCurriculumLessonSequence, lessons } from '../data/curriculum'
 import { lessonContent } from '../data/lessonContent'
 import { lessonResources } from '../data/lessonResources'
 import { useProgress } from '../hooks/useProgress'
-import type { LessonQuiz } from '../types/curriculum'
+import type { LessonQuiz, LessonVisual as LessonVisualData } from '../types/curriculum'
 
 const fallbackQuiz: LessonQuiz = {
   question: 'What is the most useful next step after learning this concept?',
@@ -14,6 +15,27 @@ const fallbackQuiz: LessonQuiz = {
   answer: 'Connect it to a real example and explain what could go wrong',
   correctFeedback: 'Correct. Understanding becomes useful when you can apply an idea, explain its limits, and check its behavior.',
   incorrectFeedback: 'A strong next step is to apply the idea to a real example and consider its limits and failure modes.',
+}
+
+const stage3FlowSteps: Record<string, string[]> = {
+  models: ['Task', 'Criteria', 'Models', 'Compare', 'Choice'],
+  'talk-to-ai': ['Goal', 'Context', 'Instruction', 'Response', 'Refine'],
+  'prompt-engineering': ['Task', 'Examples', 'Constraints', 'Response', 'Iterate'],
+  'system-prompts': ['App intent', 'System rules', 'User input', 'Response', 'Review'],
+  'structured-outputs': ['Schema', 'Request', 'JSON', 'Validate', 'Use'],
+  'vector-databases': ['Vector', 'Index', 'Search', 'Filter', 'Results'],
+  'tool-calling': ['Intent', 'Tool request', 'Permission', 'Execute', 'Result'],
+  mcp: ['Application', 'MCP server', 'Capability', 'Permission', 'Result'],
+  evaluation: ['Cases', 'Baseline', 'Run', 'Inspect', 'Improve'],
+  'ai-assistants': ['User need', 'Context', 'Model', 'Guardrail', 'Response'],
+  hallucinations: ['Claim', 'Evidence', 'Confidence', 'Verify', 'Answer'],
+  'evaluating-ai-responses': ['Response', 'Rubric', 'Review', 'Failure', 'Improve'],
+  'responsible-ai': ['Data', 'Model', 'Risk check', 'Human review', 'Decision'],
+  'ai-observability': ['Request', 'Trace', 'Metrics', 'Alert', 'Improve'],
+  'ai-product-design': ['User goal', 'AI assist', 'Feedback', 'Control', 'Outcome'],
+  'ai-cost-and-performance': ['Quality', 'Latency', 'Cost', 'Tradeoff', 'Target'],
+  'ai-governance': ['Purpose', 'Data', 'Risk review', 'Owner', 'Record'],
+  'ai-apis': ['Request', 'Model API', 'Response', 'Validate', 'Integrate'],
 }
 
 export function LessonPage() {
@@ -28,6 +50,12 @@ export function LessonPage() {
 
   const resources = lessonResources[lesson.id] ?? content.resources
   const quiz = content.quiz ?? fallbackQuiz
+  const visualExample = content.examples?.find((example) => example.visual)?.visual
+  const stage3Visual: LessonVisualData | undefined = !visualExample && ['Modern AI Systems', 'Using AI', 'AI Engineering'].includes(lesson.category)
+    ? { type: 'ai-system-flow', steps: stage3FlowSteps[lesson.id] ?? ['Input', 'Context', 'Model', 'Check', 'Outcome'], caption: 'AI behavior becomes easier to understand when the path from one decision to the next is visible.', description: `An animated AI system flow for ${lesson.title}, showing its lesson-specific path from input to outcome.` }
+    : undefined
+  const conceptVisual = visualExample ?? stage3Visual
+  const nonVisualExamples = content.examples?.filter((example) => !example.visual) ?? []
   const curriculumLessons = getCurriculumLessonSequence()
   const currentIndex = curriculumLessons.findIndex((item) => item.id === lesson.id)
   const previousLesson = curriculumLessons[currentIndex - 1]
@@ -44,14 +72,15 @@ export function LessonPage() {
     <section className="lesson-copy py-10">
       <h2>What you will learn</h2>
       <ul>{content.learningPoints.map((point) => <li key={point}>{point}</li>)}</ul>
+      <LessonConceptArea lesson={lesson} learningPoints={content.learningPoints} visual={conceptVisual} />
       <div className="not-prose my-10 grid gap-4 md:grid-cols-2">
         <div className="lesson-layer bg-mist"><p className="lesson-layer-label">Start here</p><h2 className="mt-3 font-display text-3xl font-bold leading-tight text-teal">The simple idea</h2><p className="mt-4 text-base leading-7 text-muted">{content.sections[0].paragraphs[0]}</p></div>
         <div className="lesson-layer bg-white"><p className="lesson-layer-label">Build the mental model</p><h2 className="mt-3 font-display text-3xl font-bold leading-tight text-teal">The important question</h2><p className="mt-4 text-base leading-7 text-muted">{content.learningPoints[1]}</p><p className="mt-3 text-base leading-7 text-muted">As you read, connect the examples to this question. That is how the vocabulary becomes useful instead of something to memorize.</p></div>
       </div>
       {content.sections.map((section, index) => <div key={section.heading}><h2>{section.heading}</h2>{index === 0 ? section.paragraphs.slice(1).map((paragraph) => <p key={paragraph}>{paragraph}</p>) : section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>)}
       <div className="my-10 grid gap-3 sm:grid-cols-2">{content.callouts.map((callout) => <div key={callout.title} className={`rounded-2xl p-5 ${callout.tone === 'teal' ? 'bg-mist' : 'bg-sand'}`}><p className="font-bold text-teal">{callout.title}</p><p className="mt-2 text-sm leading-6 text-muted">{callout.text}</p></div>)}</div>
-      {content.examples && <section className="not-prose my-12 space-y-5"><div><p className="eyebrow">Work it through</p><h2 className="mt-2 font-display text-3xl font-bold text-teal">See the mechanism</h2><p className="mt-3 text-base leading-7 text-muted">A concept becomes engineering knowledge when you can inspect an example, change an assumption, and predict what should happen next.</p></div>{content.examples.map((example) => <div key={example.title} className="overflow-hidden rounded-3xl border border-teal/15 bg-white"><div className="border-b border-line bg-mist px-5 py-4"><p className="font-display text-xl font-bold text-teal">{example.title}</p><p className="mt-1 text-sm leading-6 text-muted">{example.explanation}</p></div><pre className="overflow-x-auto bg-[#173b38] p-5 text-sm leading-7 text-white"><code>{example.content}</code></pre></div>)}</section>}
-      {resources && <section className="not-prose my-12"><p className="eyebrow">Continue with free resources</p><h2 className="mt-2 font-display text-3xl font-bold text-teal">Go deeper</h2><p className="mt-3 max-w-2xl text-base leading-7 text-muted">Use these references to practice beyond the lesson. Tinted Learning gives you the map; these resources provide the longer labs, exercises, and documentation.</p><div className="mt-5 grid gap-3 sm:grid-cols-2">{resources.map((resource) => <a key={resource.url} href={resource.url} target="_blank" rel="noreferrer" className="group rounded-2xl border border-line bg-white p-4 hover:border-teal/30 hover:bg-mist"><span className="flex items-start justify-between gap-3"><span><span className="block text-sm font-bold text-teal">{resource.title}</span><span className="mt-1 block text-[10px] font-bold uppercase tracking-widest text-muted">{resource.provider}</span></span><ExternalLink size={15} className="shrink-0 text-teal" /></span><span className="mt-2 block text-sm leading-6 text-muted">{resource.description}</span></a>)}</div></section>}
+      {nonVisualExamples.length > 0 && <section className="not-prose my-12 space-y-5"><div><p className="eyebrow">Work it through</p><h2 className="mt-2 font-display text-3xl font-bold text-teal">See the mechanism</h2><p className="mt-3 text-base leading-7 text-muted">A concept becomes engineering knowledge when you can inspect an example, change an assumption, and predict what should happen next.</p></div>{nonVisualExamples.map((example) => <div key={example.title} className="overflow-hidden rounded-3xl border border-teal/15 bg-white"><div className="border-b border-line bg-mist px-5 py-4"><p className="font-display text-xl font-bold text-teal">{example.title}</p><p className="mt-1 text-sm leading-6 text-muted">{example.explanation}</p></div><pre className="overflow-x-auto bg-[#173b38] p-5 text-sm leading-7 text-white"><code>{example.content}</code></pre></div>)}</section>}
+      {resources && <section className="not-prose my-12"><p className="eyebrow">Practice the skill</p><h2 className="mt-2 font-display text-3xl font-bold text-teal">Put it to work</h2><p className="mt-3 max-w-2xl text-base leading-7 text-muted">This is where the lesson becomes hands-on. Use these labs, exercises, and references to practice the skills you are building and connect them to real work.</p><div className="mt-5 grid gap-3 sm:grid-cols-2">{resources.map((resource) => <a key={resource.url} href={resource.url} target="_blank" rel="noreferrer" className="group rounded-2xl border border-line bg-white p-4 hover:border-teal/30 hover:bg-mist"><span className="flex items-start justify-between gap-3"><span><span className="block text-sm font-bold text-teal">{resource.title}</span><span className="mt-1 block text-[10px] font-bold uppercase tracking-widest text-muted">{resource.provider}</span></span><ExternalLink size={15} className="shrink-0 text-teal" /></span><span className="mt-2 block text-sm leading-6 text-muted">{resource.description}</span></a>)}</div></section>}
     </section>
 
     {lesson.id === 'tokens' && <div className="mb-10"><Link to="/playground/tokens" className="button button-secondary">Try the token playground <ExternalLink size={16} className="ml-2" /></Link></div>}

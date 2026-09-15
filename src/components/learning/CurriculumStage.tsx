@@ -32,7 +32,7 @@ export function CurriculumStage({ stage, completedLessonIds, isLessonComplete, s
         {stage.modules.map((module) => {
           const progress = getModuleProgress(module, completedLessonIds)
           return (
-            <article key={module.id} className="rounded-3xl border border-line/80 bg-white/75 p-5 sm:p-6">
+            <article id={module.id} key={module.id} className="scroll-mt-8 rounded-3xl border border-line/80 bg-white/75 p-5 sm:p-6">
               <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-start">
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
@@ -67,6 +67,18 @@ export function CurriculumStage({ stage, completedLessonIds, isLessonComplete, s
           )
         })}
       </div>
+
+      {stage.learnerOutcome && <div className="mt-6 grid gap-3 md:grid-cols-3">
+        <div className="rounded-2xl border border-teal/10 bg-white/80 p-4"><p className="eyebrow">You will understand</p><p className="mt-2 text-sm leading-6 text-ink">{stage.learnerOutcome.understand}</p></div>
+        <div className="rounded-2xl border border-teal/10 bg-white/80 p-4"><p className="eyebrow">You will build</p><p className="mt-2 text-sm leading-6 text-ink">{stage.learnerOutcome.build}</p></div>
+        <div className="rounded-2xl border border-teal/10 bg-white/80 p-4"><p className="eyebrow">You can show</p><p className="mt-2 text-sm leading-6 text-ink">{stage.learnerOutcome.show}</p></div>
+      </div>}
+
+      {stage.certifications && <section className="mt-6 rounded-3xl border border-teal/10 bg-white/80 p-5 sm:p-6" aria-labelledby={`${stage.id}-certifications`}>
+        <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-end"><div><p className="eyebrow">Next step after the path</p><h3 id={`${stage.id}-certifications`} className="mt-2 font-display text-2xl font-bold text-teal">Earn a cloud certification</h3></div><p className="max-w-md text-sm leading-6 text-muted">Choose one provider track, finish the foundational credential first, then continue to the associate exam when you have hands-on practice.</p></div>
+        <p className="mt-4 rounded-2xl bg-mist/70 px-4 py-3 text-xs leading-5 text-muted">Paths reviewed September 15, 2026. Exam versions, retirement dates, pricing, and eligibility can change—always confirm details on the official provider page before booking.</p>
+        <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3">{stage.certifications.map((certification) => <a key={certification.title} href={certification.url} target="_blank" rel="noreferrer" className="group rounded-2xl border border-line bg-cream/70 p-4 transition-colors hover:border-teal/30 hover:bg-mist"><span className="flex items-start justify-between gap-3"><span><span className="block text-[10px] font-bold uppercase tracking-widest text-muted">Step {certification.pathStep} · {certification.provider} · {certification.level}</span><span className="mt-2 block font-bold text-teal">{certification.title}{certification.examCode && <span className="ml-2 text-xs font-medium text-muted">{certification.examCode}</span>}</span></span><ExternalLink size={15} className="shrink-0 text-teal" /></span><span className="mt-2 block text-sm leading-6 text-muted">{certification.description}</span>{certification.statusNote && <span className="mt-3 block border-t border-line pt-3 text-xs font-bold leading-5 text-teal">{certification.statusNote}</span>}</a>)}</div>
+      </section>}
     </section>
   )
 }

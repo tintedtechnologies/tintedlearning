@@ -26,6 +26,175 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .lesson-copy li { @apply pl-2; }
   .lesson-layer { @apply rounded-3xl border border-line p-6 sm:p-8; }
   .lesson-layer-label { @apply text-xs font-bold uppercase tracking-[0.18em] text-muted; }
+  .lesson-visual { @apply my-5 overflow-hidden rounded-3xl border border-teal/10 bg-cream; }
+  .lesson-visual-canvas { @apply p-5 sm:p-7; }
+  .lesson-visual-caption { @apply border-t border-line bg-white px-5 py-4 text-sm leading-6 text-muted sm:px-7; }
+  .lesson-visual-kicker { @apply text-xs font-bold uppercase tracking-[0.18em] text-muted; }
+  .lesson-visual-note { @apply rounded-2xl border border-line bg-white p-4 text-sm leading-6 text-muted; }
+  .lesson-visual-note > span { @apply mb-2 flex h-7 w-7 items-center justify-center rounded-full bg-teal text-xs font-bold text-white; }
+  .lesson-visual-step { @apply flex items-center gap-2 rounded-2xl border border-teal/10 bg-white p-3 text-teal; }
+  .lesson-visual-step span { @apply text-xs font-bold text-gold; }
+  .lesson-function-layout { @apply mt-5 grid gap-4 lg:grid-cols-[1fr_180px] lg:items-center; }
+  .lesson-function-graph-wrap { @apply overflow-hidden rounded-2xl border border-teal/10 bg-white px-2 py-3 sm:px-4; }
+  .lesson-function-graph { @apply block h-auto w-full; }
+  .lesson-function-grid line { stroke: #E4E7E3; stroke-width: 1; stroke-dasharray: 3 5; }
+  .lesson-function-axis line { stroke: #123F3D; stroke-width: 2; }
+  .lesson-function-labels { fill: #5E6F6C; font-size: 12px; font-weight: 700; }
+  .lesson-function-line { @apply fill-none stroke-gold; stroke-linecap: round; stroke-width: 5; }
+  .lesson-function-points circle { @apply fill-teal; }
+  .lesson-function-trace { @apply fill-gold stroke-white; stroke-width: 3; }
+  .lesson-function-explanation { @apply rounded-2xl border border-line bg-cream p-4; }
+  .lesson-function-equation { @apply font-display text-2xl font-bold text-teal; }
+  .lesson-function-values { @apply mt-4 space-y-2 border-t border-line pt-3 text-sm; }
+  .lesson-function-values div { @apply flex items-center justify-between; }
+  .lesson-function-values dt { @apply text-muted; }
+  .lesson-function-values dd { @apply font-bold text-teal; }
+  .lesson-probability-bars { @apply space-y-3 rounded-2xl border border-teal/10 bg-white p-4; }
+  .lesson-probability-row { @apply grid grid-cols-[4.5rem_1fr_3rem] items-center gap-3 text-sm font-bold text-teal; }
+  .lesson-probability-track { @apply h-4 overflow-hidden rounded-full bg-mist; }
+  .lesson-probability-track i { @apply block h-full origin-left rounded-full bg-teal; animation: math-bar-in 850ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .lesson-probability-row:nth-child(2) i { @apply bg-gold; }
+  .lesson-probability-row:nth-child(3) i { @apply bg-[#9b7ab5]; }
+  .lesson-math-svg { @apply block h-auto w-full rounded-2xl border border-teal/10 bg-white p-2; }
+  .lesson-math-grid line { stroke: #E4E7E3; stroke-width: 1; stroke-dasharray: 3 5; }
+  .lesson-math-axis { stroke: #123F3D; stroke-width: 2; }
+  .lesson-math-text { fill: #5E6F6C; font-size: 12px; font-weight: 700; }
+  .lesson-vector-line { stroke: #DEA667; stroke-linecap: round; stroke-width: 6; stroke-dasharray: 400; animation: math-vector-in 900ms 200ms ease both; }
+  .lesson-vector-point { fill: #123F3D; animation: math-point-in 450ms 850ms ease both; transform-origin: 350px 90px; }
+  .lesson-matrix-layout { @apply flex flex-wrap items-center justify-center gap-3 rounded-2xl border border-teal/10 bg-white p-5; }
+  .lesson-matrix-box, .lesson-matrix-vector { @apply grid grid-cols-2 gap-x-3 gap-y-2 rounded-xl border border-teal/15 bg-cream p-3 text-center text-teal; }
+  .lesson-matrix-box span, .lesson-matrix-vector span { @apply col-span-2 text-xs font-bold uppercase tracking-widest text-muted; }
+  .lesson-matrix-box b, .lesson-matrix-vector b { @apply min-w-8 rounded bg-white px-2 py-1 text-sm; }
+  .lesson-matrix-arrow { @apply text-2xl font-bold not-italic text-gold; animation: math-arrow-pulse 1.8s ease-in-out infinite; }
+  .lesson-matrix-result { animation: math-result-in 700ms 450ms ease both; }
+  .lesson-loss-curve { fill: none; stroke: #123F3D; stroke-linecap: round; stroke-width: 5; }
+  .lesson-loss-step { fill: none; stroke: #DEA667; stroke-dasharray: 360; stroke-dashoffset: 360; stroke-linecap: round; stroke-width: 4; animation: math-path-in 1000ms 200ms ease forwards; }
+  .lesson-loss-dot { fill: #DEA667; stroke: white; stroke-width: 3; }
+  .lesson-workflow { @apply relative grid gap-2 sm:grid-cols-5; }
+  .lesson-workflow-line { @apply absolute left-6 right-6 top-6 hidden border-t border-dashed border-gold sm:block; animation: math-path-in 900ms 300ms ease both; transform-origin: left; }
+  .lesson-workflow-step { @apply relative z-10 flex items-center gap-2 rounded-2xl border border-teal/10 bg-white p-3 text-sm text-teal sm:block sm:text-center; animation: concept-step-in 450ms ease both; }
+  .lesson-workflow-step span { @apply flex h-7 w-7 items-center justify-center rounded-full bg-mist text-[10px] font-bold text-teal sm:mx-auto; }
+  .lesson-workflow-step strong { @apply sm:mt-2 sm:block; }
+  .lesson-search-grid { @apply grid grid-cols-7 gap-2 rounded-2xl border border-teal/10 bg-white p-4; }
+  .lesson-search-stages { @apply space-y-2 rounded-2xl border border-teal/10 bg-white p-3; }
+  .lesson-search-stage { @apply grid grid-cols-[3.5rem_1fr] items-center gap-3; animation: search-stage-in 700ms ease both; }
+  .lesson-search-stage:nth-child(2) { opacity: 0.82; }
+  .lesson-search-stage:nth-child(3) { opacity: 0.68; }
+  .lesson-search-stage-label { @apply text-[10px] font-bold uppercase tracking-widest text-muted; }
+  .lesson-search-stage .lesson-search-grid { @apply border-0 p-0; }
+  .lesson-search-cell { @apply flex h-10 items-center justify-center rounded-xl text-sm font-bold; animation: search-cell-in 500ms ease both; }
+  .lesson-search-muted { @apply bg-mist/60 text-muted; }
+  .lesson-search-active { @apply bg-gold text-teal; animation: search-pulse 1.8s ease-in-out infinite; }
+  .lesson-search-result { @apply flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-cream px-4 py-3 text-sm text-muted; }
+  .lesson-search-result strong { @apply text-teal; }
+  .lesson-algorithm-demo { @apply grid gap-3 lg:grid-cols-3; }
+  .lesson-algorithm-demo section { @apply rounded-2xl border border-teal/10 bg-white p-4; }
+  .lesson-algorithm-demo section > p { @apply mt-3 text-xs leading-5 text-muted; }
+  .lesson-algorithm-title { @apply block text-[10px] font-bold uppercase tracking-widest text-teal; }
+  .lesson-linear-array { @apply relative mt-4 flex gap-1; }
+  .lesson-linear-array::after { content: ''; position: absolute; top: -0.35rem; left: 0; height: 0.2rem; width: 1rem; border-radius: 9999px; background: #DEA667; animation: linear-pointer-travel 2.6s ease-in-out infinite; }
+  .lesson-linear-array span { @apply flex h-10 min-w-8 flex-1 items-center justify-center rounded-lg bg-mist text-sm font-bold text-teal; animation: linear-cell-check 2.6s ease-in-out infinite; }
+  .lesson-linear-array span:nth-child(2) { animation-delay: 450ms; }
+  .lesson-linear-array span:nth-child(3) { animation-delay: 900ms; }
+  .lesson-linear-array span:nth-child(4) { animation-delay: 1350ms; }
+  .lesson-linear-array span:nth-child(5) { animation-delay: 1800ms; }
+  .lesson-sort-bars { @apply mt-4 flex h-32 items-end justify-center gap-2 rounded-xl bg-cream p-3; }
+  .lesson-sort-bars i { @apply block w-6 origin-bottom rounded-t-lg bg-teal; animation: sort-bars-swap 3.2s ease-in-out infinite; }
+  .lesson-sort-bars i:nth-child(2) { @apply bg-gold; animation-delay: 180ms; }
+  .lesson-sort-bars i:nth-child(3) { animation-delay: 360ms; }
+  .lesson-sort-bars i:nth-child(4) { @apply bg-[#9b7ab5]; animation-delay: 540ms; }
+  .lesson-sort-bars i:nth-child(5) { animation-delay: 720ms; }
+  .lesson-graph-visual { @apply overflow-hidden rounded-2xl border border-teal/10 bg-white p-3; }
+  .lesson-graph-visual svg { @apply block h-auto w-full; }
+  .lesson-graph-edge { stroke: #DCEBE7; stroke-width: 5; stroke-linecap: round; stroke-dasharray: 220; stroke-dashoffset: 220; animation: graph-edge-in 700ms 350ms ease forwards; }
+  .lesson-graph-node { fill: #DCEBE7; stroke: #123F3D; stroke-width: 3; transform-box: fill-box; transform-origin: center; animation: graph-node-visit 3.6s ease-in-out infinite; }
+  .lesson-graph-node-b { animation-delay: 900ms; }
+  .lesson-graph-node-c { animation-delay: 1400ms; }
+  .lesson-graph-node-d { animation-delay: 2200ms; }
+  .lesson-graph-text { fill: #123F3D; font-size: 18px; font-weight: 700; text-anchor: middle; }
+  .lesson-graph-steps { @apply flex flex-wrap justify-center gap-2; }
+  .lesson-graph-steps span { @apply rounded-full bg-mist px-3 py-2 text-xs font-bold text-teal; animation: concept-step-in 500ms ease both; }
+  .lesson-graph-steps span:nth-child(2) { animation-delay: 400ms; }
+  .lesson-graph-steps span:nth-child(3) { animation-delay: 800ms; }
+  .lesson-cleaning-grid { @apply grid gap-3 rounded-2xl border border-teal/10 bg-white p-4 sm:grid-cols-[1fr_auto_1fr] sm:items-center; }
+  .lesson-cleaning-grid > i { @apply text-center text-2xl font-normal not-italic text-gold; animation: math-arrow-pulse 1.8s ease-in-out infinite; }
+  .lesson-cleaning-label { @apply mb-2 block text-[10px] font-bold uppercase tracking-widest text-muted; }
+  .lesson-data-row { @apply flex flex-wrap gap-2; }
+  .lesson-data-row b { @apply rounded-lg border border-line bg-cream px-2 py-2 text-xs text-muted; animation: concept-step-in 450ms ease both; }
+  .lesson-data-clean b { @apply border-teal/15 bg-mist font-bold text-teal; }
+  .lesson-experiment-bars { @apply space-y-3 rounded-2xl border border-teal/10 bg-white p-4; }
+  .lesson-experiment-bars > div { @apply grid grid-cols-[4.5rem_1fr_3rem] items-center gap-3 text-sm font-bold text-teal; }
+  .lesson-experiment-track { @apply h-4 overflow-hidden rounded-full bg-mist; }
+  .lesson-experiment-track i { @apply block h-full origin-left rounded-full bg-teal; animation: math-bar-in 850ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .lesson-experiment-bars > div:nth-child(2) i { @apply bg-gold; animation-delay: 180ms; }
+  .python-flow, .python-file-flow, .python-api-flow { @apply relative flex flex-wrap items-center justify-center gap-2 rounded-2xl border border-teal/10 bg-white p-5 text-sm font-bold text-teal; }
+  .python-flow::after { content: ''; position: absolute; top: 50%; left: 14%; width: 0.55rem; height: 0.55rem; border-radius: 9999px; background: #DEA667; box-shadow: 0 0 0 5px rgba(222, 166, 103, 0.16); animation: python-signal-travel 3.2s 700ms ease-in-out infinite; }
+  .python-flow span, .python-flow strong, .python-file-flow span { @apply rounded-xl bg-mist px-3 py-3; animation: python-node-in 500ms ease both; }
+  .python-flow span:nth-child(1) { animation-delay: 250ms; }
+  .python-flow span:nth-child(3) { animation-delay: 650ms; }
+  .python-flow strong { @apply bg-gold; animation: python-node-in 500ms 1050ms ease both, python-result-pulse 2.4s 1.8s ease-in-out infinite; }
+  .python-flow i, .python-file-flow i { @apply text-xl font-normal not-italic text-gold; animation: math-arrow-pulse 1.8s ease-in-out infinite; }
+  .python-file-flow strong { @apply basis-full rounded-xl bg-sand px-3 py-3 text-center text-teal; animation: python-node-in 600ms 500ms ease both, python-result-pulse 2.4s 1.7s ease-in-out infinite; }
+  .python-collection-grid { @apply grid gap-3 sm:grid-cols-3; }
+  .python-collection-grid > div { @apply flex min-h-28 flex-col justify-between rounded-2xl border border-teal/10 bg-white p-4; animation: python-node-in 500ms ease both; }
+  .python-collection-grid > div:nth-child(2) { animation-delay: 120ms; }
+  .python-collection-grid > div:nth-child(3) { animation-delay: 240ms; }
+  .python-collection-grid b { @apply text-sm text-teal; }
+  .python-collection-grid span { @apply mt-3 rounded-lg bg-cream px-2 py-2 font-mono text-xs text-ink; }
+  .python-collection-grid small { @apply mt-2 text-xs text-muted; }
+  .python-analysis-grid { @apply grid grid-cols-2 gap-3 sm:grid-cols-4; }
+  .python-analysis-grid > div { @apply flex min-h-20 flex-col justify-center rounded-2xl border border-teal/10 bg-white p-3 text-center; animation: python-node-in 500ms ease both; }
+  .python-analysis-grid > div:nth-child(2) { animation-delay: 120ms; }
+  .python-analysis-grid > div:nth-child(3) { animation-delay: 240ms; }
+  .python-analysis-grid > div:nth-child(4) { animation-delay: 360ms; }
+  .python-analysis-grid strong { @apply font-display text-2xl text-teal; }
+  .python-analysis-grid span { @apply text-xs text-muted; }
+  .python-analysis-next { @apply bg-mist font-bold text-teal; }
+  .python-api-flow { @apply justify-between gap-4; }
+  .python-api-flow > div { @apply flex min-w-24 flex-col rounded-2xl bg-mist p-4 text-center; animation: python-node-in 500ms ease both; }
+  .python-api-flow > div:last-child { animation-delay: 300ms; }
+  .python-api-flow b { @apply text-teal; }
+  .python-api-flow span { @apply mt-1 text-xs text-muted; }
+  .python-api-flow i { @apply text-center text-sm font-bold not-italic leading-6 text-gold; animation: python-api-ping 2.4s ease-in-out infinite; }
+  .python-project-flow { @apply flex flex-wrap items-center justify-center gap-2; }
+  .python-project-flow span { @apply rounded-xl border border-teal/10 bg-white px-3 py-3 text-sm font-bold text-teal; animation: python-node-in 500ms ease both; }
+  .python-project-flow span:not(:last-child)::after { content: '→'; margin-left: 0.5rem; color: #DEA667; }
+  .ai-system-flow { @apply relative grid gap-2 sm:grid-cols-5; }
+  .ai-system-step { @apply relative z-10 flex items-center gap-2 rounded-2xl border border-teal/10 bg-white p-3 text-sm text-teal sm:block sm:text-center; animation: python-node-in 500ms ease both; }
+  .ai-system-step span { @apply flex h-7 w-7 items-center justify-center rounded-full bg-mist text-[10px] font-bold text-teal sm:mx-auto; }
+  .ai-system-step strong { @apply sm:mt-2 sm:block; }
+  .ai-system-flow::before { content: ''; display: none; position: absolute; top: 1.5rem; left: 2rem; right: 2rem; border-top: 1px dashed rgba(18, 63, 61, 0.22); animation: math-path-in 900ms 350ms ease both; transform-origin: left; }
+  .ai-system-signal { display: none; position: absolute; z-index: 20; top: 1.25rem; left: 2rem; height: 0.55rem; width: 0.55rem; border-radius: 9999px; background: #DEA667; box-shadow: 0 0 0 5px rgba(222, 166, 103, 0.16); animation: ai-signal-travel 3.8s 900ms ease-in-out infinite; }
+  .lesson-concept-area { @apply my-10 overflow-hidden rounded-3xl border border-teal/10 bg-white p-5 sm:p-7; }
+  .lesson-concept-heading { @apply flex flex-col justify-between gap-3 border-b border-line pb-5 sm:flex-row sm:items-end; }
+  .lesson-concept-heading h2 { @apply mt-2 font-display text-3xl font-bold leading-tight text-teal; }
+  .lesson-concept-visual-label { @apply mr-2 rounded-full bg-mist px-2 py-1 text-[10px] tracking-[0.12em] text-teal; }
+  .lesson-concept-category { @apply rounded-full bg-mist px-3 py-1 text-xs font-bold text-teal; }
+  .lesson-concept-map { @apply mt-6; }
+  .lesson-concept-center { @apply mx-auto max-w-xl rounded-3xl bg-teal px-6 py-5 text-center text-white shadow-soft; animation: concept-anchor-in 500ms ease both; }
+  .lesson-concept-center span { @apply block text-xs font-bold uppercase tracking-[0.16em] text-gold; }
+  .lesson-concept-center strong { @apply mt-2 block font-display text-2xl leading-tight sm:text-3xl; }
+  .lesson-concept-flow { @apply mx-auto flex max-w-xl items-center justify-center gap-2 py-3 text-[10px] font-bold uppercase tracking-[0.14em] text-muted; animation: concept-flow-in 500ms 250ms ease both; }
+  .lesson-concept-flow i { @apply not-italic text-base font-normal text-gold; }
+  .lesson-concept-detail { @apply mt-2; animation: concept-detail-in 600ms 350ms ease both; }
+  .lesson-concept-detail .lesson-visual { @apply my-0; }
+  .lesson-concept-points { @apply relative mt-4 grid gap-3 sm:grid-cols-3; }
+  .lesson-concept-points::before { content: ''; display: none; position: absolute; top: 1.1rem; left: 16.66%; right: 16.66%; border-top: 1px dashed rgba(18, 63, 61, 0.22); animation: concept-line-in 700ms 350ms ease both; transform-origin: left center; }
+  .lesson-concept-point { @apply relative z-10 flex gap-3 rounded-2xl border border-line bg-cream p-4 sm:min-h-36 sm:flex-col; animation: concept-step-in 450ms ease both; }
+  .lesson-concept-point:nth-child(1) { animation-delay: 350ms; }
+  .lesson-concept-point:nth-child(2) { animation-delay: 500ms; }
+  .lesson-concept-point:nth-child(3) { animation-delay: 650ms; }
+  .lesson-concept-number { @apply flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-xs font-bold text-teal shadow-sm sm:h-9 sm:w-9; }
+  .lesson-concept-label { @apply block text-[10px] font-bold uppercase tracking-[0.16em] text-muted; }
+  .lesson-concept-point p { @apply mt-2 text-sm leading-6 text-ink; }
+  .lesson-concept-note { @apply mt-4 rounded-2xl bg-mist px-4 py-3 text-sm leading-6 text-muted; }
+  .lesson-concept-note strong { @apply font-bold text-teal; }
+  .lesson-concept-engineering .lesson-concept-center { @apply bg-[#245b56]; }
+  .lesson-concept-architecture .lesson-concept-center { @apply bg-[#3d5265]; }
+  .lesson-concept-project .lesson-concept-center { @apply bg-[#754f2e]; }
+  @media (min-width: 640px) {
+    .lesson-concept-points::before { display: block; }
+  }
   .playground-step { animation: playground-step-in 500ms ease both; }
   .playground-bar { transition: width 700ms cubic-bezier(0.22, 1, 0.36, 1); }
   .playground-pulse { animation: playground-pulse 2.4s ease-in-out infinite; }
@@ -41,6 +210,140 @@ button, a { -webkit-tap-highlight-color: transparent; }
   50% { box-shadow: 0 0 0 12px rgba(222, 166, 103, 0); }
 }
 
+@keyframes concept-anchor-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes concept-step-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes concept-line-in {
+  from { opacity: 0; transform: scaleX(0); }
+  to { opacity: 1; transform: scaleX(1); }
+}
+
+@keyframes concept-flow-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes concept-detail-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes math-bar-in {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes math-vector-in {
+  from { stroke-dashoffset: 400; opacity: 0; }
+  to { stroke-dashoffset: 0; opacity: 1; }
+}
+
+@keyframes math-point-in {
+  from { opacity: 0; transform: scale(0); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes math-arrow-pulse {
+  0%, 100% { transform: translateX(0); opacity: 0.7; }
+  50% { transform: translateX(3px); opacity: 1; }
+}
+
+@keyframes math-result-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes math-path-in {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes search-cell-in {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes search-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(222, 166, 103, 0.1); }
+  50% { box-shadow: 0 0 0 7px rgba(222, 166, 103, 0.18); }
+}
+
+@keyframes search-stage-in {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { transform: translateX(0); }
+}
+
+@keyframes linear-pointer-travel {
+  0%, 8% { left: 0; opacity: 0; }
+  15% { opacity: 1; }
+  75% { left: 88%; opacity: 1; }
+  88%, 100% { left: 88%; opacity: 0; }
+}
+
+@keyframes linear-cell-check {
+  0%, 12%, 100% { background: #DCEBE7; transform: translateY(0); }
+  18%, 30% { background: #DEA667; transform: translateY(-3px); }
+}
+
+@keyframes sort-bars-swap {
+  0%, 20%, 100% { transform: translateX(0); filter: brightness(1); }
+  30%, 48% { transform: translateX(8px); filter: brightness(1.12); }
+  58%, 78% { transform: translateX(-4px); filter: brightness(1); }
+}
+
+@keyframes graph-edge-in {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes graph-node-visit {
+  0%, 18%, 100% { fill: #DCEBE7; transform: scale(1); }
+  25%, 42% { fill: #DEA667; transform: scale(1.14); }
+  50%, 90% { fill: #DCEBE7; transform: scale(1); }
+}
+
+@keyframes python-node-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes python-signal-travel {
+  0%, 12% { left: 14%; opacity: 0; }
+  18% { opacity: 1; }
+  42% { left: 47%; opacity: 1; }
+  72% { left: 82%; opacity: 1; }
+  86%, 100% { left: 82%; opacity: 0; }
+}
+
+@keyframes python-result-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(222, 166, 103, 0.12); }
+  50% { box-shadow: 0 0 0 7px rgba(222, 166, 103, 0.18); }
+}
+
+@keyframes python-api-ping {
+  0%, 100% { opacity: 0.55; transform: translateX(0); }
+  50% { opacity: 1; transform: translateX(4px); }
+}
+
+@keyframes ai-signal-travel {
+  0%, 8% { left: 8%; opacity: 0; }
+  16% { opacity: 1; }
+  42% { left: 31%; opacity: 1; }
+  63% { left: 52%; opacity: 1; }
+  82% { left: 92%; opacity: 1; }
+  92%, 100% { left: 92%; opacity: 0; }
+}
+
+@media (min-width: 640px) {
+  .ai-system-flow::before, .ai-system-signal { display: block; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+  .lesson-function-trace animate { display: none; }
 }

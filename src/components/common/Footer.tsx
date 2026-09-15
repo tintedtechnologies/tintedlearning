@@ -17,11 +17,11 @@ export function Footer() {
           </div>
         </div>
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">A Tinted Technologies project</p>
-          <p className="mt-4 text-sm leading-6 text-white/70">Technology is only as powerful as the people who understand it.</p>
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">Learn, practice, build</p>
+          <p className="mt-4 text-sm leading-6 text-white/70">A free path into AI for people wherever they are starting from.</p>
         </div>
       </div>
-      <div className="shell border-t border-white/15 py-5 text-xs text-white/55">© 2026 Tinted Technologies LLC</div>
+      <div className="shell border-t border-white/15 py-5 text-xs text-white/55">© 2026 Tinted Learning</div>
     </footer>
   )
 }

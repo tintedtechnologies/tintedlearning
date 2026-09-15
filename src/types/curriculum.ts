@@ -62,6 +62,14 @@ export interface LessonExample {
   kind: 'code' | 'math' | 'json' | 'diagram'
   content: string
   language?: string
+  visual?: LessonVisual
+}
+
+export interface LessonVisual {
+  type: 'tokens' | 'embedding-space' | 'rag-pipeline' | 'agent-loop' | 'function-graph' | 'probability-bars' | 'vector-space' | 'matrix-transform' | 'gradient-descent' | 'workflow-pipeline' | 'algorithm-search' | 'algorithm-sort' | 'data-cleaning' | 'experiment-compare' | 'python-values' | 'python-collections' | 'python-files' | 'python-analysis' | 'python-api' | 'python-project' | 'ai-system-flow'
+  caption: string
+  description: string
+  steps?: string[]
 }
 
 export interface LessonQuiz {
@@ -113,7 +121,20 @@ export interface CurriculumStage {
   description: string
   modules: CurriculumModule[]
   tone: 'teal' | 'gold' | 'neutral'
+  learnerOutcome?: { understand: string; build: string; show: string }
+  certifications?: Certification[]
   status?: 'available' | 'coming-soon'
+}
+
+export interface Certification {
+  title: string
+  provider: 'Azure' | 'AWS' | 'Google Cloud'
+  level: 'Foundational' | 'Associate' | 'Professional'
+  pathStep: 1 | 2 | 3
+  examCode?: string
+  description: string
+  statusNote?: string
+  url: string
 }
 
 export interface CareerLevel {

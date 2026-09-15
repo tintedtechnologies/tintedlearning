@@ -10,9 +10,9 @@ Tinted Learning teaches the essential mental model in the app, then points learn
 
 ## Current Release
 
-**v0.4.0**
+**v0.5.0**
 
-This release establishes the career-first curriculum, lesson-level learning resources, worked examples, project guides, portfolio tracks, cloud deployment guidance, and evidence-based career milestones.
+This release expands the curriculum to 100 lessons with animated visual explanations, a 14-lesson Python path, an expanded browser playground, current cloud certification paths, and updated AI security and governance guidance.
 
 ## What This Is
 

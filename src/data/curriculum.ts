@@ -53,12 +53,20 @@ export const lessons: Lesson[] = [
   { id: 'data-collection-and-cleaning', title: 'Data Collection and Cleaning', description: 'Understand where training data comes from and how messy data changes results.', duration: 10, difficulty: 'Intermediate', category: 'Math and Computing', order: 8 },
   { id: 'experiment-design', title: 'Experiment Design', description: 'Learn how to compare AI approaches without fooling yourself with weak evidence.', duration: 11, difficulty: 'Intermediate', category: 'Math and Computing', order: 9 },
   { id: 'optimization-and-training', title: 'Optimization and Training', description: 'Learn how loss functions and gradient-based updates improve a model.', duration: 12, difficulty: 'Intermediate', category: 'Math and Computing', order: 10 },
-  { id: 'python-basics', title: 'Python Basics', description: 'Learn variables, values, functions, conditionals, and loops from the beginning.', duration: 12, difficulty: 'Beginner', category: 'Python', order: 1 },
-  { id: 'python-data-structures', title: 'Python Data Structures', description: 'Work with lists, dictionaries, tuples, sets, and the data AI programs use.', duration: 12, difficulty: 'Beginner', category: 'Python', order: 2 },
-  { id: 'python-files-and-errors', title: 'Files, Packages, and Errors', description: 'Read files, install packages, use virtual environments, and handle failures.', duration: 12, difficulty: 'Beginner', category: 'Python', order: 3 },
-  { id: 'python-data-analysis', title: 'Python Data Analysis', description: 'Load, inspect, clean, and summarize data with Python.', duration: 14, difficulty: 'Intermediate', category: 'Python', order: 4 },
-  { id: 'python-apis', title: 'Python APIs and JSON', description: 'Call web APIs, parse JSON, protect secrets, and build reusable clients.', duration: 14, difficulty: 'Intermediate', category: 'Python', order: 5 },
-  { id: 'python-ai-projects', title: 'Python for AI Projects', description: 'Combine Python, evaluation, retrieval, and model APIs into useful applications.', duration: 16, difficulty: 'Intermediate', category: 'Python', order: 6 },
+  { id: 'python-basics', title: 'Running Python and Values', description: 'Run a Python program and work with variables, values, and basic expressions.', duration: 8, difficulty: 'Beginner', category: 'Python', order: 1 },
+  { id: 'python-control-flow', title: 'Conditions and Loops', description: 'Use decisions and repetition to control what a Python program does.', duration: 9, difficulty: 'Beginner', category: 'Python', order: 2 },
+  { id: 'python-functions', title: 'Functions and Reusable Code', description: 'Package instructions into functions that accept inputs and return results.', duration: 9, difficulty: 'Beginner', category: 'Python', order: 3 },
+  { id: 'python-data-structures', title: 'Python Data Structures', description: 'Work with lists, dictionaries, tuples, sets, and the data AI programs use.', duration: 12, difficulty: 'Beginner', category: 'Python', order: 4 },
+  { id: 'python-files-and-errors', title: 'Files and Paths', description: 'Read and write files safely while making paths and resources explicit.', duration: 9, difficulty: 'Beginner', category: 'Python', order: 5 },
+  { id: 'python-errors-and-debugging', title: 'Errors and Debugging', description: 'Read tracebacks, handle exceptions, and turn failures into useful evidence.', duration: 9, difficulty: 'Beginner', category: 'Python', order: 6 },
+  { id: 'python-packages-and-environments', title: 'Packages and Environments', description: 'Install dependencies and keep Python projects isolated and reproducible.', duration: 8, difficulty: 'Beginner', category: 'Python', order: 7 },
+  { id: 'python-data-analysis', title: 'Python Data Analysis', description: 'Load, inspect, clean, and summarize data with Python.', duration: 14, difficulty: 'Intermediate', category: 'Python', order: 8 },
+  { id: 'python-apis', title: 'Python APIs and JSON', description: 'Call web APIs, parse JSON, protect secrets, and build reusable clients.', duration: 14, difficulty: 'Intermediate', category: 'Python', order: 9 },
+  { id: 'python-testing', title: 'Testing Python Programs', description: 'Use small repeatable checks to prove that Python code keeps working.', duration: 10, difficulty: 'Intermediate', category: 'Python', order: 10 },
+  { id: 'python-ai-projects', title: 'Python for AI Projects', description: 'Combine Python, data, retrieval, and model APIs into a useful application.', duration: 14, difficulty: 'Intermediate', category: 'Python', order: 11 },
+  { id: 'python-project-evaluation', title: 'Evaluating a Python AI Project', description: 'Build a baseline, inspect failures, and measure whether an AI project improves.', duration: 10, difficulty: 'Intermediate', category: 'Python', order: 12 },
+  { id: 'python-search-and-sort', title: 'Python Algorithms: Search and Sort', description: 'Understand linear search, binary search, sorting, and the tradeoff between time and memory.', duration: 14, difficulty: 'Intermediate', category: 'Python', order: 13 },
+  { id: 'python-recursion-and-graphs', title: 'Python Algorithms: Recursion and Graphs', description: 'Use recursion, stacks, queues, and graph traversal to solve connected problems.', duration: 14, difficulty: 'Intermediate', category: 'Python', order: 14 },
   { id: 'neural-networks', title: 'A Gentle Introduction to Neural Networks', description: 'Understand layers, parameters, and learned representations.', duration: 9, difficulty: 'Beginner', category: 'Modern AI Systems', order: 1 },
   { id: 'generative-ai', title: 'What is Generative AI?', description: 'Learn how AI generates text, images, audio, video, and code.', duration: 7, difficulty: 'Beginner', category: 'Modern AI Systems', order: 2 },
   { id: 'transformers-and-attention', title: 'Transformers and Attention', description: 'Understand the architecture behind many current language and multimodal models.', duration: 11, difficulty: 'Intermediate', category: 'Modern AI Systems', order: 3 },
@@ -87,7 +95,7 @@ export const lessons: Lesson[] = [
   { id: 'ai-observability', title: 'AI Observability and Operations', description: 'Learn how teams monitor quality, cost, latency, and failures in production.', duration: 10, difficulty: 'Intermediate', category: 'AI Engineering', order: 9 },
   { id: 'ai-product-design', title: 'Designing AI Products', description: 'Turn model capabilities into a useful, understandable, human-centered experience.', duration: 10, difficulty: 'Intermediate', category: 'AI Engineering', order: 10 },
   { id: 'ai-cost-and-performance', title: 'Cost, Latency, and Performance', description: 'Learn the practical tradeoffs that shape a production AI system.', duration: 10, difficulty: 'Intermediate', category: 'AI Engineering', order: 11 },
-  { id: 'ai-governance', title: 'AI Governance and Documentation', description: 'Understand how teams document models, risks, data, and decisions.', duration: 10, difficulty: 'Intermediate', category: 'AI Engineering', order: 12 },
+  { id: 'ai-governance', title: 'AI Governance and Documentation', description: 'Understand how teams document models, risks, data, and decisions.', duration: 10, difficulty: 'Intermediate', category: 'AI Engineering', order: 11 },
   { id: 'chatbot-concepts', title: 'How Chatbots Work', description: 'Understand the conversation loop, messages, context, and response generation.', duration: 8, difficulty: 'Beginner', category: 'Build Chatbots', order: 1 },
   { id: 'chatbot-openai', title: 'Build a Chatbot with OpenAI', description: 'Create a Python chatbot using a hosted OpenAI model and an API key.', duration: 15, difficulty: 'Intermediate', category: 'Build Chatbots', order: 2 },
   { id: 'chatbot-gemini', title: 'Build a Chatbot with Gemini', description: 'Build the same chatbot pattern with Google Gemini and compare provider APIs.', duration: 15, difficulty: 'Intermediate', category: 'Build Chatbots', order: 3 },
@@ -190,7 +198,7 @@ const lessonIds = (...ids: string[]) => lessons.filter((lesson) => ids.includes(
 
 export const curriculumStages: CurriculumStage[] = [
   {
-    id: 'foundation', eyebrow: 'Stage 01', title: 'Foundation', tone: 'teal',
+    id: 'foundation', eyebrow: 'Stage 01', title: 'Foundation', tone: 'teal', learnerOutcome: { understand: 'How AI, computing, math, and Python fit together.', build: 'A first working Python program and small concept experiments.', show: 'A learning plan, working examples, and your first project notes.' },
     description: 'Build the mental models, programming habits, and working environment that make later engineering concepts stick.',
     modules: [
       moduleWithLessons('ai-fundamentals', 'AI fundamentals', 'Understand what AI is, how learning systems work, and how to frame useful problems.', lessons.filter((lesson) => lesson.category === 'AI Foundations'), sourceMapResources.foundations),
@@ -201,7 +209,7 @@ export const curriculumStages: CurriculumStage[] = [
     ],
   },
   {
-    id: 'software-engineering', eyebrow: 'Stage 02', title: 'Software Engineering', tone: 'gold',
+    id: 'software-engineering', eyebrow: 'Stage 02', title: 'Software Engineering', tone: 'gold', learnerOutcome: { understand: 'How reliable applications use boundaries, data, tests, and deployment practices.', build: 'A tested service with a clear API, persistence, and delivery workflow.', show: 'A repository with tests, setup instructions, design decisions, and repeatable delivery.' },
     description: 'Learn the durable software practices around AI systems: boundaries, persistence, correctness, and repeatable delivery.',
     modules: [
       moduleWithLessons('apis-rest', 'APIs and REST', 'Design and consume stable service boundaries with clear inputs, outputs, and errors.', lessonIds('ai-apis'), sourceMapResources.web),
@@ -213,7 +221,7 @@ export const curriculumStages: CurriculumStage[] = [
     ],
   },
   {
-    id: 'ai-engineering', eyebrow: 'Stage 03', title: 'AI Engineering', tone: 'teal',
+    id: 'ai-engineering', eyebrow: 'Stage 03', title: 'AI Engineering', tone: 'teal', learnerOutcome: { understand: 'How models, prompts, retrieval, tools, evaluation, and operations work together.', build: 'A useful AI application with evidence, guardrails, and observable behavior.', show: 'An AI project with evaluation cases, traces, tradeoffs, and documented limits.' },
     description: 'Compose models, prompts, data, tools, evaluation, and operations into useful AI applications.',
     modules: [
       moduleWithLessons('llms', 'LLMs', 'Understand language models, tokens, context, transformers, multimodality, and adaptation.', lessons.filter((lesson) => lesson.category === 'Modern AI Systems').concat(lessonIds('models'))),
@@ -230,8 +238,19 @@ export const curriculumStages: CurriculumStage[] = [
     ],
   },
   {
-    id: 'cloud-engineering', eyebrow: 'Stage 04', title: 'Cloud Engineering', tone: 'neutral',
+    id: 'cloud-engineering', eyebrow: 'Stage 04', title: 'Cloud Engineering', tone: 'neutral', learnerOutcome: { understand: 'How cloud platforms provide identity, storage, compute, networking, and operations.', build: 'A deployed service with secure identity, monitoring, cost awareness, and rollback thinking.', show: 'A deployed workload, architecture diagram, provider choice, and certification preparation evidence.' },
     description: 'Learn the shared cloud vocabulary, then choose a provider track for hands-on deployment and operations.',
+    certifications: [
+      { title: 'Azure Fundamentals', provider: 'Azure', level: 'Foundational', pathStep: 1, examCode: 'AZ-900', description: 'Validate cloud concepts, Azure services, security, governance, and pricing after completing the shared fundamentals and Azure track.', url: 'https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/' },
+      { title: 'Azure Administrator Associate', provider: 'Azure', level: 'Associate', pathStep: 2, examCode: 'AZ-104', description: 'Build hands-on identity, storage, compute, networking, monitoring, and resource administration skills.', url: 'https://learn.microsoft.com/en-us/credentials/certifications/azure-administrator/' },
+      { title: 'Azure Solutions Architect Expert', provider: 'Azure', level: 'Professional', pathStep: 3, examCode: 'AZ-305', description: 'Highest architecture step in this route: design secure, resilient, governed, and cost-aware Azure solutions.', statusNote: 'Requires the Azure Administrator Associate certification.', url: 'https://learn.microsoft.com/en-us/credentials/certifications/azure-solutions-architect/' },
+      { title: 'AWS Certified Cloud Practitioner', provider: 'AWS', level: 'Foundational', pathStep: 1, examCode: 'CLF-C02', description: 'Validate shared cloud, security, billing, and core AWS concepts after completing the fundamentals track.', url: 'https://aws.amazon.com/certification/certified-cloud-practitioner/' },
+      { title: 'AWS Solutions Architect – Associate', provider: 'AWS', level: 'Associate', pathStep: 2, examCode: 'SAA-C03', description: 'Apply architecture, resilience, security, performance, and cost principles to AWS workloads.', url: 'https://aws.amazon.com/certification/certified-solutions-architect-associate/' },
+      { title: 'AWS Solutions Architect – Professional', provider: 'AWS', level: 'Professional', pathStep: 3, examCode: 'SAP-C02', description: 'Highest architecture step in this route: design and optimize complex AWS solutions across organizations and workloads.', statusNote: 'SAP-C03 registration opens October 27, 2026; verify the current exam version before booking.', url: 'https://aws.amazon.com/certification/certified-solutions-architect-professional/' },
+      { title: 'Cloud Digital Leader', provider: 'Google Cloud', level: 'Foundational', pathStep: 1, description: 'Validate cloud concepts, data and AI capabilities, security, and Google Cloud value for technical decisions.', url: 'https://cloud.google.com/learn/certification/cloud-digital-leader' },
+      { title: 'Associate Cloud Engineer', provider: 'Google Cloud', level: 'Associate', pathStep: 2, description: 'Demonstrate hands-on skills deploying, operating, securing, and monitoring workloads on Google Cloud.', url: 'https://cloud.google.com/learn/certification/cloud-engineer' },
+      { title: 'Professional Cloud Architect', provider: 'Google Cloud', level: 'Professional', pathStep: 3, description: 'Highest architecture step in this route: design, manage, secure, and optimize robust Google Cloud solutions.', statusNote: 'Google recommends 3+ years of industry experience, including 1+ year designing and managing Google Cloud solutions.', url: 'https://cloud.google.com/learn/certification/cloud-architect' },
+    ],
     modules: [
       moduleWithLessons('cloud-fundamentals', 'Cloud fundamentals', 'Compare managed services, regions, availability zones, pricing, and operational responsibility.', lessonIds('cloud-fundamentals'), [...sourceMapResources.azure, ...sourceMapResources.aws, ...sourceMapResources.gcp]),
       moduleWithLessons('azure-track', 'Azure track', 'Follow Azure services and labs from identity through deployment.', lessonIds('azure-track'), sourceMapResources.azure, 'azure'),
@@ -246,7 +265,7 @@ export const curriculumStages: CurriculumStage[] = [
     ],
   },
   {
-    id: 'ai-architecture', eyebrow: 'Stage 05', title: 'AI Architecture', tone: 'gold',
+    id: 'ai-architecture', eyebrow: 'Stage 05', title: 'AI Architecture', tone: 'gold', learnerOutcome: { understand: 'How to make system decisions from requirements, constraints, risks, and tradeoffs.', build: 'An architecture proposal that explains boundaries, failure modes, cost, and security.', show: 'A reviewable architecture decision record and design presentation.' },
     description: 'Turn requirements into defensible system decisions across models, software, data, infrastructure, risk, and cost.',
     modules: [
       moduleWithLessons('system-design', 'System design', 'Decompose a problem into responsibilities, interfaces, data flows, and explicit constraints.', lessonIds('system-design'), sourceMapResources.architecture),
@@ -261,7 +280,7 @@ export const curriculumStages: CurriculumStage[] = [
     ],
   },
   {
-    id: 'projects', eyebrow: 'Stage 06', title: 'Projects', tone: 'teal',
+    id: 'projects', eyebrow: 'Stage 06', title: 'Projects', tone: 'teal', learnerOutcome: { understand: 'How to turn learning into complete, inspectable work.', build: 'A portfolio project with documentation, tests, deployment, and evaluation.', show: 'A public project, evidence of decisions, and a clear explanation of what you would improve next.' },
     description: 'Prove what you can build and explain. Each project should leave behind code, evidence, and architectural decisions.',
     modules: [
       moduleWithLessons('developer-project', 'AI Developer project', 'Build a small model-powered application with a clear API boundary and tested behavior.', lessonIds('chatbot-concepts', 'chatbot-openai', 'chatbot-gemini', 'chatbot-local')),
