@@ -27,7 +27,16 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Check Clerk configuration
+        env:
+          VITE_CLERK_PUBLISHABLE_KEY: ${{ secrets.VITE_CLERK_PUBLISHABLE_KEY }}
+        run: test -n "$VITE_CLERK_PUBLISHABLE_KEY" || (echo "Missing GitHub Actions secret: VITE_CLERK_PUBLISHABLE_KEY" && exit 1)
       - name: Build
+        env:
+          VITE_CLERK_PUBLISHABLE_KEY: ${{ secrets.VITE_CLERK_PUBLISHABLE_KEY }}
+          VITE_BASE_PATH: /tintedlearning/
         run: npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
