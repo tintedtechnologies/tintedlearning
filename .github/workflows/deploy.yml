@@ -37,6 +37,13 @@ jobs:
             echo "Missing GitHub Actions secret: VITE_CLERK_PUBLISHABLE_KEY"
             exit 1
           fi
+          case "$VITE_CLERK_PUBLISHABLE_KEY" in
+            pk_live_*|pk_test_*) ;;
+            *)
+              echo "VITE_CLERK_PUBLISHABLE_KEY must contain only the raw Clerk publishable key starting with pk_live_ or pk_test_."
+              exit 1
+              ;;
+          esac
       - name: Build
         env:
           VITE_CLERK_PUBLISHABLE_KEY: ${{ secrets.VITE_CLERK_PUBLISHABLE_KEY }}
