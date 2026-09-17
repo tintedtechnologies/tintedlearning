@@ -32,7 +32,11 @@ jobs:
       - name: Check Clerk configuration
         env:
           VITE_CLERK_PUBLISHABLE_KEY: ${{ secrets.VITE_CLERK_PUBLISHABLE_KEY }}
-        run: test -n "$VITE_CLERK_PUBLISHABLE_KEY" || (echo "Missing GitHub Actions secret: VITE_CLERK_PUBLISHABLE_KEY" && exit 1)
+        run: |
+          if [ -z "$VITE_CLERK_PUBLISHABLE_KEY" ]; then
+            echo "Missing GitHub Actions secret: VITE_CLERK_PUBLISHABLE_KEY"
+            exit 1
+          fi
       - name: Build
         env:
           VITE_CLERK_PUBLISHABLE_KEY: ${{ secrets.VITE_CLERK_PUBLISHABLE_KEY }}
