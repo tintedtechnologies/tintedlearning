@@ -16,6 +16,7 @@ import { ScrollToTop } from './components/common/ScrollToTop'
 import { CareerPage } from './pages/CareerPage'
 import { PythonPage } from './pages/PythonPage'
 import { PortfolioPage } from './pages/PortfolioPage'
+import { DashboardPage } from './pages/DashboardPage'
 
 export default function App() {
   return (
@@ -39,6 +40,7 @@ export default function App() {
           <Route path="/playground/rag" element={<RagPage />} />
           <Route path="/playground/agents" element={<AgentsPage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

@@ -27,10 +27,7 @@ export function LearnPage() {
           <p className="mt-5 max-w-2xl text-lg leading-8 text-muted">Tinted Learning is a source map: learn the essential idea here, then follow trusted free resources until you can build a system and defend every decision.</p>
           <p className="mt-4 text-sm font-bold text-teal">{lessons.length} in-app lessons · {curriculumStages.length} stages · {progress.getProgressPercentage()}% complete</p>
         </div>
-        <div className="flex items-center gap-4 rounded-2xl border border-line bg-white px-5 py-4">
-          <div><p className="text-xs font-bold uppercase tracking-widest text-muted">Your local progress</p><p className="mt-1 font-display text-2xl font-bold text-teal">{progress.getProgressPercentage()}% complete</p>{nextLesson && <Link to={`/learn/${nextLesson.id}`} className="mt-1 block max-w-48 truncate text-xs font-bold text-teal hover:text-gold">Continue with: {nextLesson.title}</Link>}</div>
-          <button type="button" onClick={progress.clearProgress} className="text-xs font-bold text-muted underline decoration-line underline-offset-4 hover:text-teal">Clear progress</button>
-        </div>
+        {nextLesson && <div className="max-w-xs rounded-2xl border border-teal/10 bg-white p-4 shadow-soft"><p className="eyebrow">Next step</p><Link to={`/learn/${nextLesson.id}`} className="button button-primary mt-3 w-full justify-between text-left">Continue with: {nextLesson.title}<ArrowRight size={17} /></Link></div>}
       </div>
     </section>
 
