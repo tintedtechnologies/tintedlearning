@@ -10,9 +10,9 @@ Tinted Learning teaches the essential mental model in the app, then points learn
 
 ## Current Release
 
-**v0.5.0**
+**v0.6.0**
 
-This release expands the curriculum to 100 lessons with animated visual explanations, a 14-lesson Python path, an expanded browser playground, current cloud certification paths, and updated AI security and governance guidance.
+This release adds the complete source-map learning experience: 100 lessons across six stages, animated concept explanations, a 14-lesson Python path, an expanded browser playground, current cloud certification paths, updated AI security and governance guidance, and optional Clerk accounts for synced progress, stage tracking, dashboards, and portfolio direction.
 
 ## What This Is
 
