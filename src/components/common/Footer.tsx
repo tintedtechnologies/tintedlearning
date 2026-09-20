@@ -21,7 +21,13 @@ export function Footer() {
           <p className="mt-4 text-sm leading-6 text-white/70">A free path into AI for people wherever they are starting from.</p>
         </div>
       </div>
-      <div className="shell border-t border-white/15 py-5 text-xs text-white/55">© 2026 Tinted Learning</div>
+      <div className="shell flex flex-col gap-3 border-t border-white/15 py-5 text-xs text-white/55 sm:flex-row sm:items-center sm:justify-between">
+        <span>© 2026 Tinted Learning</span>
+        <div className="flex gap-4">
+          <Link to="/terms" className="hover:text-white">Terms</Link>
+          <Link to="/privacy" className="hover:text-white">Privacy</Link>
+        </div>
+      </div>
     </footer>
   )
 }

@@ -17,6 +17,8 @@ import { CareerPage } from './pages/CareerPage'
 import { PythonPage } from './pages/PythonPage'
 import { PortfolioPage } from './pages/PortfolioPage'
 import { DashboardPage } from './pages/DashboardPage'
+import { TermsPage } from './pages/TermsPage'
+import { PrivacyPage } from './pages/PrivacyPage'
 
 export default function App() {
   return (
@@ -41,6 +43,8 @@ export default function App() {
           <Route path="/playground/agents" element={<AgentsPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

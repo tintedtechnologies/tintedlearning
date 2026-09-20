@@ -1,5 +1,10 @@
 # Tinted Learning
 
+## Local development
+
+Copy `.env.example` to `.env.local`, replace the Clerk placeholder with your Clerk publishable key, and then run `npm run dev`.
+# Tinted Learning
+
 Tinted Learning is a free, beginner-friendly source map for becoming an AI Developer, AI Engineer, or AI Architect.
 
 The goal is practical understanding:
