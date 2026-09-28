@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useUser } from '@clerk/react'
 import { curriculumStages, lessons } from '../data/curriculum'
 
@@ -7,7 +7,7 @@ const VALID_LESSON_IDS = new Set(lessons.map((lesson) => lesson.id))
 function readRemoteProgress(value: unknown): string[] {
   const lessonsValue = Array.isArray(value) ? value : typeof value === 'object' && value !== null && 'completedLessons' in value ? (value as { completedLessons?: unknown }).completedLessons : []
   return Array.isArray(lessonsValue) && lessonsValue.every((item) => typeof item === 'string')
-    ? lessonsValue.filter((item) => VALID_LESSON_IDS.has(item))
+    ? [...new Set(lessonsValue.filter((item) => VALID_LESSON_IDS.has(item)))]
     : []
 }
 
@@ -20,7 +20,7 @@ function getCompletedStageIds(completedLessonIds: string[]) {
 
 function getProgressDetails(completedLessonIds: string[]) {
   const orderedLessons = curriculumStages.flatMap((stage) => stage.modules.flatMap((module) => module.lessons.map((lesson) => ({ lesson, stage, module }))))
-  const next = orderedLessons.find((entry) => !completedLessonIds.includes(entry.lesson.id)) ?? orderedLessons[orderedLessons.length - 1]
+  const next = orderedLessons.find((entry) => !completedLessonIds.includes(entry.lesson.id))
   const completedStages = curriculumStages.filter((stage) => getCompletedStageIds(completedLessonIds).includes(stage.id))
   return {
     completedStages: completedStages.map((stage) => ({ id: stage.id, title: stage.title })),
@@ -31,21 +31,36 @@ function getProgressDetails(completedLessonIds: string[]) {
 }
 
 export function useProgress(totalLessons: number) {
-  const { user } = useUser()
+  const { user, isLoaded: isUserLoaded } = useUser()
   const [completedLessons, setCompletedLessons] = useState<string[]>([])
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
+  const [saveError, setSaveError] = useState('')
+  const saveQueue = useRef<Promise<void>>(Promise.resolve())
 
   useEffect(() => {
+    if (!isUserLoaded) return
     const storedProgress = user?.unsafeMetadata?.tintedProgress
     const lessonsFromStored = readRemoteProgress(storedProgress)
     setCompletedLessons(lessonsFromStored)
+    setIsLoaded(true)
     if (user && Array.isArray(storedProgress)) {
-      void user.update({ unsafeMetadata: { ...user.unsafeMetadata, tintedProgress: { completedLessons: lessonsFromStored, ...getProgressDetails(lessonsFromStored) } } })
+      void user.updateMetadata({ unsafeMetadata: { tintedProgress: { completedLessons: lessonsFromStored, ...getProgressDetails(lessonsFromStored) } } })
     }
-  }, [user?.id, user?.unsafeMetadata?.tintedProgress])
+  }, [isUserLoaded, user?.id, user?.unsafeMetadata?.tintedProgress])
 
   const saveProgress = useCallback((next: string[]) => {
     if (!user) return
-    void user.update({ unsafeMetadata: { ...user.unsafeMetadata, tintedProgress: { completedLessons: next, ...getProgressDetails(next) } } })
+    const uniqueNext = [...new Set(next)]
+    saveQueue.current = saveQueue.current.catch(() => undefined).then(async () => {
+      setIsSaving(true)
+      setSaveError('')
+      await user.updateMetadata({ unsafeMetadata: { tintedProgress: { completedLessons: uniqueNext, ...getProgressDetails(uniqueNext) } } })
+    }).catch(() => {
+      setSaveError('Your latest progress change could not be saved. Please try again.')
+    }).finally(() => {
+      setIsSaving(false)
+    })
   }, [user])
 
   const markLessonComplete = useCallback((lessonId: string) => {
@@ -79,6 +94,9 @@ export function useProgress(totalLessons: number) {
 
   return {
     completedLessons,
+    isLoaded,
+    isSaving,
+    saveError,
     ...getProgressDetails(completedLessons),
     markLessonComplete,
     setLessonComplete,

@@ -1,5 +1,6 @@
 import type { LessonContent } from '../types/curriculum'
 import { orientationLessonContent } from './orientationLessons'
+import { providerCloudLessonContent } from './providerCloudLessons'
 
 export const lessonContent: Record<string, LessonContent> = {
   'python-basics': {
@@ -701,6 +702,7 @@ Object.entries(lessonEnhancements).forEach(([lessonId, enhancement]) => {
 })
 
 Object.assign(lessonContent, orientationLessonContent)
+Object.assign(lessonContent, providerCloudLessonContent)
 
 const providerProjectReplacements: Record<string, Array<[string, string]>> = {
   'chatbot-openai': [
