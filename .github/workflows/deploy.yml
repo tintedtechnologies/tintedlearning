@@ -32,6 +32,7 @@ jobs:
       - name: Check Clerk configuration
         env:
           VITE_CLERK_PUBLISHABLE_KEY: ${{ secrets.VITE_CLERK_PUBLISHABLE_KEY }}
+          VITE_FEEDBACK_FORM_URL: ${{ secrets.VITE_FEEDBACK_FORM_URL }}
         run: |
           if [ -z "$VITE_CLERK_PUBLISHABLE_KEY" ]; then
             echo "Missing GitHub Actions secret: VITE_CLERK_PUBLISHABLE_KEY"
