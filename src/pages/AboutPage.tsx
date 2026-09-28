@@ -10,7 +10,7 @@ export function AboutPage() {
       <img src="/tintedlearninglogo.png" alt="Tinted Learning" className="h-40 w-40 rounded-[2.5rem] object-contain shadow-soft sm:h-52 sm:w-52" />
       <p className="mt-8 text-xs font-bold uppercase tracking-[0.24em] text-gold">A free way into AI</p>
       <h1 className="mt-5 max-w-3xl font-display text-5xl font-bold leading-tight sm:text-7xl">A stepping stone into the world of AI.</h1>
-      <p className="mt-6 max-w-2xl text-lg leading-8 text-white/75">Tinted Learning helps people build real AI understanding without needing a college degree, an expensive course, a technical network, or a login.</p>
+      <p className="mt-6 max-w-2xl text-lg leading-8 text-white/75">Tinted Learning helps people build real AI understanding without needing a college degree, an expensive course, or a technical network.</p>
       <div className="mt-9 grid w-full gap-3 text-left sm:grid-cols-3">{promises.map((promise) => <div key={promise} className="rounded-2xl border border-white/15 bg-white/10 p-4 text-sm leading-6 text-white/85"><CheckCircle2 className="mb-3 text-gold" size={19} />{promise}</div>)}</div>
       </div>
     </div>
