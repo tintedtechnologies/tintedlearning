@@ -63,7 +63,9 @@ The curriculum is organized into six stages:
    - Observability
 4. **Cloud Engineering**
    - Cloud fundamentals
-   - Azure, AWS, and Google Cloud tracks
+  - Azure track: overview, identity/resources, compute/storage, networking, operations/cost, and deployment
+  - AWS track: overview, accounts/IAM, compute/storage, networking, operations/cost, and deployment
+  - Google Cloud track: overview, resource hierarchy/IAM, compute/storage, networking, operations/cost, and deployment
    - IAM and security
    - Storage and compute
    - Networking

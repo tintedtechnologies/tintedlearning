@@ -1,6 +1,7 @@
 import type { CareerLevel, CurriculumModule, CurriculumStage, Lesson, LearningResource, PortfolioTrack } from '../types/curriculum'
 import { orientationLessons } from './orientationLessons'
 import { portfolioProjects } from './portfolioProjects'
+import { providerCloudLessons } from './providerCloudLessons'
 
 const supportingResources = {
   foundations: [
@@ -115,6 +116,7 @@ export const lessons: Lesson[] = [
   { id: 'capstone-agent', title: 'Project: Design a Tool-Using Agent', description: 'Build an agent with goals, tools, permissions, limits, and tests.', duration: 15, difficulty: 'Intermediate', category: 'Projects and Practice', order: 2 },
   { id: 'capstone-evaluation', title: 'Project: Evaluate an AI System', description: 'Create an evaluation plan that measures quality, safety, cost, and reliability.', duration: 15, difficulty: 'Intermediate', category: 'Projects and Practice', order: 3 },
   ...orientationLessons,
+  ...providerCloudLessons,
 ]
 
 const resource = (title: string, provider: string, description: string, url: string): LearningResource => ({ title, provider, description, url })
@@ -253,9 +255,9 @@ export const curriculumStages: CurriculumStage[] = [
     ],
     modules: [
       moduleWithLessons('cloud-fundamentals', 'Cloud fundamentals', 'Compare managed services, regions, availability zones, pricing, and operational responsibility.', lessonIds('cloud-fundamentals'), [...sourceMapResources.azure, ...sourceMapResources.aws, ...sourceMapResources.gcp]),
-      moduleWithLessons('azure-track', 'Azure track', 'Follow Azure services and labs from identity through deployment.', lessonIds('azure-track'), sourceMapResources.azure, 'azure'),
-      moduleWithLessons('aws-track', 'AWS track', 'Follow AWS services and labs from identity through deployment.', lessonIds('aws-track'), sourceMapResources.aws, 'aws'),
-      moduleWithLessons('gcp-track', 'GCP track', 'Follow Google Cloud services and labs from identity through deployment.', lessonIds('gcp-track'), sourceMapResources.gcp, 'gcp'),
+      moduleWithLessons('azure-track', 'Azure track', 'Learn Azure resource organization, identity, compute, storage, networking, operations, cost, and deployment.', lessonIds('azure-track', 'azure-identity-resources', 'azure-compute-storage', 'azure-networking', 'azure-operations-cost', 'azure-deployment'), sourceMapResources.azure, 'azure'),
+      moduleWithLessons('aws-track', 'AWS track', 'Learn AWS accounts, IAM, compute, storage, networking, operations, cost, and deployment.', lessonIds('aws-track', 'aws-identity-resources', 'aws-compute-storage', 'aws-networking', 'aws-operations-cost', 'aws-deployment'), sourceMapResources.aws, 'aws'),
+      moduleWithLessons('gcp-track', 'GCP track', 'Learn Google Cloud resource hierarchy, IAM, compute, storage, networking, operations, cost, and deployment.', lessonIds('gcp-track', 'gcp-identity-resources', 'gcp-compute-storage', 'gcp-networking', 'gcp-operations-cost', 'gcp-deployment'), sourceMapResources.gcp, 'gcp'),
       moduleWithLessons('iam-security', 'IAM and security', 'Control identities, permissions, secrets, network boundaries, and operational access.', lessonIds('iam-security'), sourceMapResources.security),
       moduleWithLessons('cloud-storage-compute', 'Storage and compute', 'Choose durable storage and compute shapes that match workload, scale, and cost.', lessonIds('cloud-storage-compute'), sourceMapResources.azure),
       moduleWithLessons('cloud-networking', 'Cloud networking', 'Design private connectivity, routing, gateways, service boundaries, and traffic flow.', lessonIds('cloud-networking'), sourceMapResources.web),

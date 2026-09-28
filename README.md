@@ -17,7 +17,7 @@ Tinted Learning teaches the essential mental model in the app, then points learn
 
 **v0.6.0**
 
-This release adds the complete source-map learning experience: 100 lessons across six stages, animated concept explanations, a 14-lesson Python path, an expanded browser playground, current cloud certification paths, updated AI security and governance guidance, and optional Clerk accounts for synced progress, stage tracking, dashboards, and portfolio direction.
+This release adds the complete source-map learning experience: 115 lessons across six stages, animated concept explanations, a 14-lesson Python path, full Azure, AWS, and Google Cloud provider tracks, an expanded browser playground, current cloud certification paths, updated AI security and governance guidance, and optional Clerk accounts for synced progress, stage tracking, dashboards, and portfolio direction.
 
 ## What This Is
 
@@ -84,7 +84,9 @@ The Python module does not require advanced mathematics. Learners need basic com
 ### 4. Cloud Engineering
 
 - Cloud fundamentals
-- Azure, AWS, and Google Cloud concepts
+- Azure: resource organization, identity, compute, storage, networking, operations, cost, and deployment
+- AWS: accounts, IAM, compute, storage, networking, operations, cost, and deployment
+- Google Cloud: resource hierarchy, IAM, compute, storage, networking, operations, cost, and deployment
 - IAM and security
 - Storage and compute
 - Cloud networking

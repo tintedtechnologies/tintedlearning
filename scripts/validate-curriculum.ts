@@ -47,6 +47,15 @@ for (const stage of curriculumStages) {
   if (orders.some((order) => !Number.isInteger(order) || order < 1)) failures.push(`Invalid lesson order in stage: ${stage.id}`)
 }
 
+for (const providerId of ['azure', 'aws', 'gcp'] as const) {
+  const providerModule = curriculumModules.find((module) => module.id === `${providerId}-track`)
+  if (!providerModule || providerModule.lessons.length !== 6) failures.push(`${providerId.toUpperCase()} track must contain six in-app lessons`)
+  for (const lesson of providerModule?.lessons ?? []) {
+    const resources = lessonContent[lesson.id]?.resources ?? []
+    if (resources.length < 2) failures.push(`Provider lesson must include at least two documentation links: ${lesson.id}`)
+  }
+}
+
 const curriculumLessonIds = curriculumStages.flatMap((stage) => stage.modules.flatMap((module) => module.lessons.map((lesson) => lesson.id)))
 for (const id of lessonIds) {
   if (!curriculumLessonIds.includes(id)) failures.push(`Lesson is not placed in a curriculum module: ${id}`)
