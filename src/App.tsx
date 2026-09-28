@@ -19,10 +19,12 @@ import { PortfolioPage } from './pages/PortfolioPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { TermsPage } from './pages/TermsPage'
 import { PrivacyPage } from './pages/PrivacyPage'
+import { GoogleAnalytics } from './components/common/GoogleAnalytics'
 
 export default function App() {
   return (
     <>
+      <GoogleAnalytics />
       <ScrollToTop />
     <Routes>
       <Route element={<AppLayout />}>

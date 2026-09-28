@@ -48,6 +48,7 @@ jobs:
         env:
           VITE_CLERK_PUBLISHABLE_KEY: ${{ secrets.VITE_CLERK_PUBLISHABLE_KEY }}
           VITE_FEEDBACK_FORM_URL: ${{ secrets.VITE_FEEDBACK_FORM_URL }}
+          VITE_GA_MEASUREMENT_ID: G-634VY4CC6J
           VITE_BASE_PATH: /
         run: npm run build
       - name: Upload artifact
