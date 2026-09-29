@@ -1,7 +1,7 @@
 import { curriculumModules } from './curriculum'
 import type { CurriculumModule } from '../types/curriculum'
 
-export type LearningGoal = 'explore-ai' | 'ai-developer' | 'ai-engineer' | 'cloud-engineer' | 'ai-architect'
+export type LearningGoal = 'explore-ai' | 'python-developer' | 'ai-mathematics' | 'technical-leadership' | 'ai-developer' | 'ai-engineer' | 'cloud-engineer' | 'ai-architect'
 export type ExperienceLevel = 'beginner' | 'some-coding' | 'working-developer'
 export type CloudProvider = 'undecided' | 'azure' | 'aws' | 'gcp'
 export type LearningObjective = 'career-change' | 'current-role' | 'certification' | 'build-project'
@@ -25,6 +25,9 @@ export interface LearningPlanProfile {
 
 export const goalOptions: { id: LearningGoal; title: string; description: string }[] = [
   { id: 'explore-ai', title: 'Explore AI', description: 'Build a practical foundation and discover which technical direction fits.' },
+  { id: 'python-developer', title: 'Python Developer', description: 'Build maintainable Python software with testing, APIs, data, and a portfolio project.' },
+  { id: 'ai-mathematics', title: 'AI Mathematics & Research', description: 'Build mathematical foundations for modeling, optimization, inference, and reproducible AI experiments.' },
+  { id: 'technical-leadership', title: 'Technical Leadership & Communication', description: 'Learn to understand customers, plan ambiguous work, communicate decisions, and build alignment.' },
   { id: 'ai-developer', title: 'AI Developer', description: 'Build dependable applications that use model APIs and local models.' },
   { id: 'ai-engineer', title: 'AI Engineer', description: 'Build retrieval, agent, evaluation, and observable AI systems.' },
   { id: 'cloud-engineer', title: 'Cloud Engineer for AI', description: 'Deploy and operate secure, repeatable cloud workloads for AI applications.' },
@@ -55,7 +58,7 @@ const foundations = ['ai-fundamentals', 'computing-math', 'python', 'git-github'
 const practicalFoundations = ['ai-fundamentals', 'python', 'git-github', 'linux-cli']
 const software = ['apis-rest', 'http-networking', 'databases-sql', 'data-structures', 'testing-debugging', 'docker']
 const aiEngineering = ['llms', 'prompting', 'structured-outputs', 'embeddings', 'vector-databases', 'rag', 'tool-calling', 'agents', 'evaluation', 'guardrails', 'observability']
-const cloudCore = ['cloud-fundamentals', 'iam-security', 'cloud-storage-compute', 'cloud-networking', 'containers-serverless', 'ci-cd', 'infrastructure-as-code']
+const cloudCore = ['cloud-fundamentals']
 const architecture = ['system-design', 'distributed-systems', 'scalability', 'reliability', 'security-governance', 'cost-optimization', 'architecture-patterns', 'enterprise-integration', 'architecture-decision-records']
 
 function startingModules(experience: ExperienceLevel) {
@@ -68,6 +71,11 @@ function providerModule(provider: CloudProvider) {
   return provider === 'undecided' ? [] : [`${provider}-track`]
 }
 
+function cloudTrackModules(provider: CloudProvider) {
+  const selectedProvider = providerModule(provider)
+  return selectedProvider.length ? selectedProvider : cloudCore
+}
+
 function projectModule(goal: LearningGoal) {
   if (goal === 'ai-engineer') return ['engineer-project']
   if (goal === 'ai-architect') return ['architecture-project']
@@ -75,9 +83,10 @@ function projectModule(goal: LearningGoal) {
 }
 
 function objectiveModules(profile: LearningPlanProfile) {
+  if (profile.goal === 'technical-leadership') return []
   if (profile.objective === 'career-change') return ['git-github', 'linux-cli', 'testing-debugging', ...projectModule(profile.goal)]
-  if (profile.objective === 'current-role') return ['observability', 'security-governance']
-  if (profile.objective === 'certification') return ['cloud-fundamentals', 'iam-security', ...providerModule(profile.provider)]
+  if (profile.objective === 'current-role') return profile.goal === 'cloud-engineer' ? [] : ['observability', 'security-governance']
+  if (profile.objective === 'certification') return profile.goal === 'cloud-engineer' || profile.goal === 'ai-architect' ? cloudTrackModules(profile.provider) : []
   return ['testing-debugging', 'docker', ...projectModule(profile.goal)]
 }
 
@@ -92,6 +101,24 @@ const evidenceByGoal: Record<LearningGoal, PlanEvidence[]> = {
     { id: 'project-readme', title: 'README with setup and technical decisions' },
     { id: 'automated-tests', title: 'Automated tests for important behavior' },
     { id: 'working-ai-app', title: 'Working API-backed or local AI application' },
+  ],
+  'python-developer': [
+    { id: 'python-repository', title: 'Public Python repository' },
+    { id: 'python-service', title: 'Working Python service or CLI application' },
+    { id: 'python-tests', title: 'Automated tests for important behavior' },
+    { id: 'python-design-notes', title: 'README with architecture and tradeoffs' },
+  ],
+  'ai-mathematics': [
+    { id: 'math-notebook', title: 'Reproducible math notebook or repository' },
+    { id: 'mathematical-derivation', title: 'Written derivation of a model or algorithm' },
+    { id: 'experiment-results', title: 'Experiment results with uncertainty and limitations' },
+    { id: 'research-presentation', title: 'Clear explanation of findings and assumptions' },
+  ],
+  'technical-leadership': [
+    { id: 'customer-discovery-brief', title: 'Customer discovery brief with evidence and open questions' },
+    { id: 'technical-decision-memo', title: 'Technical decision memo for mixed audiences' },
+    { id: 'delivery-plan', title: 'Milestone plan with risks, owners, and learning checkpoints' },
+    { id: 'feedback-reflection', title: 'Written feedback and conflict reflection' },
   ],
   'ai-engineer': [
     { id: 'rag-agent-repository', title: 'Tested RAG or agent repository' },
@@ -117,10 +144,13 @@ export function getLearningPlanModules(profile: LearningPlanProfile): Curriculum
   const starts = startingModules(profile.experience)
   const moduleIdsByGoal: Record<LearningGoal, string[]> = {
     'explore-ai': [...starts, 'llms', 'prompting', 'developer-project'],
+    'python-developer': ['python', ...software, 'developer-project'],
+    'ai-mathematics': ['ai-fundamentals', 'computing-math', 'python', 'data-structures', 'testing-debugging', 'math-project'],
+    'technical-leadership': ['customer-discovery', 'scope-and-requirements', 'value-and-business-cases', 'consultative-selling', 'solution-storytelling', 'commercial-practice', 'communication', 'planning-and-execution', 'collaboration-and-influence', 'leadership-systems', 'leadership-practicum'],
     'ai-developer': [...starts, ...software, 'llms', 'prompting', 'structured-outputs', 'developer-project'],
     'ai-engineer': [...starts, ...software, ...aiEngineering, 'engineer-project'],
-    'cloud-engineer': [...starts, ...software, ...cloudCore, ...providerModule(profile.provider), 'observability', 'reliability', 'security-governance', 'cost-optimization'],
-    'ai-architect': [...starts, ...software, ...aiEngineering, ...cloudCore, ...providerModule(profile.provider), ...architecture, 'architecture-project'],
+    'cloud-engineer': [...starts, ...software, ...cloudTrackModules(profile.provider)],
+    'ai-architect': [...starts, ...software, ...aiEngineering, ...cloudTrackModules(profile.provider), ...architecture, 'architecture-project'],
   }
   const selectedIds = new Set([...moduleIdsByGoal[profile.goal], ...objectiveModules(profile)])
   Object.entries(profile.modulePreferences ?? {}).forEach(([moduleId, preference]) => {

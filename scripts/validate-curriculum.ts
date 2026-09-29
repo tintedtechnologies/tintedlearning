@@ -1,6 +1,7 @@
 import { careerLevels, curriculumModules, curriculumStages, lessons, portfolioProjects, portfolioTracks } from '../src/data/curriculum'
 import { lessonContent } from '../src/data/lessonContent'
 import { lessonResources } from '../src/data/lessonResources'
+import { getLearningPlanModules } from '../src/data/learningPlans'
 
 const failures: string[] = []
 const lessonIds = lessons.map((lesson) => lesson.id)
@@ -47,13 +48,42 @@ for (const stage of curriculumStages) {
   if (orders.some((order) => !Number.isInteger(order) || order < 1)) failures.push(`Invalid lesson order in stage: ${stage.id}`)
 }
 
+const cloudStage = curriculumStages.find((stage) => stage.id === 'cloud-engineering')
+const expectedCloudModuleIds = ['cloud-fundamentals', 'azure-track', 'aws-track', 'gcp-track']
+if (!cloudStage || cloudStage.modules.map((module) => module.id).join(',') !== expectedCloudModuleIds.join(',')) failures.push('Cloud Engineering must contain Cloud Foundations followed by the Azure, AWS, and Google Cloud paths')
+const cloudFoundations = cloudStage?.modules.find((module) => module.id === 'cloud-fundamentals')
+if (!cloudFoundations || cloudFoundations.lessons.length !== 7) failures.push('Cloud Foundations must contain the seven portable cloud lessons')
+for (const legacyModuleId of ['iam-security', 'cloud-storage-compute', 'cloud-networking', 'containers-serverless', 'ci-cd', 'infrastructure-as-code']) {
+  if (cloudStage?.modules.some((module) => module.id === legacyModuleId)) failures.push(`Legacy generic cloud module must remain consolidated: ${legacyModuleId}`)
+}
+
 for (const providerId of ['azure', 'aws', 'gcp'] as const) {
   const providerModule = curriculumModules.find((module) => module.id === `${providerId}-track`)
-  if (!providerModule || providerModule.lessons.length !== 6) failures.push(`${providerId.toUpperCase()} track must contain six in-app lessons`)
+  if (!providerModule || providerModule.lessons.length !== 14) failures.push(`${providerId.toUpperCase()} path must contain fourteen in-app lessons`)
+  const expectedAdvancedLessons = ['governance-landing-zones', 'data-platforms', providerId === 'azure' ? 'containers-aks' : providerId === 'aws' ? 'containers-eks' : 'containers-gke', 'serverless-events', 'security-engineering', 'resilience-disaster-recovery', 'ai-ml-platforms', 'enterprise-capstone']
+  for (const lessonSuffix of expectedAdvancedLessons) {
+    if (!providerModule?.lessons.some((lesson) => lesson.id === `${providerId}-${lessonSuffix}`)) failures.push(`${providerId.toUpperCase()} path is missing advanced lesson: ${lessonSuffix}`)
+  }
+  const providerOrders = providerModule?.lessons.map((lesson) => lesson.order).sort((left, right) => left - right) ?? []
+  if (providerOrders.join(',') !== Array.from({ length: 14 }, (_, index) => index + 1).join(',')) failures.push(`${providerId.toUpperCase()} lessons must use unique order values 1 through 14`)
   for (const lesson of providerModule?.lessons ?? []) {
     const resources = lessonContent[lesson.id]?.resources ?? []
     if (resources.length < 2) failures.push(`Provider lesson must include at least two documentation links: ${lesson.id}`)
   }
+  const capstone = lessonContent[`${providerId}-enterprise-capstone`]?.project
+  if (!capstone || capstone.steps.length < 6 || (capstone.files?.length ?? 0) < 6 || !capstone.verification?.length) failures.push(`${providerId.toUpperCase()} path must include a complete enterprise architecture capstone`)
+
+  const certificationProvider = providerId === 'azure' ? 'Azure' : providerId === 'aws' ? 'AWS' : 'Google Cloud'
+  const providerCertifications = curriculumStages.find((stage) => stage.id === 'cloud-engineering')?.certifications?.filter((certification) => certification.provider === certificationProvider) ?? []
+  if (providerCertifications.length !== 3 || providerCertifications.map((certification) => certification.pathStep).join(',') !== '1,2,3') failures.push(`${providerId.toUpperCase()} path must include foundational, associate, and professional certifications`)
+  if (providerCertifications.some((certification) => !certification.url.startsWith('https://'))) failures.push(`${providerId.toUpperCase()} certifications must link to official HTTPS pages`)
+
+  const providerPlan = getLearningPlanModules({ version: 1, goal: 'cloud-engineer', experience: 'beginner', provider: providerId, objective: 'career-change', weeklyHours: 5 })
+  const cloudModuleIds = new Set(curriculumStages.find((stage) => stage.id === 'cloud-engineering')?.modules.map((module) => module.id) ?? [])
+  const architectureModuleIds = new Set(curriculumStages.find((stage) => stage.id === 'ai-architecture')?.modules.map((module) => module.id) ?? [])
+  const selectedCloudModules = providerPlan.filter((module) => cloudModuleIds.has(module.id)).map((module) => module.id)
+  if (selectedCloudModules.length !== 1 || selectedCloudModules[0] !== `${providerId}-track`) failures.push(`${providerId.toUpperCase()} Cloud Engineer plan must contain only its provider-specific cloud module`)
+  if (providerPlan.some((module) => architectureModuleIds.has(module.id))) failures.push(`${providerId.toUpperCase()} Cloud Engineer plan must not add generic AI Architecture modules`)
 }
 
 const curriculumLessonIds = curriculumStages.flatMap((stage) => stage.modules.flatMap((module) => module.lessons.map((lesson) => lesson.id)))

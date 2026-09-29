@@ -1,7 +1,7 @@
-import { ArrowUpRight, Check, Circle, ExternalLink, LockKeyhole } from 'lucide-react'
+import { ArrowUpRight, Check, ChevronDown, Circle, ExternalLink, LockKeyhole } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { getModuleProgress } from '../../data/curriculum'
-import type { CurriculumStage as CurriculumStageData } from '../../types/curriculum'
+import type { Certification, CurriculumModule, CurriculumStage as CurriculumStageData } from '../../types/curriculum'
 
 interface CurriculumStageProps {
   stage: CurriculumStageData
@@ -10,27 +10,53 @@ interface CurriculumStageProps {
   setLessonComplete: (lessonId: string, complete: boolean) => void
 }
 
+function ProviderCertificationPath({ module, certifications, completedLessonIds }: { module: CurriculumModule; certifications: Certification[]; completedLessonIds: string[] }) {
+  const providerName = certifications[0]?.provider
+  const completedLessons = module.lessons.filter((lesson) => completedLessonIds.includes(lesson.id)).length
+  const capstone = module.lessons.find((lesson) => lesson.id.endsWith('enterprise-capstone'))
+  const capstoneComplete = Boolean(capstone && completedLessonIds.includes(capstone.id))
+  const readiness = [
+    { complete: completedLessons === module.lessons.length, text: `Complete all ${module.lessons.length} ${providerName} lessons`, detail: `${completedLessons}/${module.lessons.length} complete` },
+    { complete: capstoneComplete, text: 'Finish the enterprise architecture capstone', detail: capstoneComplete ? 'Capstone complete' : 'Architecture evidence required' },
+    { complete: false, text: 'Build and operate workloads in your own sandbox', detail: 'Practice identity, networking, deployment, monitoring, recovery, and cleanup' },
+    { complete: false, text: 'Use the official exam guide and practice assessment', detail: 'Confirm the current skills measured on the provider page' },
+    { complete: false, text: 'Verify current exam details before booking', detail: 'Check version, prerequisites, price, language, delivery, and retirement notices' },
+  ]
+
+  return <section className="mt-6 border-t border-teal/10 pt-6" aria-labelledby={`${module.id}-certifications`}>
+    <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end"><div><p className="eyebrow">After this provider path</p><h4 id={`${module.id}-certifications`} className="mt-2 font-display text-2xl font-bold text-teal">{providerName} certification pathway</h4></div><p className="max-w-lg text-sm leading-6 text-muted">Use certification to validate hands-on skill, not replace it. The foundational credential is the entry point; associate and professional credentials require progressively deeper operating and architecture experience.</p></div>
+
+    <div className="mt-5 grid gap-5 lg:grid-cols-[0.8fr_1.2fr]">
+      <div className="rounded-2xl border border-line bg-cream/70 p-4"><p className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted">Before you book</p><div className="mt-3 space-y-3">{readiness.map((item) => <div key={item.text} className="flex items-start gap-3"><span className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${item.complete ? 'bg-teal text-white' : 'border border-line bg-white text-muted'}`}>{item.complete ? <Check size={13} /> : <Circle size={13} />}</span><span><span className="block text-sm font-bold text-ink">{item.text}</span><span className="mt-0.5 block text-xs leading-5 text-muted">{item.detail}</span></span></div>)}</div></div>
+      <div className="grid gap-3">{certifications.map((certification) => <a key={certification.title} href={certification.url} target="_blank" rel="noreferrer" className="group rounded-2xl border border-line bg-white p-4 transition-colors hover:border-teal/30 hover:bg-mist"><span className="flex items-start justify-between gap-3"><span><span className="block text-[10px] font-bold uppercase tracking-widest text-muted">Step {certification.pathStep} · {certification.level}</span><span className="mt-1 block font-bold text-teal">{certification.title}{certification.examCode && <span className="ml-2 text-xs font-medium text-muted">{certification.examCode}</span>}</span></span><ExternalLink size={15} className="shrink-0 text-teal" /></span><span className="mt-2 block text-sm leading-6 text-muted">{certification.description}</span>{certification.statusNote && <span className="mt-3 block border-t border-line pt-3 text-xs font-bold leading-5 text-teal">{certification.statusNote}</span>}</a>)}</div>
+    </div>
+    <p className="mt-4 rounded-xl bg-mist/70 px-4 py-3 text-xs leading-5 text-muted">Certification paths reviewed September 29, 2026. Providers can change exam versions, prerequisites, pricing, delivery options, and retirement dates. Always verify the official page before purchasing or scheduling an exam.</p>
+  </section>
+}
+
 export function CurriculumStage({ stage, completedLessonIds, isLessonComplete, setLessonComplete }: CurriculumStageProps) {
   const lessonCount = stage.modules.reduce((total, module) => total + module.lessons.length, 0)
   const completedCount = stage.modules.reduce((total, module) => total + getModuleProgress(module, completedLessonIds).completed, 0)
   const tone = stage.tone === 'teal' ? 'bg-mist' : stage.tone === 'gold' ? 'bg-sand' : 'bg-white'
 
   return (
-    <section id={stage.id} className={`scroll-mt-8 rounded-[2rem] border border-line p-5 shadow-soft sm:p-8 ${tone}`}>
-      <div className="flex flex-col justify-between gap-4 border-b border-teal/10 pb-6 sm:flex-row sm:items-end">
-        <div>
+    <details id={stage.id} className={`scroll-mt-8 rounded-[2rem] border border-line p-5 shadow-soft sm:p-8 ${tone}`}>
+      <summary className="group flex cursor-pointer list-none items-center justify-between gap-5 [&::-webkit-details-marker]:hidden">
+        <div className="min-w-0">
           <p className="eyebrow">{stage.eyebrow}</p>
           <h2 className="mt-2 font-display text-3xl font-bold text-teal sm:text-4xl">{stage.title}</h2>
-        </div>
-        <div className="max-w-md">
-          <p className="text-sm leading-6 text-muted">{stage.description}</p>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-muted">{stage.description}</p>
           <p className="mt-3 text-xs font-bold uppercase tracking-[0.16em] text-teal">{lessonCount ? `${completedCount} of ${lessonCount} lessons complete` : 'Source map and project work'}</p>
         </div>
-      </div>
+        <ChevronDown size={24} className="shrink-0 text-teal transition-transform group-open:rotate-180" aria-hidden="true" />
+      </summary>
 
-      <div className="mt-5 space-y-4">
+      <div className="mt-6 border-t border-teal/10 pt-5">
+      <div className="space-y-4">
         {stage.modules.map((module) => {
           const progress = getModuleProgress(module, completedLessonIds)
+          const certificationProvider = module.provider === 'azure' ? 'Azure' : module.provider === 'aws' ? 'AWS' : module.provider === 'gcp' ? 'Google Cloud' : undefined
+          const moduleCertifications = certificationProvider ? stage.certifications?.filter((certification) => certification.provider === certificationProvider) ?? [] : []
           return (
             <article id={module.id} key={module.id} className="scroll-mt-8 rounded-3xl border border-line/80 bg-white/75 p-5 sm:p-6">
               <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-start">
@@ -63,6 +89,7 @@ export function CurriculumStage({ stage, completedLessonIds, isLessonComplete, s
               {module.resources && module.lessons.length === 0 && <p className="mt-4 text-xs font-bold uppercase tracking-[0.16em] text-muted">Open this module to follow the recommended sources</p>}
 
               {stage.id === 'projects' && module.lessons[0] && <Link to={`/learn/${module.lessons[0].id}`} className="mt-4 inline-flex items-center text-sm font-bold text-teal hover:text-gold">Open project brief <ArrowUpRight size={16} className="ml-2" /></Link>}
+              {moduleCertifications.length > 0 && <ProviderCertificationPath module={module} certifications={moduleCertifications} completedLessonIds={completedLessonIds} />}
             </article>
           )
         })}
@@ -73,12 +100,7 @@ export function CurriculumStage({ stage, completedLessonIds, isLessonComplete, s
         <div className="rounded-2xl border border-teal/10 bg-white/80 p-4"><p className="eyebrow">You will build</p><p className="mt-2 text-sm leading-6 text-ink">{stage.learnerOutcome.build}</p></div>
         <div className="rounded-2xl border border-teal/10 bg-white/80 p-4"><p className="eyebrow">You can show</p><p className="mt-2 text-sm leading-6 text-ink">{stage.learnerOutcome.show}</p></div>
       </div>}
-
-      {stage.certifications && <section className="mt-6 rounded-3xl border border-teal/10 bg-white/80 p-5 sm:p-6" aria-labelledby={`${stage.id}-certifications`}>
-        <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-end"><div><p className="eyebrow">Next step after the path</p><h3 id={`${stage.id}-certifications`} className="mt-2 font-display text-2xl font-bold text-teal">Earn a cloud certification</h3></div><p className="max-w-md text-sm leading-6 text-muted">Choose one provider track, finish the foundational credential first, then continue to the associate exam when you have hands-on practice.</p></div>
-        <p className="mt-4 rounded-2xl bg-mist/70 px-4 py-3 text-xs leading-5 text-muted">Paths reviewed September 15, 2026. Exam versions, retirement dates, pricing, and eligibility can change—always confirm details on the official provider page before booking.</p>
-        <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3">{stage.certifications.map((certification) => <a key={certification.title} href={certification.url} target="_blank" rel="noreferrer" className="group rounded-2xl border border-line bg-cream/70 p-4 transition-colors hover:border-teal/30 hover:bg-mist"><span className="flex items-start justify-between gap-3"><span><span className="block text-[10px] font-bold uppercase tracking-widest text-muted">Step {certification.pathStep} · {certification.provider} · {certification.level}</span><span className="mt-2 block font-bold text-teal">{certification.title}{certification.examCode && <span className="ml-2 text-xs font-medium text-muted">{certification.examCode}</span>}</span></span><ExternalLink size={15} className="shrink-0 text-teal" /></span><span className="mt-2 block text-sm leading-6 text-muted">{certification.description}</span>{certification.statusNote && <span className="mt-3 block border-t border-line pt-3 text-xs font-bold leading-5 text-teal">{certification.statusNote}</span>}</a>)}</div>
-      </section>}
-    </section>
+      </div>
+    </details>
   )
 }

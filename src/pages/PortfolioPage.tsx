@@ -7,6 +7,9 @@ const projectByTrack: Record<string, keyof typeof portfolioProjects> = {
   'cloud-deployment': 'cloudDeployment',
   'cicd-deployment': 'cicdDeployment',
   'infrastructure-as-code-execution': 'infrastructureAsCode',
+  'ai-system-evaluation': 'aiSystemEvaluation',
+  'technical-leadership-portfolio': 'technicalLeadershipPortfolio',
+  'ai-mathematics-research': 'aiMathematicsResearchPortfolio',
 }
 
 export function PortfolioPage() {
