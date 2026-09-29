@@ -19,7 +19,7 @@ export interface PortfolioTrack {
   resources: LearningResource[]
   tone: 'teal' | 'gold' | 'neutral'
 }
-export type Difficulty = 'Beginner' | 'Intermediate'
+export type Difficulty = 'Beginner' | 'Intermediate' | 'Advanced'
 export type LessonCategory =
   | 'AI Foundations'
   | 'Math and Computing'
@@ -32,6 +32,7 @@ export type LessonCategory =
   | 'AI Architecture'
   | 'Build Chatbots'
   | 'AI Security'
+  | 'Professional Practice'
   | 'Projects and Practice'
 
 export interface Lesson {
@@ -99,7 +100,7 @@ export interface LearningResource {
   url: string
 }
 
-export type CurriculumStageId = 'foundation' | 'software-engineering' | 'ai-engineering' | 'cloud-engineering' | 'ai-architecture' | 'projects'
+export type CurriculumStageId = 'foundation' | 'software-engineering' | 'ai-engineering' | 'cloud-engineering' | 'ai-architecture' | 'professional-practice' | 'projects'
 
 export type CareerLevelId = 'start-here' | 'ai-developer' | 'ai-engineer' | 'ai-architect'
 

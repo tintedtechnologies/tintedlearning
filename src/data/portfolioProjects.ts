@@ -57,6 +57,81 @@ export const portfolioProjects: Record<string, GuidedProject> = {
     verification: ['terraform fmt, validate, and plan pass from a clean checkout.', 'The reviewed plan is the plan that gets applied.', 'The deployed service is visible through Terraform outputs.', 'State and credentials are protected and excluded from Git.', 'Destroy and recreation procedures are documented.'],
     nextSteps: ['Move state to a protected remote backend with locking.', 'Add policy checks and CI plan review.', 'Provision the CI/CD service identity with least privilege instead of using a personal account.'],
   },
+  aiSystemEvaluation: {
+    goal: 'Build a provider-neutral evaluation and observability harness for an AI feature. Define quality and safety expectations, compare a baseline with a changed version, inspect failures, and publish evidence about quality, cost, latency, and limitations.',
+    prerequisites: ['Python basics, JSON, testing, APIs, evaluation, guardrails, and observability.', 'A small AI feature, retrieval workflow, or deterministic mock that can produce repeatable responses.', 'Synthetic or permissioned evaluation cases with no private user data.'],
+    setup: ['Create a public repository named ai-system-evaluation.', 'Choose a bounded task such as support-answer drafting, document retrieval, structured extraction, or tool selection.', 'Create the files listed below and document the model/provider version or deterministic test double.', 'Keep API keys outside the repository and provide a local mock path so reviewers can run the harness without paid credentials.'],
+    files: [
+      { path: 'eval_cases.jsonl', purpose: 'Representative normal, difficult, ambiguous, adversarial, and refusal cases.' },
+      { path: 'rubric.md', purpose: 'Scoring criteria for correctness, relevance, safety, format, and citation or tool behavior.' },
+      { path: 'evaluator.py', purpose: 'Repeatable runner that records scores, latency, cost estimate, and failure categories.' },
+      { path: 'results/', purpose: 'Versioned outputs, summaries, and selected failure examples.' },
+      { path: 'threat-model.md', purpose: 'Assets, trust boundaries, abuse cases, mitigations, and residual risks.' },
+      { path: 'README.md', purpose: 'Architecture, setup, evaluation method, results, limitations, and reproduction commands.' },
+    ],
+    platformNotes: ['Use deterministic checks for properties that can be checked deterministically; treat model graders as one signal that must be calibrated.', 'Never publish prompts, traces, or outputs containing personal, confidential, or customer data.', 'Record model name, provider, system instructions, retrieval corpus version, evaluator version, and date for every comparison.', 'A high average score is not enough. Show failures by category and explain which risks remain unresolved.'],
+    dependencies: ['python -m pip install pytest pydantic', 'Optional provider SDK or local model server, isolated behind an adapter.'],
+    steps: [
+      { title: 'Define the task and rubric', instructions: ['Write the user, task, allowed behavior, refusal behavior, and important failure modes.', 'Create at least 30 cases across normal, edge, ambiguous, adversarial, and out-of-scope inputs.', 'Define a rubric with observable criteria and examples of pass, partial, and fail.'], checkpoint: 'A reviewer can tell what the system is supposed to do and what counts as a serious failure.' },
+      { title: 'Build a baseline', instructions: ['Implement a simple baseline such as a keyword rule, retrieval-only answer, fixed schema, or small model.', 'Keep the provider call behind an adapter so the evaluator can use a local mock.', 'Run the baseline against the same cases that will evaluate future versions.'], checkpoint: 'The baseline produces a versioned result file with one record per case.' },
+      { title: 'Measure quality and operations', instructions: ['Record rubric scores, latency, token or request usage when available, estimated cost, and errors.', 'Add deterministic checks for required fields, citations, forbidden claims, permissions, and tool arguments.', 'Store evaluator and case-set versions next to the results.'], commands: ['python evaluator.py --version baseline', 'pytest -q'], checkpoint: 'The same command can regenerate the summary and identify the cases behind the aggregate score.' },
+      { title: 'Red-team and inspect failures', instructions: ['Add prompt injection, sensitive-data, unsafe-action, tool misuse, and context-confusion cases appropriate to the feature.', 'Group failures by cause and severity.', 'For each high-severity failure, document a mitigation, residual risk, and owner.'], checkpoint: 'The report shows at least one failure that changed the design or evaluation set.' },
+      { title: 'Compare and publish', instructions: ['Run the changed version against the unchanged case set.', 'Compare quality, safety, latency, cost, and failure categories rather than only one score.', 'Publish the README, rubric, representative redacted results, threat model, and limitations.'], commands: ['python evaluator.py --version candidate', 'git diff -- results/'], checkpoint: 'A reviewer can reproduce the comparison and decide whether the candidate is an improvement for the intended use.' },
+    ],
+    verification: ['A clean checkout runs the evaluator with a local mock or documented provider setup.', 'The case set includes normal, edge, adversarial, and refusal behavior.', 'Results record quality, safety, latency, cost, and evaluator versions.', 'High-severity failures have mitigations and residual-risk owners.', 'The portfolio explains what the evaluation cannot prove and how it will evolve.'],
+    nextSteps: ['Add traces from a staging environment with privacy filtering.', 'Run regression checks in CI for every prompt, model, retrieval, or tool change.', 'Compare a second provider or local model while keeping the task and case set fixed.'],
+  },
+  technicalLeadershipPortfolio: {
+    goal: 'Lead a bounded initiative from customer evidence to a clear scope, value case, decision, delivery plan, and reflective portfolio. The project may be real, simulated, or based on a public case study, but it must preserve evidence and make every commitment inspectable.',
+    prerequisites: ['Complete the Technical Leadership & Communication stage or equivalent senior project experience.', 'A real or simulated problem with at least three stakeholder perspectives.', 'A reviewer who can challenge your assumptions and communication.'],
+    setup: ['Create a public repository named technical-leadership-portfolio.', 'Use fictional, public, or fully anonymized information. Do not publish confidential customer data.', 'Create the files listed below and keep a dated decision log as the project changes.', 'Choose a problem small enough to investigate in two to four weeks but ambiguous enough to require judgment.'],
+    files: [
+      { path: 'README.md', purpose: 'Executive summary, context, outcome, links to artifacts, and what changed after feedback.' },
+      { path: 'discovery.md', purpose: 'Conversation plan, anonymized evidence, observations, open questions, and stakeholder map.' },
+      { path: 'scope-of-work.md', purpose: 'Outcome, deliverables, exclusions, assumptions, milestones, acceptance criteria, and change process.' },
+      { path: 'business-case.md', purpose: 'Baseline, value hypothesis, costs, risks, alternatives, sensitivity, and pilot recommendation.' },
+      { path: 'decision-memo.md', purpose: 'Decision, audience-specific summary, options, recommendation, owner, and review trigger.' },
+      { path: 'delivery-plan.md', purpose: 'Risk-first milestones, dependencies, owners, confidence ranges, and evidence checkpoints.' },
+      { path: 'demo-script.md', purpose: 'Customer-centered demo narrative, proof points, limits, and next-step request.' },
+      { path: 'negotiation-log.md', purpose: 'Requests, interests, constraints, trades, agreements, and unresolved items.' },
+      { path: 'reflection.md', purpose: 'Feedback, changed assumptions, outcomes, conflict, ethical boundaries, and next practice.' },
+    ],
+    platformNotes: ['This is a leadership evidence project, not a fictional sales pitch. Label assumptions and simulated data clearly.', 'A reviewer should be able to distinguish what you observed, what you inferred, what you promised, and what remains unknown.', 'Do not claim customer revenue, savings, adoption, or approval unless you have permission and evidence to support it.'],
+    dependencies: ['No software dependency is required.', 'Optional: a diagram tool, spreadsheet, or static site for presenting the portfolio.'],
+    steps: [
+      { title: 'Choose and frame the initiative', instructions: ['Write the desired outcome, users, non-goals, constraints, decision owner, and time boundary in README.md.', 'Choose a problem where a solution is not obvious and where multiple people experience different consequences.', 'Write three assumptions that could invalidate the initiative.'], checkpoint: 'A reader can explain the problem and why it matters without seeing a proposed feature.' },
+      { title: 'Conduct discovery', instructions: ['Prepare neutral questions about recent behavior, workarounds, cost, risk, and decision process.', 'Collect at least three stakeholder perspectives or use three clearly labeled public case sources.', 'Separate direct evidence, interpretation, and open questions in discovery.md.', 'Map the user, buyer, operator, approver, and person affected by failure.'], checkpoint: 'The discovery record contains evidence that could disconfirm your initial framing.' },
+      { title: 'Write scope and value', instructions: ['Define deliverables, exclusions, assumptions, dependencies, milestones, and acceptance criteria.', 'Build a value hypothesis from baseline, intervention, behavior change, outcome, and cost.', 'Show at least two alternatives and a sensitivity check for the most important assumption.'], checkpoint: 'A reviewer can identify what is promised, what is not promised, how value will be measured, and what could change the recommendation.' },
+      { title: 'Make and communicate the decision', instructions: ['Write a decision memo for a mixed technical and non-technical audience.', 'Create a five-minute demo script that shows the before, after, evidence, limit, and next decision.', 'Ask your reviewer to challenge scope, value, risk, and ethical boundaries. Record the response.'], checkpoint: 'The memo makes a specific decision request and the demo does not hide uncertainty or unsupported capability.' },
+      { title: 'Plan, negotiate, and reflect', instructions: ['Create a risk-first delivery plan with owners, dependencies, confidence ranges, and review triggers.', 'Record one negotiation where scope, timing, quality, price, or support was traded explicitly.', 'Write a final reflection describing what changed, what you would stop, and how your communication affected the work.'], checkpoint: 'The portfolio shows judgment over time rather than a polished answer created after the fact.' },
+    ],
+    verification: ['A public repository contains all core artifacts and a clear executive summary.', 'At least three stakeholder perspectives are represented without exposing private information.', 'Scope includes deliverables, exclusions, assumptions, acceptance criteria, and change control.', 'The business case includes baseline, value, cost, risk, alternatives, and sensitivity.', 'The portfolio records feedback, a changed assumption or plan, and a concrete next practice.'],
+    nextSteps: ['Ask a senior practitioner to review the portfolio against the evidence checklist.', 'Turn the initiative into a real pilot only with explicit authorization and data protections.', 'Create a second version for a different audience, such as an executive one-pager or customer-facing proposal.'],
+  },
+  aiMathematicsResearchPortfolio: {
+    goal: 'Complete a reproducible mathematical investigation connected to AI. Formulate a question, derive the method, implement a baseline, run controlled experiments, quantify uncertainty or sensitivity, and publish the evidence with honest limitations.',
+    prerequisites: ['Complete probability, statistics, linear algebra, calculus, optimization, Python, and experiment design lessons.', 'Python 3.12 or newer and a Git repository.', 'A mathematical question that can be answered with simulated or public data.'],
+    setup: ['Create a public repository named ai-mathematics-research.', 'Create src/, tests/, reports/, and notebooks/ or experiments/ directories.', 'Create a pyproject.toml or requirements.txt with pinned dependencies.', 'Choose a random seed and record the Python, NumPy, SciPy, and plotting-library versions.', 'Use synthetic or public data and document its source and license.'],
+    files: [
+      { path: 'README.md', purpose: 'Research question, result summary, reproduction commands, and limitations.' },
+      { path: 'proposal.md', purpose: 'Hypothesis, variables, assumptions, baseline, evaluation measure, and planned experiments.' },
+      { path: 'src/', purpose: 'Reusable implementation of the mathematical method with clear inputs and outputs.' },
+      { path: 'tests/', purpose: 'Known-case, shape, boundary, and numerical-stability tests.' },
+      { path: 'experiments/', purpose: 'Versioned scripts or configurations that generate results from clean inputs.' },
+      { path: 'reports/results.md', purpose: 'Derivation, tables, plots, uncertainty, failure analysis, and conclusion.' },
+    ],
+    platformNotes: ['A notebook is useful for exploration, but the final result must be runnable from scripts or documented notebook cells in a clean environment.', 'Do not present a single attractive plot as proof. Include a baseline, repeated trials where randomness matters, and cases where the method performs poorly.', 'Distinguish mathematical error, implementation error, measurement noise, and model mismatch.'],
+    dependencies: ['python -m pip install numpy scipy matplotlib pandas pytest', 'python -m pip install -e .'],
+    steps: [
+      { title: 'Write the research proposal', instructions: ['Choose one bounded question, such as optimizer convergence, estimator behavior under noise, matrix conditioning, or representation quality.', 'Define every variable, unit, assumption, baseline, metric, and failure case.', 'State what result would support, weaken, or falsify your hypothesis.'], checkpoint: 'A reviewer can tell what claim will be tested and what evidence would change your mind.' },
+      { title: 'Derive and test the method', instructions: ['Explain the key equation or algorithm in reports/results.md.', 'Implement the method in src/ with small functions and explicit shape or domain checks.', 'Add a known-case test and at least one boundary or numerical-stability test.'], commands: ['python -m pytest'], checkpoint: 'The implementation agrees with a hand-worked case, analytic solution, or documented reference before the main experiment runs.' },
+      { title: 'Run controlled experiments', instructions: ['Change one important variable at a time and keep the baseline visible.', 'Record seed, parameters, runtime, error, convergence behavior, and output.', 'Repeat trials when sampling or initialization creates meaningful variation.'], commands: ['python experiments/run_baseline.py', 'python experiments/run_sensitivity.py'], checkpoint: 'A clean run recreates the results table without manual notebook state.' },
+      { title: 'Analyze uncertainty and failure', instructions: ['Report intervals, variance, sensitivity, residuals, or another appropriate uncertainty measure.', 'Inspect cases where the method fails or becomes unstable.', 'Compare the observed behavior with the assumptions made in the proposal.'], checkpoint: 'The report explains where the result is reliable, where it is fragile, and why.' },
+      { title: 'Publish the research artifact', instructions: ['Add reproduction commands, environment versions, data provenance, and a limitations section to README.md.', 'Include the derivation, code, tests, results, and one follow-up experiment.', 'Ask a reviewer to challenge the conclusion and record what you changed.'], checkpoint: 'Another person can reproduce the main result and understand what it does not prove.' },
+    ],
+    verification: ['A clean checkout installs dependencies and reruns the main result.', 'The derivation, code, and results use consistent variables and assumptions.', 'Tests cover a known case and a numerical edge case.', 'Results include uncertainty, sensitivity, or error analysis.', 'The report distinguishes evidence from interpretation and includes limitations.'],
+    nextSteps: ['Compare the method with a stronger or simpler baseline.', 'Present the work in a ten-minute technical talk.', 'Connect the mathematical result to an AI system only after the underlying behavior is understood.'],
+  },
 }
 
 const cloudProject = portfolioProjects.cloudDeployment
@@ -164,9 +239,9 @@ jobs:
         with:
           service: portfolio-demo
           source: .
-            region: \${{ vars.GCP_REGION }}
-            project_id: \${{ vars.GCP_PROJECT_ID }}
-          - run: echo "Deployed URL: \${{ steps.deploy.outputs.url }}"`
+          region: \${{ vars.GCP_REGION }}
+          project_id: \${{ vars.GCP_PROJECT_ID }}
+      - run: echo "Deployed URL: \${{ steps.deploy.outputs.url }}"`
 
 const terraformProject = portfolioProjects.infrastructureAsCode
 terraformProject.steps[0].code = `terraform {

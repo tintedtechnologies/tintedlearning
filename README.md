@@ -1,52 +1,41 @@
 # Tinted Learning
 
-## Local development
-
-Copy `.env.example` to `.env.local`, replace the Clerk placeholder with your Clerk publishable key, and then run `npm run dev`.
-# Tinted Learning
-
 Tinted Learning is a free, beginner-friendly source map for becoming an AI Developer, AI Engineer, or AI Architect.
 
 The goal is practical understanding:
 
 > Build the system. Explain the decisions.
-
 Tinted Learning teaches the essential mental model in the app, then points learners to trusted free resources for deeper study and practice.
 
 ## Current Release
 
-**v0.6.0**
+**v0.8.0**
 
-This release adds the complete source-map learning experience: 115 lessons across six stages, animated concept explanations, a 14-lesson Python path, full Azure, AWS, and Google Cloud provider tracks, an expanded browser playground, current cloud certification paths, updated AI security and governance guidance, and optional Clerk accounts for synced progress, stage tracking, dashboards, and portfolio direction.
+This release adds the expanded source-map learning experience: 163 lessons across seven stages, advanced Python and AI Mathematics & Research paths, a standalone Technical Leadership & Communication stage, animated concept explanations, 14-lesson Azure, AWS, and Google Cloud provider paths with enterprise architecture capstones, an expanded browser playground, current cloud certification paths, updated AI security and governance guidance, foldable curriculum stages, and optional Clerk accounts for synced progress, stage tracking, dashboards, and portfolio direction.
 
 ## What This Is
 
 Tinted Learning is:
-
 - A guided map through the foundations of modern AI engineering
 - A beginner-friendly explanation layer over high-quality free resources
 - A place to practice concepts with code, math, quizzes, and project checkpoints
-- A portfolio-oriented path from first principles to architecture decisions
 - A no-login learning tool that works locally in the browser
 
 Tinted Learning is not:
-
 - A replacement for a university degree or a complete computer-science program
 - A guarantee of employment or professional certification
 - A hosted cloud lab that pays for learner infrastructure
-- A substitute for reviewing real production systems with experienced engineers
 
 ## No Account Required
 
 Learners do not need to create an account.
-
 Lesson completion is stored locally in the browser using `localStorage`. The app does not require a backend for curriculum progress, and clearing browser storage or using another browser will remove or reset that local progress.
 
 Cloud projects use the learner's own provider accounts. They may require billing-enabled accounts and can create charges. Learners should use dedicated projects, budget alerts, least-privilege identities, and cleanup commands.
 
 ## The Learning Path
 
-The curriculum has six stages.
+The curriculum has seven stages.
 
 ### 1. Foundation
 
@@ -83,18 +72,14 @@ The Python module does not require advanced mathematics. Learners need basic com
 
 ### 4. Cloud Engineering
 
-- Cloud fundamentals
-- Azure: resource organization, identity, compute, storage, networking, operations, cost, and deployment
-- AWS: accounts, IAM, compute, storage, networking, operations, cost, and deployment
-- Google Cloud: resource hierarchy, IAM, compute, storage, networking, operations, cost, and deployment
-- IAM and security
-- Storage and compute
-- Cloud networking
-- Containers and serverless
-- CI/CD
-- Infrastructure as code
+- Cloud Foundations: shared responsibility, IAM, compute, storage, networking, containers, serverless, CI/CD, and infrastructure as code
+- Azure: 14 lessons from resource organization and identity through governance, data, AKS, security, resilience, AI platforms, and enterprise architecture
+- AWS: 14 lessons from accounts and IAM through governance, data, ECS/EKS, security, resilience, AI platforms, and enterprise architecture
+- Google Cloud: 14 lessons from resource hierarchy and IAM through governance, data, GKE, security, resilience, AI platforms, and enterprise architecture
 
 The complete executable portfolio deployment path is currently Google Cloud-first. Azure Container Apps and AWS ECS Express Mode are linked as current provider comparison and extension paths.
+
+Each 14-lesson provider path ends with a certification readiness checklist and official foundational, associate, and professional credential links. Always confirm current exam versions, prerequisites, pricing, delivery options, and retirement notices on the provider page before booking.
 
 ### 5. AI Architecture
 
@@ -108,7 +93,21 @@ The complete executable portfolio deployment path is currently Google Cloud-firs
 - Enterprise integration
 - Architecture decision records
 
-### 6. Projects
+### 6. Technical Leadership & Communication
+
+- Customer discovery and stakeholder requirements
+- Scope of work and proposals
+- Value propositions and business cases
+- Consultative selling and solution demos
+- Commercial negotiation and procurement
+- Executive writing and presentations
+- Planning, prioritization, feedback, and conflict resolution
+- Mentoring, delegation, coaching, and organizational systems
+- Professional leadership practicum
+
+This stage does not require programming. It produces customer briefs, scopes, business cases, decision memos, delivery plans, demo scripts, negotiation records, and leadership reflections.
+
+### 7. Projects
 
 Projects are the evidence stage, not another lecture catalog. Learners should leave projects with working code, tests, documentation, diagrams, deployment evidence, and explicit tradeoffs.
 
@@ -157,7 +156,10 @@ Available tracks include:
 - **Publish your engineering portfolio**: GitHub repository and GitHub Pages site
 - **Deploy a real AI application**: local service to Google Cloud Run
 - **Automate CI/CD deployment**: tests, identity federation, deployment, and rollback evidence
+- **Evaluate and operate an AI system**: quality, safety, latency, cost, red-team, and failure evidence
 - **Execute infrastructure as code**: Terraform plan, apply, outputs, destroy, and state safety
+- **Build a technical leadership portfolio**: discovery, scope, business case, communication, negotiation, and reflection
+- **Publish an AI mathematics investigation**: derivation, tested implementation, reproducible experiments, and uncertainty analysis
 
 The portfolio should answer:
 
@@ -246,7 +248,7 @@ src/
 		lessonContent.ts     Lesson explanations, examples, quizzes, and projects
 		lessonResources.ts   Topic-specific free resources
 		orientationLessons.ts Software, cloud, and architecture orientation lessons
-		portfolioProjects.ts Cloud, CI/CD, and infrastructure walkthroughs
+		portfolioProjects.ts Cloud, AI evaluation, leadership, and mathematics walkthroughs
 	hooks/
 		useProgress.ts       Local browser progress storage
 	pages/                 Route-level experiences
@@ -259,12 +261,28 @@ scripts/
 
 ### v1.0: Useful source map
 
+The current 0.8 release has the curriculum and portfolio breadth for v1. The remaining work is browser verification, onboarding, accessibility, responsive polish, and making project guidance clear inside the hosted site.
+
+### v1 status
+
+| Area | Status | What is true today |
+| --- | --- | --- |
+| Curriculum breadth | Complete | 163 lessons across seven stages, including Python, AI Mathematics & Research, and Technical Leadership & Communication. |
+| Portfolio breadth | Complete | Seven portfolio tracks cover publishing, cloud deployment, CI/CD, AI evaluation, infrastructure, leadership, and mathematics. |
+| Project evidence | Complete | Projects define deliverables, proof points, setup, steps, checkpoints, verification, and next steps. |
+| Path selection | In progress | Learning plans support Explore AI, Python Developer, AI Mathematics & Research, Technical Leadership, AI Developer, AI Engineer, Cloud Engineer, and AI Architect. |
+| First-time onboarding | Next | Add a browser-first welcome flow that helps a learner choose a path and take the first action. |
+| Browser QA | Next | Add smoke checks for navigation, stage folding, learning plans, portfolio routes, and project interactions. |
+| Mobile and accessibility | Next | Review keyboard flow, focus states, contrast, screen-reader labels, and narrow-screen layouts. |
+| Content freshness | Ongoing | Review provider links, certification references, SDK examples, and current AI safety guidance. |
+
 - Keep every lesson mapped to one authoritative stage and module
 - Keep every lesson backed by topic-specific resources
 - Keep prerequisites visible and accurate
 - Keep progress local and account-free
-- Keep project steps and checkpoints understandable from a clean directory
+- Keep project steps and checkpoints understandable inside the hosted site
 - Keep provider links current and labeled honestly
+- Keep the 163-lesson, seven-stage curriculum validated before release
 
 ### v1.1: Stronger beginner experience
 
@@ -272,15 +290,17 @@ scripts/
 - Show a recommended next lesson and estimated weekly pace
 - Add clearer “required” versus “optional” resource labels
 - Add troubleshooting guidance for common setup failures
-- Add runnable starter repositories for the primary projects
+- Add clear in-site project difficulty, time, cost, and setup summaries
+- Add a visible project difficulty, time estimate, and required-cost warning before setup
 
 ### v1.2: Evidence-based projects
 
 - Add complete cloud walkthroughs for the selected primary provider
 - Add smoke-test scripts for deployed services
 - Add deployment evidence templates
-- Add CI checks for project repositories
+- Add browser verification for project routes and interactive controls
 - Add architecture review and portfolio submission checklists
+- Add AI evaluation, technical leadership, and mathematics project templates to the portfolio publishing flow
 
 ### v1.3: Multi-provider depth
 
@@ -289,6 +309,15 @@ scripts/
 - Add provider-specific IAM and identity labs
 - Add provider-specific Terraform execution paths
 - Compare cost, networking, identity, and operations across providers
+
+### Immediate next steps before v1
+
+1. Add a first-time browser onboarding flow with clear path choices and a recommended first lesson.
+2. Add project metadata for difficulty, expected time, cost, account requirements, and setup needs.
+3. Add browser smoke tests for navigation, stage folding, learning plans, portfolio routes, and project controls.
+4. Review mobile layout, keyboard navigation, focus states, contrast, and screen-reader behavior.
+5. Audit external links and dated provider guidance before the v1 release.
+6. Run an external review with beginner, developer, and senior technical readers, then resolve the highest-friction findings.
 
 ### Later
 
@@ -312,6 +341,8 @@ Tinted Learning v1 is successful when a new learner can:
 8. Explain the system's architecture and tradeoffs.
 9. Produce a portfolio page with working links and evidence.
 10. Understand which skills still require real-world practice or review.
+11. Choose a path that matches their goal, including Python development, AI mathematics, or technical leadership.
+12. Complete a portfolio project with visible evidence, limitations, and a clear next step from the hosted site.
 
 ## Contribution
 

@@ -62,17 +62,11 @@ The curriculum is organized into six stages:
    - Guardrails
    - Observability
 4. **Cloud Engineering**
-   - Cloud fundamentals
-  - Azure track: overview, identity/resources, compute/storage, networking, operations/cost, and deployment
-  - AWS track: overview, accounts/IAM, compute/storage, networking, operations/cost, and deployment
-  - Google Cloud track: overview, resource hierarchy/IAM, compute/storage, networking, operations/cost, and deployment
-   - IAM and security
-   - Storage and compute
-   - Networking
-   - Containers and serverless
-   - CI/CD
-   - Infrastructure as code
-   - Certification pathways
+  - Cloud Foundations: seven portable lessons covering IAM, compute, storage, networking, containers, serverless, CI/CD, and infrastructure as code
+  - Azure path: 14 lessons including governance, data platforms, AKS, serverless, security, resilience, AI, and an enterprise capstone
+  - AWS path: 14 lessons including governance, data platforms, ECS/EKS, serverless, security, resilience, AI, and an enterprise capstone
+  - Google Cloud path: 14 lessons including governance, data platforms, GKE, serverless, security, resilience, AI, and an enterprise capstone
+  - Provider certification pathways with readiness checklists and official foundational, associate, and professional credential links
 5. **AI Architecture**
    - System design
    - Distributed systems
@@ -141,6 +135,5 @@ Each milestone contains:
 1. Add a persistent “Continue learning” card to the home page.
 2. Add completion states for exercises, quizzes, projects, and portfolio artifacts.
 3. Add a project checkpoint to every major stage.
-4. Add a certification preparation checklist for each provider path.
-5. Add a searchable curriculum index for experienced learners.
-6. Add a clear progress dashboard showing lessons, exercises, projects, and evidence separately.
+4. Add a searchable curriculum index for experienced learners.
+5. Add a clear progress dashboard showing lessons, exercises, projects, and evidence separately.
