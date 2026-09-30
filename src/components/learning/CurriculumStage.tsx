@@ -1,6 +1,8 @@
 import { ArrowUpRight, Check, ChevronDown, Circle, ExternalLink, LockKeyhole } from 'lucide-react'
+import { Show } from '@clerk/react'
 import { Link } from 'react-router-dom'
 import { getModuleProgress } from '../../data/curriculum'
+import { StageBadge } from './StageBadge'
 import type { Certification, CurriculumModule, CurriculumStage as CurriculumStageData } from '../../types/curriculum'
 
 interface CurriculumStageProps {
@@ -8,6 +10,7 @@ interface CurriculumStageProps {
   completedLessonIds: string[]
   isLessonComplete: (lessonId: string) => boolean
   setLessonComplete: (lessonId: string, complete: boolean) => void
+  isStageAssessmentPassed: (stageId: string) => boolean
 }
 
 function ProviderCertificationPath({ module, certifications, completedLessonIds }: { module: CurriculumModule; certifications: Certification[]; completedLessonIds: string[] }) {
@@ -34,9 +37,11 @@ function ProviderCertificationPath({ module, certifications, completedLessonIds 
   </section>
 }
 
-export function CurriculumStage({ stage, completedLessonIds, isLessonComplete, setLessonComplete }: CurriculumStageProps) {
+export function CurriculumStage({ stage, completedLessonIds, isLessonComplete, setLessonComplete, isStageAssessmentPassed }: CurriculumStageProps) {
   const lessonCount = stage.modules.reduce((total, module) => total + module.lessons.length, 0)
   const completedCount = stage.modules.reduce((total, module) => total + getModuleProgress(module, completedLessonIds).completed, 0)
+  const stageComplete = lessonCount > 0 && completedCount === lessonCount
+  const badgeEarned = stage.id !== 'projects' && stageComplete && (!stage.assessment || isStageAssessmentPassed(stage.id))
   const tone = stage.tone === 'teal' ? 'bg-mist' : stage.tone === 'gold' ? 'bg-sand' : 'bg-white'
 
   return (
@@ -47,6 +52,7 @@ export function CurriculumStage({ stage, completedLessonIds, isLessonComplete, s
           <h2 className="mt-2 font-display text-3xl font-bold text-teal sm:text-4xl">{stage.title}</h2>
           <p className="mt-3 max-w-3xl text-sm leading-6 !text-ink">{stage.description}</p>
           <p className="mt-3 text-xs font-bold uppercase tracking-[0.16em] text-teal">{lessonCount ? `${completedCount} of ${lessonCount} lessons complete` : 'Source map and project work'}</p>
+          {badgeEarned && <Show when="signed-in"><div className="mt-4"><StageBadge stageTitle={stage.title} /></div></Show>}
         </div>
         <ChevronDown size={24} className="shrink-0 text-teal transition-transform group-open:rotate-180" aria-hidden="true" />
       </summary>
@@ -100,6 +106,7 @@ export function CurriculumStage({ stage, completedLessonIds, isLessonComplete, s
         <div className="rounded-2xl border border-teal/10 bg-white/80 p-4"><p className="eyebrow">You will build</p><p className="mt-2 text-sm leading-6 text-ink">{stage.learnerOutcome.build}</p></div>
         <div className="rounded-2xl border border-teal/10 bg-white/80 p-4"><p className="eyebrow">You can show</p><p className="mt-2 text-sm leading-6 text-ink">{stage.learnerOutcome.show}</p></div>
       </div>}
+      {stage.assessment && <div className="mt-8 flex flex-col justify-between gap-4 rounded-3xl border border-teal/15 bg-white p-5 sm:flex-row sm:items-center sm:p-6"><div><p className="eyebrow">End-of-stage assessment</p><h3 className="mt-2 font-display text-2xl font-bold text-teal">{stage.assessment.title}</h3><p className="mt-2 text-sm leading-6 text-muted">Test the full stage in a dedicated assessment view.</p></div><Link to={`/learn/stage/${stage.id}/test`} className="button button-primary shrink-0">Take the stage test <ArrowUpRight size={16} className="ml-2" /></Link></div>}
       </div>
     </details>
   )

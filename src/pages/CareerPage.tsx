@@ -1,4 +1,5 @@
 import { ArrowRight, Check, LockKeyhole } from 'lucide-react'
+import { Show } from '@clerk/react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { careerLevels, curriculumModules, curriculumStages, isCareerLevelComplete, lessons } from '../data/curriculum'
 import { useProgress } from '../hooks/useProgress'
@@ -8,6 +9,7 @@ export function CareerPage() {
   const level = careerLevels.find((item) => item.id === careerId)
   const progress = useProgress(lessons.length)
   if (!level) return <Navigate to="/learn" replace />
+  const planGoal = level.id === 'start-here' ? 'explore-ai' : level.id
   const complete = isCareerLevelComplete(level, progress.completedLessons)
   const modules = level.requiredModuleIds.map((id) => {
     const module = curriculumModules.find((item) => item.id === id)
@@ -40,7 +42,7 @@ export function CareerPage() {
         </section>
         {projectLessons.length > 0 && <section className="mt-8 rounded-3xl border border-line bg-white p-6 sm:p-8"><p className="eyebrow">Required project evidence</p><h2 className="mt-2 font-display text-3xl font-bold text-teal">Build and prove it</h2><div className="mt-5 space-y-3">{projectLessons.map((project) => <Link key={project?.id} to={`/learn/${project?.id}`} className="flex items-center justify-between gap-4 rounded-2xl border border-line p-4 hover:border-teal/30 hover:bg-mist"><span><span className="block font-bold text-teal">{project?.title}</span><span className="mt-1 block text-sm text-muted">{progress.isLessonComplete(project!.id) ? 'Completed' : 'Open project guide'}</span></span>{progress.isLessonComplete(project!.id) ? <Check className="text-teal" size={18} /> : <span className="text-xs font-bold text-gold">View</span>}</Link>)}</div></section>}
         <section className="mt-8 rounded-3xl border border-line bg-sand p-6 sm:p-8"><p className="eyebrow">Portfolio evidence</p><h2 className="mt-2 font-display text-3xl font-bold text-teal">What you should be able to show</h2><ul className="mt-5 space-y-3 text-sm leading-7 text-ink">{level.portfolioArtifacts.map((artifact) => <li key={artifact}>• {artifact}</li>)}</ul><Link to="/portfolio" className="button button-primary mt-6">Open portfolio studio</Link></section>
-        <div className="mt-10 flex flex-wrap gap-3"><Link to="/learn" className="button button-primary">Return to pathway</Link>{!complete && <Link to={`/learn?stage=${level.id === 'ai-developer' ? 'software-engineering' : level.id === 'ai-engineer' ? 'ai-engineering' : level.id === 'ai-architect' ? 'ai-architecture' : 'foundation'}`} className="button button-secondary">Continue learning</Link>}</div>
+        <div className="mt-10 flex flex-wrap gap-3"><Link to="/learn" className="button button-primary">Return to pathway</Link>{!complete && <Link to={`/learn?stage=${level.id === 'ai-developer' ? 'software-engineering' : level.id === 'ai-engineer' ? 'ai-engineering' : level.id === 'ai-architect' ? 'ai-architecture' : 'foundation'}`} className="button button-secondary">Continue learning</Link>}<Show when="signed-in"><Link to={`/dashboard?section=plan&goal=${planGoal}`} className="button button-secondary">Make this my learning plan</Link></Show></div>
       </main>
     </div>
 }

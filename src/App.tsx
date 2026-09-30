@@ -3,6 +3,7 @@ import { AppLayout } from './layouts/AppLayout'
 import { AboutPage } from './pages/AboutPage'
 import { HomePage } from './pages/HomePage'
 import { LearnPage } from './pages/LearnPage'
+import { StageAssessmentPage } from './pages/StageAssessmentPage'
 import { LessonPage } from './pages/LessonPage'
 import { PlaygroundPage } from './pages/PlaygroundPage'
 import { TokensPage } from './pages/TokensPage'
@@ -30,6 +31,7 @@ export default function App() {
       <Route element={<AppLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/learn" element={<LearnPage />} />
+        <Route path="/learn/stage/:stageId/test" element={<StageAssessmentPage />} />
         <Route path="/learn/:lessonId" element={<LessonPage />} />
         <Route path="/careers/:careerId" element={<CareerPage />} />
         <Route path="/portfolio" element={<PortfolioPage />} />

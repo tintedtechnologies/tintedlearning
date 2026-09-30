@@ -1,5 +1,5 @@
 import { Check, ChevronDown, Clock3, ExternalLink } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { ProjectGuide } from '../components/learning/ProjectGuide'
 import { LessonConceptArea } from '../components/learning/LessonConceptArea'
@@ -8,6 +8,7 @@ import { lessonContent } from '../data/lessonContent'
 import { lessonResources } from '../data/lessonResources'
 import { useProgress } from '../hooks/useProgress'
 import type { LessonQuiz, LessonVisual as LessonVisualData } from '../types/curriculum'
+import type { LessonLearningCheck } from '../hooks/useProgress'
 
 const fallbackQuiz: LessonQuiz = {
   question: 'What is the most useful next step after learning this concept?',
@@ -38,23 +39,43 @@ const stage3FlowSteps: Record<string, string[]> = {
   'ai-apis': ['Request', 'Model API', 'Response', 'Validate', 'Integrate'],
 }
 
+const learningLoopSteps: { key: LessonLearningCheck; label: string; description: string }[] = [
+  { key: 'practiced', label: 'Practice', description: 'Try the example or change one assumption.' },
+  { key: 'explained', label: 'Explain', description: 'Describe the idea in your own words.' },
+  { key: 'tested', label: 'Test', description: 'Answer every quick-check question correctly.' },
+  { key: 'evidenced', label: 'Evidence', description: 'Record a note, example, or small artifact.' },
+]
+
 export function LessonPage() {
   const { lessonId } = useParams()
   const progress = useProgress(lessons.length)
-  const [answer, setAnswer] = useState<string | null>(null)
+  const [answers, setAnswers] = useState<Record<number, string>>({})
   const [deeperOpen, setDeeperOpen] = useState(false)
   const lesson = lessons.find((item) => item.id === lessonId)
   const content = lesson ? lessonContent[lesson.id] : undefined
 
+  useEffect(() => {
+    setAnswers(progress.getLessonQuizAnswers(lessonId ?? ''))
+    setDeeperOpen(false)
+  }, [lessonId, progress.isLoaded])
+
   if (!lesson || !content) return <Navigate to="/learn" replace />
 
   const resources = lessonResources[lesson.id] ?? content.resources
-  const quiz = content.quiz ?? fallbackQuiz
+  const quizzes = content.quizzes ?? (content.quiz ? [content.quiz] : [fallbackQuiz])
   const visualExample = content.examples?.find((example) => example.visual)?.visual
   const stage3Visual: LessonVisualData | undefined = !visualExample && ['Modern AI Systems', 'Using AI', 'AI Engineering'].includes(lesson.category)
     ? { type: 'ai-system-flow', steps: stage3FlowSteps[lesson.id] ?? ['Input', 'Context', 'Model', 'Check', 'Outcome'], caption: 'AI behavior becomes easier to understand when the path from one decision to the next is visible.', description: `An animated AI system flow for ${lesson.title}, showing its lesson-specific path from input to outcome.` }
     : undefined
   const conceptVisual = visualExample ?? stage3Visual
+  const lessonChecks = progress.getLessonChecks(lesson.id)
+  const learningLoopComplete = learningLoopSteps.every((step) => lessonChecks[step.key])
+  const answerQuiz = (index: number, choice: string) => {
+    const nextAnswers = { ...answers, [index]: choice }
+    setAnswers(nextAnswers)
+    progress.setLessonQuizAnswers(lesson.id, nextAnswers)
+    progress.setLessonLearningCheck(lesson.id, 'tested', quizzes.every((quiz, quizIndex) => nextAnswers[quizIndex] === quiz.answer))
+  }
   const nonVisualExamples = content.examples?.filter((example) => !example.visual) ?? []
   const curriculumLessons = getCurriculumLessonSequence()
   const currentIndex = curriculumLessons.findIndex((item) => item.id === lesson.id)
@@ -87,9 +108,10 @@ export function LessonPage() {
     {lesson.category === 'Python' && <div className="mb-10 rounded-3xl bg-teal p-6 text-white sm:p-8"><p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">Practice this lesson</p><h2 className="mt-3 font-display text-3xl font-bold">Try Python in your browser.</h2><p className="mt-3 max-w-2xl leading-7 text-white/75">Run a small example, change the code, and see the result before you continue.</p><Link to="/playground/python" className="button button-secondary mt-5">Open Python playground <ExternalLink size={16} className="ml-2" /></Link></div>}
     {content.project && <ProjectGuide project={content.project} />}
 
-    <section className="rounded-3xl bg-teal p-6 text-white sm:p-8"><p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">Quick check</p><h2 className="mt-3 font-display text-3xl font-bold">{quiz.question}</h2><div className="mt-6 grid gap-3">{quiz.options.map((choice) => <button type="button" key={choice} onClick={() => setAnswer(choice)} className={`rounded-2xl border px-4 py-4 text-left text-sm font-bold transition-colors ${answer === choice ? 'border-gold bg-gold text-teal' : 'border-white/20 bg-white/10 text-white hover:bg-white/20'}`}>{choice}</button>)}</div>{answer && <p className="mt-5 rounded-2xl bg-white/10 p-4 text-sm leading-6 text-white/80">{answer === quiz.answer ? quiz.correctFeedback : quiz.incorrectFeedback}</p>}</section>
+    <section className="rounded-3xl bg-teal p-6 text-white sm:p-8"><p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">Quick checks</p><h2 className="mt-3 font-display text-3xl font-bold">Test what you understand.</h2><div className="mt-6 space-y-6">{quizzes.map((quiz, index) => { const answer = answers[index]; const correct = answer === quiz.answer; return <div key={quiz.question}><p className="font-bold leading-7">{index + 1}. {quiz.question}</p><div className="mt-3 grid gap-3">{quiz.options.map((choice) => <button type="button" key={choice} onClick={() => answerQuiz(index, choice)} className={`rounded-2xl border px-4 py-4 text-left text-sm font-bold transition-colors ${answer === choice ? correct ? 'border-gold bg-gold text-teal' : 'border-red-300 bg-red-100 text-red-900' : 'border-white/20 bg-white/10 text-white hover:bg-white/20'}`}>{choice}</button>)}</div>{answer && <p className={`mt-3 rounded-2xl p-4 text-sm leading-6 ${correct ? 'bg-white/10 text-white/80' : 'bg-red-100 text-red-900'}`}>{correct ? quiz.correctFeedback : quiz.incorrectFeedback}</p>}</div> })}</div></section>
+    <section className="my-10 rounded-3xl border border-teal/15 bg-mist p-6 sm:p-8"><p className="eyebrow">Learning loop</p><h2 className="mt-2 font-display text-3xl font-bold text-teal">Complete means more than reading.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-muted">Before moving on, practice the idea, explain it, test your understanding, and leave behind one piece of evidence.</p><div className="mt-6 grid gap-3 sm:grid-cols-2">{learningLoopSteps.map((step) => <label key={step.key} className={`flex items-start gap-3 rounded-2xl border p-4 ${lessonChecks[step.key] ? 'border-teal/25 bg-white' : 'border-line bg-white/60'}`}><input type="checkbox" checked={lessonChecks[step.key]} disabled={step.key === 'tested'} onChange={(event) => progress.setLessonLearningCheck(lesson.id, step.key, event.target.checked)} className="mt-1 h-4 w-4 accent-teal" /><span><span className="block font-bold text-teal">{step.label}</span><span className="mt-1 block text-xs leading-5 text-muted">{step.description}</span></span></label>)}</div></section>
     <section className="my-10 border-y border-line py-8"><button type="button" onClick={() => setDeeperOpen((open) => !open)} className="flex w-full items-center justify-between text-left"><span><span className="eyebrow">College-level lens</span><span className="mt-2 block font-display text-2xl font-bold text-teal">How the idea works technically</span></span><ChevronDown className={`text-teal transition-transform ${deeperOpen ? 'rotate-180' : ''}`} /></button>{deeperOpen && <div className="mt-5 max-w-3xl rounded-2xl bg-cream p-5"><p className="text-xs font-bold uppercase tracking-[0.18em] text-muted">Technical explanation</p><p className="mt-3 leading-7 text-muted">{content.deeper}</p></div>}</section>
     <section className="rounded-3xl bg-sand p-6 sm:p-8"><p className="eyebrow">Key takeaway</p><p className="mt-3 font-display text-2xl font-bold leading-8 text-teal">{content.takeaway}</p></section>
-    <div className="mt-10 border-t border-line pt-8"><div className="grid gap-4 sm:grid-cols-3 sm:items-center"><div className="sm:justify-self-start">{previousLesson && <Link to={`/learn/${previousLesson.id}`} className="text-sm font-bold text-muted hover:text-teal">Previous lesson</Link>}</div><div className="sm:justify-self-center"><button type="button" aria-pressed={progress.isLessonComplete(lesson.id)} onClick={() => progress.setLessonComplete(lesson.id, !progress.isLessonComplete(lesson.id))} className={`button ${progress.isLessonComplete(lesson.id) ? 'bg-mist text-teal' : 'button-secondary'}`}><Check size={17} className="mr-2" />{progress.isLessonComplete(lesson.id) ? 'Lesson complete' : 'Mark lesson complete'}</button></div><div className="sm:justify-self-end">{nextLesson ? <Link to={`/learn/${nextLesson.id}`} onClick={() => progress.markLessonComplete(lesson.id)} className="button button-primary">Next lesson</Link> : <Link to="/learn" onClick={() => progress.markLessonComplete(lesson.id)} className="button button-primary">Back to curriculum</Link>}</div></div></div>
+    <div className="mt-10 border-t border-line pt-8"><div className="grid gap-4 sm:grid-cols-3 sm:items-center"><div className="sm:justify-self-start">{previousLesson && <Link to={`/learn/${previousLesson.id}`} className="text-sm font-bold text-muted hover:text-teal">Previous lesson</Link>}</div><div className="sm:justify-self-center"><button type="button" aria-pressed={progress.isLessonComplete(lesson.id)} disabled={!progress.isLessonComplete(lesson.id) && !learningLoopComplete} onClick={() => progress.setLessonComplete(lesson.id, !progress.isLessonComplete(lesson.id))} className={`button ${progress.isLessonComplete(lesson.id) ? 'bg-mist text-teal' : 'button-secondary disabled:cursor-not-allowed disabled:opacity-50'}`}><Check size={17} className="mr-2" />{progress.isLessonComplete(lesson.id) ? 'Lesson complete' : learningLoopComplete ? 'Mark lesson complete' : 'Complete learning loop first'}</button></div><div className="sm:justify-self-end">{nextLesson ? <Link to={`/learn/${nextLesson.id}`} onClick={() => { if (learningLoopComplete) progress.markLessonComplete(lesson.id) }} className="button button-primary">Next lesson</Link> : <Link to="/learn" onClick={() => { if (learningLoopComplete) progress.markLessonComplete(lesson.id) }} className="button button-primary">Back to curriculum</Link>}</div></div></div>
   </article>
 }

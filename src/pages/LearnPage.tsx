@@ -1,4 +1,4 @@
-import { ArrowRight, Check, LockKeyhole } from 'lucide-react'
+import { ArrowRight, Check, Compass } from 'lucide-react'
 import { useEffect } from 'react'
 import { Link, useLocation, useSearchParams } from 'react-router-dom'
 import { CurriculumStage } from '../components/learning/CurriculumStage'
@@ -36,21 +36,13 @@ export function LearnPage() {
       </div>
     </section>
 
-    <section className="border-y border-line bg-mist/60 py-8 sm:py-10">
-      <div className="shell"><p className="eyebrow">Where should I start?</p><h2 className="mt-2 font-display text-2xl font-bold text-teal">Choose the route that matches your goal.</h2><div className="mt-5 grid gap-3 md:grid-cols-3">
-        <Link to="/learn?stage=foundation" className="rounded-2xl border border-line bg-white p-5 transition-transform hover:-translate-y-0.5 hover:shadow-soft"><span className="text-xs font-bold uppercase tracking-widest text-muted">New to AI</span><h3 className="mt-2 font-display text-xl font-bold text-teal">Start with the foundations</h3><p className="mt-2 text-sm leading-6 text-muted">Build the mental models, math, Python, and software habits that make later AI concepts easier.</p><span className="mt-4 block text-xs font-bold text-teal">Start Foundation →</span></Link>
-        <Link to="/learn#python" className="rounded-2xl border border-line bg-white p-5 transition-transform hover:-translate-y-0.5 hover:shadow-soft"><span className="text-xs font-bold uppercase tracking-widest text-muted">Already know Python</span><h3 className="mt-2 font-display text-xl font-bold text-teal">Jump into AI engineering</h3><p className="mt-2 text-sm leading-6 text-muted">Move toward models, prompts, retrieval, tools, evaluation, and production AI systems.</p><span className="mt-4 block text-xs font-bold text-teal">Explore the pathway →</span></Link>
-        <Link to="/careers/ai-developer" className="rounded-2xl border border-line bg-white p-5 transition-transform hover:-translate-y-0.5 hover:shadow-soft"><span className="text-xs font-bold uppercase tracking-widest text-muted">Want employable skills</span><h3 className="mt-2 font-display text-xl font-bold text-teal">Build toward AI Developer</h3><p className="mt-2 text-sm leading-6 text-muted">Follow the software route and finish with a working project, tests, README, and portfolio evidence.</p><span className="mt-4 block text-xs font-bold text-teal">See the milestone →</span></Link>
-      </div></div>
-    </section>
-
     <section className="border-y border-line bg-white py-8 sm:py-10">
       <div className="shell">
-        <div className="flex items-center justify-between gap-4"><div><p className="eyebrow">What this unlocks</p><h2 className="mt-2 font-display text-2xl font-bold text-teal">Choose the capability you are building toward.</h2></div><LockKeyhole className="hidden text-gold sm:block" size={26} /></div>
+        <div className="flex items-center justify-between gap-4"><div><p className="eyebrow">Your next milestone</p><h2 className="mt-2 font-display text-2xl font-bold text-teal">Choose the capability you are building toward.</h2></div><Compass className="hidden text-gold sm:block" size={26} /></div>
         <div className="mt-6 grid gap-3 md:grid-cols-4">
           {careerLevels.map((level, index) => {
             const complete = isCareerLevelComplete(level, progress.completedLessons)
-            const destination = level.id === 'start-here' ? '#foundation' : `/careers/${level.id}`
+            const destination = `/careers/${level.id}`
             return <Link key={level.id} to={destination} className={`relative rounded-2xl border p-4 transition-transform hover:-translate-y-0.5 hover:shadow-soft ${complete ? 'border-teal/30 bg-mist' : 'border-line bg-cream'}`}>
               <span className="flex items-center justify-between gap-2"><span className="text-xs font-bold uppercase tracking-widest text-muted">{index === 0 ? 'Begin' : `Level ${index}`}</span>{complete ? <Check size={17} className="text-teal" /> : <span className="text-sm font-bold text-gold">{index + 1}</span>}</span>
               <span className="mt-3 block font-display text-xl font-bold text-teal">{level.title}</span>
@@ -63,7 +55,7 @@ export function LearnPage() {
     </section>
 
     <section className="shell space-y-5 py-12 pb-20">
-      {curriculumStages.map((stage) => <CurriculumStage key={stage.id} stage={stage} completedLessonIds={progress.completedLessons} isLessonComplete={progress.isLessonComplete} setLessonComplete={progress.setLessonComplete} />)}
+      {curriculumStages.map((stage) => <CurriculumStage key={stage.id} stage={stage} completedLessonIds={progress.completedLessons} isLessonComplete={progress.isLessonComplete} setLessonComplete={progress.setLessonComplete} isStageAssessmentPassed={progress.hasPassedStageAssessment} />)}
       <div className="flex flex-wrap justify-center gap-3 pt-3"><Link to="/portfolio" className="button button-primary">Build your portfolio <ArrowRight size={17} className="ml-2" /></Link><Link to="/playground" className="button button-secondary">Practice what you learn <ArrowRight size={17} className="ml-2" /></Link></div>
     </section>
   </div>
