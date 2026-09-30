@@ -39,7 +39,7 @@ const supportingResources = {
   ],
   security: [
     { title: 'OWASP Top 10 for LLM Applications', provider: 'OWASP', description: 'Study common security risks in large language model applications.', url: 'https://owasp.org/www-project-top-10-for-large-language-model-applications/' },
-    { title: 'AI Security Guidance', provider: 'Microsoft Learn', description: 'Explore practical security considerations for AI systems and applications.', url: 'https://learn.microsoft.com/en-us/security/ai-security/' },
+    { title: 'AI Risk Management Framework', provider: 'NIST', description: 'Use a current, vendor-neutral framework for governing, mapping, measuring, and managing AI risk.', url: 'https://www.nist.gov/itl/ai-risk-management-framework' },
     { title: 'MITRE ATLAS', provider: 'MITRE', description: 'Explore adversary tactics and techniques for machine learning systems.', url: 'https://atlas.mitre.org/' },
   ],
 }
@@ -393,7 +393,7 @@ export const portfolioTracks: PortfolioTrack[] = [
     description: 'Provision a small cloud environment from versioned Terraform, review the plan, apply it safely, and destroy it when finished.',
     deliverables: ['A Terraform repository with variables and outputs', 'A reviewed terraform plan artifact', 'A provisioned environment with least-privilege access', 'A documented destroy and recovery procedure'],
     evidence: ['The infrastructure can be recreated from a clean checkout', 'Remote state and credentials are protected', 'Manual drift is detected or documented', 'Resources are tagged and cost-bounded', 'The portfolio includes the plan, diagram, and provider tradeoffs'],
-    resources: [resource('Terraform tutorials', 'HashiCorp', 'Learn providers, state, modules, plans, applies, and infrastructure lifecycle.', 'https://developer.hashicorp.com/terraform/tutorials'), resource('Terraform on Azure', 'Microsoft Learn', 'Practice repeatable Azure infrastructure with Terraform and deployment pipelines.', 'https://learn.microsoft.com/en-us/training/paths/automate-azure-tasks-with-terraform/')],
+    resources: [resource('Terraform tutorials', 'HashiCorp', 'Learn providers, state, modules, plans, applies, and infrastructure lifecycle.', 'https://developer.hashicorp.com/terraform/tutorials'), resource('Get started with Terraform on Azure', 'HashiCorp', 'Practice Azure resource groups, variables, outputs, remote state, and lifecycle operations.', 'https://developer.hashicorp.com/terraform/tutorials/azure-get-started')],
   },
   {
     id: 'technical-leadership-portfolio', title: 'Build a technical leadership portfolio', tone: 'gold',

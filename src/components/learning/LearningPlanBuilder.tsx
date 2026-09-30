@@ -7,12 +7,14 @@ import {
   objectiveOptions,
   providerOptions,
   readLearningPlan,
+  type LearningGoal,
   type LearningPlanProfile,
 } from '../../data/learningPlans'
 import { LearningPlanOverview } from './LearningPlanOverview'
 
 interface LearningPlanBuilderProps {
   completedLessonIds: string[]
+  initialGoal?: LearningGoal
 }
 
 const defaultProfile: LearningPlanProfile = {
@@ -24,12 +26,13 @@ const defaultProfile: LearningPlanProfile = {
   weeklyHours: 5,
 }
 
-export function LearningPlanBuilder({ completedLessonIds }: LearningPlanBuilderProps) {
+export function LearningPlanBuilder({ completedLessonIds, initialGoal }: LearningPlanBuilderProps) {
   const { user } = useUser()
   const storedProfile = readLearningPlan(user?.unsafeMetadata?.tintedLearningPlan)
-  const [savedProfile, setSavedProfile] = useState<LearningPlanProfile | null>(storedProfile)
-  const [draft, setDraft] = useState<LearningPlanProfile>(storedProfile ?? defaultProfile)
-  const [editing, setEditing] = useState(!storedProfile)
+  const requestedNewGoal = Boolean(initialGoal && storedProfile?.goal !== initialGoal)
+  const [savedProfile, setSavedProfile] = useState<LearningPlanProfile | null>(requestedNewGoal ? null : storedProfile)
+  const [draft, setDraft] = useState<LearningPlanProfile>(requestedNewGoal || !storedProfile ? { ...defaultProfile, goal: initialGoal ?? defaultProfile.goal } : storedProfile)
+  const [editing, setEditing] = useState(!storedProfile || requestedNewGoal)
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState('')
 

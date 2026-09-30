@@ -1,10 +1,11 @@
 import { BarChart3, BookOpen, CheckCircle2, CircleUserRound, LayoutDashboard, LogOut, Route, Trash2 } from 'lucide-react'
-import { useState, type ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { Show, SignInButton, useClerk, useUser } from '@clerk/react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { LearningPlanBuilder } from '../components/learning/LearningPlanBuilder'
 import { curriculumStages, lessons } from '../data/curriculum'
-import { getGoalTitle, getLearningPlanModules, getPlanEvidence, readLearningPlan } from '../data/learningPlans'
+import { getGoalTitle, getLearningPlanModules, getPlanEvidence, goalOptions, readLearningPlan, type LearningGoal } from '../data/learningPlans'
+import { useFocusTrap } from '../hooks/useFocusTrap'
 import { useProgress } from '../hooks/useProgress'
 
 type DashboardSection = 'overview' | 'plan' | 'progress' | 'profile'
@@ -31,13 +32,19 @@ export function DashboardPage() {
   const { user } = useUser()
   const { signOut } = useClerk()
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const progress = useProgress(lessons.length)
-  const [activeSection, setActiveSection] = useState<DashboardSection>('overview')
+  const requestedSection = searchParams.get('section')
+  const [activeSection, setActiveSection] = useState<DashboardSection>(requestedSection === 'plan' || requestedSection === 'progress' || requestedSection === 'profile' ? requestedSection : 'overview')
+  useEffect(() => {
+    if (requestedSection === 'plan' || requestedSection === 'progress' || requestedSection === 'profile') setActiveSection(requestedSection)
+  }, [requestedSection])
   const [deleting, setDeleting] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [uploadError, setUploadError] = useState('')
   const [confirmAction, setConfirmAction] = useState<'clear' | 'delete' | null>(null)
   const [accountError, setAccountError] = useState('')
+  const confirmDialogRef = useFocusTrap<HTMLDivElement>(Boolean(confirmAction), () => { if (!deleting) setConfirmAction(null) })
 
   const plan = readLearningPlan(user?.unsafeMetadata?.tintedLearningPlan)
   const planModules = plan ? getLearningPlanModules(plan) : []
@@ -47,6 +54,9 @@ export function DashboardPage() {
   const nextPlanLesson = planLessons.find((lesson) => !progress.completedLessons.includes(lesson.id))
   const evidence = plan ? getPlanEvidence(plan.goal) : []
   const completedEvidence = plan?.completedEvidenceIds?.length ?? 0
+  const requestedGoal = searchParams.get('goal')
+  const guestStage = requestedGoal === 'technical-leadership' ? 'professional-practice' : 'foundation'
+  const guestPathTitle = requestedGoal === 'python-developer' ? 'Python Developer' : requestedGoal === 'ai-mathematics' ? 'AI Mathematics & Research' : requestedGoal === 'technical-leadership' ? 'Technical Leadership & Communication' : 'Foundation'
 
   const uploadProfileImage = async (file: File | undefined) => {
     if (!file || !user) return
@@ -112,7 +122,7 @@ export function DashboardPage() {
   </DashboardPanel>
 
   return <main className="shell max-w-[90rem] py-6 sm:py-8">
-    <Show when="signed-in" fallback={<section className="mx-auto max-w-xl rounded-3xl border border-line bg-white p-8 text-center shadow-soft"><h1 className="font-display text-4xl font-bold text-teal">Sign in to open your dashboard</h1><p className="mt-4 leading-7 text-muted">Your account remembers lesson progress, your personalized plan, portfolio evidence, and profile image across sessions.</p><SignInButton mode="modal"><button type="button" className="button button-primary mt-6">Sign in</button></SignInButton></section>}>
+    <Show when="signed-in" fallback={<section className="mx-auto max-w-xl rounded-3xl border border-line bg-white p-8 text-center shadow-soft"><p className="eyebrow">{guestPathTitle}</p><h1 className="mt-3 font-display text-4xl font-bold text-teal">Choose how to continue</h1><p className="mt-4 leading-7 text-muted">All curriculum content is free to browse without an account. Sign in only if you want Tinted Learning to remember your personalized plan, progress, and portfolio evidence.</p><div className="mt-6 flex flex-wrap justify-center gap-3"><Link to={`/learn?stage=${guestStage}`} className="button button-primary">Continue free</Link><SignInButton mode="modal"><button type="button" className="button button-secondary">Save my plan</button></SignInButton></div></section>}>
       {!progress.isLoaded ? <section className="rounded-2xl border border-line bg-white p-8 text-center shadow-soft"><p className="font-bold text-teal">Loading your dashboard...</p></section> :
       <div className="dashboard-layout">
         <aside className="overflow-hidden rounded-2xl bg-teal text-white shadow-soft lg:sticky lg:top-5">
@@ -121,13 +131,13 @@ export function DashboardPage() {
 
         <div className="min-w-0 rounded-2xl border border-line bg-white p-5 shadow-soft sm:p-7 lg:min-h-[calc(100dvh-8.5rem)] lg:p-8">
           {activeSection === 'overview' && renderOverview()}
-          {activeSection === 'plan' && <LearningPlanBuilder completedLessonIds={progress.completedLessons} />}
+          {activeSection === 'plan' && <LearningPlanBuilder completedLessonIds={progress.completedLessons} initialGoal={goalOptions.some((option) => option.id === searchParams.get('goal')) ? searchParams.get('goal') as LearningGoal : undefined} />}
           {activeSection === 'progress' && renderProgress()}
           {activeSection === 'profile' && renderProfile()}
         </div>
       </div>}
     </Show>
 
-    {confirmAction && <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#123F3D]/50 p-5" role="presentation"><div role="dialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-description" onKeyDown={(event) => { if (event.key === 'Escape' && !deleting) setConfirmAction(null) }} className="w-full max-w-md rounded-3xl border border-line bg-white p-6 shadow-soft sm:p-8"><p className="eyebrow">Please confirm</p><h2 id="confirm-title" className="mt-3 font-display text-3xl font-bold text-teal">{confirmAction === 'clear' ? 'Clear your progress?' : 'Delete your account?'}</h2><p id="confirm-description" className="mt-4 text-sm leading-6 text-muted">{confirmAction === 'clear' ? 'All completed lessons for this account will be removed. Your personalized plan will remain.' : 'This permanently deletes your Clerk account, learning plan, and progress. You will be signed out and this action cannot be undone.'}</p>{accountError && <p className="mt-4 rounded-xl bg-red-50 p-3 text-sm font-bold leading-6 text-red-700">{accountError}</p>}<div className="mt-6 flex flex-wrap justify-end gap-3"><button type="button" autoFocus disabled={deleting} onClick={() => setConfirmAction(null)} className="button button-secondary disabled:opacity-50">Cancel</button><button type="button" disabled={deleting} onClick={async () => { if (confirmAction === 'clear') { progress.clearProgress(); setConfirmAction(null) } else if (await deleteAccount()) setConfirmAction(null) }} className={`button ${confirmAction === 'delete' ? 'bg-red-600 text-white hover:bg-red-700' : 'button-primary'} disabled:opacity-50`}>{deleting ? 'Deleting...' : confirmAction === 'clear' ? 'Clear progress' : 'Delete account'}</button></div></div></div>}
+    {confirmAction && <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#123F3D]/50 p-5" role="presentation"><div ref={confirmDialogRef} role="dialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-description" onKeyDown={(event) => { if (event.key === 'Escape' && !deleting) setConfirmAction(null) }} className="w-full max-w-md rounded-3xl border border-line bg-white p-6 shadow-soft sm:p-8"><p className="eyebrow">Please confirm</p><h2 id="confirm-title" className="mt-3 font-display text-3xl font-bold text-teal">{confirmAction === 'clear' ? 'Clear your progress?' : 'Delete your account?'}</h2><p id="confirm-description" className="mt-4 text-sm leading-6 text-muted">{confirmAction === 'clear' ? 'All completed lessons for this account will be removed. Your personalized plan will remain.' : 'This permanently deletes your Clerk account, learning plan, and progress. You will be signed out and this action cannot be undone.'}</p>{accountError && <p className="mt-4 rounded-xl bg-red-50 p-3 text-sm font-bold leading-6 text-red-700">{accountError}</p>}<div className="mt-6 flex flex-wrap justify-end gap-3"><button type="button" autoFocus disabled={deleting} onClick={() => setConfirmAction(null)} className="button button-secondary disabled:opacity-50">Cancel</button><button type="button" disabled={deleting} onClick={async () => { if (confirmAction === 'clear') { progress.clearProgress(); setConfirmAction(null) } else if (await deleteAccount()) setConfirmAction(null) }} className={`button ${confirmAction === 'delete' ? 'bg-red-600 text-white hover:bg-red-700' : 'button-primary'} disabled:opacity-50`}>{deleting ? 'Deleting...' : confirmAction === 'clear' ? 'Clear progress' : 'Delete account'}</button></div></div></div>}
   </main>
 }

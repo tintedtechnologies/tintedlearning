@@ -15,7 +15,12 @@ export function LearnPage() {
     const stageId = searchParams.get('stage')
     const targetId = location.hash.replace(/^#/, '') || stageId
     if (!targetId) return
-    window.setTimeout(() => document.getElementById(targetId)?.scrollIntoView({ block: 'start' }), 50)
+    window.setTimeout(() => {
+      const target = document.getElementById(targetId)
+      const stage = target?.closest('details') as HTMLDetailsElement | null
+      if (stage) stage.open = true
+      target?.scrollIntoView({ block: 'start' })
+    }, 50)
   }, [location.hash, searchParams])
 
   return <div>

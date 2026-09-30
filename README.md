@@ -9,7 +9,7 @@ Tinted Learning teaches the essential mental model in the app, then points learn
 
 ## Current Release
 
-**v0.8.0**
+**v1.0.0**
 
 This release adds the expanded source-map learning experience: 163 lessons across seven stages, advanced Python and AI Mathematics & Research paths, a standalone Technical Leadership & Communication stage, animated concept explanations, 14-lesson Azure, AWS, and Google Cloud provider paths with enterprise architecture capstones, an expanded browser playground, current cloud certification paths, updated AI security and governance guidance, foldable curriculum stages, and optional Clerk accounts for synced progress, stage tracking, dashboards, and portfolio direction.
 
@@ -257,11 +257,11 @@ scripts/
 	validate-curriculum.ts Curriculum integrity and project checks
 ```
 
-## v1 Roadmap
+## v1 Release Status
 
-### v1.0: Useful source map
+### v1.0: Released
 
-The current 0.8 release has the curriculum and portfolio breadth for v1. The remaining work is browser verification, onboarding, accessibility, responsive polish, and making project guidance clear inside the hosted site.
+Tinted Learning v1 is the first complete browser-first release: the curriculum, onboarding, personalized plans, portfolio studio, project metadata, accessibility checks, mobile checks, and core browser journeys are in place.
 
 ### v1 status
 
@@ -270,11 +270,11 @@ The current 0.8 release has the curriculum and portfolio breadth for v1. The rem
 | Curriculum breadth | Complete | 163 lessons across seven stages, including Python, AI Mathematics & Research, and Technical Leadership & Communication. |
 | Portfolio breadth | Complete | Seven portfolio tracks cover publishing, cloud deployment, CI/CD, AI evaluation, infrastructure, leadership, and mathematics. |
 | Project evidence | Complete | Projects define deliverables, proof points, setup, steps, checkpoints, verification, and next steps. |
-| Path selection | In progress | Learning plans support Explore AI, Python Developer, AI Mathematics & Research, Technical Leadership, AI Developer, AI Engineer, Cloud Engineer, and AI Architect. |
-| First-time onboarding | Next | Add a browser-first welcome flow that helps a learner choose a path and take the first action. |
-| Browser QA | Next | Add smoke checks for navigation, stage folding, learning plans, portfolio routes, and project interactions. |
-| Mobile and accessibility | Next | Review keyboard flow, focus states, contrast, screen-reader labels, and narrow-screen layouts. |
-| Content freshness | Ongoing | Review provider links, certification references, SDK examples, and current AI safety guidance. |
+| Path selection | Complete | Learning plans support Explore AI, Python Developer, AI Mathematics & Research, Technical Leadership, AI Developer, AI Engineer, Cloud Engineer, and AI Architect. |
+| First-time onboarding | Complete | The homepage offers goal-based routes and connects selected goals to the plan builder or free curriculum. |
+| Browser QA | Complete | Playwright covers onboarding, stage folding, portfolio routes, guest access, donation links, mobile overflow, and accessibility checks. |
+| Mobile and accessibility | Complete | Responsive smoke coverage, contrast checks, focus-visible styling, and dialog focus trapping are in place. |
+| Content freshness | Maintained | Provider links and dated guidance are audited as part of release maintenance. |
 
 - Keep every lesson mapped to one authoritative stage and module
 - Keep every lesson backed by topic-specific resources
@@ -284,13 +284,15 @@ The current 0.8 release has the curriculum and portfolio breadth for v1. The rem
 - Keep provider links current and labeled honestly
 - Keep the 163-lesson, seven-stage curriculum validated before release
 
+## After v1 Roadmap
+
 ### v1.1: Stronger beginner experience
 
 - Add a dedicated onboarding path for learners new to programming
 - Show a recommended next lesson and estimated weekly pace
 - Add clearer “required” versus “optional” resource labels
 - Add troubleshooting guidance for common setup failures
-- Add clear in-site project difficulty, time, cost, and setup summaries
+- Keep in-site project difficulty, time, cost, and setup summaries current
 - Add a visible project difficulty, time estimate, and required-cost warning before setup
 
 ### v1.2: Evidence-based projects
@@ -310,14 +312,13 @@ The current 0.8 release has the curriculum and portfolio breadth for v1. The rem
 - Add provider-specific Terraform execution paths
 - Compare cost, networking, identity, and operations across providers
 
-### Immediate next steps before v1
+### Next steps after v1
 
-1. Add a first-time browser onboarding flow with clear path choices and a recommended first lesson.
-2. Add project metadata for difficulty, expected time, cost, account requirements, and setup needs.
-3. Add browser smoke tests for navigation, stage folding, learning plans, portfolio routes, and project controls.
-4. Review mobile layout, keyboard navigation, focus states, contrast, and screen-reader behavior.
-5. Audit external links and dated provider guidance before the v1 release.
-6. Run an external review with beginner, developer, and senior technical readers, then resolve the highest-friction findings.
+1. Add a dedicated signed-in Clerk browser test with a stable test account and cross-session plan persistence.
+2. Continue auditing external links and dated provider guidance as providers change documentation.
+3. Add visual regression snapshots for the homepage, learning plan, portfolio studio, and project guides.
+4. Expand screen-reader testing with a dedicated accessibility review.
+5. Run external learner reviews and prioritize improvements from real usage evidence.
 
 ### Later
 

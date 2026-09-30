@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useUser } from '@clerk/react'
 import { Link } from 'react-router-dom'
 import { curriculumModules, curriculumStages } from '../../data/curriculum'
+import { useFocusTrap } from '../../hooks/useFocusTrap'
 import {
   getGoalTitle,
   getLearningPlanModules,
@@ -28,6 +29,7 @@ export function LearningPlanOverview({ profile, completedLessonIds, onProfileCha
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState('')
   const [confirmDelete, setConfirmDelete] = useState(false)
+  const confirmDeleteRef = useFocusTrap<HTMLDivElement>(confirmDelete, () => { if (!saving) setConfirmDelete(false) })
 
   const modules = getLearningPlanModules(profile)
   const defaultModules = getLearningPlanModules({ ...profile, modulePreferences: {} })
@@ -124,6 +126,6 @@ export function LearningPlanOverview({ profile, completedLessonIds, onProfileCha
       <div className="mt-6 flex flex-wrap gap-3"><Link to="/learn" className="button button-secondary">Browse full curriculum</Link><Link to="/portfolio" className="button button-secondary">Open portfolio studio</Link><button type="button" onClick={() => onReassess(true)} className="button button-secondary"><RotateCcw size={16} className="mr-2" />Start over</button><button type="button" onClick={() => setConfirmDelete(true)} className="button border border-red-200 bg-red-50 text-red-700 hover:bg-red-100"><Trash2 size={16} className="mr-2" />Remove plan</button></div>
     </div>
 
-    {confirmDelete && <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#123F3D]/50 p-5" role="presentation"><div role="dialog" aria-modal="true" aria-labelledby="remove-plan-title" aria-describedby="remove-plan-description" onKeyDown={(event) => { if (event.key === 'Escape' && !saving) setConfirmDelete(false) }} className="w-full max-w-md rounded-3xl bg-white p-6 shadow-soft"><p className="eyebrow">Please confirm</p><h3 id="remove-plan-title" className="mt-2 font-display text-3xl font-bold text-teal">Remove your plan?</h3><p id="remove-plan-description" className="mt-3 text-sm leading-6 text-muted">Your assessment choices, module preferences, and evidence checks will be removed. Completed lessons will remain.</p><div className="mt-6 flex justify-end gap-3"><button type="button" autoFocus disabled={saving} onClick={() => setConfirmDelete(false)} className="button button-secondary">Cancel</button><button type="button" disabled={saving} onClick={() => { void deletePlan() }} className="button bg-red-600 text-white hover:bg-red-700 disabled:opacity-50">{saving ? 'Removing...' : 'Remove plan'}</button></div></div></div>}
+    {confirmDelete && <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#123F3D]/50 p-5" role="presentation"><div ref={confirmDeleteRef} role="dialog" aria-modal="true" aria-labelledby="remove-plan-title" aria-describedby="remove-plan-description" onKeyDown={(event) => { if (event.key === 'Escape' && !saving) setConfirmDelete(false) }} className="w-full max-w-md rounded-3xl bg-white p-6 shadow-soft"><p className="eyebrow">Please confirm</p><h3 id="remove-plan-title" className="mt-2 font-display text-3xl font-bold text-teal">Remove your plan?</h3><p id="remove-plan-description" className="mt-3 text-sm leading-6 text-muted">Your assessment choices, module preferences, and evidence checks will be removed. Completed lessons will remain.</p><div className="mt-6 flex justify-end gap-3"><button type="button" autoFocus disabled={saving} onClick={() => setConfirmDelete(false)} className="button button-secondary">Cancel</button><button type="button" disabled={saving} onClick={() => { void deletePlan() }} className="button bg-red-600 text-white hover:bg-red-700 disabled:opacity-50">{saving ? 'Removing...' : 'Remove plan'}</button></div></div></div>}
   </section>
 }

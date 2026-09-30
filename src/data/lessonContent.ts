@@ -885,7 +885,7 @@ const lessonEnhancements: Record<string, Pick<LessonContent, 'examples' | 'resou
     examples: [{ title: 'Choose a metric from the failure cost', explanation: 'Accuracy can hide an important minority class. A confusion matrix shows which errors the system is actually making.', kind: 'math', content: '                 predicted\n                 positive negative\nactual positive      TP       FN\nactual negative      FP       TN\n\nprecision = TP / (TP + FP)\nrecall    = TP / (TP + FN)\n\nIf missing a positive case is costly, recall may matter more than accuracy.' }],
     resources: [
       { title: 'Classification metrics', provider: 'scikit-learn', description: 'Use precision, recall, F1, calibration, and confusion matrices in real experiments.', url: 'https://scikit-learn.org/stable/modules/model_evaluation.html' },
-      { title: 'ML fairness and representation', provider: 'Google for Developers', description: 'Consider how data coverage and metric choices affect people differently.', url: 'https://developers.google.com/machine-learning/crash-course/fairness/overview' },
+      { title: 'ML fairness and representation', provider: 'Google for Developers', description: 'Consider how data coverage and metric choices affect people differently.', url: 'https://developers.google.com/machine-learning/crash-course/fairness' },
     ],
   },
   'ai-observability': {
