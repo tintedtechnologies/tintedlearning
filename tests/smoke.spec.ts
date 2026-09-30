@@ -43,7 +43,7 @@ test('homepage has no horizontal overflow on mobile', async ({ page }) => {
 })
 
 test('key public pages have no serious accessibility violations', async ({ page }) => {
-  for (const route of ['/', '/#/learn', '/#/portfolio']) {
+  for (const route of ['/', '/#/learn', '/#/portfolio', '/#/about']) {
     await page.goto(route)
     const results = await new AxeBuilder({ page }).analyze()
     const serious = results.violations.filter((violation) => violation.impact === 'critical' || violation.impact === 'serious')

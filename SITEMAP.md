@@ -34,7 +34,7 @@ Advance toward a career milestone or certification
 
 ### `/learn`
 
-The curriculum is organized into six stages:
+The curriculum is organized into seven stages:
 
 1. **Foundation**
    - AI fundamentals
@@ -77,10 +77,11 @@ The curriculum is organized into six stages:
    - Architecture patterns
    - Enterprise integration
    - Architecture decision records
-6. **Projects and Practice**
-   - Knowledge assistant project
-   - Tool-using agent project
-   - AI evaluation project
+6. **Technical Leadership & Communication**
+  - Customer discovery and stakeholder requirements
+  - Scope, value, selling, demos, negotiation, communication, planning, and leadership
+7. **Projects**
+  - AI developer, AI engineer, AI architect, mathematics, and technical leadership projects
 
 ### `/learn/:lessonId`
 
@@ -129,6 +130,8 @@ Each milestone contains:
 
 - `/portfolio` — Portfolio studio and tracks
 - `/portfolio/:trackId` — Portfolio track details, deliverables, evidence, and resources
+
+Portfolio tracks include cloud deployment, CI/CD, infrastructure as code, AI evaluation, technical leadership, and AI mathematics research.
 
 ## Recommended next product improvements
 
