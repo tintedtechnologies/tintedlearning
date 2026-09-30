@@ -81,6 +81,12 @@ export interface LessonQuiz {
   incorrectFeedback: string
 }
 
+export interface StageAssessment {
+  title: string
+  instructions: string
+  questions: LessonQuiz[]
+}
+
 export interface LessonContent {
   learningPoints: string[]
   sections: LessonSection[]
@@ -88,6 +94,7 @@ export interface LessonContent {
   examples?: LessonExample[]
   resources?: LearningResource[]
   quiz?: LessonQuiz
+  quizzes?: LessonQuiz[]
   deeper: string
   takeaway: string
   project?: GuidedProject
@@ -123,6 +130,7 @@ export interface CurriculumStage {
   modules: CurriculumModule[]
   tone: 'teal' | 'gold' | 'neutral'
   learnerOutcome?: { understand: string; build: string; show: string }
+  assessment?: StageAssessment
   certifications?: Certification[]
   status?: 'available' | 'coming-soon'
 }

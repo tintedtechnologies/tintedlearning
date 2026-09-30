@@ -9,7 +9,7 @@ Tinted Learning teaches the essential mental model in the app, then points learn
 
 ## Current Release
 
-**v1.0.0**
+**v1.0.6**
 
 This release adds the expanded source-map learning experience: 163 lessons across seven stages, advanced Python and AI Mathematics & Research paths, a standalone Technical Leadership & Communication stage, animated concept explanations, 14-lesson Azure, AWS, and Google Cloud provider paths with enterprise architecture capstones, an expanded browser playground, current cloud certification paths, updated AI security and governance guidance, foldable curriculum stages, and optional Clerk accounts for synced progress, stage tracking, dashboards, and portfolio direction.
 
@@ -29,7 +29,7 @@ Tinted Learning is not:
 ## No Account Required
 
 Learners do not need to create an account.
-Lesson completion is stored locally in the browser using `localStorage`. The app does not require a backend for curriculum progress, and clearing browser storage or using another browser will remove or reset that local progress.
+Learners can browse and use the curriculum without an account. Progress, quiz answers, resumable stage assessments, and badges are saved to a signed-in Clerk account; guest browsing does not promise progress persistence.
 
 Cloud projects use the learner's own provider accounts. They may require billing-enabled accounts and can create charges. Learners should use dedicated projects, budget alerts, least-privilege identities, and cleanup commands.
 
@@ -236,6 +236,14 @@ Validate the curriculum, resources, career requirements, prerequisites, and port
 npm run validate:curriculum
 ```
 
+Run browser tests:
+
+```bash
+npm run test:e2e
+```
+
+Authenticated coverage runs when `E2E_AUTH_STORAGE_STATE` points to a securely prepared Clerk Playwright storage-state file. It covers lesson-answer restoration, Foundation completion, assessment resume and pass, dashboard reload, and badge unlock.
+
 ## Project Structure
 
 ```text
@@ -272,14 +280,14 @@ Tinted Learning v1 is the first complete browser-first release: the curriculum, 
 | Project evidence | Complete | Projects define deliverables, proof points, setup, steps, checkpoints, verification, and next steps. |
 | Path selection | Complete | Learning plans support Explore AI, Python Developer, AI Mathematics & Research, Technical Leadership, AI Developer, AI Engineer, Cloud Engineer, and AI Architect. |
 | First-time onboarding | Complete | The homepage offers goal-based routes and connects selected goals to the plan builder or free curriculum. |
-| Browser QA | Complete | Playwright covers onboarding, stage folding, portfolio routes, guest access, donation links, mobile overflow, and accessibility checks. |
+| Browser QA | Complete | Playwright covers onboarding, stage folding, portfolio routes, guest access, signed-in progress when configured, donation links, mobile overflow, and accessibility checks. |
 | Mobile and accessibility | Complete | Responsive smoke coverage, contrast checks, focus-visible styling, and dialog focus trapping are in place. |
 | Content freshness | Maintained | Provider links and dated guidance are audited as part of release maintenance. |
 
 - Keep every lesson mapped to one authoritative stage and module
 - Keep every lesson backed by topic-specific resources
 - Keep prerequisites visible and accurate
-- Keep progress local and account-free
+- Keep guest browsing account-free and explain the signed-in persistence boundary
 - Keep project steps and checkpoints understandable inside the hosted site
 - Keep provider links current and labeled honestly
 - Keep the 163-lesson, seven-stage curriculum validated before release
@@ -329,7 +337,7 @@ Paid offerings could include detailed lessons, downloadable templates, assessmen
 
 ### Next steps after v1
 
-1. Add a dedicated signed-in Clerk browser test with a stable test account and cross-session plan persistence.
+1. Keep the signed-in Clerk browser test storage state current and run it in release CI.
 2. Continue auditing external links and dated provider guidance as providers change documentation.
 3. Add visual regression snapshots for the homepage, learning plan, portfolio studio, and project guides.
 4. Expand screen-reader testing with a dedicated accessibility review.

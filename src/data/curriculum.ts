@@ -3,6 +3,7 @@ import { advancedProviderCloudLessons } from './advancedProviderCloudLessons'
 import { orientationLessons } from './orientationLessons'
 import { portfolioProjects } from './portfolioProjects'
 import { providerCloudLessons } from './providerCloudLessons'
+import { stageAssessments } from './stageAssessments'
 
 const supportingResources = {
   foundations: [
@@ -246,7 +247,7 @@ const providerLessons = (provider: 'azure' | 'aws' | 'gcp') => lessons.filter((l
 
 export const curriculumStages: CurriculumStage[] = [
   {
-    id: 'foundation', eyebrow: 'Stage 01', title: 'Foundation', tone: 'teal', learnerOutcome: { understand: 'How AI, computing, math, and Python fit together.', build: 'A first working Python program and small concept experiments.', show: 'A learning plan, working examples, and your first project notes.' },
+    id: 'foundation', eyebrow: 'Stage 01', title: 'Foundation', tone: 'teal', assessment: stageAssessments.foundation, learnerOutcome: { understand: 'How AI, computing, math, and Python fit together.', build: 'A first working Python program and small concept experiments.', show: 'A learning plan, working examples, and your first project notes.' },
     description: 'Build the mental models, programming habits, and working environment that make later engineering concepts stick.',
     modules: [
       moduleWithLessons('ai-fundamentals', 'AI fundamentals', 'Understand what AI is, how learning systems work, and how to frame useful problems.', lessons.filter((lesson) => lesson.category === 'AI Foundations'), sourceMapResources.foundations),
@@ -257,7 +258,7 @@ export const curriculumStages: CurriculumStage[] = [
     ],
   },
   {
-    id: 'software-engineering', eyebrow: 'Stage 02', title: 'Software Engineering', tone: 'gold', learnerOutcome: { understand: 'How reliable applications use boundaries, data, tests, and deployment practices.', build: 'A tested service with a clear API, persistence, and delivery workflow.', show: 'A repository with tests, setup instructions, design decisions, and repeatable delivery.' },
+    id: 'software-engineering', eyebrow: 'Stage 02', title: 'Software Engineering', tone: 'gold', assessment: stageAssessments['software-engineering'], learnerOutcome: { understand: 'How reliable applications use boundaries, data, tests, and deployment practices.', build: 'A tested service with a clear API, persistence, and delivery workflow.', show: 'A repository with tests, setup instructions, design decisions, and repeatable delivery.' },
     description: 'Learn the durable software practices around AI systems: boundaries, persistence, correctness, and repeatable delivery.',
     modules: [
       moduleWithLessons('apis-rest', 'APIs and REST', 'Design and consume stable service boundaries with clear inputs, outputs, and errors.', lessonIds('ai-apis'), sourceMapResources.web),
@@ -269,7 +270,7 @@ export const curriculumStages: CurriculumStage[] = [
     ],
   },
   {
-    id: 'ai-engineering', eyebrow: 'Stage 03', title: 'AI Engineering', tone: 'teal', learnerOutcome: { understand: 'How models, prompts, retrieval, tools, evaluation, and operations work together.', build: 'A useful AI application with evidence, guardrails, and observable behavior.', show: 'An AI project with evaluation cases, traces, tradeoffs, and documented limits.' },
+    id: 'ai-engineering', eyebrow: 'Stage 03', title: 'AI Engineering', tone: 'teal', assessment: stageAssessments['ai-engineering'], learnerOutcome: { understand: 'How models, prompts, retrieval, tools, evaluation, and operations work together.', build: 'A useful AI application with evidence, guardrails, and observable behavior.', show: 'An AI project with evaluation cases, traces, tradeoffs, and documented limits.' },
     description: 'Compose models, prompts, data, tools, evaluation, and operations into useful AI applications.',
     modules: [
       moduleWithLessons('llms', 'LLMs', 'Understand language models, tokens, context, transformers, multimodality, and adaptation.', lessons.filter((lesson) => lesson.category === 'Modern AI Systems').concat(lessonIds('models'))),
@@ -286,7 +287,7 @@ export const curriculumStages: CurriculumStage[] = [
     ],
   },
   {
-    id: 'cloud-engineering', eyebrow: 'Stage 04', title: 'Cloud Engineering', tone: 'neutral', learnerOutcome: { understand: 'How cloud platforms provide identity, storage, compute, networking, and operations.', build: 'A deployed service with secure identity, monitoring, cost awareness, and rollback thinking.', show: 'A deployed workload, architecture diagram, provider choice, and certification preparation evidence.' },
+    id: 'cloud-engineering', eyebrow: 'Stage 04', title: 'Cloud Engineering', tone: 'neutral', assessment: stageAssessments['cloud-engineering'], learnerOutcome: { understand: 'How cloud platforms provide identity, storage, compute, networking, and operations.', build: 'A deployed service with secure identity, monitoring, cost awareness, and rollback thinking.', show: 'A deployed workload, architecture diagram, provider choice, and certification preparation evidence.' },
     description: 'Learn the shared cloud vocabulary, then choose a provider track for hands-on deployment and operations.',
     certifications: [
       { title: 'Azure Fundamentals', provider: 'Azure', level: 'Foundational', pathStep: 1, examCode: 'AZ-900', description: 'Recommended entry credential after the Azure overview: validate cloud concepts, core services, management, governance, security, and pricing.', url: 'https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/' },
@@ -307,7 +308,7 @@ export const curriculumStages: CurriculumStage[] = [
     ],
   },
   {
-    id: 'ai-architecture', eyebrow: 'Stage 05', title: 'AI Architecture', tone: 'gold', learnerOutcome: { understand: 'How to analyze system behavior with quality attributes, distributed-systems models, threat analysis, and economic tradeoffs.', build: 'An architecture proposal that states assumptions, quantifies constraints, analyzes failure modes, and compares alternatives.', show: 'A reviewable architecture decision record, evidence-backed design review, and defensible revision triggers.' },
+    id: 'ai-architecture', eyebrow: 'Stage 05', title: 'AI Architecture', tone: 'gold', assessment: stageAssessments['ai-architecture'], learnerOutcome: { understand: 'How to analyze system behavior with quality attributes, distributed-systems models, threat analysis, and economic tradeoffs.', build: 'An architecture proposal that states assumptions, quantifies constraints, analyzes failure modes, and compares alternatives.', show: 'A reviewable architecture decision record, evidence-backed design review, and defensible revision triggers.' },
     description: 'Approach AI architecture like an upper-level systems course: turn requirements into models, test tradeoffs against evidence, and defend decisions across software, data, infrastructure, risk, and cost.',
     modules: [
       moduleWithLessons('system-design', 'System design', 'Decompose a problem into responsibilities, interfaces, data flows, and explicit constraints.', lessonIds('system-design'), sourceMapResources.architecture),
@@ -322,7 +323,7 @@ export const curriculumStages: CurriculumStage[] = [
     ],
   },
   {
-    id: 'professional-practice', eyebrow: 'Stage 06', title: 'Technical Leadership & Communication', tone: 'gold', learnerOutcome: { understand: 'How senior practitioners listen, frame problems, communicate decisions, plan under uncertainty, and build alignment.', build: 'A customer discovery brief, decision memo, risk-first delivery plan, and feedback reflection.', show: 'Clear evidence of customer conversations, audience-aware communication, revised plans, and collaborative judgment.' },
+    id: 'professional-practice', eyebrow: 'Stage 06', title: 'Technical Leadership & Communication', tone: 'gold', assessment: stageAssessments['professional-practice'], learnerOutcome: { understand: 'How senior practitioners listen, frame problems, communicate decisions, plan under uncertainty, and build alignment.', build: 'A customer discovery brief, decision memo, risk-first delivery plan, and feedback reflection.', show: 'Clear evidence of customer conversations, audience-aware communication, revised plans, and collaborative judgment.' },
     description: 'Develop the human and organizational skills that make technical work useful: understand customers, create shared clarity, navigate uncertainty, and influence without relying on authority.',
     modules: [
       moduleWithLessons('customer-discovery', 'Customer discovery and problem framing', 'Understand real work, competing needs, and evidence before proposing a solution.', lessonIds('customer-discovery-and-conversations', 'stakeholder-mapping-and-requirements'), sourceMapResources.professional),

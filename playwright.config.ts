@@ -16,5 +16,6 @@ export default defineConfig({
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
     { name: 'mobile', use: { ...devices['Pixel 5'] } },
+    ...(process.env.E2E_AUTH_STORAGE_STATE ? [{ name: 'authenticated', use: { ...devices['Desktop Chrome'], storageState: process.env.E2E_AUTH_STORAGE_STATE } }] : []),
   ],
 })
