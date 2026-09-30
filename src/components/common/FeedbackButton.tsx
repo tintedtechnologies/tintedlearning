@@ -1,5 +1,6 @@
 import { Check, MessageCircle, Send, X } from 'lucide-react'
 import { FormEvent, useEffect, useRef, useState } from 'react'
+import { useFocusTrap } from '../../hooks/useFocusTrap'
 
 const feedbackFormUrl = import.meta.env.VITE_FEEDBACK_FORM_URL?.trim()
 const feedbackResponseUrl = (() => {
@@ -29,22 +30,17 @@ export function FeedbackButton() {
   const [fieldErrors, setFieldErrors] = useState<FeedbackErrors>({})
   const triggerRef = useRef<HTMLButtonElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const dialogRef = useFocusTrap<HTMLElement>(isOpen, () => setIsOpen(false))
 
   useEffect(() => {
     if (!isOpen) return
 
     const previousOverflow = document.body.style.overflow
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setIsOpen(false)
-    }
-
     document.body.style.overflow = 'hidden'
-    document.addEventListener('keydown', closeOnEscape)
     closeButtonRef.current?.focus()
 
     return () => {
       document.body.style.overflow = previousOverflow
-      document.removeEventListener('keydown', closeOnEscape)
       triggerRef.current?.focus()
     }
   }, [isOpen])
@@ -145,6 +141,7 @@ export function FeedbackButton() {
           }}
         >
           <section
+            ref={dialogRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby="feedback-title"

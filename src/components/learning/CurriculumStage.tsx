@@ -43,9 +43,9 @@ export function CurriculumStage({ stage, completedLessonIds, isLessonComplete, s
     <details id={stage.id} className={`scroll-mt-8 rounded-[2rem] border border-line p-5 shadow-soft sm:p-8 ${tone}`}>
       <summary className="group flex cursor-pointer list-none items-center justify-between gap-5 [&::-webkit-details-marker]:hidden">
         <div className="min-w-0">
-          <p className="eyebrow">{stage.eyebrow}</p>
+          <p className="eyebrow !text-ink">{stage.eyebrow}</p>
           <h2 className="mt-2 font-display text-3xl font-bold text-teal sm:text-4xl">{stage.title}</h2>
-          <p className="mt-3 max-w-3xl text-sm leading-6 text-muted">{stage.description}</p>
+          <p className="mt-3 max-w-3xl text-sm leading-6 !text-ink">{stage.description}</p>
           <p className="mt-3 text-xs font-bold uppercase tracking-[0.16em] text-teal">{lessonCount ? `${completedCount} of ${lessonCount} lessons complete` : 'Source map and project work'}</p>
         </div>
         <ChevronDown size={24} className="shrink-0 text-teal transition-transform group-open:rotate-180" aria-hidden="true" />

@@ -1,11 +1,12 @@
 {
   "name": "tintedlearning",
   "private": true,
-  "version": "0.8.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "test:e2e": "playwright test",
     "validate:curriculum": "tsx scripts/validate-curriculum.ts",
     "preview": "vite preview"
   },
@@ -19,6 +20,8 @@
     "vite": "latest"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.63.0",
     "@types/node": "^22.20.3",
     "@types/react": "latest",
     "@types/react-dom": "latest",
