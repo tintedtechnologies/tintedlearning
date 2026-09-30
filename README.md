@@ -304,6 +304,21 @@ Tinted Learning v1 is the first complete browser-first release: the curriculum, 
 - Add architecture review and portfolio submission checklists
 - Add AI evaluation, technical leadership, and mathematics project templates to the portfolio publishing flow
 
+### Possible future paid courses
+
+Tinted Learning may offer optional paid training for learners who want more structure, depth, feedback, and support. Paid courses should extend the free pathway rather than remove essential access from it.
+
+Possible courses include:
+
+- **Python Developer Intensive**: structured assignments, code review, testing practice, and a complete portfolio service
+- **Production AI Systems**: evaluation, observability, guardrails, deployment, cost, and incident readiness
+- **AI Architecture Design Review**: system proposals, ADRs, threat models, reliability, and senior-level feedback
+- **Technical Leadership and Customer Discovery**: interviews, scope, business cases, demos, negotiation, and leadership practice
+- **Mathematical Foundations for Machine Learning**: derivations, numerical methods, experiments, and research-style feedback
+- **Cloud Deployment for AI Applications**: provider labs, identity, networking, CI/CD, infrastructure, and operating evidence
+
+Paid offerings could include detailed lessons, downloadable templates, assessments, cohort sessions, office hours, portfolio reviews, certificates of completion, and mentor feedback. The free site remains useful on its own; paid training provides a more guided and supported route.
+
 ### v1.3: Multi-provider depth
 
 - Add a complete Azure Container Apps walkthrough
