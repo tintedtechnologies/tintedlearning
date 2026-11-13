@@ -1,62 +1,87 @@
-import { ArrowRight, Check, Compass } from 'lucide-react'
+import { ArrowRight, BookOpen, CheckCircle2, FolderKanban } from 'lucide-react'
+import { SignInButton, useAuth } from '@clerk/react'
 import { useEffect } from 'react'
-import { Link, useLocation, useSearchParams } from 'react-router-dom'
-import { CurriculumStage } from '../components/learning/CurriculumStage'
-import { careerLevels, curriculumStages, isCareerLevelComplete, lessons } from '../data/curriculum'
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { SeoMetadata } from '../components/common/SeoMetadata'
+import { lessons } from '../data/curriculum'
+import { getSectionIdForLegacyStage, getSectionIdForModule, getSectionLessonIds, getSectionModules, learningSections } from '../data/learningSections'
 import { useProgress } from '../hooks/useProgress'
 
+const sectionGroups = [
+  { title: 'Start here', ids: ['foundations', 'math', 'python'] },
+  { title: 'Build skills', ids: ['software-engineering', 'ai-engineering', 'cloud-engineering', 'security'] },
+  { title: 'Grow', ids: ['research', 'technical-leadership'] },
+  { title: 'Prove it', ids: ['projects'] },
+] as const
+
 export function LearnPage() {
+  const { isSignedIn } = useAuth()
   const progress = useProgress(lessons.length)
   const [searchParams] = useSearchParams()
   const location = useLocation()
+  const navigate = useNavigate()
   const nextLesson = lessons.find((lesson) => !progress.isLessonComplete(lesson.id))
+  const hasProgress = progress.completedLessons.length > 0
 
   useEffect(() => {
     const stageId = searchParams.get('stage')
-    const targetId = location.hash.replace(/^#/, '') || stageId
-    if (!targetId) return
-    window.setTimeout(() => {
-      const target = document.getElementById(targetId)
-      const stage = target?.closest('details') as HTMLDetailsElement | null
-      if (stage) stage.open = true
-      target?.scrollIntoView({ block: 'start' })
-    }, 50)
-  }, [location.hash, searchParams])
+    const pathway = searchParams.get('pathway')
+    if (pathway === 'ai-mathematics') {
+      navigate('/learn/sections/math', { replace: true })
+      return
+    }
+    if (!stageId) return
+    const legacySectionId = getSectionIdForLegacyStage(stageId)
+    if (!legacySectionId) return
+    const hash = location.hash.replace(/^#/, '')
+    const moduleSectionId = hash ? getSectionIdForModule(hash) : undefined
+    const sectionId = moduleSectionId ?? legacySectionId
+    const sectionHasModule = getSectionModules(sectionId).some(({ module }) => module.id === hash)
+    navigate(`/learn/sections/${sectionId}${sectionHasModule ? `#${hash}` : ''}`, { replace: true })
+  }, [location.hash, navigate, searchParams])
+
+  const renderSectionCard = (sectionId: string) => {
+    const section = learningSections.find((item) => item.id === sectionId)
+    if (!section) return null
+    const sectionLessonIds = getSectionLessonIds(section)
+    const completed = sectionLessonIds.filter((lessonId) => progress.completedLessons.includes(lessonId)).length
+    const totalMinutes = getSectionModules(section.id).reduce((total, { lessons: moduleLessons }) => total + moduleLessons.reduce((minutes, lesson) => minutes + lesson.duration, 0), 0)
+    const estimatedHours = Math.max(1, Math.ceil(totalMinutes / 60))
+    const growing = section.id === 'research' || section.id === 'software-engineering'
+    return <Link key={section.id} to={`/learn/sections/${section.id}`} className="group flex min-h-52 flex-col rounded-3xl border border-line bg-white p-6 shadow-soft transition-colors hover:border-teal/30 hover:bg-mist">
+      <span className="flex items-start justify-between gap-3"><span className="font-display text-2xl font-bold text-teal">{section.title}</span><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-mist text-teal group-hover:bg-white"><BookOpen size={17} /></span></span>
+      {growing && <span className="mt-3 w-fit rounded-full bg-sand px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-teal">Growing section</span>}
+      <span className="mt-3 flex-1 text-sm leading-6 text-muted">{section.description}</span>
+      <span className="mt-5 flex items-center justify-between gap-3 text-xs font-bold text-teal"><>{completed}/{sectionLessonIds.length} lessons · About {estimatedHours} hour{estimatedHours === 1 ? '' : 's'}</><span className="inline-flex items-center gap-1">{completed === sectionLessonIds.length && sectionLessonIds.length > 0 ? <><CheckCircle2 size={15} />Complete</> : 'Explore'}<ArrowRight size={15} /></span></span>
+    </Link>
+  }
+
+  const portfolioCard = <article className="flex min-h-52 flex-col justify-between rounded-3xl border border-teal/15 bg-mist p-6">
+    <div><span className="flex items-start justify-between gap-3"><span className="font-display text-2xl font-bold text-teal">Your Portfolio</span><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-teal"><FolderKanban size={17} /></span></span><p className="mt-3 text-xs font-bold uppercase tracking-[0.18em] text-teal">Your portfolio</p><h3 className="mt-2 font-display text-2xl font-bold text-teal">Keep the proof of what you’ve built.</h3><p className="mt-3 text-sm leading-6 text-ink">Save project work, evaluation reports, and notes from your lessons in one place you can share with employers or clients.</p></div>
+    <div className="mt-5 flex flex-wrap gap-3">{isSignedIn ? <Link to="/portfolio" className="button button-primary">Open your portfolio<ArrowRight size={16} className="ml-2" /></Link> : <SignInButton mode="modal"><button type="button" className="button button-primary">Sign in to start your portfolio<ArrowRight size={16} className="ml-2" /></button></SignInButton>}<Link to="/portfolio/example" className="button button-secondary">See an example</Link></div>
+  </article>
 
   return <div>
+    <SeoMetadata title="Learn" description="Explore independent sections in AI, math, Python, research, software engineering, AI engineering, cloud, security, and certifications." />
     <section className="shell py-12 sm:py-16">
-      <p className="eyebrow">The career pathway</p>
+      <p className="eyebrow">Learn by section</p>
       <div className="mt-3 flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div>
-          <h1 className="section-title">From first steps to AI architecture.</h1>
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-muted">Tinted Learning is a source map: learn the essential idea here, then follow trusted free resources until you can build a system and defend every decision.</p>
-          <p className="mt-4 text-sm font-bold text-teal">{lessons.length} in-app lessons · {curriculumStages.length} stages · {progress.getProgressPercentage()}% complete</p>
+          <h1 className="section-title">Choose what you want to learn.</h1>
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-muted">Each section stands on its own. New to AI? Start with Foundations, or jump straight to what you need.</p>
         </div>
-        {nextLesson && <div className="max-w-xs rounded-2xl border border-teal/10 bg-white p-4 shadow-soft"><p className="eyebrow">Next step</p><Link to={`/learn/${nextLesson.id}`} className="button button-primary mt-3 w-full justify-between text-left">Continue with: {nextLesson.title}<ArrowRight size={17} /></Link></div>}
+        {nextLesson && <div className="max-w-sm"><p className="eyebrow">{hasProgress ? 'Continue learning' : 'New here?'}</p><Link to={`/learn/${nextLesson.id}`} className="mt-2 inline-flex items-start gap-2 font-bold leading-6 text-teal hover:text-gold"><span>{hasProgress ? nextLesson.title : 'Start Learning'}</span><ArrowRight size={17} className="mt-1 shrink-0" /></Link>{!hasProgress && <span className="mt-1 block text-xs text-muted">Begin with a five-minute introduction to AI.</span>}</div>}
       </div>
     </section>
 
-    <section className="border-y border-line bg-white py-8 sm:py-10">
-      <div className="shell">
-        <div className="flex items-center justify-between gap-4"><div><p className="eyebrow">Your next milestone</p><h2 className="mt-2 font-display text-2xl font-bold text-teal">Choose the capability you are building toward.</h2></div><Compass className="hidden text-gold sm:block" size={26} /></div>
-        <div className="mt-6 grid gap-3 md:grid-cols-4">
-          {careerLevels.map((level, index) => {
-            const complete = isCareerLevelComplete(level, progress.completedLessons)
-            const destination = `/careers/${level.id}`
-            return <Link key={level.id} to={destination} className={`relative rounded-2xl border p-4 transition-transform hover:-translate-y-0.5 hover:shadow-soft ${complete ? 'border-teal/30 bg-mist' : 'border-line bg-cream'}`}>
-              <span className="flex items-center justify-between gap-2"><span className="text-xs font-bold uppercase tracking-widest text-muted">{index === 0 ? 'Begin' : `Level ${index}`}</span>{complete ? <Check size={17} className="text-teal" /> : <span className="text-sm font-bold text-gold">{index + 1}</span>}</span>
-              <span className="mt-3 block font-display text-xl font-bold text-teal">{level.title}</span>
-              <span className="mt-2 block text-xs leading-5 text-muted">{complete ? 'Milestone reached' : level.description}</span>
-              <span className="mt-3 block text-[10px] font-bold uppercase tracking-[0.14em] text-teal">{level.portfolioArtifacts.length} evidence deliverables</span>
-            </Link>
-          })}
-        </div>
+    <section className="shell pb-20" aria-label="Learning sections">
+      <div className="space-y-10">
+        {sectionGroups.map((group) => <section key={group.title} aria-labelledby={`group-${group.title.toLowerCase().replaceAll(' ', '-')}`}>
+          <div className="flex items-end justify-between gap-4 border-b border-line pb-3"><h2 id={`group-${group.title.toLowerCase().replaceAll(' ', '-')}`} className="font-display text-2xl font-bold text-teal">{group.title}</h2><span className="text-xs font-bold uppercase tracking-widest text-muted">{group.ids.length} {group.ids.length === 1 ? 'section' : 'sections'}</span></div>
+          <div className={`mt-4 grid gap-4 ${group.title === 'Start here' ? 'sm:grid-cols-2 lg:grid-cols-3' : group.title === 'Prove it' ? 'sm:grid-cols-2' : 'sm:grid-cols-2'}`}>{group.ids.map(renderSectionCard)}{group.title === 'Prove it' && portfolioCard}</div>
+        </section>)}
       </div>
-    </section>
-
-    <section className="shell space-y-5 py-12 pb-20">
-      {curriculumStages.map((stage) => <CurriculumStage key={stage.id} stage={stage} completedLessonIds={progress.completedLessons} isLessonComplete={progress.isLessonComplete} setLessonComplete={progress.setLessonComplete} isStageAssessmentPassed={progress.hasPassedStageAssessment} />)}
-      <div className="flex flex-wrap justify-center gap-3 pt-3"><Link to="/portfolio" className="button button-primary">Build your portfolio <ArrowRight size={17} className="ml-2" /></Link><Link to="/playground" className="button button-secondary">Practice what you learn <ArrowRight size={17} className="ml-2" /></Link></div>
+      <p className="mt-8 text-sm leading-6 text-muted">Looking for certifications? <Link to="/learn/sections/certifications" className="font-bold text-teal hover:text-gold">See the reference catalog</Link>.</p>
     </section>
   </div>
 }

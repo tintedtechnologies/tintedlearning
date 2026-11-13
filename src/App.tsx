@@ -3,6 +3,7 @@ import { AppLayout } from './layouts/AppLayout'
 import { AboutPage } from './pages/AboutPage'
 import { HomePage } from './pages/HomePage'
 import { LearnPage } from './pages/LearnPage'
+import { LearningSectionPage } from './pages/LearningSectionPage'
 import { StageAssessmentPage } from './pages/StageAssessmentPage'
 import { LessonPage } from './pages/LessonPage'
 import { PlaygroundPage } from './pages/PlaygroundPage'
@@ -17,6 +18,7 @@ import { ScrollToTop } from './components/common/ScrollToTop'
 import { CareerPage } from './pages/CareerPage'
 import { PythonPage } from './pages/PythonPage'
 import { PortfolioPage } from './pages/PortfolioPage'
+import { PortfolioSharePage } from './pages/PortfolioSharePage'
 import { DashboardPage } from './pages/DashboardPage'
 import { TermsPage } from './pages/TermsPage'
 import { PrivacyPage } from './pages/PrivacyPage'
@@ -32,9 +34,12 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/learn" element={<LearnPage />} />
         <Route path="/learn/stage/:stageId/test" element={<StageAssessmentPage />} />
+        <Route path="/learn/sections/:sectionId" element={<LearningSectionPage />} />
         <Route path="/learn/:lessonId" element={<LessonPage />} />
         <Route path="/careers/:careerId" element={<CareerPage />} />
         <Route path="/portfolio" element={<PortfolioPage />} />
+        <Route path="/portfolio/share" element={<PortfolioSharePage />} />
+        <Route path="/portfolio/example" element={<PortfolioPage />} />
         <Route path="/portfolio/:trackId" element={<PortfolioPage />} />
         <Route path="/playground/python" element={<PythonPage />} />
         <Route path="/playground" element={<PlaygroundPage />} />

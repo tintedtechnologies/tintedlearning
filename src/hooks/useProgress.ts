@@ -18,6 +18,7 @@ export interface StageAssessmentAttempt {
 interface ProgressSnapshot {
   completedLessons: string[]
   lessonChecks: Record<string, LessonLearningChecks>
+  lessonEvidenceNotes: Record<string, string>
   lessonQuizAnswers: Record<string, Record<number, string>>
   stageAssessmentResults: Record<string, StageAssessmentResult>
   stageAssessmentAttempts: Record<string, StageAssessmentAttempt>
@@ -25,7 +26,7 @@ interface ProgressSnapshot {
 
 const emptyLessonLearningChecks = (): LessonLearningChecks => ({ practiced: false, explained: false, tested: false, evidenced: false })
 
-function readRemoteProgress(value: unknown): { completedLessons: string[]; lessonChecks: Record<string, LessonLearningChecks>; lessonQuizAnswers: Record<string, Record<number, string>>; stageAssessmentResults: Record<string, StageAssessmentResult>; stageAssessmentAttempts: Record<string, StageAssessmentAttempt> } {
+function readRemoteProgress(value: unknown): { completedLessons: string[]; lessonChecks: Record<string, LessonLearningChecks>; lessonEvidenceNotes: Record<string, string>; lessonQuizAnswers: Record<string, Record<number, string>>; stageAssessmentResults: Record<string, StageAssessmentResult>; stageAssessmentAttempts: Record<string, StageAssessmentAttempt> } {
   const lessonsValue = Array.isArray(value) ? value : typeof value === 'object' && value !== null && 'completedLessons' in value ? (value as { completedLessons?: unknown }).completedLessons : []
   const completedLessons = Array.isArray(lessonsValue) && lessonsValue.every((item) => typeof item === 'string')
     ? [...new Set(lessonsValue.filter((item) => VALID_LESSON_IDS.has(item)))]
@@ -36,6 +37,10 @@ function readRemoteProgress(value: unknown): { completedLessons: string[]; lesso
       if (!VALID_LESSON_IDS.has(lessonId) || typeof checks !== 'object' || checks === null) return false
       return Object.keys(emptyLessonLearningChecks()).every((key) => typeof (checks as Record<string, unknown>)[key] === 'boolean')
     }).map(([lessonId, checks]) => [lessonId, { ...emptyLessonLearningChecks(), ...(checks as Partial<LessonLearningChecks>) }]))
+    : {}
+  const rawEvidenceNotes = typeof value === 'object' && value !== null && 'lessonEvidenceNotes' in value ? (value as { lessonEvidenceNotes?: unknown }).lessonEvidenceNotes : {}
+  const lessonEvidenceNotes = typeof rawEvidenceNotes === 'object' && rawEvidenceNotes !== null
+    ? Object.fromEntries(Object.entries(rawEvidenceNotes).filter(([lessonId, note]) => VALID_LESSON_IDS.has(lessonId) && typeof note === 'string')) as Record<string, string>
     : {}
   const rawResults = typeof value === 'object' && value !== null && 'stageAssessmentResults' in value ? (value as { stageAssessmentResults?: unknown }).stageAssessmentResults : {}
   const stageAssessmentResults = typeof rawResults === 'object' && rawResults !== null
@@ -57,7 +62,7 @@ function readRemoteProgress(value: unknown): { completedLessons: string[]; lesso
       return typeof value.currentIndex === 'number' && typeof value.answers === 'object' && value.answers !== null
     })) as Record<string, StageAssessmentAttempt>
     : {}
-  return { completedLessons, lessonChecks, lessonQuizAnswers, stageAssessmentResults, stageAssessmentAttempts }
+  return { completedLessons, lessonChecks, lessonEvidenceNotes, lessonQuizAnswers, stageAssessmentResults, stageAssessmentAttempts }
 }
 
 function getCompletedStageIds(completedLessonIds: string[]) {
@@ -83,6 +88,7 @@ export function useProgress(totalLessons: number) {
   const { user, isLoaded: isUserLoaded } = useUser()
   const [completedLessons, setCompletedLessons] = useState<string[]>([])
   const [lessonChecks, setLessonChecks] = useState<Record<string, LessonLearningChecks>>({})
+  const [lessonEvidenceNotes, setLessonEvidenceNotes] = useState<Record<string, string>>({})
   const [lessonQuizAnswers, setLessonQuizAnswersState] = useState<Record<string, Record<number, string>>>({})
   const [stageAssessmentResults, setStageAssessmentResults] = useState<Record<string, StageAssessmentResult>>({})
   const [stageAssessmentAttempts, setStageAssessmentAttempts] = useState<Record<string, StageAssessmentAttempt>>({})
@@ -90,7 +96,7 @@ export function useProgress(totalLessons: number) {
   const [isSaving, setIsSaving] = useState(false)
   const [saveError, setSaveError] = useState('')
   const saveQueue = useRef<Promise<void>>(Promise.resolve())
-  const progressRef = useRef<ProgressSnapshot>({ completedLessons: [], lessonChecks: {}, lessonQuizAnswers: {}, stageAssessmentResults: {}, stageAssessmentAttempts: {} })
+  const progressRef = useRef<ProgressSnapshot>({ completedLessons: [], lessonChecks: {}, lessonEvidenceNotes: {}, lessonQuizAnswers: {}, stageAssessmentResults: {}, stageAssessmentAttempts: {} })
 
   useEffect(() => {
     if (!isUserLoaded) return
@@ -99,12 +105,13 @@ export function useProgress(totalLessons: number) {
     progressRef.current = stored
     setCompletedLessons(stored.completedLessons)
     setLessonChecks(stored.lessonChecks)
+    setLessonEvidenceNotes(stored.lessonEvidenceNotes)
     setLessonQuizAnswersState(stored.lessonQuizAnswers)
     setStageAssessmentResults(stored.stageAssessmentResults)
     setStageAssessmentAttempts(stored.stageAssessmentAttempts)
     setIsLoaded(true)
     if (user && Array.isArray(storedProgress)) {
-      void user.updateMetadata({ unsafeMetadata: { tintedProgress: { completedLessons: stored.completedLessons, lessonChecks: stored.lessonChecks, lessonQuizAnswers: stored.lessonQuizAnswers, stageAssessmentResults: stored.stageAssessmentResults, stageAssessmentAttempts: stored.stageAssessmentAttempts, ...getProgressDetails(stored.completedLessons) } } })
+      void user.updateMetadata({ unsafeMetadata: { tintedProgress: { completedLessons: stored.completedLessons, lessonChecks: stored.lessonChecks, lessonEvidenceNotes: stored.lessonEvidenceNotes, lessonQuizAnswers: stored.lessonQuizAnswers, stageAssessmentResults: stored.stageAssessmentResults, stageAssessmentAttempts: stored.stageAssessmentAttempts, ...getProgressDetails(stored.completedLessons) } } })
     }
   }, [isUserLoaded, user?.id, user?.unsafeMetadata?.tintedProgress])
 
@@ -128,6 +135,7 @@ export function useProgress(totalLessons: number) {
     progressRef.current = snapshot
     setCompletedLessons(snapshot.completedLessons)
     setLessonChecks(snapshot.lessonChecks)
+    setLessonEvidenceNotes(snapshot.lessonEvidenceNotes)
     setLessonQuizAnswersState(snapshot.lessonQuizAnswers)
     setStageAssessmentResults(snapshot.stageAssessmentResults)
     setStageAssessmentAttempts(snapshot.stageAssessmentAttempts)
@@ -152,6 +160,13 @@ export function useProgress(totalLessons: number) {
     const current = progressRef.current
     const lessonChecks = { ...current.lessonChecks, [lessonId]: { ...emptyLessonLearningChecks(), ...(current.lessonChecks[lessonId] ?? {}), [check]: complete } }
     commitProgress({ ...current, lessonChecks })
+  }, [commitProgress])
+
+  const setLessonEvidenceNote = useCallback((lessonId: string, note: string) => {
+    const current = progressRef.current
+    const lessonEvidenceNotes = { ...current.lessonEvidenceNotes, [lessonId]: note }
+    const lessonChecks = note.trim() ? { ...current.lessonChecks, [lessonId]: { ...emptyLessonLearningChecks(), ...(current.lessonChecks[lessonId] ?? {}), evidenced: true } } : current.lessonChecks
+    commitProgress({ ...current, lessonEvidenceNotes, lessonChecks })
   }, [commitProgress])
 
   const setStageAssessmentResult = useCallback((stageId: string, score: number, total: number, passingScore = 0.8) => {
@@ -179,7 +194,7 @@ export function useProgress(totalLessons: number) {
   }, [commitProgress])
 
   const clearProgress = useCallback(() => {
-    commitProgress({ completedLessons: [], lessonChecks: {}, lessonQuizAnswers: {}, stageAssessmentResults: {}, stageAssessmentAttempts: {} })
+    commitProgress({ completedLessons: [], lessonChecks: {}, lessonEvidenceNotes: {}, lessonQuizAnswers: {}, stageAssessmentResults: {}, stageAssessmentAttempts: {} })
   }, [commitProgress])
 
   const isLessonComplete = useCallback(
@@ -192,6 +207,11 @@ export function useProgress(totalLessons: number) {
     [lessonChecks],
   )
 
+  const getLessonEvidenceNote = useCallback(
+    (lessonId: string) => lessonEvidenceNotes[lessonId] ?? '',
+    [lessonEvidenceNotes],
+  )
+
   const hasPassedStageAssessment = useCallback(
     (stageId: string) => stageAssessmentResults[stageId]?.passed === true,
     [stageAssessmentResults],
@@ -200,6 +220,7 @@ export function useProgress(totalLessons: number) {
   return {
     completedLessons,
     lessonChecks,
+    lessonEvidenceNotes,
     lessonQuizAnswers,
     stageAssessmentResults,
     stageAssessmentAttempts,
@@ -212,9 +233,11 @@ export function useProgress(totalLessons: number) {
     clearProgress,
     isLessonComplete,
     getLessonChecks,
+    getLessonEvidenceNote,
     getLessonQuizAnswers,
     setLessonQuizAnswers,
     setLessonLearningCheck,
+    setLessonEvidenceNote,
     setStageAssessmentResult,
     saveStageAssessmentAttempt,
     hasPassedStageAssessment,

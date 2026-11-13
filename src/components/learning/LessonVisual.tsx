@@ -225,7 +225,7 @@ export function LessonVisual({ visual }: LessonVisualProps) {
   if (visual.type === 'gradient-descent') return <GradientDescentVisual visual={visual} />
   if (visual.type === 'workflow-pipeline') return <WorkflowPipelineVisual visual={visual} />
   if (visual.type === 'algorithm-search') return <AlgorithmSearchVisual visual={visual} />
-  if (visual.type === 'algorithm-sort') return <AlgorithmTraversalVisual visual={visual} />
+  if (visual.type === 'algorithm-sort') return <AlgorithmSearchVisual visual={visual} />
   if (visual.type === 'data-cleaning') return <DataCleaningVisual visual={visual} />
   if (visual.type === 'experiment-compare') return <ExperimentCompareVisual visual={visual} />
   if (visual.type === 'python-values' || visual.type === 'python-collections' || visual.type === 'python-files' || visual.type === 'python-analysis' || visual.type === 'python-api' || visual.type === 'python-project') return <PythonConceptVisual visual={visual} />

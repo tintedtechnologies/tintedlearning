@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { HashRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import './styles/index.css'
 import { ClerkProvider } from '@clerk/react'
@@ -35,9 +35,9 @@ if (!clerkPublishableKey) {
           },
         }}
       >
-        <HashRouter>
+        <BrowserRouter>
           <App />
-        </HashRouter>
+        </BrowserRouter>
       </ClerkProvider>
     </StrictMode>,
   )

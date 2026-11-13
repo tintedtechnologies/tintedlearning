@@ -1,10 +1,11 @@
 import { ArrowRight, CheckCircle2, ExternalLink } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { SeoMetadata } from '../components/common/SeoMetadata'
 
 const promises = ['Plain-language lessons and visual explanations', 'Browser practice with Python, algorithms, and AI workflows', 'Projects and portfolio evidence for your next opportunity']
 
 export function AboutPage() {
-  return <main className="min-h-[calc(100vh-5rem)] overflow-hidden bg-cream">
+  return <><SeoMetadata title="About Tinted Learning" description="Tinted Learning is a free bridge into AI understanding, browser practice, trusted resources, and portfolio evidence." /><main className="min-h-[calc(100vh-5rem)] overflow-hidden bg-cream">
     <div className="bg-teal px-5 py-16 text-white sm:px-8 sm:py-20">
       <div className="mx-auto flex w-full max-w-4xl flex-col items-center text-center">
       <img src="/tintedlearninglogo.png" alt="Tinted Learning" className="h-48 w-48 rounded-[2.5rem] object-contain shadow-soft sm:h-64 sm:w-64" />
@@ -26,5 +27,5 @@ export function AboutPage() {
         <div className="mt-12 text-center"><p className="mx-auto max-w-2xl text-base leading-7 text-muted">Start where you are. Learn the idea, practice the skill, build something real, and collect evidence you can use for your next step.</p><div className="mt-8 flex flex-wrap justify-center gap-3"><Link to="/learn" className="button button-primary">Explore the pathway <ArrowRight size={17} className="ml-2" /></Link><Link to="/playground/python" className="button button-secondary">Try Python <ArrowRight size={17} className="ml-2" /></Link></div></div>
       </div>
     </div>
-  </main>
+  </main></>
 }

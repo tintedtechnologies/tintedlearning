@@ -3,31 +3,105 @@ import AxeBuilder from '@axe-core/playwright'
 
 test('homepage exposes onboarding routes and donation link', async ({ page }) => {
   await page.goto('/')
-  await expect(page.getByRole('heading', { name: 'Where should I start?' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Start with your goal.' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'I want to become a Python developer' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'I like math and research' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'I want to lead technical work' })).toBeVisible()
+  await expect(page.getByText('Free forever', { exact: true })).toBeVisible()
+  await expect(page.getByText('Sample evaluation report')).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Start the 5-minute AI lesson' })).toHaveAttribute('href', '/learn/what-is-ai')
+  await expect(page.getByText('pat', { exact: true })).toBeVisible()
+  await expect(page.getByText('terns', { exact: true })).toBeVisible()
   if (await page.getByRole('button', { name: 'Open menu' }).count()) await page.getByRole('button', { name: 'Open menu' }).click()
   await expect(page.getByRole('link', { name: 'Donate' })).toHaveAttribute('target', '_blank')
   await expect(page.getByRole('link', { name: 'Donate' })).toHaveAttribute('href', /buymeacoffee\.com/)
 })
 
-test('direct stage links open the requested stage', async ({ page }) => {
-  await page.goto('/#/learn?stage=professional-practice')
-  const stage = page.locator('details#professional-practice')
-  await expect(stage).toHaveAttribute('open', '')
-  await expect(stage.getByText('Customer Discovery and Conversations', { exact: true })).toBeVisible()
+test('legacy stage links redirect to their compatible section', async ({ page }) => {
+  await page.goto('/learn?stage=professional-practice')
+  await expect(page).toHaveURL(/\/learn\/sections\/technical-leadership$/)
+  await expect(page.getByRole('heading', { name: 'Technical Leadership & Communication', level: 1 })).toBeVisible()
+  await expect(page.getByText('Customer Discovery and Conversations', { exact: true })).toBeVisible()
 })
 
-test('stage assessments open in their own view', async ({ page }) => {
-  await page.goto('/#/learn?stage=foundation')
-  await page.getByRole('link', { name: 'Take the stage test' }).click()
+test('every section has a direct route and Math, Python, and Research are independent', async ({ page }) => {
+  const sections = ['foundations', 'math', 'python', 'research', 'software-engineering', 'technical-leadership', 'ai-engineering', 'cloud-engineering', 'security', 'projects', 'certifications']
+  for (const section of sections) {
+    await page.goto(`/learn/sections/${section}`)
+    await expect(page).toHaveURL(new RegExp(`/learn/sections/${section}$`))
+    await expect(page.locator('h1')).toBeVisible()
+    await expect(page.locator('meta[name="description"]')).not.toHaveAttribute('content', '')
+  }
+  await page.goto('/learn/sections/foundations')
+  await expect(page.getByRole('heading', { name: 'Foundations', level: 1 })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Python', exact: true })).toHaveCount(0)
+  await expect(page.getByRole('link', { name: 'Math', exact: true })).toHaveCount(0)
+})
+
+test('new learners get a clear Learn-page starting point', async ({ page }) => {
+  await page.goto('/learn')
+  await expect(page.getByText('New here?', { exact: true })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Start Learning' })).toBeVisible()
+  await expect(page.getByText('Each section stands on its own. New to AI? Start with Foundations, or jump straight to what you need.', { exact: true })).toBeVisible()
+  await expect(page.getByText('Looking for certifications?')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Sign in to start your portfolio' })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'See an example' })).toBeVisible()
+})
+
+test('Foundations points beginners toward Python without mislabeling the lesson', async ({ page }) => {
+  await page.goto('/learn/sections/foundations')
+  await expect(page.getByRole('heading', { name: 'Programming Fundamentals', level: 2 })).toBeVisible()
+  await expect(page.getByText('Continue with the Python section')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Cloud Fundamentals', level: 2 })).toBeVisible()
+  await expect(page.getByText('Basic familiarity with files, applications, and the internet.')).toBeVisible()
+})
+
+test('certifications render as an optional reference catalog', async ({ page }) => {
+  await page.goto('/learn/sections/certifications')
+  await expect(page.getByRole('heading', { name: 'Certifications', level: 1 })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Cloud credentials' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Security credentials' })).toBeVisible()
+  await expect(page.getByText('Exam SAP-C03', { exact: true })).toBeVisible()
+  await expect(page.getByText(/do not count as lessons or completion requirements/)).toBeVisible()
+})
+
+test('lesson pages expose unique clean-url metadata', async ({ page }) => {
+  await page.goto('/learn/what-is-ai')
+  await expect(page).toHaveTitle(/What is Artificial Intelligence\? \| Tinted Learning/)
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /Define AI/)
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /\/learn\/what-is-ai$/)
+})
+
+test('first lesson turns learning into saved evidence', async ({ page }) => {
+  await page.goto('/learn/what-is-ai')
+  await expect(page.getByRole('link', { name: 'Start the 5-minute AI lesson' })).toHaveCount(0)
+  const evidence = page.getByLabel('Your example')
+  await expect(evidence).toBeVisible()
+  await evidence.fill('My music app takes in listening history and predicts songs I may enjoy.')
+  await evidence.blur()
+  await expect(evidence).toHaveValue('My music app takes in listening history and predicts songs I may enjoy.')
+  await expect(page.getByRole('button', { name: 'Mark lesson complete' })).toBeEnabled()
+  await expect(page.getByRole('link', { name: 'Next lesson' })).toBeVisible()
+  await expect(page.getByText('Learning loop')).toHaveCount(0)
+  await expect(page.getByText('Optional reading')).toBeVisible()
+  const quickChecks = page.getByRole('heading', { name: 'Test what you understand.' })
+  const optionalReading = page.getByRole('heading', { name: 'Go deeper when you are ready' })
+  await expect(quickChecks).toBeVisible()
+  await expect(optionalReading).toBeVisible()
+  const headings = await page.locator('h2').allTextContents()
+  expect(headings.indexOf('Test what you understand.')).toBeLessThan(headings.indexOf('Go deeper when you are ready'))
+})
+
+test('section assessments open in their own view', async ({ page }) => {
+  await page.goto('/learn/sections/foundations')
+  await page.getByRole('link', { name: 'Foundations assessment' }).click()
   await expect(page).toHaveURL(/learn\/stage\/foundation\/test/)
-  await expect(page.locator('h1', { hasText: 'Foundation stage test' })).toBeVisible()
+  await expect(page.locator('h1', { hasText: 'Foundations assessment' })).toBeVisible()
   await expect(page.getByText('This assessment contains 50 questions.')).toBeVisible()
 })
 
 test('stage assessment locks answers on next and only moves forward', async ({ page }) => {
-  await page.goto('/#/learn/stage/foundation/test')
+  await page.goto('/learn/stage/foundation/test')
   await page.locator('input[type="radio"]').first().check()
   await page.getByRole('button', { name: 'Next question' }).click()
   await expect(page.getByText('Question 2 of 50')).toBeVisible()
@@ -35,10 +109,10 @@ test('stage assessment locks answers on next and only moves forward', async ({ p
   await expect(page.getByRole('button', { name: 'Lock answer' })).toHaveCount(0)
 })
 
-test('authenticated learners can complete a lesson and earn a stage badge', async ({ page }, testInfo) => {
+test('authenticated learners can complete a lesson and earn an existing badge', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'authenticated', 'Set E2E_AUTH_STORAGE_STATE to run authenticated coverage.')
 
-  await page.goto('/#/learn/what-is-ai')
+  await page.goto('/learn/what-is-ai')
   await page.getByRole('radio', { name: 'A music app suggesting a song you may like' }).check()
   await page.getByRole('radio', { name: 'Different methods can help software find patterns, make predictions, understand language, or choose useful actions' }).check()
   await page.reload()
@@ -47,11 +121,11 @@ test('authenticated learners can complete a lesson and earn a stage badge', asyn
   for (const label of ['Practice', 'Explain', 'Evidence']) await page.getByRole('checkbox', { name: new RegExp(label) }).check()
   await page.getByRole('button', { name: 'Mark lesson complete' }).click()
 
-  await page.goto('/#/learn?stage=foundation')
+  await page.goto('/learn/sections/foundations')
   const incompleteLessonButtons = page.locator('button[aria-label^="Mark"][aria-label$="complete"]')
   while (await incompleteLessonButtons.count()) await incompleteLessonButtons.first().click()
 
-  await page.goto('/#/learn/stage/foundation/test')
+  await page.goto('/learn/stage/foundation/test')
   await page.locator('input[type="radio"]').first().check()
   await page.getByRole('button', { name: 'Next question' }).click()
   await page.reload()
@@ -68,36 +142,51 @@ test('authenticated learners can complete a lesson and earn a stage badge', asyn
   await page.getByRole('button', { name: 'Next question' }).click()
   for (let question = 3; question < 50; question += 1) {
     await page.locator('input[type="radio"]').first().check()
-    await page.getByRole('button', { name: question === 49 ? 'Finish test' : 'Next question' }).click()
+    await page.getByRole('button', { name: question === 49 ? 'Finish assessment' : 'Next question' }).click()
   }
   await expect(page.getByText('50/50')).toBeVisible()
 
-  await page.goto('/#/dashboard')
+  await page.goto('/dashboard')
   await page.getByRole('button', { name: 'Badges' }).click()
   await expect(page.getByText('Foundation badge earned')).toBeVisible()
 })
 
 test('invalid lesson routes redirect without crashing', async ({ page }) => {
-  await page.goto('/#/learn/not-a-real-lesson')
-  await expect(page).toHaveURL(/#\/learn$/)
-  await expect(page.getByRole('heading', { name: 'From first steps to AI architecture.' })).toBeVisible()
+  await page.goto('/learn/not-a-real-lesson')
+  await expect(page).toHaveURL(/\/learn$/)
+  await expect(page.getByRole('heading', { name: 'Choose what you want to learn.' })).toBeVisible()
 })
 
 test('portfolio studio exposes current project tracks and detail guides', async ({ page }) => {
-  await page.goto('/#/portfolio')
-  await expect(page.getByRole('heading', { name: 'Evaluate and operate an AI system' })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'Build a technical leadership portfolio' })).toBeVisible()
-  await page.goto('/#/portfolio/ai-system-evaluation')
+  await page.goto('/portfolio')
+  await expect(page.getByRole('heading', { name: 'Jordan Lee', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Projects · GitHub links' })).toBeVisible()
+  await page.goto('/portfolio/ai-system-evaluation')
   await expect(page.getByText('Build steps', { exact: true })).toBeVisible()
   await page.locator('summary', { hasText: 'Red-team and inspect failures' }).click()
   await expect(page.locator('summary', { hasText: 'Red-team and inspect failures' })).toBeVisible()
 })
 
+test('signed-out visitors can view the finished portfolio example', async ({ page }) => {
+  await page.goto('/portfolio/example')
+  await expect(page.getByRole('heading', { name: 'Jordan Lee', exact: true })).toBeVisible()
+  await expect(page.getByText('This example shows the new portfolio format')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Professional summary' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Sign in to build your portfolio' })).toBeVisible()
+})
+
 test('guest plan route offers free continuation', async ({ page }) => {
-  await page.goto('/#/dashboard?section=plan&goal=python-developer')
+  await page.goto('/dashboard?section=plan&goal=python-developer')
   await expect(page.getByRole('heading', { name: 'Choose how to continue' })).toBeVisible()
-  await expect(page.getByRole('link', { name: 'Continue free' })).toHaveAttribute('href', /learn\?stage=foundation/)
+  await expect(page.getByRole('link', { name: 'Continue free' })).toHaveAttribute('href', /learn\/sections\/python/)
   await expect(page.getByRole('button', { name: 'Save my plan' })).toBeVisible()
+})
+
+test('guest math route selects the independent Math section', async ({ page }) => {
+  await page.goto('/dashboard?section=plan&goal=ai-mathematics')
+  await page.getByRole('link', { name: 'Continue free' }).click()
+  await expect(page).toHaveURL(/\/learn\/sections\/math$/)
+  await expect(page.getByRole('heading', { name: 'Math', level: 1 })).toBeVisible()
 })
 
 test('homepage has no horizontal overflow on mobile', async ({ page }) => {
@@ -107,8 +196,16 @@ test('homepage has no horizontal overflow on mobile', async ({ page }) => {
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
 })
 
+test('learning sections have no horizontal overflow on mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/learn')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
+  await page.goto('/learn/sections/certifications')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
+})
+
 test('key public pages have no serious accessibility violations', async ({ page }) => {
-  for (const route of ['/', '/#/learn', '/#/portfolio', '/#/about']) {
+  for (const route of ['/', '/learn', '/learn/sections/foundations', '/learn/sections/certifications', '/portfolio', '/about']) {
     await page.goto(route)
     const results = await new AxeBuilder({ page }).analyze()
     const serious = results.violations.filter((violation) => violation.impact === 'critical' || violation.impact === 'serious')

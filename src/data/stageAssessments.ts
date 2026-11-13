@@ -10,8 +10,8 @@ const question = (questionText: string, options: string[], answer: string, feedb
 
 export const stageAssessments: Record<string, StageAssessment> = {
   foundation: {
-    title: 'Foundation stage test',
-    instructions: 'Use the ideas from this stage to explain a situation, choose a sound approach, and connect AI concepts to working code.',
+    title: 'Foundations assessment',
+    instructions: 'Use these ideas to explain a situation, choose a sound approach, and connect AI concepts to working code.',
     questions: [
       question('A music app recommends a song based on patterns in listening history. What makes this an AI use case?', ['It follows one fixed instruction every time', 'It finds patterns and produces a prediction or recommendation', 'It only stores the song title', 'It turns the phone on'], 'It finds patterns and produces a prediction or recommendation', 'AI is useful here because the system uses patterns in data to produce a recommendation for a new situation.'),
       question('A model performs well on its training examples but poorly on new examples. What should you investigate first?', ['Whether the model memorized the training examples and whether the evaluation data is representative', 'Whether to delete the evaluation data', 'Whether to report only the training score', 'Whether to make the model larger without checking the data'], 'Whether the model memorized the training examples and whether the evaluation data is representative', 'A model must be checked on suitable examples it did not train on. A strong training score alone does not show generalization.'),
@@ -19,7 +19,7 @@ export const stageAssessments: Record<string, StageAssessment> = {
     ],
   },
   'software-engineering': {
-    title: 'Software Engineering stage test',
+    title: 'Software Engineering assessment',
     instructions: 'Reason about boundaries, data, failure, testing, and delivery as one dependable system.',
     questions: [
       question('Why should an API validate inputs and outputs at its boundary?', ['To make failures and expectations explicit before bad data spreads', 'To make the service impossible to change', 'To remove the need for tests', 'To hide errors from callers'], 'To make failures and expectations explicit before bad data spreads', 'A boundary is where assumptions should be checked. Validation makes failures clearer and protects the rest of the system.'),
@@ -28,7 +28,7 @@ export const stageAssessments: Record<string, StageAssessment> = {
     ],
   },
   'ai-engineering': {
-    title: 'AI Engineering stage test',
+    title: 'AI Engineering assessment',
     instructions: 'Evaluate model-powered behavior as a system with prompts, data, tools, safeguards, and operating costs.',
     questions: [
       question('A retrieval system returns plausible but irrelevant documents. Which change should come before rewriting the final prompt?', ['Inspect the retrieval query, metadata filters, and evaluation cases', 'Increase temperature immediately', 'Remove all citations', 'Ask the model to be more confident'], 'Inspect the retrieval query, metadata filters, and evaluation cases', 'When evidence is irrelevant, inspect the retrieval path and measure it before changing generation behavior.'),
@@ -37,7 +37,7 @@ export const stageAssessments: Record<string, StageAssessment> = {
     ],
   },
   'cloud-engineering': {
-    title: 'Cloud Engineering stage test',
+    title: 'Cloud Engineering assessment',
     instructions: 'Choose designs that account for identity, reliability, operations, deployment, and cost.',
     questions: [
       question('What is the shared responsibility model?', ['The provider and customer each own different parts of security and operation', 'The provider is responsible for every application decision', 'The customer is responsible for the provider hardware', 'Security is complete once a service is deployed'], 'The provider and customer each own different parts of security and operation', 'Cloud security is shared. The exact boundary depends on the service, configuration, identity, data, and application.'),
@@ -46,7 +46,7 @@ export const stageAssessments: Record<string, StageAssessment> = {
     ],
   },
   'ai-architecture': {
-    title: 'AI Architecture stage test',
+    title: 'AI Architecture assessment',
     instructions: 'Defend system decisions by connecting requirements, constraints, failure modes, and tradeoffs.',
     questions: [
       question('What should an architecture decision record capture?', ['The decision, context, alternatives, tradeoffs, and conditions for revisiting it', 'Only the final technology name', 'A list of unrelated implementation tasks', 'A guarantee that the decision cannot change'], 'The decision, context, alternatives, tradeoffs, and conditions for revisiting it', 'An ADR preserves reasoning so another person can review the choice and know when it should be reconsidered.'),
@@ -55,7 +55,7 @@ export const stageAssessments: Record<string, StageAssessment> = {
     ],
   },
   'professional-practice': {
-    title: 'Technical Leadership stage test',
+    title: 'Technical Leadership assessment',
     instructions: 'Apply communication, discovery, planning, negotiation, and leadership judgment to ambiguous work.',
     questions: [
       question('What is the strongest early customer-discovery question?', ['Can you walk me through the last time this problem happened?', 'Would you buy our proposed solution?', 'Do you agree our idea is useful?', 'Which feature should we build first?'], 'Can you walk me through the last time this problem happened?', 'Past behavior and concrete examples provide stronger evidence than asking people to predict whether they would buy an idea.'),

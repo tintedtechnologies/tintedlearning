@@ -57,7 +57,7 @@ export const lessonResources: Record<string, LearningResource[]> = {
   'vectors-and-representations': [resources.linearAlgebra, resources.numpy],
   'matrices-and-linear-algebra': [resources.linearAlgebra, resources.numpy],
   'calculus-and-gradients': [resources.calculus, resource('Automatic differentiation', 'PyTorch', 'See how a framework records operations and computes gradients.', 'https://pytorch.org/tutorials/beginner/blitz/autograd_tutorial.html')],
-  'programming-and-data-workflows': [resources.programming, resources.python],
+  'programming-and-data-workflows': [resources.programming, resources.python, resources.pandas, resources.numpy, resources.scikitMetrics],
   'algorithms-and-data-structures': [resources.algorithms, resource('Big O notation', 'Khan Academy', 'Practice reasoning about how time and memory grow with input size.', 'https://www.khanacademy.org/computing/computer-science/algorithms#asymptotic-notation')],
   'data-collection-and-cleaning': [resources.pandas, resource('Dataset cards', 'Hugging Face', 'Document dataset purpose, provenance, limitations, and intended use.', 'https://huggingface.co/docs/hub/datasets-cards')],
   'experiment-design': [resources.scikitMetrics, resource('Cross-validation', 'scikit-learn', 'Compare models and estimate generalization with repeatable cross-validation strategies.', 'https://scikit-learn.org/stable/modules/cross_validation.html')],

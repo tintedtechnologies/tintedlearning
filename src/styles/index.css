@@ -12,6 +12,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 :focus-visible { outline: 3px solid #dea667; outline-offset: 3px; }
 
 .dashboard-layout { display: grid; gap: 1.25rem; }
+.dashboard-current-position { display: none; }
 @media (min-width: 1024px) {
   .dashboard-layout { grid-template-columns: 15rem minmax(0, 1fr); align-items: start; }
 }
@@ -24,7 +25,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .icon-button { @apply flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-teal; }
   .eyebrow { @apply text-xs font-bold uppercase tracking-[0.2em] text-muted; }
   .section-title { @apply font-display text-4xl font-bold tracking-tight text-teal sm:text-5xl; }
-  .lesson-copy { @apply max-w-3xl text-[1.075rem] leading-[1.9] text-muted; }
+  .lesson-copy { @apply mx-auto max-w-3xl text-[1.075rem] leading-[1.9] text-muted; }
   .lesson-copy h2 { @apply mb-4 mt-14 font-display text-3xl font-bold leading-tight tracking-[-0.02em] text-teal sm:text-4xl; }
   .lesson-copy p { @apply mb-6; }
   .lesson-copy ul { @apply mb-10 mt-5 space-y-3 border-l-2 border-gold/60 pl-6 text-base leading-7 text-ink; }
@@ -351,4 +352,19 @@ button, a { -webkit-tap-highlight-color: transparent; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
   .lesson-function-trace animate { display: none; }
+}
+
+.resume-print-document { display: none; }
+@media print {
+  body * { visibility: hidden !important; }
+  .resume-print-document, .resume-print-document * { visibility: visible !important; }
+  .resume-print-document { display: block; position: absolute; top: 0; left: 0; width: 100%; padding: 2.5rem; color: #183735; background: white; font-family: Arial, sans-serif; }
+  .resume-print-document header { border-bottom: 3px solid #183735; padding-bottom: 1rem; }
+  .resume-print-document h1 { margin: 0; color: #123f3d; font-size: 2.8rem; font-weight: 800; }
+  .resume-print-document header p { margin: 0.65rem 0 0; color: #52625f; font-size: 1.05rem; font-weight: 600; }
+  .resume-print-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(12rem, 0.6fr); gap: 2rem; margin-top: 1.5rem; }
+  .resume-print-document section { margin-bottom: 1.5rem; }
+  .resume-print-document h2 { margin: 0 0 0.6rem; border-bottom: 2px solid #dea667; padding-bottom: 0.35rem; color: #245b56; font-size: 1rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+  .resume-print-document h3 { margin: 0.9rem 0 0.25rem; color: #245b56; font-size: 1.1rem; font-weight: 800; }
+  .resume-print-document p { margin: 0.3rem 0; font-size: 0.98rem; font-weight: 500; line-height: 1.6; }
 }

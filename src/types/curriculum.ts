@@ -131,19 +131,41 @@ export interface CurriculumStage {
   tone: 'teal' | 'gold' | 'neutral'
   learnerOutcome?: { understand: string; build: string; show: string }
   assessment?: StageAssessment
-  certifications?: Certification[]
   status?: 'available' | 'coming-soon'
 }
 
 export interface Certification {
+  id: string
   title: string
-  provider: 'Azure' | 'AWS' | 'Google Cloud'
-  level: 'Foundational' | 'Associate' | 'Professional'
-  pathStep: 1 | 2 | 3
+  provider: string
+  category: 'Cloud' | 'Security'
+  level: 'Foundational' | 'Associate' | 'Professional' | 'Specialty' | 'Entry'
   examCode?: string
   description: string
-  statusNote?: string
+  prerequisites: string[]
   url: string
+  verifiedAt: string
+  status: 'active' | 'upcoming' | 'retiring'
+  versionNotes?: string
+  retirementNotes?: string
+  relatedSectionIds: string[]
+}
+
+export interface LearningSectionModuleReference {
+  moduleId: string
+  lessonIds: string[]
+  title?: string
+  description?: string
+}
+
+export interface LearningSection {
+  id: string
+  title: string
+  description: string
+  kind: 'learning' | 'reference'
+  modules: LearningSectionModuleReference[]
+  assessmentStageIds?: CurriculumStageId[]
+  crossReferenceLessonIds?: string[]
 }
 
 export interface CareerLevel {

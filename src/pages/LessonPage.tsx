@@ -7,8 +7,8 @@ import { getCurriculumLessonSequence, lessons } from '../data/curriculum'
 import { lessonContent } from '../data/lessonContent'
 import { lessonResources } from '../data/lessonResources'
 import { useProgress } from '../hooks/useProgress'
-import type { LessonQuiz, LessonVisual as LessonVisualData } from '../types/curriculum'
-import type { LessonLearningCheck } from '../hooks/useProgress'
+import type { LearningResource, LessonQuiz, LessonVisual as LessonVisualData } from '../types/curriculum'
+import { SeoMetadata } from '../components/common/SeoMetadata'
 
 const fallbackQuiz: LessonQuiz = {
   question: 'What is the most useful next step after learning this concept?',
@@ -39,50 +39,52 @@ const stage3FlowSteps: Record<string, string[]> = {
   'ai-apis': ['Request', 'Model API', 'Response', 'Validate', 'Integrate'],
 }
 
-const learningLoopSteps: { key: LessonLearningCheck; label: string; description: string }[] = [
-  { key: 'practiced', label: 'Practice', description: 'Try the example or change one assumption.' },
-  { key: 'explained', label: 'Explain', description: 'Describe the idea in your own words.' },
-  { key: 'tested', label: 'Test', description: 'Answer every quick-check question correctly.' },
-  { key: 'evidenced', label: 'Evidence', description: 'Record a note, example, or small artifact.' },
-]
+function ResourceSection({ resources }: { resources: LearningResource[] }) {
+  return <section className="not-prose my-12"><p className="eyebrow">Optional reading</p><h2 className="mt-2 font-display text-3xl font-bold text-teal">Go deeper when you are ready</h2><p className="mt-3 max-w-2xl text-base leading-7 text-muted">The lesson and quick check are enough to continue. Use these references for extra context and practice.</p><div className="mt-5 grid gap-3 sm:grid-cols-2">{resources.map((resource) => <a key={resource.url} href={resource.url} target="_blank" rel="noreferrer" className="group rounded-2xl border border-line bg-white p-4 hover:border-teal/30 hover:bg-mist"><span className="flex items-start justify-between gap-3"><span><span className="block text-sm font-bold text-teal">{resource.title}</span><span className="mt-1 block text-[10px] font-bold uppercase tracking-widest text-muted">{resource.provider}</span></span><ExternalLink size={15} className="shrink-0 text-teal" /></span><span className="mt-2 block text-sm leading-6 text-muted">{resource.description}</span></a>)}</div></section>
+}
+
+function getLessonResources(lessonId: string, fallback?: LearningResource[]) {
+  return lessonResources[lessonId] ?? fallback
+}
 
 export function LessonPage() {
   const { lessonId } = useParams()
   const progress = useProgress(lessons.length)
   const [answers, setAnswers] = useState<Record<number, string>>({})
+  const [evidenceNote, setEvidenceNote] = useState('')
   const [deeperOpen, setDeeperOpen] = useState(false)
   const lesson = lessons.find((item) => item.id === lessonId)
   const content = lesson ? lessonContent[lesson.id] : undefined
 
   useEffect(() => {
     setAnswers(progress.getLessonQuizAnswers(lessonId ?? ''))
+    setEvidenceNote(progress.getLessonEvidenceNote(lessonId ?? ''))
     setDeeperOpen(false)
-  }, [lessonId, progress.isLoaded])
+  }, [lessonId, progress.isLoaded, progress.getLessonEvidenceNote, progress.getLessonQuizAnswers])
 
   if (!lesson || !content) return <Navigate to="/learn" replace />
 
-  const resources = lessonResources[lesson.id] ?? content.resources
+  const resources = getLessonResources(lesson.id, content.resources)
   const quizzes = content.quizzes ?? (content.quiz ? [content.quiz] : [fallbackQuiz])
   const visualExample = content.examples?.find((example) => example.visual)?.visual
   const stage3Visual: LessonVisualData | undefined = !visualExample && ['Modern AI Systems', 'Using AI', 'AI Engineering'].includes(lesson.category)
     ? { type: 'ai-system-flow', steps: stage3FlowSteps[lesson.id] ?? ['Input', 'Context', 'Model', 'Check', 'Outcome'], caption: 'AI behavior becomes easier to understand when the path from one decision to the next is visible.', description: `An animated AI system flow for ${lesson.title}, showing its lesson-specific path from input to outcome.` }
     : undefined
   const conceptVisual = visualExample ?? stage3Visual
-  const lessonChecks = progress.getLessonChecks(lesson.id)
-  const learningLoopComplete = learningLoopSteps.every((step) => lessonChecks[step.key])
   const answerQuiz = (index: number, choice: string) => {
     const nextAnswers = { ...answers, [index]: choice }
     setAnswers(nextAnswers)
     progress.setLessonQuizAnswers(lesson.id, nextAnswers)
     progress.setLessonLearningCheck(lesson.id, 'tested', quizzes.every((quiz, quizIndex) => nextAnswers[quizIndex] === quiz.answer))
   }
+  const saveEvidenceNote = () => progress.setLessonEvidenceNote(lesson.id, evidenceNote)
   const nonVisualExamples = content.examples?.filter((example) => !example.visual) ?? []
   const curriculumLessons = getCurriculumLessonSequence()
   const currentIndex = curriculumLessons.findIndex((item) => item.id === lesson.id)
   const previousLesson = curriculumLessons[currentIndex - 1]
   const nextLesson = curriculumLessons[currentIndex + 1]
 
-  return <article className="shell max-w-4xl py-12 sm:py-16">
+  return <><SeoMetadata title={lesson.title} description={lesson.description} /><article className="shell max-w-4xl py-12 sm:py-16">
     <div className="text-sm font-bold text-muted"><Link to="/learn" className="hover:text-teal">Learn</Link><span className="mx-2">/</span><span>{lesson.category}</span></div>
     <header className="mt-10 border-b border-line pb-10">
       <div className="flex flex-wrap items-center gap-3 text-sm font-bold text-muted"><span className="rounded-full bg-sand px-3 py-1 text-teal">{lesson.difficulty}</span><span className="inline-flex items-center"><Clock3 size={16} className="mr-2" />{lesson.duration} minutes</span></div>
@@ -93,25 +95,25 @@ export function LessonPage() {
     <section className="lesson-copy py-10">
       <h2>What you will learn</h2>
       <ul>{content.learningPoints.map((point) => <li key={point}>{point}</li>)}</ul>
-      <LessonConceptArea lesson={lesson} learningPoints={content.learningPoints} visual={conceptVisual} />
-      <div className="not-prose my-10 grid gap-4 md:grid-cols-2">
+      {conceptVisual && <LessonConceptArea lesson={lesson} visual={conceptVisual} />}
+      <div className="not-prose my-10 grid gap-4">
         <div className="lesson-layer bg-mist"><p className="lesson-layer-label">Start here</p><h2 className="mt-3 font-display text-3xl font-bold leading-tight text-teal">The simple idea</h2><p className="mt-4 text-base leading-7 text-muted">{content.sections[0].paragraphs[0]}</p></div>
-        <div className="lesson-layer bg-white"><p className="lesson-layer-label">Build the mental model</p><h2 className="mt-3 font-display text-3xl font-bold leading-tight text-teal">The important question</h2><p className="mt-4 text-base leading-7 text-muted">{content.learningPoints[1]}</p><p className="mt-3 text-base leading-7 text-muted">As you read, connect the examples to this question. That is how the vocabulary becomes useful instead of something to memorize.</p></div>
       </div>
+      {content.sections[1] && <div className="not-prose my-10 rounded-3xl border border-line bg-white p-6 sm:p-8"><p className="lesson-layer-label">Why it matters</p><h2 className="mt-3 font-display text-3xl font-bold leading-tight text-teal">Connect the idea to a real decision</h2><p className="mt-4 text-base leading-7 text-muted">{content.sections[1].paragraphs[0]}</p></div>}
       {content.sections.map((section, index) => <div key={section.heading}><h2>{section.heading}</h2>{index === 0 ? section.paragraphs.slice(1).map((paragraph) => <p key={paragraph}>{paragraph}</p>) : section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>)}
       <div className="my-10 grid gap-3 sm:grid-cols-2">{content.callouts.map((callout) => <div key={callout.title} className={`rounded-2xl p-5 ${callout.tone === 'teal' ? 'bg-mist' : 'bg-sand'}`}><p className="font-bold text-teal">{callout.title}</p><p className="mt-2 text-sm leading-6 text-muted">{callout.text}</p></div>)}</div>
       {nonVisualExamples.length > 0 && <section className="not-prose my-12 space-y-5"><div><p className="eyebrow">Work it through</p><h2 className="mt-2 font-display text-3xl font-bold text-teal">See the mechanism</h2><p className="mt-3 text-base leading-7 text-muted">A concept becomes engineering knowledge when you can inspect an example, change an assumption, and predict what should happen next.</p></div>{nonVisualExamples.map((example) => <div key={example.title} className="overflow-hidden rounded-3xl border border-teal/15 bg-white"><div className="border-b border-line bg-mist px-5 py-4"><p className="font-display text-xl font-bold text-teal">{example.title}</p><p className="mt-1 text-sm leading-6 text-muted">{example.explanation}</p></div><pre className="overflow-x-auto bg-[#173b38] p-5 text-sm leading-7 text-white"><code>{example.content}</code></pre></div>)}</section>}
-      {resources && <section className="not-prose my-12"><p className="eyebrow">Continue learning</p><h2 className="mt-2 font-display text-3xl font-bold text-teal">Go deeper before moving on</h2><p className="mt-3 max-w-2xl text-base leading-7 text-muted">This lesson gives you the map. These courses, labs, and references are where you build the deeper understanding and practice that turns the idea into a usable skill. Take time with at least one resource before continuing to the next lesson.</p><div className="mt-5 grid gap-3 sm:grid-cols-2">{resources.map((resource) => <a key={resource.url} href={resource.url} target="_blank" rel="noreferrer" className="group rounded-2xl border border-line bg-white p-4 hover:border-teal/30 hover:bg-mist"><span className="flex items-start justify-between gap-3"><span><span className="block text-sm font-bold text-teal">{resource.title}</span><span className="mt-1 block text-[10px] font-bold uppercase tracking-widest text-muted">{resource.provider}</span></span><ExternalLink size={15} className="shrink-0 text-teal" /></span><span className="mt-2 block text-sm leading-6 text-muted">{resource.description}</span></a>)}</div></section>}
     </section>
 
     {lesson.id === 'tokens' && <div className="mb-10"><Link to="/playground/tokens" className="button button-secondary">Try the token playground <ExternalLink size={16} className="ml-2" /></Link></div>}
     {lesson.category === 'Python' && <div className="mb-10 rounded-3xl bg-teal p-6 text-white sm:p-8"><p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">Practice this lesson</p><h2 className="mt-3 font-display text-3xl font-bold">Try Python in your browser.</h2><p className="mt-3 max-w-2xl leading-7 text-white/75">Run a small example, change the code, and see the result before you continue.</p><Link to="/playground/python" className="button button-secondary mt-5">Open Python playground <ExternalLink size={16} className="ml-2" /></Link></div>}
     {content.project && <ProjectGuide project={content.project} />}
 
-    <section className="rounded-3xl bg-teal p-6 text-white sm:p-8"><p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">Quick checks</p><h2 className="mt-3 font-display text-3xl font-bold">Test what you understand.</h2><div className="mt-6 space-y-6">{quizzes.map((quiz, index) => { const answer = answers[index]; const correct = answer === quiz.answer; return <div key={quiz.question}><p className="font-bold leading-7">{index + 1}. {quiz.question}</p><div className="mt-3 grid gap-3">{quiz.options.map((choice) => <button type="button" key={choice} onClick={() => answerQuiz(index, choice)} className={`rounded-2xl border px-4 py-4 text-left text-sm font-bold transition-colors ${answer === choice ? correct ? 'border-gold bg-gold text-teal' : 'border-red-300 bg-red-100 text-red-900' : 'border-white/20 bg-white/10 text-white hover:bg-white/20'}`}>{choice}</button>)}</div>{answer && <p className={`mt-3 rounded-2xl p-4 text-sm leading-6 ${correct ? 'bg-white/10 text-white/80' : 'bg-red-100 text-red-900'}`}>{correct ? quiz.correctFeedback : quiz.incorrectFeedback}</p>}</div> })}</div></section>
-    <section className="my-10 rounded-3xl border border-teal/15 bg-mist p-6 sm:p-8"><p className="eyebrow">Learning loop</p><h2 className="mt-2 font-display text-3xl font-bold text-teal">Complete means more than reading.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-muted">Before moving on, practice the idea, explain it, test your understanding, and leave behind one piece of evidence.</p><div className="mt-6 grid gap-3 sm:grid-cols-2">{learningLoopSteps.map((step) => <label key={step.key} className={`flex items-start gap-3 rounded-2xl border p-4 ${lessonChecks[step.key] ? 'border-teal/25 bg-white' : 'border-line bg-white/60'}`}><input type="checkbox" checked={lessonChecks[step.key]} disabled={step.key === 'tested'} onChange={(event) => progress.setLessonLearningCheck(lesson.id, step.key, event.target.checked)} className="mt-1 h-4 w-4 accent-teal" /><span><span className="block font-bold text-teal">{step.label}</span><span className="mt-1 block text-xs leading-5 text-muted">{step.description}</span></span></label>)}</div></section>
+    <section className="mx-auto max-w-3xl rounded-3xl bg-teal p-6 text-white sm:p-8"><p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">Quick checks</p><h2 className="mt-3 font-display text-3xl font-bold">Test what you understand.</h2><div className="mt-6 space-y-6">{quizzes.map((quiz, index) => { const answer = answers[index]; const correct = answer === quiz.answer; return <div key={quiz.question}><p className="font-bold leading-7">{index + 1}. {quiz.question}</p><div className="mt-3 grid gap-3">{quiz.options.map((choice) => <button type="button" key={choice} onClick={() => answerQuiz(index, choice)} className={`rounded-2xl border px-4 py-4 text-left text-sm font-bold transition-colors ${answer === choice ? correct ? 'border-gold bg-gold text-teal' : 'border-red-300 bg-red-100 text-red-900' : 'border-white/20 bg-white/10 text-white hover:bg-white/20'}`}>{choice}</button>)}</div>{answer && <p className={`mt-3 rounded-2xl p-4 text-sm leading-6 ${correct ? 'bg-white/10 text-white/80' : 'bg-red-100 text-red-900'}`}>{correct ? quiz.correctFeedback : quiz.incorrectFeedback}</p>}</div> })}</div></section>
+    {lesson.id === 'what-is-ai' && <section className="mx-auto my-10 max-w-3xl rounded-3xl border border-gold/30 bg-sand p-6 sm:p-8"><p className="eyebrow">Your first piece of evidence</p><h2 className="mt-2 font-display text-3xl font-bold text-teal">Explain one AI system you use.</h2><p className="mt-3 text-sm leading-6 text-muted">Pick an app you use. Explain what it takes in, what it predicts, and how you would tell if the prediction was useful.</p><label className="mt-5 block"><span className="text-sm font-bold text-teal">Your example</span><textarea value={evidenceNote} onChange={(event) => setEvidenceNote(event.target.value)} onBlur={saveEvidenceNote} rows={5} placeholder="For example: My music app takes in listening history, predicts which song I may enjoy, and I could measure usefulness by whether I save or finish the recommended songs." className="mt-2 w-full rounded-2xl border border-line bg-white p-4 text-sm leading-6 text-ink outline-none focus:border-teal" /></label><p className="mt-2 text-xs text-muted">Your answer is saved with your lesson evidence when you leave the field.</p></section>}
+    {resources && <ResourceSection resources={resources} />}
     <section className="my-10 border-y border-line py-8"><button type="button" onClick={() => setDeeperOpen((open) => !open)} className="flex w-full items-center justify-between text-left"><span><span className="eyebrow">College-level lens</span><span className="mt-2 block font-display text-2xl font-bold text-teal">How the idea works technically</span></span><ChevronDown className={`text-teal transition-transform ${deeperOpen ? 'rotate-180' : ''}`} /></button>{deeperOpen && <div className="mt-5 max-w-3xl rounded-2xl bg-cream p-5"><p className="text-xs font-bold uppercase tracking-[0.18em] text-muted">Technical explanation</p><p className="mt-3 leading-7 text-muted">{content.deeper}</p></div>}</section>
     <section className="rounded-3xl bg-sand p-6 sm:p-8"><p className="eyebrow">Key takeaway</p><p className="mt-3 font-display text-2xl font-bold leading-8 text-teal">{content.takeaway}</p></section>
-    <div className="mt-10 border-t border-line pt-8"><div className="grid gap-4 sm:grid-cols-3 sm:items-center"><div className="sm:justify-self-start">{previousLesson && <Link to={`/learn/${previousLesson.id}`} className="text-sm font-bold text-muted hover:text-teal">Previous lesson</Link>}</div><div className="sm:justify-self-center"><button type="button" aria-pressed={progress.isLessonComplete(lesson.id)} disabled={!progress.isLessonComplete(lesson.id) && !learningLoopComplete} onClick={() => progress.setLessonComplete(lesson.id, !progress.isLessonComplete(lesson.id))} className={`button ${progress.isLessonComplete(lesson.id) ? 'bg-mist text-teal' : 'button-secondary disabled:cursor-not-allowed disabled:opacity-50'}`}><Check size={17} className="mr-2" />{progress.isLessonComplete(lesson.id) ? 'Lesson complete' : learningLoopComplete ? 'Mark lesson complete' : 'Complete learning loop first'}</button></div><div className="sm:justify-self-end">{nextLesson ? <Link to={`/learn/${nextLesson.id}`} onClick={() => { if (learningLoopComplete) progress.markLessonComplete(lesson.id) }} className="button button-primary">Next lesson</Link> : <Link to="/learn" onClick={() => { if (learningLoopComplete) progress.markLessonComplete(lesson.id) }} className="button button-primary">Back to curriculum</Link>}</div></div></div>
-  </article>
+    <div className="mt-10 border-t border-line pt-8"><div className="grid gap-4 sm:grid-cols-3 sm:items-center"><div className="sm:justify-self-start">{previousLesson && <Link to={`/learn/${previousLesson.id}`} className="text-sm font-bold text-muted hover:text-teal">Previous lesson</Link>}</div><div className="sm:justify-self-center"><button type="button" aria-pressed={progress.isLessonComplete(lesson.id)} onClick={() => progress.setLessonComplete(lesson.id, !progress.isLessonComplete(lesson.id))} className={`button ${progress.isLessonComplete(lesson.id) ? 'bg-mist text-teal' : 'button-secondary'}`}><Check size={17} className="mr-2" />{progress.isLessonComplete(lesson.id) ? 'Lesson complete' : 'Mark lesson complete'}</button></div><div className="sm:justify-self-end">{nextLesson ? <Link to={`/learn/${nextLesson.id}`} onClick={() => progress.markLessonComplete(lesson.id)} className="button button-primary">Next lesson</Link> : <Link to="/learn" onClick={() => progress.markLessonComplete(lesson.id)} className="button button-primary">Back to curriculum</Link>}</div></div></div>
+  </article></>
 }

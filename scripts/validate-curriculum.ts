@@ -1,10 +1,13 @@
 import { careerLevels, curriculumModules, curriculumStages, lessons, portfolioProjects, portfolioTracks } from '../src/data/curriculum'
+import { certificationVerificationDate, certifications } from '../src/data/certifications'
+import { getSectionLessonIds, getSectionModules, learningSections } from '../src/data/learningSections'
 import { lessonContent } from '../src/data/lessonContent'
 import { lessonResources } from '../src/data/lessonResources'
 import { getLearningPlanModules } from '../src/data/learningPlans'
 
 const failures: string[] = []
 const lessonIds = lessons.map((lesson) => lesson.id)
+const securityLessonIds = lessons.filter((lesson) => lesson.category === 'AI Security').map((lesson) => lesson.id)
 const duplicateLessonIds = lessonIds.filter((id, index) => lessonIds.indexOf(id) !== index)
 
 if (duplicateLessonIds.length) failures.push(`Duplicate lesson IDs: ${[...new Set(duplicateLessonIds)].join(', ')}`)
@@ -73,11 +76,6 @@ for (const providerId of ['azure', 'aws', 'gcp'] as const) {
   const capstone = lessonContent[`${providerId}-enterprise-capstone`]?.project
   if (!capstone || capstone.steps.length < 6 || (capstone.files?.length ?? 0) < 6 || !capstone.verification?.length) failures.push(`${providerId.toUpperCase()} path must include a complete enterprise architecture capstone`)
 
-  const certificationProvider = providerId === 'azure' ? 'Azure' : providerId === 'aws' ? 'AWS' : 'Google Cloud'
-  const providerCertifications = curriculumStages.find((stage) => stage.id === 'cloud-engineering')?.certifications?.filter((certification) => certification.provider === certificationProvider) ?? []
-  if (providerCertifications.length !== 3 || providerCertifications.map((certification) => certification.pathStep).join(',') !== '1,2,3') failures.push(`${providerId.toUpperCase()} path must include foundational, associate, and professional certifications`)
-  if (providerCertifications.some((certification) => !certification.url.startsWith('https://'))) failures.push(`${providerId.toUpperCase()} certifications must link to official HTTPS pages`)
-
   const providerPlan = getLearningPlanModules({ version: 1, goal: 'cloud-engineer', experience: 'beginner', provider: providerId, objective: 'career-change', weeklyHours: 5 })
   const cloudModuleIds = new Set(curriculumStages.find((stage) => stage.id === 'cloud-engineering')?.modules.map((module) => module.id) ?? [])
   const architectureModuleIds = new Set(curriculumStages.find((stage) => stage.id === 'ai-architecture')?.modules.map((module) => module.id) ?? [])
@@ -89,6 +87,84 @@ for (const providerId of ['azure', 'aws', 'gcp'] as const) {
 const curriculumLessonIds = curriculumStages.flatMap((stage) => stage.modules.flatMap((module) => module.lessons.map((lesson) => lesson.id)))
 for (const id of lessonIds) {
   if (!curriculumLessonIds.includes(id)) failures.push(`Lesson is not placed in a curriculum module: ${id}`)
+}
+
+const expectedSectionIds = ['foundations', 'math', 'python', 'research', 'software-engineering', 'technical-leadership', 'ai-engineering', 'projects', 'cloud-engineering', 'security', 'certifications']
+if (learningSections.map((section) => section.id).join(',') !== expectedSectionIds.join(',')) failures.push('Learning sections do not match the defined section catalog and order')
+if (new Set(learningSections.map((section) => section.id)).size !== learningSections.length) failures.push('Duplicate learning section IDs')
+const sectionLessonReferences = learningSections.flatMap((section) => getSectionLessonIds(section))
+const duplicateSectionLessonReferences = sectionLessonReferences.filter((id, index) => sectionLessonReferences.indexOf(id) !== index)
+if (duplicateSectionLessonReferences.length) failures.push(`Duplicate section lesson references: ${[...new Set(duplicateSectionLessonReferences)].join(', ')}`)
+for (const lessonId of lessonIds) {
+  if (!sectionLessonReferences.includes(lessonId)) failures.push(`Lesson is not assigned to a learning section: ${lessonId}`)
+}
+for (const lessonId of sectionLessonReferences) {
+  if (!lessonIds.includes(lessonId)) failures.push(`Learning section references an unknown lesson: ${lessonId}`)
+}
+for (const section of learningSections) {
+  const sectionModuleIds = section.modules.map((reference) => reference.moduleId)
+  if (new Set(sectionModuleIds).size !== sectionModuleIds.length) failures.push(`Section ${section.id} repeats a module reference`)
+  for (const reference of section.modules) {
+    if (!moduleIds.includes(reference.moduleId)) failures.push(`Section ${section.id} references an unknown module: ${reference.moduleId}`)
+    if (new Set(reference.lessonIds).size !== reference.lessonIds.length) failures.push(`Section ${section.id} repeats lessons in module ${reference.moduleId}`)
+    const moduleLessonIds = new Set(curriculumModules.find((module) => module.id === reference.moduleId)?.lessons.map((lesson) => lesson.id) ?? [])
+    for (const lessonId of reference.lessonIds) {
+      if (!moduleLessonIds.has(lessonId)) failures.push(`Section ${section.id} lesson ${lessonId} is not in referenced module ${reference.moduleId}`)
+    }
+  }
+  for (const assessmentStageId of section.assessmentStageIds ?? []) {
+    if (!curriculumStages.some((stage) => stage.id === assessmentStageId && stage.assessment)) failures.push(`Section ${section.id} references an unavailable assessment: ${assessmentStageId}`)
+  }
+}
+const foundationsSection = learningSections.find((section) => section.id === 'foundations')
+const foundationsLessons = getSectionModules('foundations').flatMap((module) => module.lessons)
+if (foundationsSection?.modules.map((reference) => reference.moduleId).join(',') !== 'ai-fundamentals,cloud-fundamentals,computing-math') failures.push('Foundations must reference only AI, cloud, and programming fundamentals modules')
+if (foundationsLessons.some((lesson) => lesson.category === 'Math and Computing' && lesson.id !== 'programming-and-data-workflows' || lesson.category === 'Python' || lesson.id === 'algorithms-and-data-structures')) failures.push('Foundations contains material outside AI, cloud, and programming fundamentals')
+for (const sectionId of ['math', 'python', 'research']) {
+  if (!learningSections.some((section) => section.id === sectionId)) failures.push(`${sectionId} must be an independent learning section`)
+  if (learningSections.find((section) => section.id === sectionId)?.kind !== 'learning') failures.push(`${sectionId} must be an independent learning section, not a reference catalog`)
+}
+const researchSection = learningSections.find((section) => section.id === 'research')
+if (researchSection?.modules.some((reference) => reference.moduleId === 'math-project' || reference.lessonIds.includes('mathematical-modeling-for-ai'))) failures.push('Research must not contain the mathematics project or mathematical modeling lesson')
+if (!researchSection?.modules.some((reference) => reference.lessonIds.includes('experiment-design') && reference.lessonIds.includes('statistical-inference-and-experiments'))) failures.push('Research must include experiment design and statistical inference')
+const leadershipSection = learningSections.find((section) => section.id === 'technical-leadership')
+if (!leadershipSection || leadershipSection.modules.length !== 11) failures.push('Technical Leadership & Communication must be its own section with all professional practice modules')
+if (learningSections.find((section) => section.id === 'software-engineering')?.modules.some((reference) => reference.moduleId === 'customer-discovery')) failures.push('Technical Leadership modules must not be included in Software Engineering')
+const projectsSection = learningSections.find((section) => section.id === 'projects')
+if (projectsSection?.modules.map((reference) => reference.moduleId).join(',') !== 'developer-project,engineer-project,architecture-project,math-project') failures.push('Projects must be its own section with developer, engineer, architecture, and math projects')
+for (const projectModuleId of ['developer-project', 'engineer-project', 'architecture-project', 'math-project']) {
+  if (learningSections.filter((section) => section.modules.some((reference) => reference.moduleId === projectModuleId)).length !== 1) failures.push(`Project module must have one section owner: ${projectModuleId}`)
+}
+const pythonSectionIds = new Set(getSectionLessonIds(learningSections.find((section) => section.id === 'python')!))
+if (getSectionLessonIds(foundationsSection!).some((lessonId) => pythonSectionIds.has(lessonId))) failures.push('Python lessons must not be assigned to Foundations')
+if (getSectionModules('certifications').length || getSectionLessonIds(learningSections.find((section) => section.id === 'certifications')!).length) failures.push('Certifications must not count as modules or lessons')
+const expectedSoftwareOrder = ['git-github', 'linux-cli', 'data-structures', 'testing-debugging', 'apis-rest', 'http-networking', 'databases-sql', 'docker']
+const softwareSectionModuleIds = learningSections.find((section) => section.id === 'software-engineering')?.modules.map((reference) => reference.moduleId) ?? []
+if (softwareSectionModuleIds.slice(0, expectedSoftwareOrder.length).join(',') !== expectedSoftwareOrder.join(',')) failures.push('Software Engineering modules are not ordered from fundamentals through testing, APIs, data, and containers')
+const expectedAiOrder = ['llms', 'prompting', 'structured-outputs', 'embeddings', 'vector-databases', 'rag', 'tool-calling', 'agents', 'evaluation']
+const aiSectionModuleIds = learningSections.find((section) => section.id === 'ai-engineering')?.modules.map((reference) => reference.moduleId) ?? []
+if (aiSectionModuleIds.slice(0, expectedAiOrder.length).join(',') !== expectedAiOrder.join(',')) failures.push('AI Engineering does not begin with model concepts and progress through retrieval, tools, agents, and evaluation')
+const cloudSection = learningSections.find((section) => section.id === 'cloud-engineering')
+if (cloudSection?.modules.map((reference) => reference.moduleId).join(',') !== 'azure-track,aws-track,gcp-track') failures.push('Cloud Engineering must contain provider-specific operational content, not Cloud Fundamentals')
+const securitySection = learningSections.find((section) => section.id === 'security')
+if (!securitySection?.modules.some((reference) => reference.lessonIds.length === securityLessonIds.length)) failures.push('Security must include the AI security lessons')
+const cloudCertifications = certifications.filter((certification) => certification.category === 'Cloud')
+if (new Set(certifications.map((certification) => certification.id)).size !== certifications.length) failures.push('Duplicate certification IDs')
+if (cloudCertifications.length !== 9) failures.push('Certifications must include three cloud credentials for each of Azure, AWS, and Google Cloud')
+for (const provider of ['Microsoft Azure', 'Amazon Web Services', 'Google Cloud']) {
+  if (cloudCertifications.filter((certification) => certification.provider === provider).length !== 3) failures.push(`${provider} cloud credential pathway must include three audited credentials`)
+}
+if (!certifications.some((certification) => certification.id === 'aws-solutions-architect-professional' && certification.examCode === 'SAP-C03')) failures.push('AWS professional architecture credential must use the current SAP-C03 exam')
+if (!certifications.some((certification) => certification.id === 'ccsk' && certification.category === 'Security')) failures.push('Certifications must include a vendor-neutral cloud security credential')
+if (certifications.some((certification) => certification.verifiedAt !== certificationVerificationDate || !certification.url.startsWith('https://') || !certification.prerequisites.length)) failures.push('Certification entries must include a current verification date, official HTTPS URL, and prerequisite note')
+for (const certification of certifications) {
+  for (const sectionId of certification.relatedSectionIds) {
+    if (!learningSections.some((section) => section.id === sectionId)) failures.push(`Certification ${certification.id} references unknown section ${sectionId}`)
+  }
+}
+const securitySectionLessonIds = new Set(securitySection ? getSectionLessonIds(securitySection) : [])
+for (const lessonId of securitySection?.crossReferenceLessonIds ?? []) {
+  if (!lessonIds.includes(lessonId) || securitySectionLessonIds.has(lessonId)) failures.push(`Security provider cross-reference must be a valid related lesson not duplicated in Security: ${lessonId}`)
 }
 
 const careerIds = careerLevels.map((level) => level.id)

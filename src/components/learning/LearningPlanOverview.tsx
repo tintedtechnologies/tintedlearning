@@ -2,7 +2,8 @@ import { ArrowRight, Check, ChevronDown, Clock3, ListFilter, RotateCcw, Settings
 import { useState } from 'react'
 import { useUser } from '@clerk/react'
 import { Link } from 'react-router-dom'
-import { curriculumModules, curriculumStages } from '../../data/curriculum'
+import { curriculumModules } from '../../data/curriculum'
+import { learningSections } from '../../data/learningSections'
 import { useFocusTrap } from '../../hooks/useFocusTrap'
 import {
   getGoalTitle,
@@ -35,6 +36,25 @@ export function LearningPlanOverview({ profile, completedLessonIds, onProfileCha
   const defaultModules = getLearningPlanModules({ ...profile, modulePreferences: {} })
   const defaultModuleIds = new Set(defaultModules.map((module) => module.id))
   const planLessons = Array.from(new Map(modules.flatMap((module) => module.lessons).map((lesson) => [lesson.id, lesson])).values())
+  const planLessonIds = new Set(planLessons.map((lesson) => lesson.id))
+  const sectionModules = learningSections.filter((section) => section.kind === 'learning').map((section) => ({
+    section,
+    modules: section.modules.flatMap((reference) => {
+      const module = curriculumModules.find((item) => item.id === reference.moduleId)
+      if (!module || !modules.some((selected) => selected.id === module.id)) return []
+      const lessons = module.lessons.filter((lesson) => reference.lessonIds.includes(lesson.id) && planLessonIds.has(lesson.id))
+      if (!lessons.length || (incompleteOnly && lessons.every((lesson) => completedLessonIds.includes(lesson.id)))) return []
+      return [{ module, lessons }]
+    }),
+  })).filter((group) => group.modules.length > 0)
+  const moduleGroups = learningSections.filter((section) => section.kind === 'learning').map((section) => ({
+    section,
+    modules: section.modules.flatMap((reference) => {
+      const module = curriculumModules.find((item) => item.id === reference.moduleId)
+      return module ? [module] : []
+    }),
+  }))
+  const seenModuleIds = new Set<string>()
   const completedPlanLessons = planLessons.filter((lesson) => completedLessonIds.includes(lesson.id)).length
   const percentage = planLessons.length ? Math.round((completedPlanLessons / planLessons.length) * 100) : 0
   const totalMinutes = planLessons.reduce((total, lesson) => total + lesson.duration, 0)
@@ -101,21 +121,21 @@ export function LearningPlanOverview({ profile, completedLessonIds, onProfileCha
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2"><div className="rounded-2xl border border-line bg-cream/60 p-4"><p className="text-[10px] font-bold uppercase tracking-widest text-muted">Project-module lessons</p><p className="mt-2 font-display text-2xl font-bold text-teal">{completedProjects}/{projectLessons.length}</p></div><div className="rounded-2xl border border-line bg-cream/60 p-4"><p className="text-[10px] font-bold uppercase tracking-widest text-muted">Portfolio evidence</p><p className="mt-2 font-display text-2xl font-bold text-teal">{completedEvidenceIds.length}/{evidence.length}</p></div></div>
 
-      <div className="mt-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><p className="eyebrow">Recommended route</p><h3 className="mt-2 font-display text-2xl font-bold text-teal">Modules grouped by stage</h3></div><label className="flex cursor-pointer items-center gap-2 text-sm font-bold text-teal"><input type="checkbox" checked={incompleteOnly} onChange={(event) => setIncompleteOnly(event.target.checked)} className="accent-teal" /><ListFilter size={16} />Incomplete only</label></div>
-      <div className="mt-4 space-y-3">{curriculumStages.map((stage) => {
-        const stageModules = stage.modules.filter((module) => modules.some((selected) => selected.id === module.id)).filter((module) => !incompleteOnly || module.lessons.some((lesson) => !completedLessonIds.includes(lesson.id)))
-        if (!stageModules.length) return null
-        return <details key={stage.id} open className="rounded-2xl border border-line bg-cream/40"><summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-4 font-bold text-teal"><span>{stage.title}<span className="ml-2 text-xs font-medium text-muted">{stageModules.length} modules</span></span><ChevronDown size={17} /></summary><div className="grid gap-2 border-t border-line p-3 md:grid-cols-2">{stageModules.map((module) => {
-          const completed = module.lessons.filter((lesson) => completedLessonIds.includes(lesson.id)).length
-          const complete = module.lessons.length > 0 && completed === module.lessons.length
-          const preference = profile.modulePreferences?.[module.id]
-          return <Link key={module.id} to={`/learn?stage=${stage.id}#${module.id}`} className="group flex min-h-24 items-start justify-between gap-4 rounded-xl bg-white p-4 hover:bg-mist"><span><span className="flex flex-wrap items-center gap-2"><span className="font-bold text-teal">{module.title}</span><span className={`rounded-full px-2 py-1 text-[9px] font-bold uppercase tracking-widest ${preference === 'optional' ? 'bg-sand text-teal' : 'bg-mist text-muted'}`}>{preference === 'optional' ? 'Optional' : preference === 'required' ? 'Required' : 'Core'}</span></span><span className="mt-2 block text-xs text-muted">{completed}/{module.lessons.length} lessons</span><span className="mt-1 block text-xs leading-5 text-muted">{module.lessons.map((lesson) => lesson.title).join(' · ')}</span></span>{complete ? <Check size={18} className="shrink-0 text-teal" /> : <ArrowRight size={17} className="shrink-0 text-teal transition-transform group-hover:translate-x-1" />}</Link>
-        })}</div></details>
-      })}</div>
+      <div className="mt-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><p className="eyebrow">Recommended route</p><h3 className="mt-2 font-display text-2xl font-bold text-teal">Modules grouped by section</h3></div><label className="flex cursor-pointer items-center gap-2 text-sm font-bold text-teal"><input type="checkbox" checked={incompleteOnly} onChange={(event) => setIncompleteOnly(event.target.checked)} className="accent-teal" /><ListFilter size={16} />Incomplete only</label></div>
+      <div className="mt-4 space-y-3">{sectionModules.map(({ section, modules: sectionModuleEntries }) => <details key={section.id} open className="rounded-2xl border border-line bg-cream/40"><summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-4 font-bold text-teal"><span>{section.title}<span className="ml-2 text-xs font-medium text-muted">{sectionModuleEntries.length} modules</span></span><ChevronDown size={17} /></summary><div className="grid gap-2 border-t border-line p-3 md:grid-cols-2">{sectionModuleEntries.map(({ module, lessons: scopedLessons }) => {
+        const completed = scopedLessons.filter((lesson) => completedLessonIds.includes(lesson.id)).length
+        const complete = scopedLessons.length > 0 && completed === scopedLessons.length
+        const preference = profile.modulePreferences?.[module.id]
+        return <Link key={`${section.id}-${module.id}`} to={`/learn/sections/${section.id}#${module.id}`} className="group flex min-h-24 items-start justify-between gap-4 rounded-xl bg-white p-4 hover:bg-mist"><span><span className="flex flex-wrap items-center gap-2"><span className="font-bold text-teal">{module.title}</span><span className={`rounded-full px-2 py-1 text-[9px] font-bold uppercase tracking-widest ${preference === 'optional' ? 'bg-sand text-teal' : 'bg-mist text-muted'}`}>{preference === 'optional' ? 'Optional' : preference === 'required' ? 'Required' : 'Core'}</span></span><span className="mt-2 block text-xs text-muted">{completed}/{scopedLessons.length} lessons</span><span className="mt-1 block text-xs leading-5 text-muted">{scopedLessons.map((lesson) => lesson.title).join(' · ')}</span></span>{complete ? <Check size={18} className="shrink-0 text-teal" /> : <ArrowRight size={17} className="shrink-0 text-teal transition-transform group-hover:translate-x-1" />}</Link>
+      })}</div></details>)}</div>
 
       <section className="mt-8 rounded-2xl border border-gold/25 bg-sand/50 p-5"><p className="eyebrow">Portfolio evidence</p><h3 className="mt-2 font-display text-xl font-bold text-teal">What you can show</h3><div className="mt-4 grid gap-2 md:grid-cols-2">{evidence.map((item) => <label key={item.id} className="flex cursor-pointer items-start gap-3 rounded-xl bg-white p-3 text-sm font-bold text-ink"><input type="checkbox" checked={completedEvidenceIds.includes(item.id)} disabled={saving} onChange={() => toggleEvidence(item.id)} className="mt-0.5 accent-teal" /><span className={completedEvidenceIds.includes(item.id) ? 'text-muted line-through' : ''}>{item.title}</span></label>)}</div></section>
 
-      <section className="mt-6 rounded-2xl border border-line p-5"><button type="button" onClick={() => setShowCustomize((open) => !open)} aria-expanded={showCustomize} className="flex w-full items-center justify-between gap-4 text-left"><span><span className="flex items-center gap-2 font-display text-xl font-bold text-teal"><Settings2 size={19} />Customize modules</span><span className="mt-1 block text-xs leading-5 text-muted">Add optional study, require a module, or mark material you already know.</span></span><ChevronDown size={18} className={`shrink-0 text-teal transition-transform ${showCustomize ? 'rotate-180' : ''}`} /></button>{showCustomize && <div className="mt-5 max-h-96 space-y-5 overflow-y-auto border-t border-line pt-5">{curriculumStages.map((stage) => <div key={stage.id}><p className="text-xs font-bold uppercase tracking-widest text-muted">{stage.title}</p><div className="mt-2 space-y-2">{stage.modules.map((module) => {
+      <section className="mt-6 rounded-2xl border border-line p-5"><button type="button" onClick={() => setShowCustomize((open) => !open)} aria-expanded={showCustomize} className="flex w-full items-center justify-between gap-4 text-left"><span><span className="flex items-center gap-2 font-display text-xl font-bold text-teal"><Settings2 size={19} />Customize modules</span><span className="mt-1 block text-xs leading-5 text-muted">Add optional study, require a module, or mark material you already know.</span></span><ChevronDown size={18} className={`shrink-0 text-teal transition-transform ${showCustomize ? 'rotate-180' : ''}`} /></button>{showCustomize && <div className="mt-5 max-h-96 space-y-5 overflow-y-auto border-t border-line pt-5">{moduleGroups.map(({ section, modules: sectionModules }) => <div key={section.id}><p className="text-xs font-bold uppercase tracking-widest text-muted">{section.title}</p><div className="mt-2 space-y-2">{sectionModules.filter((module) => {
+          if (seenModuleIds.has(module.id)) return false
+          seenModuleIds.add(module.id)
+          return true
+        }).map((module) => {
           const isDefault = defaultModuleIds.has(module.id)
           const preference = profile.modulePreferences?.[module.id]
           const value = preference ?? (isDefault ? 'default' : 'not-included')
