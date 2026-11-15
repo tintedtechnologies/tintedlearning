@@ -50,7 +50,7 @@ function AccountName({ user, onNavigate }: { user: AccountUser; onNavigate?: () 
 
 /**
  * The signed-in state the header shows. It follows Clerk straight away, so sign in and sign out appear
- * instantly. The cross-fade in AuthSwitch makes the change smooth.
+ * instantly.
  */
 function useAuthState() {
   const { isLoaded, isSignedIn } = useAuth()
@@ -58,22 +58,11 @@ function useAuthState() {
   return isSignedIn ? 'in' : 'out'
 }
 
-/**
- * The name and the Sign in button share one grid cell. The active one fades in and the other fades out,
- * so switching between signed in and signed out is smooth in both directions.
- */
+/** Shows the name when signed in, and the Sign in button when signed out. The change is a plain swap. */
 function AuthSwitch({ state, user, onNavigate, mobile = false }: { state: 'pending' | 'in' | 'out'; user: AccountUser; onNavigate?: () => void; mobile?: boolean }) {
-  const layer = (active: boolean) => `col-start-1 row-start-1 transition-[opacity,visibility] duration-300 ${active ? 'visible opacity-100' : 'invisible opacity-0'}`
-  return (
-    <div className={`grid ${mobile ? 'px-3 py-2' : 'justify-items-start'}`}>
-      <div className={layer(state === 'in')} aria-hidden={state !== 'in'}>
-        <AccountName user={user} onNavigate={onNavigate} />
-      </div>
-      <div className={layer(state === 'out')} aria-hidden={state !== 'out'}>
-        <SignInButton mode="modal"><button type="button" className={`text-sm font-bold text-teal hover:text-gold ${mobile ? 'rounded-xl px-3 py-3 text-left hover:bg-mist' : ''}`}>Sign in</button></SignInButton>
-      </div>
-    </div>
-  )
+  if (state === 'pending') return null
+  if (state === 'in') return <AccountName user={user} onNavigate={onNavigate} />
+  return <SignInButton mode="modal"><button type="button" className={`text-sm font-bold text-teal hover:text-gold ${mobile ? 'block w-full rounded-xl px-3 py-3 text-left hover:bg-mist' : ''}`}>Sign in</button></SignInButton>
 }
 
 export function Header() {
