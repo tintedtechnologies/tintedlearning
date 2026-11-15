@@ -16,8 +16,8 @@ const SIGNED_OUT_DELAY_MS = 800
 
 type AccountUser = ReturnType<typeof useUser>['user']
 
-/** The signed-in state is the avatar alone. Clicking it opens a menu with the dashboard and sign out. */
-function AccountAvatar({ user, onNavigate }: { user: AccountUser; onNavigate?: () => void }) {
+/** The signed-in state is the name alone. Clicking it opens a menu with the dashboard and sign out. */
+function AccountName({ user, onNavigate }: { user: AccountUser; onNavigate?: () => void }) {
   const { signOut } = useClerk()
   const [open, setOpen] = useState(false)
 
@@ -37,8 +37,8 @@ function AccountAvatar({ user, onNavigate }: { user: AccountUser; onNavigate?: (
 
   return (
     <div data-account-menu className="relative">
-      <button type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} aria-haspopup="menu" aria-label="Open account menu" className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-gold text-sm font-bold text-teal ring-2 ring-transparent transition-all hover:ring-gold/40">
-        {user?.imageUrl ? <img src={user.imageUrl} alt="" className="h-full w-full object-cover" /> : (user?.firstName?.[0] ?? 'L')}
+      <button type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} aria-haspopup="menu" className="whitespace-nowrap text-sm font-bold text-teal hover:text-gold">
+        {user?.firstName ?? user?.username ?? user?.fullName ?? 'Learner'}
       </button>
       {open && (
         <div role="menu" className="absolute right-0 top-12 z-20 min-w-40 rounded-2xl border border-line bg-white p-2 shadow-soft">
@@ -71,6 +71,24 @@ function useSteadyAuthState() {
   return state
 }
 
+/**
+ * The name and the Sign in button share one grid cell. The active one fades in and the other fades out,
+ * so switching between signed in and signed out is smooth in both directions.
+ */
+function AuthSwitch({ state, user, onNavigate, mobile = false }: { state: 'pending' | 'in' | 'out'; user: AccountUser; onNavigate?: () => void; mobile?: boolean }) {
+  const layer = (active: boolean) => `col-start-1 row-start-1 transition-[opacity,visibility] duration-300 ${active ? 'visible opacity-100' : 'invisible opacity-0'}`
+  return (
+    <div className={`grid ${mobile ? 'px-3 py-2' : 'min-w-20 justify-items-end'}`}>
+      <div className={layer(state === 'in')} aria-hidden={state !== 'in'}>
+        <AccountName user={user} onNavigate={onNavigate} />
+      </div>
+      <div className={layer(state === 'out')} aria-hidden={state !== 'out'}>
+        <SignInButton mode="modal"><button type="button" className={`text-sm font-bold text-teal hover:text-gold ${mobile ? 'rounded-xl px-3 py-3 text-left hover:bg-mist' : ''}`}>Sign in</button></SignInButton>
+      </div>
+    </div>
+  )
+}
+
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const steadyState = useSteadyAuthState()
@@ -97,7 +115,7 @@ export function Header() {
             </NavLink>
           ))}
           <a href={donationUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-bold text-teal hover:text-gold"><Coffee size={16} />Donate</a>
-          {steadyState === 'pending' ? <span className="h-10 w-10" aria-hidden="true" /> : steadyState === 'in' ? <AccountAvatar user={displayUser} /> : <SignInButton mode="modal"><button type="button" className="text-sm font-bold text-teal hover:text-gold">Sign in</button></SignInButton>}
+          <AuthSwitch state={steadyState} user={displayUser} />
         </nav>
 
         <button type="button" className="icon-button md:hidden" onClick={() => setIsOpen((open) => !open)} aria-expanded={isOpen} aria-label={isOpen ? 'Close menu' : 'Open menu'}>
@@ -111,7 +129,7 @@ export function Header() {
               <NavLink key={item.to} to={item.to} onClick={() => setIsOpen(false)} className="rounded-xl px-3 py-3 font-bold text-teal hover:bg-mist">{item.label}</NavLink>
             ))}
             <a href={donationUrl} target="_blank" rel="noreferrer" onClick={() => setIsOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-3 text-left font-bold text-teal hover:bg-mist"><Coffee size={17} />Donate</a>
-            {steadyState === 'pending' ? null : steadyState === 'in' ? <div className="px-3 py-2"><AccountAvatar user={displayUser} onNavigate={() => setIsOpen(false)} /></div> : <SignInButton mode="modal"><button type="button" className="rounded-xl px-3 py-3 text-left font-bold text-teal hover:bg-mist">Sign in</button></SignInButton>}
+            <AuthSwitch state={steadyState} user={displayUser} onNavigate={() => setIsOpen(false)} mobile />
           </div>
         </nav>
       )}
