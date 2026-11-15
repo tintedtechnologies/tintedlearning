@@ -4,10 +4,10 @@ import { SeoMetadata } from '../components/common/SeoMetadata'
 
 const routes = [
   { icon: Compass, title: 'I am starting fresh', description: 'Learn the basic ideas, math, Python, and software habits that make AI easier to understand.', to: '/learn/sections/foundations' },
-  { icon: Code2, title: 'I want to become a Python developer', description: 'Practice maintainable Python, testing, APIs, algorithms, packages, and project work.', to: '/dashboard?section=plan&goal=python-developer' },
+  { icon: Code2, title: 'I want to become a Python developer', description: 'Practice maintainable Python, testing, APIs, algorithms, packages, and project work.', to: '/learn/sections/python' },
   { icon: BrainCircuit, title: 'I already use AI', description: 'Move from prompts to evaluation, retrieval, agents, and reliable production systems.', to: '/learn/sections/ai-engineering' },
-  { icon: FlaskConical, title: 'I like math and research', description: 'Study modeling, optimization, inference, numerical methods, and reproducible experiments.', to: '/dashboard?section=plan&goal=ai-mathematics' },
-  { icon: UsersRound, title: 'I want to lead technical work', description: 'Build customer, communication, planning, decision-making, and influence skills for ambiguous technical work.', to: '/dashboard?section=plan&goal=technical-leadership' },
+  { icon: FlaskConical, title: 'I like math and research', description: 'Study modeling, optimization, inference, numerical methods, and reproducible experiments.', to: '/learn/sections/math' },
+  { icon: UsersRound, title: 'I want to lead technical work', description: 'Build customer, communication, planning, decision-making, and influence skills for ambiguous technical work.', to: '/learn/sections/technical-leadership' },
 ]
 
 export function HomePage() {
