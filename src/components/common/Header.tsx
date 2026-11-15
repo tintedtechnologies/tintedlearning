@@ -11,8 +11,6 @@ const navItems = [
 
 const donationUrl = 'https://www.buymeacoffee.com/tintedlearning'
 
-/** How long a signed-out reading must last before the header changes. Brief blips during a session change are ignored. */
-const SIGNED_OUT_DELAY_MS = 800
 
 type AccountUser = ReturnType<typeof useUser>['user']
 
@@ -51,24 +49,13 @@ function AccountName({ user, onNavigate }: { user: AccountUser; onNavigate?: () 
 }
 
 /**
- * The signed-in state the header shows. "in" switches at once. "out" waits until the signed-out reading
- * has lasted SIGNED_OUT_DELAY_MS, so a brief blip during a session change does not swap the header.
+ * The signed-in state the header shows. It follows Clerk straight away, so sign in and sign out appear
+ * instantly. The cross-fade in AuthSwitch makes the change smooth.
  */
-function useSteadyAuthState() {
+function useAuthState() {
   const { isLoaded, isSignedIn } = useAuth()
-  const [state, setState] = useState<'pending' | 'in' | 'out'>('pending')
-
-  useEffect(() => {
-    if (!isLoaded) return
-    if (isSignedIn) {
-      setState('in')
-      return
-    }
-    const timer = window.setTimeout(() => setState('out'), SIGNED_OUT_DELAY_MS)
-    return () => window.clearTimeout(timer)
-  }, [isLoaded, isSignedIn])
-
-  return state
+  if (!isLoaded) return 'pending'
+  return isSignedIn ? 'in' : 'out'
 }
 
 /**
@@ -78,7 +65,7 @@ function useSteadyAuthState() {
 function AuthSwitch({ state, user, onNavigate, mobile = false }: { state: 'pending' | 'in' | 'out'; user: AccountUser; onNavigate?: () => void; mobile?: boolean }) {
   const layer = (active: boolean) => `col-start-1 row-start-1 transition-[opacity,visibility] duration-300 ${active ? 'visible opacity-100' : 'invisible opacity-0'}`
   return (
-    <div className={`grid ${mobile ? 'px-3 py-2' : 'min-w-20 justify-items-end'}`}>
+    <div className={`grid ${mobile ? 'px-3 py-2' : 'justify-items-start'}`}>
       <div className={layer(state === 'in')} aria-hidden={state !== 'in'}>
         <AccountName user={user} onNavigate={onNavigate} />
       </div>
@@ -91,7 +78,7 @@ function AuthSwitch({ state, user, onNavigate, mobile = false }: { state: 'pendi
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
-  const steadyState = useSteadyAuthState()
+  const steadyState = useAuthState()
   const { user } = useUser()
   // Keep the last known user, so the avatar keeps its photo or initial while Clerk refreshes the user.
   const lastUser = useRef<AccountUser>(user)
