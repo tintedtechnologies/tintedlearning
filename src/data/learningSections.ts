@@ -163,7 +163,7 @@ export const learningSections: LearningSection[] = [
     title: 'Projects',
     description: 'Turn your learning into complete, inspectable work with code, evaluation, deployment, documentation, and portfolio evidence.',
     kind: 'learning',
-    modules: [all('developer-project'), all('engineer-project'), all('architecture-project'), all('math-project')],
+    modules: [all('starter-project'), all('developer-project'), all('data-project'), all('engineer-project'), all('architecture-project'), all('math-project'), all('client-project')],
   },
   {
     id: 'cloud-engineering',

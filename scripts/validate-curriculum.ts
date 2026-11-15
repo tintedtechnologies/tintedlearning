@@ -140,7 +140,7 @@ const leadershipSection = learningSections.find((section) => section.id === 'tec
 if (!leadershipSection || leadershipSection.modules.length !== 11) failures.push('Technical Leadership & Communication must be its own section with all professional practice modules')
 if (learningSections.find((section) => section.id === 'software-engineering')?.modules.some((reference) => reference.moduleId === 'customer-discovery')) failures.push('Technical Leadership modules must not be included in Software Engineering')
 const projectsSection = learningSections.find((section) => section.id === 'projects')
-if (projectsSection?.modules.map((reference) => reference.moduleId).join(',') !== 'developer-project,engineer-project,architecture-project,math-project') failures.push('Projects must be its own section with developer, engineer, architecture, and math projects')
+if (projectsSection?.modules.map((reference) => reference.moduleId).join(',') !== 'starter-project,developer-project,data-project,engineer-project,architecture-project,math-project,client-project') failures.push('Projects must be its own section with the starter, developer, data, engineer, architecture, math and client projects')
 for (const projectModuleId of ['developer-project', 'engineer-project', 'architecture-project', 'math-project']) {
   if (learningSections.filter((section) => section.modules.some((reference) => reference.moduleId === projectModuleId)).length !== 1) failures.push(`Project module must have one section owner: ${projectModuleId}`)
 }

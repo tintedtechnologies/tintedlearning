@@ -327,7 +327,7 @@ test('removed algorithms lesson redirects to python search and sort', async ({ p
 })
 
 test('every revised project page shows the project sections in order, with the show-your-work parts', async ({ page }) => {
-  for (const slug of ['build-a-chatbot', 'capstone-rag', 'capstone-agent', 'capstone-evaluation', 'math-research-capstone']) {
+  for (const slug of ['build-a-chatbot', 'capstone-rag', 'capstone-agent', 'capstone-evaluation', 'math-research-capstone', 'automate-a-real-task', 'analyze-a-public-dataset', 'build-for-a-real-client']) {
     await page.goto(`/learn/${slug}`, { waitUntil: 'networkidle' })
     const headings = await page.locator('h2').allTextContents()
     expect(headings, slug).toEqual(['What you\'ll build', 'Before you start', 'Requirements', 'Milestones', 'Finished means', 'Show your work', 'Stretch goals'])

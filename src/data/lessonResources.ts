@@ -141,4 +141,7 @@ export const lessonResources: Record<string, LearningResource[]> = {
   'capstone-rag': [resources.rag, resources.fullStack],
   'capstone-agent': [resources.agents, resources.owasp],
   'capstone-evaluation': [resources.scikitMetrics, resource('LLM evaluation guide', 'Full Stack Deep Learning', 'Build evaluation sets, graders, traces, and regression checks for AI systems.', 'https://fullstackdeeplearning.com/llm-bootcamp/')],
+  'automate-a-real-task': [resources.python, resources.pythonErrors],
+  'analyze-a-public-dataset': [resources.pandas, resources.pythonData, resources.stats],
+  'build-for-a-real-client': [resources.productDesign, resources.privacy],
 }
