@@ -41,7 +41,7 @@ function CredentialCard({ item }: { item: Certification }) {
     <div className="mt-4 rounded-xl bg-mist/60 p-4">
       <p className="text-xs font-bold uppercase tracking-widest text-teal">Prepare with Tinted Learning</p>
       <ul className="mt-2 space-y-1">{item.prepare.links.map((link) => <li key={link.to}><Link to={link.to} className="text-sm font-bold text-teal underline-offset-4 hover:underline">{link.to.startsWith('/learn/sections/') ? sectionTitle(link.to.split('/').pop() ?? '') : lessonTitle(link.to.split('/').pop() ?? '')}</Link></li>)}</ul>
-      <p className="mt-3 text-xs leading-5 text-muted">Still to study elsewhere: {item.prepare.stillNeed}</p>
+      <p className="mt-3 text-xs leading-5 text-ink">Still to study elsewhere: {item.prepare.stillNeed}</p>
     </div>
     <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-5">
       <a href={item.officialUrl} target="_blank" rel="noreferrer" className="inline-flex items-center text-sm font-bold text-teal hover:text-gold">Official page<ArrowUpRight size={15} className="ml-1" /></a>
@@ -71,7 +71,7 @@ export function CertificationsPage() {
     <section className="mt-10 grid gap-4 md:grid-cols-3">
       {paths.map((path) => <div key={path.title} className="rounded-3xl bg-mist p-6">
         <h2 className="font-display text-2xl font-bold text-teal">{path.title}</h2>
-        <p className="mt-2 text-sm leading-6 text-muted">{path.intro}</p>
+        <p className="mt-2 text-sm leading-6 text-ink">{path.intro}</p>
         <ol className="mt-3 list-decimal space-y-1 pl-5 text-sm font-bold text-teal">{path.ids.map((id) => <li key={id}>{titleOf(id)}</li>)}</ol>
       </div>)}
     </section>
