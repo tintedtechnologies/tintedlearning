@@ -45,6 +45,7 @@ export default function App() {
         <Route path="/learn/chatbot-openai" element={<Navigate to="/learn/build-a-chatbot" replace />} />
         <Route path="/learn/chatbot-gemini" element={<Navigate to="/learn/build-a-chatbot" replace />} />
         <Route path="/learn/chatbot-local" element={<Navigate to="/learn/build-a-chatbot" replace />} />
+        <Route path="/learn/chatbot-production" element={<Navigate to="/learn/build-a-chatbot" replace />} />
         <Route path="/learn/chatbot-concepts" element={<Navigate to="/learn/large-language-models" replace />} />
         <Route path="/learn/:lessonId" element={<LessonPage />} />
         <Route path="/careers/:careerId" element={<CareerPage />} />

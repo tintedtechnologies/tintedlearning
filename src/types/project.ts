@@ -28,13 +28,17 @@ export interface ProjectPlan {
   time: string
   /** What the finished project must do, as a short checklist. */
   requirements: string[]
-  /** 4 to 6 milestones. */
+  /** 4 to 6 milestones. Projects after the first give one or two sentences of hints, and show code only for something new. */
   milestones: ProjectMilestone[]
   /** A checklist the learner can tick before calling the project finished. */
   finishedMeans: string[]
   /** A README template with placeholders in square brackets. */
   readmeTemplate: string
-  /** How to describe the project in a portfolio or interview. */
-  portfolioText: string
+  /** Prompts for a short write-up of about 300 words, for LinkedIn or a blog. */
+  writeUpPrompts: string[]
+  /** How to make the demo GIF or short recording, with free tools named. */
+  demoGuidance: string
+  /** How to describe the project in an interview: the choice behind the code, not just what it does. */
+  interviewGuidance: string
   stretchGoals: string[]
 }

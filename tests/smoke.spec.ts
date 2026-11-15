@@ -325,3 +325,26 @@ test('removed algorithms lesson redirects to python search and sort', async ({ p
   await page.goto('/learn/algorithms-and-data-structures')
   await expect(page).toHaveURL(/\/learn\/python-search-and-sort$/)
 })
+
+test('every revised project page shows the project sections in order, with the show-your-work parts', async ({ page }) => {
+  for (const slug of ['build-a-chatbot', 'capstone-rag', 'capstone-agent', 'capstone-evaluation', 'math-research-capstone']) {
+    await page.goto(`/learn/${slug}`, { waitUntil: 'networkidle' })
+    const headings = await page.locator('h2').allTextContents()
+    expect(headings, slug).toEqual(['What you\'ll build', 'Before you start', 'Requirements', 'Milestones', 'Finished means', 'Show your work', 'Stretch goals'])
+    await expect(page.getByText('A short write-up (about 300 words)'), slug).toBeVisible()
+    await expect(page.getByText('A demo GIF or screen recording (under 60 seconds)'), slug).toBeVisible()
+    await expect(page.getByText('Quick checks'), slug).toHaveCount(0)
+  }
+})
+
+test('the old production project URL redirects to the merged chatbot project', async ({ page }) => {
+  await page.goto('/learn/chatbot-production')
+  await expect(page).toHaveURL(/\/learn\/build-a-chatbot$/)
+})
+
+test('the Projects section cards show real project times and no old template lines', async ({ page }) => {
+  await page.goto('/learn/sections/projects', { waitUntil: 'networkidle' })
+  await expect(page.getByText('about 8 hours, plus the deploy')).toBeVisible()
+  await expect(page.getByText(/How to design a complete RAG workflow/)).toHaveCount(0)
+  await expect(page.getByText(/Helpful context:/)).toHaveCount(0)
+})

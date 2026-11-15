@@ -76,7 +76,13 @@ export function ProjectPage({ lesson, plan, lessonTitles }: ProjectPageProps) {
       <h2 className={headingClass}>Show your work</h2>
       <p className="mt-4 text-muted">Start your README from this template. Replace each square-bracket placeholder with your own words.</p>
       <pre className={preClass}>{plan.readmeTemplate}</pre>
-      <p className="mt-6 text-lg leading-8 text-muted">{plan.portfolioText}</p>
+      <p className="mt-8 font-bold text-teal">A short write-up (about 300 words)</p>
+      <p className="mt-2 text-muted">Post it on LinkedIn or a blog. Answer each prompt in a short paragraph.</p>
+      <ol className="mt-3 list-decimal space-y-2 pl-6 text-muted">{plan.writeUpPrompts.map((prompt) => <li key={prompt}>{prompt}</li>)}</ol>
+      <p className="mt-8 font-bold text-teal">A demo GIF or screen recording (under 60 seconds)</p>
+      <p className="mt-2 text-muted">{plan.demoGuidance}</p>
+      <p className="mt-8 font-bold text-teal">Describing it in an interview</p>
+      <p className="mt-2 text-muted">{plan.interviewGuidance}</p>
     </section>
 
     <section className={sectionClass}>

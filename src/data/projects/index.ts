@@ -1,6 +1,5 @@
 import type { ProjectPlan } from '../../types/project'
 import buildAChatbot from './build-a-chatbot'
-import chatbotProduction from './chatbot-production'
 import capstoneRag from './capstone-rag'
 import capstoneAgent from './capstone-agent'
 import capstoneEvaluation from './capstone-evaluation'
@@ -9,7 +8,6 @@ import mathResearchCapstone from './math-research-capstone'
 /** Portfolio projects, keyed by curriculum lesson id. */
 export const projectPlans: Record<string, ProjectPlan> = {
   'build-a-chatbot': buildAChatbot,
-  'chatbot-production': chatbotProduction,
   'capstone-rag': capstoneRag,
   'capstone-agent': capstoneAgent,
   'capstone-evaluation': capstoneEvaluation,
