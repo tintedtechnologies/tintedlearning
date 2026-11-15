@@ -73,7 +73,7 @@ const architectureModuleIds = [
  * Sections open to learners. Every other section shows as "Coming soon" on the Learn page.
  * Add a section here only when all of its lessons are rewritten (scripts/validate-curriculum.ts enforces this).
  */
-export const liveSectionIds = ['foundations', 'python', 'math', 'software-engineering', 'ai-engineering', 'cloud-engineering', 'security', 'research', 'technical-leadership', 'projects']
+export const liveSectionIds = ['foundations', 'python', 'math', 'software-engineering', 'ai-engineering', 'cloud-engineering', 'security', 'research', 'technical-leadership', 'projects', 'certifications']
 
 export const isSectionLive = (sectionId: string) => liveSectionIds.includes(sectionId)
 
@@ -184,7 +184,7 @@ export const learningSections: LearningSection[] = [
   {
     id: 'certifications',
     title: 'Certifications',
-    description: 'Compare official cloud and security credentials. These are reference links, not lessons or completion requirements.',
+    description: 'Real credentials from recognized organizations, free options first, with an honest guide to preparing for each one with Tinted Learning.',
     kind: 'reference',
     modules: [],
   },

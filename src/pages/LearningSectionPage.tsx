@@ -20,9 +20,7 @@ export function LearningSectionPage() {
   const sectionAssessments = (section.assessmentStageIds ?? [])
     .map((stageId) => curriculumStages.find((stage) => stage.id === stageId))
     .filter((stage) => stage?.assessment)
-  const sectionCertifications = section.id === 'certifications'
-    ? certifications
-    : certifications.filter((certification) => certification.relatedSectionIds.includes(section.id))
+  const relatedCertificationCount = certifications.filter((certification) => certification.prepare.links.some((link) => link.to === `/learn/sections/${section.id}`)).length
 
   return <main className="shell max-w-7xl py-10 sm:py-16">
     <SeoMetadata title={section.title} description={section.description} />
@@ -34,35 +32,7 @@ export function LearningSectionPage() {
       {section.kind === 'learning' && <p className="mt-4 text-sm font-bold text-teal">{completedLessons} of {sectionLessonIds.length} lessons complete</p>}
     </header>
 
-    {section.kind === 'reference' ? <section className="mt-8 space-y-8">
-      {['Cloud', 'Security'].map((category) => {
-        const categoryCertifications = sectionCertifications.filter((certification) => certification.category === category)
-        return <div key={category}>
-          <h2 className="font-display text-2xl font-bold text-teal">{category} credentials</h2>
-          <div className="mt-4 grid gap-4 md:grid-cols-2">
-            {categoryCertifications.map((certification) => <article key={certification.id} className="rounded-2xl border border-line bg-white p-5 shadow-soft">
-              <div className="flex items-start justify-between gap-4">
-                <div><p className="text-xs font-bold uppercase tracking-widest text-muted">{certification.provider} · {certification.level}{certification.status !== 'active' ? ` · ${certification.status}` : ''}</p>
-                  <h3 className="mt-2 font-display text-xl font-bold text-teal">{certification.title}</h3>
-                  {certification.examCode && <p className="mt-1 text-xs font-bold text-muted">Exam {certification.examCode}</p>}
-                </div>
-                <a href={certification.url} target="_blank" rel="noreferrer" aria-label={`Official ${certification.title} information`} className="shrink-0 text-teal hover:text-gold"><ExternalLink size={18} /></a>
-              </div>
-              <p className="mt-3 text-sm leading-6 text-muted">{certification.description}</p>
-              <div className="mt-4 rounded-xl bg-cream/70 p-3"><p className="text-[10px] font-bold uppercase tracking-widest text-muted">Prerequisites</p><ul className="mt-2 space-y-1 text-xs leading-5 text-ink">{certification.prerequisites.map((prerequisite) => <li key={prerequisite}>{prerequisite}</li>)}</ul></div>
-              {certification.versionNotes && <p className="mt-3 text-xs leading-5 text-muted">{certification.versionNotes}</p>}
-              {certification.retirementNotes && <p className="mt-2 rounded-lg bg-sand/60 p-3 text-xs leading-5 text-teal">{certification.retirementNotes}</p>}
-              <p className="mt-3 text-[10px] font-bold uppercase tracking-widest text-muted">Official details verified {certification.verifiedAt}</p>
-              <div className="mt-3 flex flex-wrap gap-2">{certification.relatedSectionIds.filter((relatedId) => relatedId !== section.id).map((relatedId) => {
-                const relatedSection = learningSectionById.get(relatedId)
-                return relatedSection ? <Link key={relatedId} to={`/learn/sections/${relatedId}`} className="rounded-full bg-mist px-3 py-1.5 text-xs font-bold text-teal hover:bg-sand">{relatedSection.title}</Link> : null
-              })}</div>
-            </article>)}
-          </div>
-        </div>
-      })}
-      <p className="rounded-xl border border-line bg-cream/60 p-4 text-xs leading-5 text-muted">This catalog is a starting point, not a promise of exam availability or eligibility. Credential owners can change exam versions, prerequisites, and retirement dates; use each official page before enrolling. Credentials are references only and do not count as lessons or completion requirements.</p>
-    </section> : <>
+    <>
       <section className="mt-8 space-y-5">
         {sectionModules.map(({ module, lessons: moduleLessons }) => {
           const reference = section.modules.find((item) => item.moduleId === module.id)
@@ -107,7 +77,7 @@ export function LearningSectionPage() {
       </section>}
 
       {section.id !== 'security' && <p className="mt-8 text-sm leading-6 text-muted">Interested in security? <Link to="/learn/sections/security" className="font-bold text-teal hover:text-gold">Explore the Security section</Link>.</p>}
-      {section.id !== 'certifications' && sectionCertifications.length > 0 && <p className="mt-8 text-sm leading-6 text-muted">Credentials are optional references. <Link to="/learn/sections/certifications" className="font-bold text-teal hover:text-gold">Browse certifications</Link>.</p>}
-    </>}
+      {relatedCertificationCount > 0 && <p className="mt-8 text-sm leading-6 text-muted">Credentials that build on this section are optional. <Link to="/learn/sections/certifications" className="font-bold text-teal hover:text-gold">Browse certifications</Link>.</p>}
+    </>
   </main>
 }

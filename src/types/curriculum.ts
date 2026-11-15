@@ -137,21 +137,29 @@ export interface CurriculumStage {
   status?: 'available' | 'coming-soon'
 }
 
+export type CertificationArea = 'Cloud' | 'AI' | 'Security' | 'Programming & Developer Tools'
+export type CertificationLevel = 'Entry' | 'Associate' | 'Professional'
+/** Never a price: prices change and vary by country. */
+export type CertificationCost = 'Free' | 'Free training, paid exam' | 'Paid exam'
+
 export interface Certification {
   id: string
-  title: string
-  provider: string
-  category: 'Cloud' | 'Security'
-  level: 'Foundational' | 'Associate' | 'Professional' | 'Specialty' | 'Entry'
-  examCode?: string
-  description: string
-  prerequisites: string[]
-  url: string
-  verifiedAt: string
-  status: 'active' | 'upcoming' | 'retiring'
-  versionNotes?: string
-  retirementNotes?: string
-  relatedSectionIds: string[]
+  /** The official name, exactly as the issuer writes it. */
+  name: string
+  issuer: string
+  area: CertificationArea
+  level: CertificationLevel
+  cost: CertificationCost
+  /** What it shows an employer, in one plain sentence. */
+  employerSentence: string
+  /** Lessons and sections on Tinted Learning that cover its topics, with an honest note on what else to study. */
+  prepare: { links: { label: string; to: string }[]; stillNeed: string }
+  /** The issuer's own page. */
+  officialUrl: string
+  /** Month and year someone confirmed the credential is current. */
+  lastChecked: string
+  /** Version or retirement notes from the official page, when there are any. */
+  note?: string
 }
 
 export interface LearningSectionModuleReference {

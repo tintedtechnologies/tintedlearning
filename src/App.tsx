@@ -5,6 +5,7 @@ import { AboutPage } from './pages/AboutPage'
 import { HomePage } from './pages/HomePage'
 import { LearnPage } from './pages/LearnPage'
 import { LearningSectionPage } from './pages/LearningSectionPage'
+import { CertificationsPage } from './pages/CertificationsPage'
 import { StageAssessmentPage } from './pages/StageAssessmentPage'
 import { LessonPage } from './pages/LessonPage'
 import { PlaygroundPage } from './pages/PlaygroundPage'
@@ -37,6 +38,8 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/learn" element={<LearnPage />} />
         <Route path="/learn/stage/:stageId/test" element={<StageAssessmentPage />} />
+        <Route path="/learn/sections/certifications" element={<CertificationsPage />} />
+        <Route path="/learn/certification/:slug" element={<Navigate to="/learn/sections/certifications" replace />} />
         <Route path="/learn/sections/:sectionId" element={<LearningSectionPage />} />
         <Route path="/learn/algorithms-and-data-structures" element={<Navigate to="/learn/python-search-and-sort" replace />} />
         <Route path="/learn/chatbot-openai" element={<Navigate to="/learn/build-a-chatbot" replace />} />

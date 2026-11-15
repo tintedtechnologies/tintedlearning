@@ -1,5 +1,5 @@
 import { careerLevels, curriculumModules, curriculumStages, lessons, portfolioProjects, portfolioTracks } from '../src/data/curriculum'
-import { certificationVerificationDate, certifications } from '../src/data/certifications'
+import { certifications } from '../src/data/certifications'
 import { getSectionLessonIds, getSectionModules, learningSections, liveSectionIds } from '../src/data/learningSections'
 import { lessonContent } from '../src/data/lessonContent'
 import { lessonResources } from '../src/data/lessonResources'
@@ -157,18 +157,20 @@ const cloudSection = learningSections.find((section) => section.id === 'cloud-en
 if (cloudSection?.modules.map((reference) => reference.moduleId).join(',') !== 'azure-track,aws-track,gcp-track') failures.push('Cloud Engineering must contain provider-specific operational content, not Cloud Fundamentals')
 const securitySection = learningSections.find((section) => section.id === 'security')
 if (!securitySection?.modules.some((reference) => reference.lessonIds.length === securityLessonIds.length)) failures.push('Security must include the AI security lessons')
-const cloudCertifications = certifications.filter((certification) => certification.category === 'Cloud')
 if (new Set(certifications.map((certification) => certification.id)).size !== certifications.length) failures.push('Duplicate certification IDs')
-if (cloudCertifications.length !== 9) failures.push('Certifications must include three cloud credentials for each of Azure, AWS, and Google Cloud')
-for (const provider of ['Microsoft Azure', 'Amazon Web Services', 'Google Cloud']) {
-  if (cloudCertifications.filter((certification) => certification.provider === provider).length !== 3) failures.push(`${provider} cloud credential pathway must include three audited credentials`)
-}
-if (!certifications.some((certification) => certification.id === 'aws-solutions-architect-professional' && certification.examCode === 'SAP-C03')) failures.push('AWS professional architecture credential must use the current SAP-C03 exam')
-if (!certifications.some((certification) => certification.id === 'ccsk' && certification.category === 'Security')) failures.push('Certifications must include a vendor-neutral cloud security credential')
-if (certifications.some((certification) => certification.verifiedAt !== certificationVerificationDate || !certification.url.startsWith('https://') || !certification.prerequisites.length)) failures.push('Certification entries must include a current verification date, official HTTPS URL, and prerequisite note')
+const certificationAreas = ['Cloud', 'AI', 'Security', 'Programming & Developer Tools']
+const certificationLevels = ['Entry', 'Associate', 'Professional']
+const certificationCosts = ['Free', 'Free training, paid exam', 'Paid exam']
 for (const certification of certifications) {
-  for (const sectionId of certification.relatedSectionIds) {
-    if (!learningSections.some((section) => section.id === sectionId)) failures.push(`Certification ${certification.id} references unknown section ${sectionId}`)
+  if (!certificationAreas.includes(certification.area)) failures.push(`Certification ${certification.id} has an unknown area`)
+  if (!certificationLevels.includes(certification.level)) failures.push(`Certification ${certification.id} has an unknown level`)
+  if (!certificationCosts.includes(certification.cost)) failures.push(`Certification ${certification.id} must show a cost type, not a price`)
+  if (!certification.officialUrl.startsWith('https://')) failures.push(`Certification ${certification.id} needs an https official link`)
+  if (!certification.lastChecked.trim()) failures.push(`Certification ${certification.id} needs a last checked date`)
+  for (const link of certification.prepare.links) {
+    const target = link.to.split('/').pop() ?? ''
+    const resolves = link.to.startsWith('/learn/sections/') ? learningSections.some((section) => section.id === target) : lessonIds.includes(target)
+    if (!resolves) failures.push(`Certification ${certification.id} links to an unknown page: ${link.to}`)
   }
 }
 const securitySectionLessonIds = new Set(securitySection ? getSectionLessonIds(securitySection) : [])

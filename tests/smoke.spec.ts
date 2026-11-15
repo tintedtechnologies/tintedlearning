@@ -109,13 +109,20 @@ test('Foundations points beginners toward Python without mislabeling the lesson'
   await expect(page.getByText('Basic familiarity with files, applications, and the internet.')).toBeVisible()
 })
 
-test('certifications render as an optional reference catalog', async ({ page }) => {
+test('certifications catalog says Tinted Learning does not issue credentials, and filters work', async ({ page }) => {
   await page.goto('/learn/sections/certifications')
-  await expect(page.getByRole('heading', { name: 'Certifications', level: 1 })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'Cloud credentials' })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'Security credentials' })).toBeVisible()
-  await expect(page.getByText('Exam SAP-C03', { exact: true })).toBeVisible()
-  await expect(page.getByText(/do not count as lessons or completion requirements/)).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Credentials that count on a resume/, level: 1 })).toBeVisible()
+  await expect(page.getByText('Tinted Learning does not issue these credentials.')).toBeVisible()
+  await expect(page.getByText(/Showing 21 of 21/)).toBeVisible()
+  await page.getByRole('button', { name: 'AI', exact: true }).click()
+  await expect(page.getByText(/Showing 3 of 21/)).toBeVisible()
+  await page.getByRole('button', { name: 'Free', exact: true }).click()
+  await expect(page.getByText(/No credentials match|Showing 1 of 21/)).toBeVisible()
+})
+
+test('old certification detail URLs redirect to the catalog', async ({ page }) => {
+  await page.goto('/learn/certification/cloud-architect')
+  await expect(page).toHaveURL(/\/learn\/sections\/certifications$/)
 })
 
 test('lesson pages expose unique clean-url metadata', async ({ page }) => {
