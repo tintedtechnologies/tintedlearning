@@ -173,14 +173,14 @@ test('section assessments open in their own view', async ({ page }) => {
   await page.getByRole('link', { name: 'Foundations assessment' }).click()
   await expect(page).toHaveURL(/learn\/stage\/foundation\/test/)
   await expect(page.locator('h1', { hasText: 'Foundations assessment' })).toBeVisible()
-  await expect(page.getByText('This assessment contains 50 questions.')).toBeVisible()
+  await expect(page.getByText('This assessment contains 3 questions.')).toBeVisible()
 })
 
 test('stage assessment locks answers on next and only moves forward', async ({ page }) => {
   await page.goto('/learn/stage/foundation/test')
   await page.locator('input[type="radio"]').first().check()
   await page.getByRole('button', { name: 'Next question' }).click()
-  await expect(page.getByText('Question 2 of 50')).toBeVisible()
+  await expect(page.getByText('Question 2 of 3')).toBeVisible()
   await expect(page.getByRole('button', { name: /Previous/ })).toHaveCount(0)
   await expect(page.getByRole('button', { name: 'Lock answer' })).toHaveCount(0)
 })
@@ -205,7 +205,7 @@ test('authenticated learners can complete a lesson and earn an existing badge', 
   await page.locator('input[type="radio"]').first().check()
   await page.getByRole('button', { name: 'Next question' }).click()
   await page.reload()
-  await expect(page.getByText('Question 2 of 50')).toBeVisible()
+  await expect(page.getByText('Question 2 of 3')).toBeVisible()
 
   const authoredAnswers = [
     'It finds patterns and produces a prediction or recommendation',

@@ -1,7 +1,6 @@
 import { ArrowRight, CheckCircle2, RotateCcw, XCircle } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { lessonContent } from '../../data/lessonContent'
 import type { CurriculumStage, LessonQuiz, StageAssessment as StageAssessmentData } from '../../types/curriculum'
 import type { StageAssessmentAttempt } from '../../hooks/useProgress'
 
@@ -20,34 +19,9 @@ interface AssessmentQuestion {
   reviewModuleId: string
 }
 
+/** Only the authored questions are used. Generated filler questions are not allowed (CLAUDE.md). */
 function buildQuestionBank(assessment: StageAssessmentData, stage: CurriculumStage) {
-  const stageLessons = stage.modules.flatMap((module) => module.lessons.map((lesson) => ({ lesson, moduleId: module.id })))
-  const lessonTitles = stageLessons.map(({ lesson }) => lesson.title)
-  const generatedQuestions: AssessmentQuestion[] = []
-  const promptForLesson = (lesson: typeof stageLessons[number]['lesson'], promptIndex: number) => {
-    const content = lessonContent[lesson.id]
-    const focus = content?.learningPoints ?? []
-    const prompts = [
-      `Which lesson is described by this outcome: ${lesson.description}`,
-      `Which lesson includes this focus: ${focus[0] ?? lesson.description}`,
-      `Which lesson includes this focus: ${focus[1] ?? lesson.description}`,
-      `Which lesson includes this focus: ${focus[2] ?? lesson.description}`,
-      `Which lesson is represented by this takeaway: ${content?.takeaway ?? lesson.description}`,
-    ]
-    return prompts[promptIndex]
-  }
-  for (let promptIndex = 0; promptIndex < 5; promptIndex += 1) {
-    stageLessons.forEach(({ lesson, moduleId }, lessonIndex) => {
-      const prompt = promptForLesson(lesson, promptIndex)
-      const distractors = lessonTitles.filter((title) => title !== lesson.title).slice(lessonIndex % Math.max(1, lessonTitles.length - 3), lessonIndex % Math.max(1, lessonTitles.length - 3) + 3)
-      const options = [...new Set([lesson.title, ...distractors])].slice(0, 4)
-      if (options.length >= 2) generatedQuestions.push({ quiz: { question: prompt, options, answer: lesson.title, correctFeedback: 'Correct. This description or focus belongs to that lesson.', incorrectFeedback: `Review the lesson: ${lesson.title}` }, reviewModuleId: moduleId })
-    })
-  }
-  const authoredQuestions: AssessmentQuestion[] = assessment.questions.map((quiz, index) => ({ quiz, reviewModuleId: stage.modules[index % Math.max(1, stage.modules.length)]?.id ?? stage.id }))
-  const questions = [...authoredQuestions, ...generatedQuestions]
-  const target = Math.min(50, Math.max(40, questions.length))
-  return questions.slice(0, target)
+  return assessment.questions.map((quiz, index) => ({ quiz, reviewModuleId: stage.modules[index % Math.max(1, stage.modules.length)]?.id ?? stage.id }))
 }
 
 export function StageAssessment({ assessment, stage, stageComplete, onResult, savedAttempt, onAttemptChange, onAttemptClear }: StageAssessmentProps) {
