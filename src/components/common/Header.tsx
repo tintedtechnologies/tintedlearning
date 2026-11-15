@@ -49,6 +49,10 @@ function AccountAvatar({ onNavigate }: { onNavigate?: () => void }) {
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const { isLoaded, isSignedIn } = useAuth()
+  // Clerk briefly reports "not loaded" while a session changes. Keep the last confirmed state during
+  // that moment, so the avatar or Sign in button does not disappear and reappear.
+  const [confirmedSignedIn, setConfirmedSignedIn] = useState<boolean | null>(null)
+  useEffect(() => { if (isLoaded) setConfirmedSignedIn(Boolean(isSignedIn)) }, [isLoaded, isSignedIn])
 
   return (
     <header className="border-b border-line/80 bg-cream/90 backdrop-blur">
@@ -67,7 +71,7 @@ export function Header() {
             </NavLink>
           ))}
           <a href={donationUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-bold text-teal hover:text-gold"><Coffee size={16} />Donate</a>
-          {!isLoaded ? <span className="h-10 w-10" aria-hidden="true" /> : !isSignedIn ? <SignInButton mode="modal"><button type="button" className="text-sm font-bold text-teal hover:text-gold">Sign in</button></SignInButton> : <AccountAvatar />}
+          {confirmedSignedIn === null ? <span className="h-10 w-10" aria-hidden="true" /> : confirmedSignedIn ? <AccountAvatar /> : <SignInButton mode="modal"><button type="button" className="text-sm font-bold text-teal hover:text-gold">Sign in</button></SignInButton>}
         </nav>
 
         <button type="button" className="icon-button md:hidden" onClick={() => setIsOpen((open) => !open)} aria-expanded={isOpen} aria-label={isOpen ? 'Close menu' : 'Open menu'}>
@@ -81,7 +85,7 @@ export function Header() {
               <NavLink key={item.to} to={item.to} onClick={() => setIsOpen(false)} className="rounded-xl px-3 py-3 font-bold text-teal hover:bg-mist">{item.label}</NavLink>
             ))}
             <a href={donationUrl} target="_blank" rel="noreferrer" onClick={() => setIsOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-3 text-left font-bold text-teal hover:bg-mist"><Coffee size={17} />Donate</a>
-            {!isLoaded ? null : !isSignedIn ? <SignInButton mode="modal"><button type="button" className="rounded-xl px-3 py-3 text-left font-bold text-teal hover:bg-mist">Sign in</button></SignInButton> : <div className="px-3 py-2"><AccountAvatar onNavigate={() => setIsOpen(false)} /></div>}
+            {confirmedSignedIn === null ? null : confirmedSignedIn ? <div className="px-3 py-2"><AccountAvatar onNavigate={() => setIsOpen(false)} /></div> : <SignInButton mode="modal"><button type="button" className="rounded-xl px-3 py-3 text-left font-bold text-teal hover:bg-mist">Sign in</button></SignInButton>}
           </div>
         </nav>
       )}
