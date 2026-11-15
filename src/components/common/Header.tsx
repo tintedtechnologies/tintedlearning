@@ -1,6 +1,6 @@
 import { Coffee, Menu, X } from 'lucide-react'
-import { SignInButton, useAuth, useUser } from '@clerk/react'
-import { useState } from 'react'
+import { SignInButton, useAuth, useClerk, useUser } from '@clerk/react'
+import { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 
 const navItems = [
@@ -11,13 +11,38 @@ const navItems = [
 
 const donationUrl = 'https://www.buymeacoffee.com/tintedlearning'
 
-/** The signed-in state is the avatar alone. It links to the dashboard, where account controls live. */
+/** The signed-in state is the avatar alone. Clicking it opens a menu with the dashboard and sign out. */
 function AccountAvatar({ onNavigate }: { onNavigate?: () => void }) {
   const { user } = useUser()
+  const { signOut } = useClerk()
+  const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    if (!open) return
+    const closeOnOutsideClick = (event: MouseEvent) => {
+      if (!(event.target as Element).closest('[data-account-menu]')) setOpen(false)
+    }
+    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === 'Escape') setOpen(false) }
+    document.addEventListener('click', closeOnOutsideClick)
+    document.addEventListener('keydown', closeOnEscape)
+    return () => {
+      document.removeEventListener('click', closeOnOutsideClick)
+      document.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [open])
+
   return (
-    <Link to="/dashboard" onClick={onNavigate} aria-label="Go to your dashboard" className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-gold text-sm font-bold text-teal ring-2 ring-transparent transition-all hover:ring-gold/40">
-      {user?.imageUrl ? <img src={user.imageUrl} alt="" className="h-full w-full object-cover" /> : (user?.firstName?.[0] ?? 'L')}
-    </Link>
+    <div data-account-menu className="relative">
+      <button type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} aria-haspopup="menu" aria-label="Open account menu" className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-gold text-sm font-bold text-teal ring-2 ring-transparent transition-all hover:ring-gold/40">
+        {user?.imageUrl ? <img src={user.imageUrl} alt="" className="h-full w-full object-cover" /> : (user?.firstName?.[0] ?? 'L')}
+      </button>
+      {open && (
+        <div role="menu" className="absolute right-0 top-12 z-20 min-w-40 rounded-2xl border border-line bg-white p-2 shadow-soft">
+          <Link role="menuitem" to="/dashboard" onClick={() => { setOpen(false); onNavigate?.() }} className="block rounded-xl px-3 py-2 text-sm font-bold text-teal hover:bg-mist">Dashboard</Link>
+          <button role="menuitem" type="button" onClick={() => { setOpen(false); onNavigate?.(); void signOut() }} className="block w-full rounded-xl px-3 py-2 text-left text-sm font-bold text-muted hover:bg-mist hover:text-teal">Sign out</button>
+        </div>
+      )}
+    </div>
   )
 }
 
