@@ -22,8 +22,8 @@ The audience is beginners and career changers, often learning on their own, some
 | Security | **Done.** 12 lessons, including the rewritten *AI Governance and Documentation*. Do not edit except to fix a reported problem |
 | Research | **Done.** 6 lessons. Do not edit except to fix a reported problem |
 | Technical Leadership & Communication | **Done.** 16 lessons using the Riverside scenario. Two optional follow-ups are listed under "Do these first" |
-| Projects | **Next (1st).** Live, but not yet revised. See the Projects revision plan below |
-| Certifications | **Next (2nd).** Rebuild. See the Certifications plan below |
+| Projects | **Done.** Revised to five projects, following the Projects revision plan below |
+| Certifications | **Done.** One catalog page, following the Certifications plan below |
 
 Update this table as you go: mark a section **Done** when every lesson in it passes its checklist. Unfinished sections stay greyed out as "Coming soon".
 
