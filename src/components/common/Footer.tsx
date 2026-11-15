@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { NewsletterSignup } from './NewsletterSignup'
 
 export function Footer() {
   return (
@@ -7,6 +8,7 @@ export function Footer() {
         <div>
           <p className="font-display text-2xl font-bold">Tinted Learning</p>
           <p className="mt-3 max-w-xs text-sm leading-6 text-white/70">Free AI education for everyone.</p>
+          <div className="mt-6"><NewsletterSignup /></div>
         </div>
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">Explore</p>

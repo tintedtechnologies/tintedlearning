@@ -348,3 +348,19 @@ test('the Projects section cards show real project times and no old template lin
   await expect(page.getByText(/How to design a complete RAG workflow/)).toHaveCount(0)
   await expect(page.getByText(/Helpful context:/)).toHaveCount(0)
 })
+
+test('footer newsletter sends only the email address to the Google Form response endpoint', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'networkidle' })
+  const input = page.locator('#newsletter-email')
+  test.skip((await input.count()) === 0, 'Set VITE_NEWSLETTER_FORM_URL to show the newsletter form.')
+  let posted = ''
+  await page.route('**/formResponse**', async (route) => {
+    posted = route.request().postData() ?? ''
+    await route.fulfill({ status: 200, body: '' })
+  })
+  await input.fill('reader@example.com')
+  await page.getByRole('button', { name: 'Sign up' }).click()
+  await expect(page.getByText('Thanks. You are on the list.')).toBeVisible()
+  expect(new URLSearchParams(posted).get('entry.1332342356')).toBe('reader@example.com')
+  expect([...new URLSearchParams(posted).keys()]).toEqual(['entry.1332342356'])
+})

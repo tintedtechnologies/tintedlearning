@@ -1,20 +1,10 @@
 import { Check, MessageCircle, Send, X } from 'lucide-react'
 import { FormEvent, useEffect, useRef, useState } from 'react'
 import { useFocusTrap } from '../../hooks/useFocusTrap'
+import { toFormResponseUrl } from '../../utils/googleForm'
 
 const feedbackFormUrl = import.meta.env.VITE_FEEDBACK_FORM_URL?.trim()
-const feedbackResponseUrl = (() => {
-  if (!feedbackFormUrl) return ''
-
-  try {
-    const url = new URL(feedbackFormUrl)
-    url.pathname = url.pathname.replace(/\/viewform$/, '/formResponse')
-    url.search = ''
-    return url.toString()
-  } catch {
-    return feedbackFormUrl
-  }
-})()
+const feedbackResponseUrl = toFormResponseUrl(feedbackFormUrl)
 
 type FeedbackErrors = {
   idea?: string
