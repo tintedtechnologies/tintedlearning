@@ -47,7 +47,6 @@ export function LearnPage() {
     const completed = sectionLessonIds.filter((lessonId) => progress.completedLessons.includes(lessonId)).length
     const totalMinutes = getSectionModules(section.id).reduce((total, { lessons: moduleLessons }) => total + moduleLessons.reduce((minutes, lesson) => minutes + lesson.duration, 0), 0)
     const estimatedHours = Math.max(1, Math.ceil(totalMinutes / 60))
-    const growing = section.id === 'research'
     if (!isSectionLive(section.id)) return <div key={section.id} aria-disabled="true" className="flex min-h-52 flex-col rounded-3xl border border-dashed border-line bg-cream/60 p-6 opacity-70">
       <span className="flex items-start justify-between gap-3"><span className="font-display text-2xl font-bold text-muted">{section.title}</span><span className="shrink-0 rounded-full bg-sand px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-muted">Coming soon</span></span>
       <span className="mt-3 flex-1 text-sm leading-6 text-muted">{section.description}</span>
@@ -55,7 +54,6 @@ export function LearnPage() {
     </div>
     return <Link key={section.id} to={`/learn/sections/${section.id}`} className="group flex min-h-52 flex-col rounded-3xl border border-line bg-white p-6 shadow-soft transition-colors hover:border-teal/30 hover:bg-mist">
       <span className="flex items-start justify-between gap-3"><span className="font-display text-2xl font-bold text-teal">{section.title}</span><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-mist text-teal group-hover:bg-white"><BookOpen size={17} /></span></span>
-      {growing && <span className="mt-3 w-fit rounded-full bg-sand px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-teal">Growing section</span>}
       <span className="mt-3 flex-1 text-sm leading-6 text-muted">{section.description}</span>
       <span className="mt-5 flex items-center justify-between gap-3 text-xs font-bold text-teal"><>{completed}/{sectionLessonIds.length} lessons · About {estimatedHours} hour{estimatedHours === 1 ? '' : 's'}</><span className="inline-flex items-center gap-1">{completed === sectionLessonIds.length && sectionLessonIds.length > 0 ? <><CheckCircle2 size={15} />Complete</> : 'Explore'}<ArrowRight size={15} /></span></span>
     </Link>
