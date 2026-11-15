@@ -1,11 +1,15 @@
 import { careerLevels, curriculumModules, curriculumStages, lessons, portfolioProjects, portfolioTracks } from '../src/data/curriculum'
 import { certificationVerificationDate, certifications } from '../src/data/certifications'
-import { getSectionLessonIds, getSectionModules, learningSections } from '../src/data/learningSections'
+import { getSectionLessonIds, getSectionModules, learningSections, liveSectionIds } from '../src/data/learningSections'
 import { lessonContent } from '../src/data/lessonContent'
 import { lessonResources } from '../src/data/lessonResources'
 import { getLearningPlanModules } from '../src/data/learningPlans'
+import { structuredLessons } from '../src/data/lessons'
+import { projectPlans } from '../src/data/projects'
+import { checkStructuredLesson } from './lesson-rules'
 
 const failures: string[] = []
+const liveLessonIds = new Set(learningSections.filter((section) => liveSectionIds.includes(section.id)).flatMap((section) => getSectionLessonIds(section)))
 const lessonIds = lessons.map((lesson) => lesson.id)
 const securityLessonIds = lessons.filter((lesson) => lesson.category === 'AI Security').map((lesson) => lesson.id)
 const duplicateLessonIds = lessonIds.filter((id, index) => lessonIds.indexOf(id) !== index)
@@ -13,8 +17,13 @@ const duplicateLessonIds = lessonIds.filter((id, index) => lessonIds.indexOf(id)
 if (duplicateLessonIds.length) failures.push(`Duplicate lesson IDs: ${[...new Set(duplicateLessonIds)].join(', ')}`)
 
 for (const lesson of lessons) {
-  if (!lessonContent[lesson.id]) failures.push(`Missing lesson content: ${lesson.id}`)
-  const resources = lessonResources[lesson.id] ?? lessonContent[lesson.id]?.resources ?? []
+  if (!lessonContent[lesson.id] && !structuredLessons[lesson.id] && !projectPlans[lesson.id]) failures.push(`Missing lesson content: ${lesson.id}`)
+  // Live lessons must use the structured format and pass the CLAUDE.md content rules.
+  // Greyed-out lessons are not checked for quizzes or examples, because generated filler is worse than a hidden section.
+  const structured = structuredLessons[lesson.id]
+  if (liveLessonIds.has(lesson.id) && !structured && !projectPlans[lesson.id]) failures.push(`Live lesson is missing structured content: ${lesson.id}`)
+  if (structured) failures.push(...checkStructuredLesson(lesson.id, structured, lesson.description))
+  const resources = structuredLessons[lesson.id]?.resources ?? lessonResources[lesson.id] ?? lessonContent[lesson.id]?.resources ?? []
   if (!resources.length) failures.push(`Missing topic-specific resources: ${lesson.id}`)
   const invalidResources = resources.filter((resource) => !resource || !resource.url)
   if (invalidResources.length) failures.push(`Invalid resource entry in lesson: ${lesson.id}`)
@@ -138,10 +147,10 @@ for (const projectModuleId of ['developer-project', 'engineer-project', 'archite
 const pythonSectionIds = new Set(getSectionLessonIds(learningSections.find((section) => section.id === 'python')!))
 if (getSectionLessonIds(foundationsSection!).some((lessonId) => pythonSectionIds.has(lessonId))) failures.push('Python lessons must not be assigned to Foundations')
 if (getSectionModules('certifications').length || getSectionLessonIds(learningSections.find((section) => section.id === 'certifications')!).length) failures.push('Certifications must not count as modules or lessons')
-const expectedSoftwareOrder = ['git-github', 'linux-cli', 'data-structures', 'testing-debugging', 'apis-rest', 'http-networking', 'databases-sql', 'docker']
+const expectedSoftwareOrder = ['linux-cli', 'git-github', 'code-quality', 'http-networking', 'apis-rest', 'databases-sql', 'testing-debugging', 'logging', 'docker', 'software-engineering-capstone']
 const softwareSectionModuleIds = learningSections.find((section) => section.id === 'software-engineering')?.modules.map((reference) => reference.moduleId) ?? []
-if (softwareSectionModuleIds.slice(0, expectedSoftwareOrder.length).join(',') !== expectedSoftwareOrder.join(',')) failures.push('Software Engineering modules are not ordered from fundamentals through testing, APIs, data, and containers')
-const expectedAiOrder = ['llms', 'prompting', 'structured-outputs', 'embeddings', 'vector-databases', 'rag', 'tool-calling', 'agents', 'evaluation']
+if (softwareSectionModuleIds.join(',') !== expectedSoftwareOrder.join(',')) failures.push('Software Engineering modules must follow the 11-lesson order in CLAUDE.md')
+const expectedAiOrder = ['llms', 'prompting', 'ai-apis', 'observability', 'system-design', 'scalability', 'reliability', 'distributed-systems', 'architecture-patterns', 'enterprise-integration', 'cost-optimization', 'architecture-decision-records']
 const aiSectionModuleIds = learningSections.find((section) => section.id === 'ai-engineering')?.modules.map((reference) => reference.moduleId) ?? []
 if (aiSectionModuleIds.slice(0, expectedAiOrder.length).join(',') !== expectedAiOrder.join(',')) failures.push('AI Engineering does not begin with model concepts and progress through retrieval, tools, agents, and evaluation')
 const cloudSection = learningSections.find((section) => section.id === 'cloud-engineering')

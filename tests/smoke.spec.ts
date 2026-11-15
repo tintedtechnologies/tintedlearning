@@ -17,6 +17,59 @@ test('homepage exposes onboarding routes and donation link', async ({ page }) =>
   await expect(page.getByRole('link', { name: 'Donate' })).toHaveAttribute('href', /buymeacoffee\.com/)
 })
 
+test('token playground shows real subword pieces', async ({ page }) => {
+  await page.goto('/playground/tokens')
+  await page.getByLabel('Write something').fill('unbelievable 2026!')
+  await expect(page.getByText('un', { exact: true })).toBeVisible()
+  await expect(page.getByText('bel', { exact: true })).toBeVisible()
+  await expect(page.getByText('ievable', { exact: true })).toBeVisible()
+  await expect(page.getByText('202', { exact: true })).toBeVisible()
+  await expect(page.getByText('6', { exact: true })).toBeVisible()
+})
+
+test('embeddings playground is linked again and loads on demand', async ({ page }) => {
+  await page.goto('/playground')
+  await page.getByRole('link', { name: /Embeddings/ }).click()
+  await expect(page).toHaveURL(/\/playground\/embeddings$/)
+  await expect(page.getByRole('heading', { name: 'Can AI compare meaning?' })).toBeVisible()
+})
+
+test('retired playground routes redirect and agents require approval', async ({ page }) => {
+  await page.goto('/playground/rag')
+  await expect(page).toHaveURL(/\/playground$/)
+  await page.goto('/playground/agents')
+  await page.getByRole('button', { name: '0 free slots' }).click()
+  await expect(page.getByText(/checking for 30-minute slots instead/i)).toBeVisible()
+  await expect(page.getByText(/Add six 30-minute study blocks/i)).toBeVisible()
+  await page.getByRole('button', { name: 'Approve' }).click()
+  await expect(page.getByText(/Added: Mon 6:00 to 6:30 pm/i)).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Run again' })).toBeVisible()
+})
+
+test('Python playground presents browser-friendly errors', async ({ page }) => {
+  await page.goto('/playground/python')
+  const code = page.getByLabel('Python code')
+  await expect(code).toBeVisible()
+  await code.fill('print(input("Name: "))')
+  await page.getByRole('button', { name: /Run Python|Loading Python/ }).click()
+  await expect(page.getByText(/Input is not interactive in this browser playground/)).toBeVisible({ timeout: 15000 })
+})
+
+test('prompt builder has four fields and copies the assembled prompt', async ({ page }) => {
+  await page.goto('/playground/prompt-builder')
+  await expect(page.getByLabel('Desired output')).toBeVisible()
+  await page.getByRole('button', { name: 'Copy prompt' }).click()
+  await expect(page.getByRole('button', { name: 'Copied' })).toBeVisible()
+})
+
+test('key lesson and certification links resolve', async ({ page }) => {
+  for (const route of ['/learn/math-research-capstone', '/learn/sections/certifications']) {
+    await page.goto(route)
+    await expect(page).not.toHaveURL(/\/$/)
+    await expect(page.locator('h1')).toBeVisible()
+  }
+})
+
 test('legacy stage links redirect to their compatible section', async ({ page }) => {
   await page.goto('/learn?stage=professional-practice')
   await expect(page).toHaveURL(/\/learn\/sections\/technical-leadership$/)
@@ -83,13 +136,29 @@ test('first lesson turns learning into saved evidence', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Mark lesson complete' })).toBeEnabled()
   await expect(page.getByRole('link', { name: 'Next lesson' })).toBeVisible()
   await expect(page.getByText('Learning loop')).toHaveCount(0)
-  await expect(page.getByText('Optional reading')).toBeVisible()
-  const quickChecks = page.getByRole('heading', { name: 'Test what you understand.' })
-  const optionalReading = page.getByRole('heading', { name: 'Go deeper when you are ready' })
+  const quickChecks = page.getByRole('heading', { name: 'Check your understanding' })
+  const optionalReading = page.getByRole('heading', { name: 'Go deeper (optional)' })
   await expect(quickChecks).toBeVisible()
   await expect(optionalReading).toBeVisible()
   const headings = await page.locator('h2').allTextContents()
-  expect(headings.indexOf('Test what you understand.')).toBeLessThan(headings.indexOf('Go deeper when you are ready'))
+  expect(headings.indexOf('Check your understanding')).toBeLessThan(headings.indexOf('Go deeper (optional)'))
+  expect(headings.slice(0, 3)).toEqual(["What you'll learn", 'The big idea', 'Why it matters'])
+})
+
+test('lesson quiz advances numbering after each answer', async ({ page }) => {
+  await page.goto('/learn/what-is-ai')
+  await expect(page.getByText('Question 1 of 3')).toBeVisible()
+  await page.getByRole('button', { name: 'A music app suggesting a song you may like' }).click()
+  await page.getByRole('button', { name: 'Next question' }).click()
+  await expect(page.getByText('Question 2 of 3')).toBeVisible()
+  await page.getByRole('button', { name: /Using patterns learned from many faces/ }).click()
+  await expect(page.getByText(/Correct\. The model learned what makes faces similar/)).toBeVisible()
+  await page.getByRole('button', { name: 'Next question' }).click()
+  await expect(page.getByText('Question 3 of 3')).toBeVisible()
+  await page.getByRole('button', { name: 'Previous question' }).click()
+  await expect(page.getByText('Question 2 of 3')).toBeVisible()
+  await page.getByRole('button', { name: 'Retry quiz' }).click()
+  await expect(page.getByText('Question 1 of 3')).toBeVisible()
 })
 
 test('section assessments open in their own view', async ({ page }) => {
@@ -211,4 +280,41 @@ test('key public pages have no serious accessibility violations', async ({ page 
     const serious = results.violations.filter((violation) => violation.impact === 'critical' || violation.impact === 'serious')
     expect(serious, `${route} accessibility violations: ${serious.map((violation) => violation.id).join(', ')}`).toEqual([])
   }
+})
+
+test('every live lesson renders the standard sections without generic filler', async ({ page }) => {
+  test.setTimeout(600_000)
+  const { structuredLessons } = await import('../src/data/lessons')
+  const fillerPatterns = [/Which situation best matches/, /What should you inspect first when applying/, /The important implementation detail/, /Read the example, then change one input/, /Part 1/]
+  for (const [lessonId, lesson] of Object.entries(structuredLessons)) {
+    await page.goto(`/learn/${lessonId}`, { waitUntil: 'networkidle' })
+    await page.waitForLoadState('networkidle')
+    const headings = await page.locator('h2').allTextContents()
+    const expected = ["What you'll learn", 'The big idea', 'Why it matters', ...lesson.goalSections.map((section) => section.heading), 'See it in action', ...(lesson.tryIt ? ['Try it yourself'] : []), 'Common mistakes', 'Check your understanding', 'Key takeaway', 'Go deeper (optional)']
+    expect(headings.slice(0, expected.length), lessonId).toEqual(expected)
+    await expect(page.getByText('Question 1 of 3'), lessonId).toBeVisible()
+    const body = await page.locator('article').innerText()
+    for (const pattern of fillerPatterns) expect(body, `${lessonId} contains ${pattern}`).not.toMatch(pattern)
+  }
+})
+
+test('python playground opens the lesson starter code', async ({ page }) => {
+  await page.goto('/playground/python?lesson=python-control-flow')
+  await expect(page.getByLabel('Python code')).toHaveValue(/scores = \[82, 45, 67, 91, 58\]/)
+})
+
+test('unfinished sections show as coming soon while finished ones link', async ({ page }) => {
+  await page.goto('/learn')
+  await expect(page.getByRole('link', { name: /Software Engineering/ }).first()).toBeVisible()
+  await expect(page.getByRole('link', { name: /^AI Engineering/ }).first()).toBeVisible()
+  await expect(page.getByRole('link', { name: /^Cloud Engineering/ }).first()).toBeVisible()
+  await expect(page.getByRole('link', { name: /^Security/ }).first()).toBeVisible()
+  await expect(page.getByRole('link', { name: /^Research/ }).first()).toBeVisible()
+  await expect(page.getByRole('link', { name: /^Technical Leadership/ }).first()).toBeVisible()
+  await expect(page.getByRole('link', { name: /^Projects/ }).first()).toBeVisible()
+})
+
+test('removed algorithms lesson redirects to python search and sort', async ({ page }) => {
+  await page.goto('/learn/algorithms-and-data-structures')
+  await expect(page).toHaveURL(/\/learn\/python-search-and-sort$/)
 })

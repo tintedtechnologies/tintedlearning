@@ -23,6 +23,7 @@ export type Difficulty = 'Beginner' | 'Intermediate' | 'Advanced'
 export type LessonCategory =
   | 'AI Foundations'
   | 'Math and Computing'
+  | 'Research'
   | 'Python'
   | 'Software Engineering'
   | 'Modern AI Systems'
@@ -92,12 +93,14 @@ export interface LessonContent {
   sections: LessonSection[]
   callouts: LessonCallout[]
   examples?: LessonExample[]
+  commonMistakes?: string[]
   resources?: LearningResource[]
   quiz?: LessonQuiz
   quizzes?: LessonQuiz[]
   deeper: string
   takeaway: string
   project?: GuidedProject
+  buildTimeMinutes?: number
 }
 
 export interface LearningResource {
@@ -107,7 +110,7 @@ export interface LearningResource {
   url: string
 }
 
-export type CurriculumStageId = 'foundation' | 'software-engineering' | 'ai-engineering' | 'cloud-engineering' | 'ai-architecture' | 'professional-practice' | 'projects'
+export type CurriculumStageId = 'foundation' | 'software-engineering' | 'ai-engineering' | 'cloud-engineering' | 'ai-architecture' | 'research' | 'professional-practice' | 'projects'
 
 export type CareerLevelId = 'start-here' | 'ai-developer' | 'ai-engineer' | 'ai-architect'
 

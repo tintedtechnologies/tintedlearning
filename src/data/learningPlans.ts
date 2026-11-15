@@ -57,7 +57,7 @@ export const objectiveOptions: { id: LearningObjective; title: string }[] = [
 const foundations = ['ai-fundamentals', 'computing-math', 'python', 'git-github', 'linux-cli']
 const practicalFoundations = ['ai-fundamentals', 'python', 'git-github', 'linux-cli']
 const software = ['apis-rest', 'http-networking', 'databases-sql', 'data-structures', 'testing-debugging', 'docker']
-const aiEngineering = ['llms', 'prompting', 'structured-outputs', 'embeddings', 'vector-databases', 'rag', 'tool-calling', 'agents', 'evaluation', 'guardrails', 'observability']
+const aiEngineering = ['llms', 'prompting', 'ai-apis', 'observability']
 const cloudCore = ['cloud-fundamentals']
 const architecture = ['system-design', 'distributed-systems', 'scalability', 'reliability', 'security-governance', 'cost-optimization', 'architecture-patterns', 'enterprise-integration', 'architecture-decision-records']
 
@@ -147,7 +147,7 @@ export function getLearningPlanModules(profile: LearningPlanProfile): Curriculum
     'python-developer': ['python', ...software, 'developer-project'],
     'ai-mathematics': ['ai-fundamentals', 'computing-math', 'python', 'data-structures', 'testing-debugging', 'math-project'],
     'technical-leadership': ['customer-discovery', 'scope-and-requirements', 'value-and-business-cases', 'consultative-selling', 'solution-storytelling', 'commercial-practice', 'communication', 'planning-and-execution', 'collaboration-and-influence', 'leadership-systems', 'leadership-practicum'],
-    'ai-developer': [...starts, ...software, 'llms', 'prompting', 'structured-outputs', 'developer-project'],
+    'ai-developer': [...starts, ...software, 'llms', 'prompting', 'ai-apis', 'developer-project'],
     'ai-engineer': [...starts, ...software, ...aiEngineering, 'engineer-project'],
     'cloud-engineer': [...starts, ...software, ...cloudTrackModules(profile.provider)],
     'ai-architect': [...starts, ...software, ...aiEngineering, ...cloudTrackModules(profile.provider), ...architecture, 'architecture-project'],

@@ -30,9 +30,12 @@ const mathLessonIds = [
 ]
 
 const researchLessonIds = [
+  'research-questions',
   'data-collection-and-cleaning',
   'experiment-design',
   'statistical-inference-and-experiments',
+  'reading-research-papers',
+  'reporting-results',
 ]
 
 const securityLessonIds = lessons.filter((lesson) => lesson.category === 'AI Security').map((lesson) => lesson.id)
@@ -57,14 +60,22 @@ const professionalPracticeModuleIds = [
 
 const architectureModuleIds = [
   'system-design',
-  'distributed-systems',
   'scalability',
   'reliability',
-  'cost-optimization',
+  'distributed-systems',
   'architecture-patterns',
   'enterprise-integration',
+  'cost-optimization',
   'architecture-decision-records',
 ]
+
+/**
+ * Sections open to learners. Every other section shows as "Coming soon" on the Learn page.
+ * Add a section here only when all of its lessons are rewritten (scripts/validate-curriculum.ts enforces this).
+ */
+export const liveSectionIds = ['foundations', 'python', 'math', 'software-engineering', 'ai-engineering', 'cloud-engineering', 'security', 'research', 'technical-leadership', 'projects']
+
+export const isSectionLive = (sectionId: string) => liveSectionIds.includes(sectionId)
 
 export const learningSections: LearningSection[] = [
   {
@@ -101,7 +112,7 @@ export const learningSections: LearningSection[] = [
     title: 'Research',
     description: 'Practice collecting evidence, designing experiments, evaluating claims, and communicating reproducible findings.',
     kind: 'learning',
-    modules: [only('computing-math', researchLessonIds, {
+    modules: [only('research-methods', researchLessonIds, {
       title: 'Research Methods',
       description: 'Learn how to collect evidence, design experiments, reason about uncertainty, and report findings clearly.',
     })],
@@ -109,17 +120,19 @@ export const learningSections: LearningSection[] = [
   {
     id: 'software-engineering',
     title: 'Software Engineering',
-    description: 'Move from source control and interfaces through testing, APIs, data, containers, maintainability, and project delivery.',
+    description: 'Build Study Tracker, a real Python API, step by step: the command line, Git, an API, a database, tests, logging and Docker, in 11 lessons.',
     kind: 'learning',
     modules: [
-      all('git-github'),
       all('linux-cli'),
-      only('data-structures', ['algorithms-and-data-structures']),
-      only('testing-debugging', ['testing-debugging']),
-      all('apis-rest'),
+      all('git-github'),
+      all('code-quality'),
       all('http-networking'),
+      all('apis-rest'),
       all('databases-sql'),
+      only('testing-debugging', ['testing-debugging']),
+      all('logging'),
       all('docker'),
+      all('software-engineering-capstone'),
     ],
     assessmentStageIds: ['software-engineering'],
   },
@@ -134,19 +147,12 @@ export const learningSections: LearningSection[] = [
   {
     id: 'ai-engineering',
     title: 'AI Engineering',
-    description: 'Progress from model concepts through retrieval, tools, agents, evaluation, observability, architecture, and production delivery.',
+    description: 'Understand how modern AI works and use it well, then add AI features to Study Tracker: model calls, tools, retrieval, agents and streaming, run them in production and design systems around them.',
     kind: 'learning',
     modules: [
       all('llms'),
       all('prompting'),
-      all('structured-outputs'),
-      all('embeddings'),
-      all('vector-databases'),
-      all('rag'),
-      all('tool-calling'),
-      all('agents'),
-      only('evaluation', ['evaluating-ai-responses']),
-      all('guardrails'),
+      all('ai-apis'),
       all('observability'),
       ...architectureModuleIds.map(all),
     ],
@@ -162,7 +168,7 @@ export const learningSections: LearningSection[] = [
   {
     id: 'cloud-engineering',
     title: 'Cloud Engineering',
-    description: 'Choose Azure, AWS, or Google Cloud and build provider-specific skills in governance, deployment, security, and operations.',
+    description: 'Choose Azure, AWS, or Google Cloud and run Study Tracker as a real production service: identity, networking, a private database, secrets, monitoring, backups, governance and AI, built from code.',
     kind: 'learning',
     modules: [all('azure-track'), all('aws-track'), all('gcp-track')],
     assessmentStageIds: ['cloud-engineering'],

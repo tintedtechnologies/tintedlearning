@@ -1,9 +1,12 @@
 import type { CareerLevel, CurriculumModule, CurriculumStage, Lesson, LearningResource, PortfolioTrack } from '../types/curriculum'
 import { advancedProviderCloudLessons } from './advancedProviderCloudLessons'
+import { applyCloudTrackPlan, cloudTrackOrder } from './cloudTrackPlan'
 import { orientationLessons } from './orientationLessons'
 import { portfolioProjects } from './portfolioProjects'
 import { providerCloudLessons } from './providerCloudLessons'
 import { stageAssessments } from './stageAssessments'
+import { structuredLessons } from './lessons'
+import { readingMinutes } from './lessons/stats'
 
 const supportingResources = {
   foundations: [
@@ -45,7 +48,7 @@ const supportingResources = {
   ],
 }
 
-export const lessons: Lesson[] = [
+const lessonCatalog: Lesson[] = [
   { id: 'what-is-ai', title: 'What is Artificial Intelligence?', description: 'Define AI and understand how modern systems use patterns to produce useful results.', duration: 5, difficulty: 'Beginner', category: 'AI Foundations', order: 1 },
   { id: 'how-ai-learns', title: 'How Does AI Learn?', description: 'Understand learning from examples, patterns, feedback, and generalization.', duration: 7, difficulty: 'Beginner', category: 'AI Foundations', order: 2 },
   { id: 'machine-learning', title: 'What is Machine Learning?', description: 'Distinguish AI, machine learning, deep learning, and hand-written rules.', duration: 8, difficulty: 'Beginner', category: 'AI Foundations', order: 3 },
@@ -56,13 +59,15 @@ export const lessons: Lesson[] = [
   { id: 'vectors-and-representations', title: 'Vectors and Representations', description: 'Understand how AI turns information into numbers it can compare and transform.', duration: 11, difficulty: 'Intermediate', category: 'Math and Computing', order: 3 },
   { id: 'matrices-and-linear-algebra', title: 'Matrices and Linear Algebra', description: 'See how matrix operations power transformations inside models.', duration: 13, difficulty: 'Intermediate', category: 'Math and Computing', order: 4 },
   { id: 'calculus-and-gradients', title: 'Calculus and Gradients', description: 'Understand slopes, change, and why gradients guide learning.', duration: 13, difficulty: 'Intermediate', category: 'Math and Computing', order: 5 },
-  { id: 'programming-and-data-workflows', title: 'Programming and Data Workflows', description: 'See how code, data, experiments, and models fit together in practice.', duration: 10, difficulty: 'Intermediate', category: 'Math and Computing', order: 6 },
-  { id: 'algorithms-and-data-structures', title: 'Algorithms and Data Structures', description: 'Learn how software organizes information and solves problems efficiently.', duration: 12, difficulty: 'Intermediate', category: 'Math and Computing', order: 7 },
-  { id: 'data-collection-and-cleaning', title: 'Data Collection and Cleaning', description: 'Understand where training data comes from and how messy data changes results.', duration: 10, difficulty: 'Intermediate', category: 'Math and Computing', order: 8 },
-  { id: 'experiment-design', title: 'Experiment Design', description: 'Learn how to compare AI approaches without fooling yourself with weak evidence.', duration: 11, difficulty: 'Intermediate', category: 'Math and Computing', order: 9 },
+  { id: 'programming-and-data-workflows', title: 'Programming and Data Workflows', description: 'See how code, data, baselines and repeatable steps fit together in an AI project.', duration: 10, difficulty: 'Intermediate', category: 'Math and Computing', order: 6 },
+  { id: 'research-questions', title: 'Asking a Good Research Question', description: 'Turn a vague question into one you can test, name the groups and the measure, and write a prediction before looking at data.', duration: 8, difficulty: 'Intermediate', category: 'Research', order: 1 },
+  { id: 'reading-research-papers', title: 'Reading a Research Paper', description: 'Find the claim and the comparison in a paper, judge its sample and measure, and look for what it did not test.', duration: 8, difficulty: 'Intermediate', category: 'Research', order: 5 },
+  { id: 'reporting-results', title: 'Reporting Results Honestly', description: 'Write the answer with its likely range and limits, draw charts that show the true scale, and produce the report from one script.', duration: 8, difficulty: 'Intermediate', category: 'Research', order: 6 },
+  { id: 'data-collection-and-cleaning', title: 'Data Collection and Cleaning', description: 'Collect data with consent and a clear plan, find messy values and clean them with written rules that anyone can repeat.', duration: 9, difficulty: 'Intermediate', category: 'Research', order: 2 },
+  { id: 'experiment-design', title: 'Experiment Design', description: 'Compare groups fairly with a comparison group, random assignment and handling of confounders.', duration: 9, difficulty: 'Intermediate', category: 'Research', order: 3 },
   { id: 'optimization-and-training', title: 'Optimization and Training', description: 'Learn how loss functions and gradient-based updates improve a model.', duration: 12, difficulty: 'Intermediate', category: 'Math and Computing', order: 10 },
   { id: 'numerical-methods-for-ai', title: 'Numerical Methods for AI', description: 'Understand approximation, stability, conditioning, and the computational limits of mathematical algorithms.', duration: 16, difficulty: 'Advanced', category: 'Math and Computing', order: 11 },
-  { id: 'statistical-inference-and-experiments', title: 'Statistical Inference and Experiments', description: 'Use sampling, estimation, uncertainty, and controlled comparisons to make stronger claims from data.', duration: 17, difficulty: 'Advanced', category: 'Math and Computing', order: 12 },
+  { id: 'statistical-inference-and-experiments', title: 'Statistical Inference and Experiments', description: 'Ask whether a gap could be chance, read a p-value and a confidence interval in plain words, and tell clear results from important ones.', duration: 12, difficulty: 'Advanced', category: 'Research', order: 4 },
   { id: 'mathematical-modeling-for-ai', title: 'Mathematical Modeling for AI', description: 'Translate a real system into assumptions, variables, objectives, constraints, and measurable predictions.', duration: 16, difficulty: 'Advanced', category: 'Math and Computing', order: 13 },
   { id: 'python-basics', title: 'Running Python and Values', description: 'Run a Python program and work with variables, values, and basic expressions.', duration: 8, difficulty: 'Beginner', category: 'Python', order: 1 },
   { id: 'python-control-flow', title: 'Conditions and Loops', description: 'Use decisions and repetition to control what a Python program does.', duration: 9, difficulty: 'Beginner', category: 'Python', order: 2 },
@@ -98,58 +103,71 @@ export const lessons: Lesson[] = [
   { id: 'consultative-selling-and-discovery', title: 'Consultative Selling and Discovery', description: 'Sell by understanding the customer, qualifying fit, handling objections, and helping people make an informed decision.', duration: 18, difficulty: 'Advanced', category: 'Professional Practice', order: 14 },
   { id: 'solution-demos-and-storytelling', title: 'Solution Demos and Storytelling', description: 'Demonstrate a solution around a customer outcome, evidence, tradeoffs, and a clear next step instead of a feature tour.', duration: 17, difficulty: 'Advanced', category: 'Professional Practice', order: 15 },
   { id: 'commercial-negotiation-and-procurement', title: 'Commercial Negotiation and Procurement', description: 'Navigate budget, terms, risk, procurement constraints, and ethical negotiation without promising what the team cannot deliver.', duration: 18, difficulty: 'Advanced', category: 'Professional Practice', order: 16 },
-  { id: 'math-research-capstone', title: 'Project: Mathematical AI Investigation', description: 'Formulate a question, derive a model, implement a baseline, and communicate what the evidence can support.', duration: 24, difficulty: 'Advanced', category: 'Projects and Practice', order: 4 },
-  { id: 'neural-networks', title: 'A Gentle Introduction to Neural Networks', description: 'Understand layers, parameters, and learned representations.', duration: 9, difficulty: 'Beginner', category: 'Modern AI Systems', order: 1 },
-  { id: 'generative-ai', title: 'What is Generative AI?', description: 'Learn how AI generates text, images, audio, video, and code.', duration: 7, difficulty: 'Beginner', category: 'Modern AI Systems', order: 2 },
-  { id: 'transformers-and-attention', title: 'Transformers and Attention', description: 'Understand the architecture behind many current language and multimodal models.', duration: 11, difficulty: 'Intermediate', category: 'Modern AI Systems', order: 3 },
-  { id: 'large-language-models', title: 'What is a Large Language Model?', description: 'Understand language modeling, next-token prediction, and model limits.', duration: 8, difficulty: 'Beginner', category: 'Modern AI Systems', order: 4 },
-  { id: 'multimodal-ai', title: 'Multimodal AI', description: 'Explore systems that work across text, images, audio, video, and other inputs.', duration: 9, difficulty: 'Beginner', category: 'Modern AI Systems', order: 5 },
-  { id: 'tokens', title: 'What are Tokens?', description: 'See how language becomes the smaller pieces an AI model processes.', duration: 6, difficulty: 'Beginner', category: 'Modern AI Systems', order: 6 },
-  { id: 'context-windows', title: 'What is a Context Window?', description: 'Learn how an AI system manages the information in one request.', duration: 7, difficulty: 'Beginner', category: 'Modern AI Systems', order: 7 },
-  { id: 'inference-and-deployment', title: 'Inference and Deployment', description: 'Learn what happens when a trained model is used in a real application.', duration: 9, difficulty: 'Intermediate', category: 'Modern AI Systems', order: 8 },
-  { id: 'fine-tuning', title: 'Fine-Tuning and Adaptation', description: 'Understand how developers adapt a general model for a narrower job.', duration: 9, difficulty: 'Intermediate', category: 'Modern AI Systems', order: 9 },
-  { id: 'talk-to-ai', title: 'How to Talk to AI', description: 'Learn how to state a goal, provide context, and improve a response.', duration: 6, difficulty: 'Beginner', category: 'Using AI', order: 1 },
-  { id: 'prompt-engineering', title: 'Prompt Engineering', description: 'Design clear, testable instructions for different tasks and audiences.', duration: 8, difficulty: 'Beginner', category: 'Using AI', order: 2 },
-  { id: 'system-prompts', title: 'System Prompts', description: 'Understand how applications set an assistant’s general behavior.', duration: 7, difficulty: 'Beginner', category: 'Using AI', order: 3 },
-  { id: 'structured-outputs', title: 'Structured Outputs', description: 'Learn how applications ask models for predictable, machine-readable results.', duration: 8, difficulty: 'Beginner', category: 'Using AI', order: 4 },
-  { id: 'ai-assistants', title: 'AI Assistants', description: 'See how models, context, and tools come together in an assistant.', duration: 7, difficulty: 'Beginner', category: 'Using AI', order: 5 },
-  { id: 'hallucinations', title: 'AI Hallucinations', description: 'Learn why AI can sound confident while giving an incorrect answer.', duration: 7, difficulty: 'Beginner', category: 'Using AI', order: 6 },
-  { id: 'evaluating-ai-responses', title: 'Evaluating AI Responses', description: 'Use a practical checklist to judge whether an AI response is useful.', duration: 8, difficulty: 'Beginner', category: 'Using AI', order: 7 },
-  { id: 'responsible-ai', title: 'Using AI Responsibly', description: 'Think carefully about accuracy, privacy, fairness, and human judgment.', duration: 8, difficulty: 'Beginner', category: 'Using AI', order: 8 },
-  { id: 'ai-apis', title: 'What is an AI API?', description: 'See how software can send a request to an AI model.', duration: 8, difficulty: 'Intermediate', category: 'AI Engineering', order: 1 },
-  { id: 'models', title: 'AI Models and Model Selection', description: 'Compare models by capability, speed, context, cost, and task fit.', duration: 8, difficulty: 'Intermediate', category: 'AI Engineering', order: 2 },
-  { id: 'embeddings', title: 'Embeddings', description: 'Explore how AI systems compare the meaning of different pieces of text.', duration: 9, difficulty: 'Intermediate', category: 'AI Engineering', order: 3 },
-  { id: 'vector-databases', title: 'Vector Databases', description: 'Understand where embeddings are stored for fast similarity search.', duration: 8, difficulty: 'Intermediate', category: 'AI Engineering', order: 4 },
-  { id: 'rag', title: 'Retrieval-Augmented Generation', description: 'Follow the path from a question to relevant information and an answer.', duration: 10, difficulty: 'Intermediate', category: 'AI Engineering', order: 5 },
-  { id: 'tool-calling', title: 'Tool Calling', description: 'See how a model can request actions while the application stays in control.', duration: 8, difficulty: 'Intermediate', category: 'AI Engineering', order: 6 },
-  { id: 'ai-agents', title: 'AI Agents', description: 'Explore how models can plan, use tools, and work toward a goal.', duration: 9, difficulty: 'Intermediate', category: 'AI Engineering', order: 7 },
-  { id: 'mcp', title: 'Model Context Protocol (MCP)', description: 'Learn the shared connection pattern for AI applications and tools.', duration: 8, difficulty: 'Intermediate', category: 'AI Engineering', order: 8 },
-  { id: 'ai-observability', title: 'AI Observability and Operations', description: 'Learn how teams monitor quality, cost, latency, and failures in production.', duration: 10, difficulty: 'Intermediate', category: 'AI Engineering', order: 9 },
-  { id: 'ai-product-design', title: 'Designing AI Products', description: 'Turn model capabilities into a useful, understandable, human-centered experience.', duration: 10, difficulty: 'Intermediate', category: 'AI Engineering', order: 10 },
-  { id: 'ai-cost-and-performance', title: 'Cost, Latency, and Performance', description: 'Learn the practical tradeoffs that shape a production AI system.', duration: 10, difficulty: 'Intermediate', category: 'AI Engineering', order: 11 },
-  { id: 'ai-governance', title: 'AI Governance and Documentation', description: 'Understand how teams document models, risks, data, and decisions.', duration: 10, difficulty: 'Intermediate', category: 'AI Engineering', order: 11 },
-  { id: 'chatbot-concepts', title: 'How Chatbots Work', description: 'Understand the conversation loop, messages, context, and response generation.', duration: 8, difficulty: 'Beginner', category: 'Build Chatbots', order: 1 },
-  { id: 'chatbot-openai', title: 'Build a Chatbot with OpenAI', description: 'Create a Python chatbot using a hosted OpenAI model and an API key.', duration: 15, difficulty: 'Intermediate', category: 'Build Chatbots', order: 2 },
-  { id: 'chatbot-gemini', title: 'Build a Chatbot with Gemini', description: 'Build the same chatbot pattern with Google Gemini and compare provider APIs.', duration: 15, difficulty: 'Intermediate', category: 'Build Chatbots', order: 3 },
-  { id: 'chatbot-local', title: 'Build a Local Chatbot', description: 'Run a model locally with Ollama so your first chatbot does not require a paid API.', duration: 18, difficulty: 'Intermediate', category: 'Build Chatbots', order: 4 },
-  { id: 'chatbot-production', title: 'Turn a Chatbot into a Product', description: 'Add memory, streaming, safety, evaluation, and deployment decisions.', duration: 18, difficulty: 'Intermediate', category: 'Build Chatbots', order: 5 },
-  { id: 'ai-security', title: 'AI Security and Prompt Injection', description: 'Understand how untrusted instructions and data can manipulate AI applications.', duration: 10, difficulty: 'Intermediate', category: 'AI Security', order: 1 },
+  { id: 'math-research-capstone', title: 'Project: Mathematical AI Investigation', description: 'Formulate a question, derive a model, implement a baseline, and communicate what the evidence can support.', duration: 24, difficulty: 'Advanced', category: 'Projects and Practice', order: 6 },
+  { id: 'neural-networks', title: 'A Gentle Introduction to Neural Networks', description: 'Follow neurons, layers and weights through a tiny worked example in numbers.', duration: 9, difficulty: 'Beginner', category: 'Modern AI Systems', order: 2 },
+  { id: 'generative-ai', title: 'What is Generative AI?', description: 'Tell AI that creates apart from AI that picks, see what it can make and know when to check it.', duration: 7, difficulty: 'Beginner', category: 'Modern AI Systems', order: 1 },
+  { id: 'transformers-and-attention', title: 'Transformers and Attention', description: 'Optional depth: how attention lets each word gather meaning from the others, in plain words.', duration: 11, difficulty: 'Beginner', category: 'Modern AI Systems', order: 5 },
+  { id: 'large-language-models', title: 'What is a Large Language Model?', description: 'Understand next-token prediction, training versus using a model, and temperature.', duration: 8, difficulty: 'Beginner', category: 'Modern AI Systems', order: 4 },
+  { id: 'multimodal-ai', title: 'Multimodal AI', description: 'Use AI with images and sound as well as text, and check what it reads and hears.', duration: 9, difficulty: 'Beginner', category: 'Modern AI Systems', order: 7 },
+  { id: 'tokens', title: 'What are Tokens?', description: 'See how text becomes tokens, why counts differ from words and how tokens set limits and cost.', duration: 6, difficulty: 'Beginner', category: 'Modern AI Systems', order: 3 },
+  { id: 'context-windows', title: 'What is a Context Window?', description: 'Learn what fits in one request, what gets dropped and why the model cannot tell.', duration: 7, difficulty: 'Beginner', category: 'Modern AI Systems', order: 6 },
+  { id: 'inference-and-deployment', title: 'Inference and Deployment', description: 'See where response time goes, stream answers as they are written and choose how to serve a model.', duration: 9, difficulty: 'Intermediate', category: 'AI Engineering', order: 10 },
+  { id: 'fine-tuning', title: 'Fine-Tuning and Adaptation', description: 'Decide between better prompts, RAG and fine-tuning, and prepare clean training examples.', duration: 9, difficulty: 'Intermediate', category: 'AI Engineering', order: 9 },
+  { id: 'talk-to-ai', title: 'How to Talk to AI', description: 'Be specific, give context, follow up and check: the everyday habits that get useful answers.', duration: 6, difficulty: 'Beginner', category: 'Using AI', order: 1 },
+  { id: 'prompt-engineering', title: 'Prompt Engineering', description: 'Write structured prompts with examples and step-by-step requests, and test them on several inputs.', duration: 8, difficulty: 'Beginner', category: 'Using AI', order: 2 },
+  { id: 'system-prompts', title: 'System Prompts', description: 'Write the standing instructions an app gives its assistant, and know what they cannot enforce.', duration: 7, difficulty: 'Beginner', category: 'Using AI', order: 3 },
+  { id: 'structured-outputs', title: 'Structured Outputs', description: 'Get JSON from a model, validate it with Pydantic and turn notes into draft Study Tracker sessions.', duration: 8, difficulty: 'Intermediate', category: 'AI Engineering', order: 2 },
+  { id: 'ai-assistants', title: 'AI Assistants', description: 'See what assistants add on top of a model, such as memory, files and tools, and choose one for a job.', duration: 7, difficulty: 'Beginner', category: 'Using AI', order: 4 },
+  { id: 'hallucinations', title: 'AI Hallucinations', description: 'Learn why fluent answers can be false, where invented details hide and how to catch them.', duration: 7, difficulty: 'Beginner', category: 'Modern AI Systems', order: 8 },
+  { id: 'evaluating-ai-responses', title: 'Evaluating AI Responses', description: 'Judge answers as correct, complete, sourced and safe, and compare prompts with a small test set.', duration: 8, difficulty: 'Beginner', category: 'Using AI', order: 5 },
+  { id: 'responsible-ai', title: 'Using AI Responsibly', description: 'Protect private information, watch for bias, disclose AI help and know when not to use AI.', duration: 8, difficulty: 'Beginner', category: 'Using AI', order: 6 },
+  { id: 'readable-code', title: 'Reading and Writing Good Code', description: 'Name things clearly, split long functions into small ones and review code kindly and usefully.', duration: 4, difficulty: 'Beginner', category: 'Software Engineering', order: 3 },
+  { id: 'build-an-api', title: 'Build Your Own API', description: 'Build the first version of Study Tracker as a FastAPI app that saves and lists study sessions.', duration: 4, difficulty: 'Intermediate', category: 'Software Engineering', order: 5 },
+  { id: 'config-and-secrets', title: 'Configuration and Secrets', description: 'Move settings and secrets out of your code and into the environment, and keep them out of Git.', duration: 4, difficulty: 'Intermediate', category: 'Software Engineering', order: 6 },
+  { id: 'logging', title: 'Logging', description: 'Replace print with real log messages that help you find problems in Study Tracker later.', duration: 4, difficulty: 'Intermediate', category: 'Software Engineering', order: 9 },
+  { id: 'software-engineering-capstone', title: 'Capstone: Build and Ship Study Tracker', description: 'Bring every lesson together into a finished, tested Study Tracker that a stranger can run.', duration: 4, difficulty: 'Intermediate', category: 'Software Engineering', order: 11 },
+  { id: 'ai-apis', title: 'What is an AI API?', description: 'Call a model from Python through one ask_model() helper, with configuration, timeouts and retries.', duration: 8, difficulty: 'Intermediate', category: 'AI Engineering', order: 1 },
+  { id: 'models', title: 'AI Models and Model Selection', description: 'Compare large and small, hosted and local, open and closed models, and choose with a test.', duration: 8, difficulty: 'Beginner', category: 'Modern AI Systems', order: 9 },
+  { id: 'embeddings', title: 'Embeddings', description: 'Turn text into vectors, measure similarity and search your study notes by meaning.', duration: 9, difficulty: 'Intermediate', category: 'AI Engineering', order: 4 },
+  { id: 'vector-databases', title: 'Vector Databases', description: 'Store note embeddings once, search them with filters and know when a dedicated database is worth it.', duration: 8, difficulty: 'Intermediate', category: 'AI Engineering', order: 5 },
+  { id: 'rag', title: 'Retrieval-Augmented Generation', description: 'Answer questions from your notes with numbered sources, and say so when the notes do not know.', duration: 10, difficulty: 'Intermediate', category: 'AI Engineering', order: 6 },
+  { id: 'tool-calling', title: 'Tool Calling', description: 'Let a model ask your code to log sessions and fetch totals, with every argument checked.', duration: 8, difficulty: 'Intermediate', category: 'AI Engineering', order: 3 },
+  { id: 'ai-agents', title: 'AI Agents', description: 'Build a study-planning agent that loops, checks its work in code, stops in time and waits for approval.', duration: 9, difficulty: 'Intermediate', category: 'AI Engineering', order: 8 },
+  { id: 'mcp', title: 'Model Context Protocol (MCP)', description: 'Offer Study Tracker\'s tools to any MCP app through a small server, and know when MCP is worth it.', duration: 8, difficulty: 'Intermediate', category: 'AI Engineering', order: 7 },
+  { id: 'ai-observability', title: 'AI Observability and Operations', description: 'Log model calls safely, trace one request with an ID and spot when quality, speed or cost slips.', duration: 10, difficulty: 'Intermediate', category: 'AI Engineering', order: 11 },
+  { id: 'ai-product-design', title: 'Designing AI Products', description: 'Set honest expectations, design for failure, show sources and let people correct the AI.', duration: 10, difficulty: 'Intermediate', category: 'AI Engineering', order: 13 },
+  { id: 'ai-cost-and-performance', title: 'Cost, Latency, and Performance', description: 'Estimate AI costs from tokens, send less, use smaller models and cache repeated work.', duration: 10, difficulty: 'Intermediate', category: 'AI Engineering', order: 12 },
+  { id: 'ai-governance', title: 'AI Governance and Documentation', description: 'Understand how teams document models, risks, data, and decisions.', duration: 10, difficulty: 'Intermediate', category: 'AI Security', order: 11 },
+  { id: 'build-a-chatbot', title: 'Project: Build a Chatbot', description: 'Build a chat program with memory, streaming replies and a provider you can switch with one setting.', duration: 18, difficulty: 'Intermediate', category: 'Projects and Practice', order: 1 },
+  { id: 'chatbot-production', title: 'Turn a Chatbot into a Product', description: 'Add memory, streaming, safety, evaluation, and deployment decisions.', duration: 18, difficulty: 'Intermediate', category: 'Build Chatbots', order: 2 },
+  { id: 'security-basics', title: 'How Apps Get Attacked', description: 'Learn the basics every developer needs: untrusted input, injection, broken access, leaked secrets and the attack surface.', duration: 8, difficulty: 'Intermediate', category: 'AI Security', order: 1 },
+  { id: 'ai-security', title: 'AI Security and Prompt Injection', description: 'Understand how untrusted instructions and data can manipulate AI applications.', duration: 10, difficulty: 'Intermediate', category: 'AI Security', order: 3 },
   { id: 'ai-threat-modeling', title: 'Threat Modeling AI Systems', description: 'Map assets, trust boundaries, attackers, and failure paths before building defenses.', duration: 11, difficulty: 'Intermediate', category: 'AI Security', order: 2 },
-  { id: 'ai-identity-and-secrets', title: 'Identity, Access, and Secrets', description: 'Protect API keys, user data, tools, and model permissions.', duration: 10, difficulty: 'Intermediate', category: 'AI Security', order: 3 },
-  { id: 'ai-privacy', title: 'Privacy and Sensitive Data', description: 'Understand data minimization, retention, leakage, and privacy-preserving design.', duration: 10, difficulty: 'Intermediate', category: 'AI Security', order: 4 },
-  { id: 'ai-supply-chain', title: 'AI Supply Chain Security', description: 'Evaluate models, datasets, packages, plugins, and dependencies before trusting them.', duration: 10, difficulty: 'Intermediate', category: 'AI Security', order: 5 },
-  { id: 'ai-rag-security', title: 'RAG and Vector Security', description: 'Secure document ingestion, retrieval, citations, permissions, and stored embeddings.', duration: 10, difficulty: 'Intermediate', category: 'AI Security', order: 6 },
-  { id: 'ai-agent-security', title: 'Agent and Tool Security', description: 'Design safe permissions, sandboxing, validation, and approval for autonomous workflows.', duration: 11, difficulty: 'Intermediate', category: 'AI Security', order: 7 },
+  { id: 'ai-identity-and-secrets', title: 'Identity, Access, and Secrets', description: 'Protect API keys, user data, tools, and model permissions.', duration: 10, difficulty: 'Intermediate', category: 'AI Security', order: 6 },
+  { id: 'ai-privacy', title: 'Privacy and Sensitive Data', description: 'Understand data minimization, retention, leakage, and privacy-preserving design.', duration: 10, difficulty: 'Intermediate', category: 'AI Security', order: 7 },
+  { id: 'ai-supply-chain', title: 'AI Supply Chain Security', description: 'Evaluate models, datasets, packages, plugins, and dependencies before trusting them.', duration: 10, difficulty: 'Intermediate', category: 'AI Security', order: 10 },
+  { id: 'ai-rag-security', title: 'RAG and Vector Security', description: 'Secure document ingestion, retrieval, citations, permissions, and stored embeddings.', duration: 10, difficulty: 'Intermediate', category: 'AI Security', order: 4 },
+  { id: 'ai-agent-security', title: 'Agent and Tool Security', description: 'Design safe permissions, sandboxing, validation, and approval for autonomous workflows.', duration: 11, difficulty: 'Intermediate', category: 'AI Security', order: 5 },
   { id: 'ai-poisoning-and-abuse', title: 'Poisoning, Model Abuse, and Extraction', description: 'Recognize training-data poisoning, model theft, evasion, and harmful use.', duration: 11, difficulty: 'Intermediate', category: 'AI Security', order: 8 },
   { id: 'ai-availability-and-cost', title: 'Availability, Denial of Service, and Cost Abuse', description: 'Protect AI services from overload, runaway tools, and uncontrolled spending.', duration: 9, difficulty: 'Intermediate', category: 'AI Security', order: 9 },
-  { id: 'ai-secure-deployment', title: 'Secure Deployment and Incident Response', description: 'Operate AI systems with isolation, monitoring, response plans, and recovery.', duration: 12, difficulty: 'Intermediate', category: 'AI Security', order: 10 },
-  { id: 'capstone-rag', title: 'Project: Build a Knowledge Assistant', description: 'Build a complete retrieval-augmented AI application from data to evaluation.', duration: 15, difficulty: 'Intermediate', category: 'Projects and Practice', order: 1 },
-  { id: 'capstone-agent', title: 'Project: Design a Tool-Using Agent', description: 'Build an agent with goals, tools, permissions, limits, and tests.', duration: 15, difficulty: 'Intermediate', category: 'Projects and Practice', order: 2 },
-  { id: 'capstone-evaluation', title: 'Project: Evaluate an AI System', description: 'Create an evaluation plan that measures quality, safety, cost, and reliability.', duration: 15, difficulty: 'Intermediate', category: 'Projects and Practice', order: 3 },
+  { id: 'ai-secure-deployment', title: 'Secure Deployment and Incident Response', description: 'Operate AI systems with isolation, monitoring, response plans, and recovery.', duration: 12, difficulty: 'Intermediate', category: 'AI Security', order: 11 },
+  { id: 'capstone-rag', title: 'Project: Build a Knowledge Assistant', description: 'Build a complete retrieval-augmented AI application from data to evaluation.', duration: 15, difficulty: 'Intermediate', category: 'Projects and Practice', order: 3 },
+  { id: 'capstone-agent', title: 'Project: Design a Tool-Using Agent', description: 'Build an agent with goals, tools, permissions, limits, and tests.', duration: 15, difficulty: 'Intermediate', category: 'Projects and Practice', order: 4 },
+  { id: 'capstone-evaluation', title: 'Project: Evaluate an AI System', description: 'Create an evaluation plan that measures quality, safety, cost, and reliability.', duration: 15, difficulty: 'Intermediate', category: 'Projects and Practice', order: 5 },
   ...orientationLessons,
   ...providerCloudLessons,
   ...advancedProviderCloudLessons,
 ]
+
+// Foundations cloud and programming lessons are written at true beginner level.
+const beginnerFoundationIds = new Set(['cloud-fundamentals', 'iam-security', 'cloud-storage-compute', 'cloud-networking', 'containers-serverless', 'ci-cd', 'infrastructure-as-code', 'programming-and-data-workflows'])
+
+// Reading time for rewritten lessons is calculated from their word count, never typed by hand.
+export const lessons: Lesson[] = lessonCatalog.map(applyCloudTrackPlan).map((lesson) => {
+  const structured = structuredLessons[lesson.id]
+  if (!structured) return lesson
+  return { ...lesson, duration: readingMinutes(structured), difficulty: beginnerFoundationIds.has(lesson.id) ? 'Beginner' : lesson.difficulty }
+})
 
 const resource = (title: string, provider: string, description: string, url: string): LearningResource => ({ title, provider, description, url })
 
@@ -175,6 +193,7 @@ const sourceMapResources = {
 const modulePrerequisites: Record<string, string[]> = {
   'ai-fundamentals': ['No prior AI knowledge.'],
   'computing-math': ['AI fundamentals or equivalent curiosity about how software learns.'],
+  'research-methods': ['Probability and statistics for AI from the Math section.', 'Python basics: functions, loops and reading files.'],
   python: ['Basic computer use: files, folders, and opening a terminal.', 'No prior Python or advanced mathematics is required.', 'A computer with Python 3.12+ and a text editor or VS Code.', 'Willingness to type, run, and modify small programs before moving to AI-specific code.'],
   'git-github': ['A small Python project or willingness to create one.', 'A GitHub account for publishing work.'],
   'linux-cli': ['Basic computer use and a willingness to use a terminal.'],
@@ -182,19 +201,15 @@ const modulePrerequisites: Record<string, string[]> = {
   'http-networking': ['APIs and REST basics.', 'Basic client/server vocabulary.'],
   'databases-sql': ['Python or another programming language.', 'Basic data structures and application state.'],
   'data-structures': ['Python basics and simple algorithms.'],
+  'code-quality': ['Python functions and Git basics.'],
+  'logging': ['A working Study Tracker API from Build Your Own API.'],
+  'software-engineering-capstone': ['The first ten Software Engineering lessons.'],
+  'ai-apis': ['The Python and Software Engineering sections, with a working Study Tracker.'],
   'testing-debugging': ['Python files, functions, and exceptions.', 'A small program that can fail and be tested.'],
   docker: ['A working application and basic Linux/CLI commands.'],
-  llms: ['AI fundamentals, vectors, and basic neural-network vocabulary.'],
-  prompting: ['LLM basics, tokens, and context windows.'],
-  'structured-outputs': ['Prompting basics and JSON objects.'],
-  embeddings: ['Vectors, distance, and basic Python collections.'],
-  'vector-databases': ['Embeddings and similarity search.'],
-  rag: ['Embeddings, vector databases, APIs, and basic document handling.'],
-  'tool-calling': ['APIs, structured outputs, and authorization basics.'],
-  agents: ['Tool/function calling, structured outputs, and testing.'],
-  evaluation: ['Data splits, metrics, baselines, and basic Python.'],
-  guardrails: ['LLMs, prompting, structured outputs, and threat modeling basics.'],
-  observability: ['APIs, distributed requests, evaluation, and basic logging.'],
+  llms: ['The Foundations section. No coding needed.'],
+  prompting: ['How modern AI works. No coding needed.'],
+  observability: ['Building with AI, and the Software Engineering lesson Logging.'],
   'cloud-fundamentals': ['Basic familiarity with files, applications, and the internet.', 'A billing-aware cloud learning account is optional for practice.'],
   'azure-track': ['Cloud fundamentals and IAM concepts.', 'An Azure subscription for hands-on work.'],
   'aws-track': ['Cloud fundamentals and IAM concepts.', 'An AWS account for hands-on work.'],
@@ -243,7 +258,13 @@ const moduleWithLessons = (id: string, title: string, description: string, modul
 const resourceModule = (id: string, title: string, description: string, resources: LearningResource[], provider: CurriculumModule['provider'] = 'shared'): CurriculumModule => ({ id, title, description, lessons: [], prerequisites: getModulePrerequisites(id), resources, provider, status: 'coming-soon' })
 
 const lessonIds = (...ids: string[]) => lessons.filter((lesson) => ids.includes(lesson.id))
-const providerLessons = (provider: 'azure' | 'aws' | 'gcp') => lessons.filter((lesson) => lesson.id === `${provider}-track` || lesson.id.startsWith(`${provider}-`))
+// Keeps the lessons in the order given, for modules whose order is set by the section plan.
+const lessonsInOrder = (...ids: string[]) => ids.map((id) => {
+  const lesson = lessons.find((item) => item.id === id)
+  if (!lesson) throw new Error(`Unknown lesson: ${id}`)
+  return lesson
+})
+const providerLessons = (provider: 'azure' | 'aws' | 'gcp') => lessons.filter((lesson) => lesson.id === `${provider}-track` || lesson.id.startsWith(`${provider}-`)).sort((a, b) => cloudTrackOrder(a.id) - cloudTrackOrder(b.id))
 
 export const curriculumStages: CurriculumStage[] = [
   {
@@ -261,29 +282,25 @@ export const curriculumStages: CurriculumStage[] = [
     id: 'software-engineering', eyebrow: 'Stage 02', title: 'Software Engineering', tone: 'gold', assessment: stageAssessments['software-engineering'], learnerOutcome: { understand: 'How reliable applications use boundaries, data, tests, and deployment practices.', build: 'A tested service with a clear API, persistence, and delivery workflow.', show: 'A repository with tests, setup instructions, design decisions, and repeatable delivery.' },
     description: 'Learn the durable software practices around AI systems: boundaries, persistence, correctness, and repeatable delivery.',
     modules: [
-      moduleWithLessons('apis-rest', 'APIs and REST', 'Design and consume stable service boundaries with clear inputs, outputs, and errors.', lessonIds('ai-apis'), sourceMapResources.web),
-      moduleWithLessons('http-networking', 'HTTP and networking', 'Understand how requests travel, how services communicate, and where latency and failure enter the system.', lessonIds('http-networking'), sourceMapResources.web),
-      moduleWithLessons('databases-sql', 'Databases and SQL', 'Model relational data and query it deliberately before reaching for a specialized data store.', lessonIds('databases-sql'), sourceMapResources.sql),
-      moduleWithLessons('data-structures', 'Data structures', 'Choose structures and algorithms that make application behavior correct and efficient.', lessonIds('python-data-structures', 'algorithms-and-data-structures'), sourceMapResources.math),
-      moduleWithLessons('testing-debugging', 'Testing and debugging', 'Turn failures into evidence and build confidence through repeatable checks.', lessonIds('python-files-and-errors', 'experiment-design', 'testing-debugging'), sourceMapResources.testing),
-      moduleWithLessons('docker', 'Docker', 'Package an application so it behaves consistently across a laptop, CI, and deployment.', lessonIds('docker'), sourceMapResources.docker),
+      moduleWithLessons('code-quality', 'Readable code', 'Write code other people can read, change and review.', lessonIds('readable-code'), sourceMapResources.git),
+      moduleWithLessons('http-networking', 'HTTP and the web', 'Follow requests and responses between apps and servers.', lessonIds('http-networking'), sourceMapResources.web),
+      moduleWithLessons('apis-rest', 'Build an API', 'Build Study Tracker as a FastAPI app, with settings and secrets kept out of the code.', lessonIds('build-an-api', 'config-and-secrets'), sourceMapResources.web),
+      moduleWithLessons('databases-sql', 'Databases and SQL', 'Store Study Tracker data in SQLite and query it with SQL.', lessonIds('databases-sql'), sourceMapResources.sql),
+      moduleWithLessons('data-structures', 'Data structures', 'Choose structures and algorithms that make application behavior correct and efficient.', lessonIds('python-data-structures'), sourceMapResources.math),
+      moduleWithLessons('testing-debugging', 'Testing a whole app', 'Test every endpoint against a test database and run the tests on every push.', lessonIds('python-files-and-errors', 'testing-debugging'), sourceMapResources.testing),
+      moduleWithLessons('logging', 'Logging', 'Record what Study Tracker does so you can find problems later.', lessonIds('logging'), sourceMapResources.testing),
+      moduleWithLessons('docker', 'Docker', 'Package Study Tracker so it runs the same way on any computer.', lessonIds('docker'), sourceMapResources.docker),
+      moduleWithLessons('software-engineering-capstone', 'Capstone', 'Finish and ship Study Tracker as a portfolio piece.', lessonIds('software-engineering-capstone'), sourceMapResources.git),
     ],
   },
   {
     id: 'ai-engineering', eyebrow: 'Stage 03', title: 'AI Engineering', tone: 'teal', assessment: stageAssessments['ai-engineering'], learnerOutcome: { understand: 'How models, prompts, retrieval, tools, evaluation, and operations work together.', build: 'A useful AI application with evidence, guardrails, and observable behavior.', show: 'An AI project with evaluation cases, traces, tradeoffs, and documented limits.' },
     description: 'Compose models, prompts, data, tools, evaluation, and operations into useful AI applications.',
     modules: [
-      moduleWithLessons('llms', 'LLMs', 'Understand language models, tokens, context, transformers, multimodality, and adaptation.', lessons.filter((lesson) => lesson.category === 'Modern AI Systems').concat(lessonIds('models'))),
-      moduleWithLessons('prompting', 'Prompting', 'Write clear instructions, layer behavior, and make model interactions testable.', lessonIds('talk-to-ai', 'prompt-engineering', 'system-prompts')),
-      moduleWithLessons('structured-outputs', 'Structured outputs', 'Ask for machine-readable results and validate them before application code uses them.', lessonIds('structured-outputs')),
-      moduleWithLessons('embeddings', 'Embeddings', 'Represent meaning numerically so applications can compare and retrieve information.', lessonIds('embeddings')),
-      moduleWithLessons('vector-databases', 'Vector databases', 'Store and search embeddings while preserving metadata and access boundaries.', lessonIds('vector-databases')),
-      moduleWithLessons('rag', 'Retrieval-augmented generation', 'Connect user questions to relevant evidence before generating an answer.', lessonIds('rag')),
-      moduleWithLessons('tool-calling', 'Tool and function calling', 'Let a model request actions while the application validates permissions and arguments.', lessonIds('tool-calling', 'mcp')),
-      moduleWithLessons('agents', 'Agents', 'Design bounded workflows where models plan, use tools, and stop safely.', lessonIds('ai-agents')),
-      moduleWithLessons('evaluation', 'Evaluation', 'Compare systems against representative examples and inspect failures instead of trusting demos.', lessonIds('data-and-evaluation', 'evaluating-ai-responses')),
-      moduleWithLessons('guardrails', 'Guardrails', 'Design for uncertainty, misuse, privacy, human review, and safe recovery.', lessonIds('ai-assistants', 'hallucinations', 'responsible-ai')),
-      moduleWithLessons('observability', 'Observability', 'Monitor quality, cost, latency, failures, and the behavior of a changing system.', lessonIds('ai-observability', 'ai-product-design', 'ai-cost-and-performance')),
+      moduleWithLessons('llms', 'How modern AI works', 'What generative AI is, how language models turn tokens into text, and where they go wrong.', lessonsInOrder('generative-ai', 'neural-networks', 'tokens', 'large-language-models', 'transformers-and-attention', 'context-windows', 'multimodal-ai', 'hallucinations', 'models')),
+      moduleWithLessons('prompting', 'Using AI well', 'Everyday habits, prompts, system prompts, assistants, evaluation and responsible use.', lessonsInOrder('talk-to-ai', 'prompt-engineering', 'system-prompts', 'ai-assistants', 'evaluating-ai-responses', 'responsible-ai')),
+      moduleWithLessons('ai-apis', 'Building with AI', 'Add AI features to Study Tracker: model calls, structured output, tools, retrieval, MCP, agents and streaming.', lessonsInOrder('ai-apis', 'structured-outputs', 'tool-calling', 'embeddings', 'vector-databases', 'rag', 'mcp', 'ai-agents', 'fine-tuning', 'inference-and-deployment'), sourceMapResources.web),
+      moduleWithLessons('observability', 'Running AI in production', 'Observe, control the cost of and design the experience around Study Tracker\'s AI features.', lessonsInOrder('ai-observability', 'ai-cost-and-performance', 'ai-product-design')),
     ],
   },
   {
@@ -301,18 +318,26 @@ export const curriculumStages: CurriculumStage[] = [
     description: 'Approach AI architecture like an upper-level systems course: turn requirements into models, test tradeoffs against evidence, and defend decisions across software, data, infrastructure, risk, and cost.',
     modules: [
       moduleWithLessons('system-design', 'System design', 'Decompose a problem into responsibilities, interfaces, data flows, and explicit constraints.', lessonIds('system-design'), sourceMapResources.architecture),
-      moduleWithLessons('distributed-systems', 'Distributed systems', 'Reason about coordination, consistency, queues, retries, and partial failure.', lessonIds('distributed-systems'), sourceMapResources.architecture),
       moduleWithLessons('scalability', 'Scalability', 'Design for changing traffic, workload shape, throughput, and capacity.', lessonIds('scalability'), sourceMapResources.architecture),
       moduleWithLessons('reliability', 'Reliability', 'Make availability, recovery, graceful degradation, and incident response part of the design.', lessonIds('reliability'), sourceMapResources.architecture),
+      moduleWithLessons('distributed-systems', 'Distributed systems', 'Reason about coordination, consistency, queues, retries, and partial failure.', lessonIds('distributed-systems'), sourceMapResources.architecture),
       moduleWithLessons('security-governance', 'Security and governance', 'Make trust boundaries, privacy, ownership, risk, and change management visible.', lessons.filter((lesson) => lesson.category === 'AI Security').concat(lessonIds('ai-governance')), sourceMapResources.security),
-      moduleWithLessons('cost-optimization', 'Cost optimization', 'Compare quality, latency, infrastructure, model, and operational costs as one system.', lessonIds('cost-optimization'), sourceMapResources.architecture),
       moduleWithLessons('architecture-patterns', 'Architecture patterns', 'Choose patterns deliberately for retrieval, eventing, workflows, providers, and human review.', lessonIds('architecture-patterns'), sourceMapResources.architecture),
       moduleWithLessons('enterprise-integration', 'Enterprise integration', 'Connect identity, existing systems, data ownership, and change processes without losing control.', lessonIds('enterprise-integration'), sourceMapResources.architecture),
+      moduleWithLessons('cost-optimization', 'Cost optimization', 'Compare quality, latency, infrastructure, model, and operational costs as one system.', lessonIds('cost-optimization'), sourceMapResources.architecture),
       moduleWithLessons('architecture-decision-records', 'Architecture decision records', 'Record why a choice was made, what it costs, and when it should be revisited.', lessonIds('architecture-decision-records'), sourceMapResources.architecture),
     ],
   },
   {
-    id: 'professional-practice', eyebrow: 'Stage 06', title: 'Technical Leadership & Communication', tone: 'gold', assessment: stageAssessments['professional-practice'], learnerOutcome: { understand: 'How senior practitioners listen, frame problems, communicate decisions, plan under uncertainty, and build alignment.', build: 'A customer discovery brief, decision memo, risk-first delivery plan, and feedback reflection.', show: 'Clear evidence of customer conversations, audience-aware communication, revised plans, and collaborative judgment.' },
+    id: 'research', eyebrow: 'Stage 06', title: 'Research', tone: 'teal',
+    learnerOutcome: { understand: 'How to ask a testable question, collect clean data, run a fair comparison and state what the evidence shows.', build: 'A written study plan, a cleaned dataset and a short report that anyone can reproduce.', show: 'Clear evidence of a fair comparison, honest uncertainty and limits, and a report that someone else can reproduce.' },
+    description: 'Practice collecting evidence, designing fair comparisons, judging uncertainty and reporting findings honestly.',
+    modules: [
+      moduleWithLessons('research-methods', 'Research methods', 'Ask a testable question, collect clean data, run a fair comparison and report what the evidence shows.', lessonsInOrder('research-questions', 'data-collection-and-cleaning', 'experiment-design', 'statistical-inference-and-experiments', 'reading-research-papers', 'reporting-results')),
+    ],
+  },
+  {
+    id: 'professional-practice', eyebrow: 'Stage 07', title: 'Technical Leadership & Communication', tone: 'gold', assessment: stageAssessments['professional-practice'], learnerOutcome: { understand: 'How senior practitioners listen, frame problems, communicate decisions, plan under uncertainty, and build alignment.', build: 'A customer discovery brief, decision memo, risk-first delivery plan, and feedback reflection.', show: 'Clear evidence of customer conversations, audience-aware communication, revised plans, and collaborative judgment.' },
     description: 'Develop the human and organizational skills that make technical work useful: understand customers, create shared clarity, navigate uncertainty, and influence without relying on authority.',
     modules: [
       moduleWithLessons('customer-discovery', 'Customer discovery and problem framing', 'Understand real work, competing needs, and evidence before proposing a solution.', lessonIds('customer-discovery-and-conversations', 'stakeholder-mapping-and-requirements'), sourceMapResources.professional),
@@ -329,12 +354,12 @@ export const curriculumStages: CurriculumStage[] = [
     ],
   },
   {
-    id: 'projects', eyebrow: 'Stage 07', title: 'Projects', tone: 'teal', learnerOutcome: { understand: 'How to turn learning into complete, inspectable work.', build: 'A portfolio project with documentation, tests, deployment, and evaluation.', show: 'A public project, evidence of decisions, and a clear explanation of what you would improve next.' },
+    id: 'projects', eyebrow: 'Stage 08', title: 'Projects', tone: 'teal', learnerOutcome: { understand: 'How to turn learning into complete, inspectable work.', build: 'A portfolio project with documentation, tests, deployment, and evaluation.', show: 'A public project, evidence of decisions, and a clear explanation of what you would improve next.' },
     description: 'Prove what you can build and explain. Each project should leave behind code, evidence, and architectural decisions.',
     modules: [
-      moduleWithLessons('developer-project', 'AI Developer project', 'Build a small model-powered application with a clear API boundary and tested behavior.', lessonIds('chatbot-concepts', 'chatbot-openai', 'chatbot-gemini', 'chatbot-local')),
-      moduleWithLessons('engineer-project', 'AI Engineer project', 'Build a knowledge assistant or tool-using system with evaluation, guardrails, and observability.', lessonIds('chatbot-production', 'capstone-rag', 'capstone-agent')),
-      moduleWithLessons('architecture-project', 'AI Architect project', 'Produce an architecture review that defends system boundaries, risks, costs, and tradeoffs.', lessonIds('capstone-evaluation', 'ai-governance')),
+      moduleWithLessons('developer-project', 'AI Developer project', 'Build a small model-powered application with a clear API boundary and tested behavior.', lessonIds('build-a-chatbot', 'chatbot-production')),
+      moduleWithLessons('engineer-project', 'AI Engineer project', 'Build a knowledge assistant or tool-using system with evaluation, guardrails, and observability.', lessonIds('capstone-rag', 'capstone-agent')),
+      moduleWithLessons('architecture-project', 'Evaluate an AI system', 'Measure an AI assistant against a test set, compare two versions and report what changed.', lessonIds('capstone-evaluation')),
       moduleWithLessons('math-project', 'AI Mathematics research project', 'Turn a mathematical question into a reproducible model, experiment, and evidence-backed explanation.', lessonIds('math-research-capstone'), sourceMapResources.math),
     ],
   },
@@ -343,7 +368,7 @@ export const curriculumStages: CurriculumStage[] = [
 export const careerLevels: CareerLevel[] = [
   { id: 'start-here', title: 'Start Here', description: 'Build the foundation that makes engineering practice approachable.', unlockText: 'Begin with Foundations.', requiredModuleIds: ['ai-fundamentals', 'computing-math', 'python'], requiredLessonIds: lessonIds('what-is-ai', 'how-ai-learns', 'machine-learning', 'python-basics').map((lesson) => lesson.id), portfolioArtifacts: ['A written learning plan and a first working Python program.'], tone: 'neutral' },
   { id: 'ai-developer', title: 'AI Developer', description: 'Build and explain a working AI application with dependable software boundaries.', unlockText: 'Complete Foundations, Software Engineering, and the developer project.', requiredModuleIds: ['git-github', 'linux-cli', 'apis-rest', 'http-networking', 'databases-sql', 'data-structures', 'testing-debugging', 'docker'], requiredLessonIds: lessonIds('what-is-ai', 'machine-learning', 'python-basics', 'python-data-structures', 'python-files-and-errors', 'python-apis', 'algorithms-and-data-structures', 'ai-apis', 'git-github', 'linux-cli', 'http-networking', 'databases-sql', 'testing-debugging', 'docker').map((lesson) => lesson.id), projectId: 'developer-project', requiredProjectLessonIds: lessonIds('chatbot-concepts', 'chatbot-openai', 'chatbot-gemini', 'chatbot-local').map((lesson) => lesson.id), projectCompletion: 'any', portfolioArtifacts: ['A public Git repository', 'README with setup and decisions', 'Automated tests', 'A working API-backed or local AI application'], tone: 'teal' },
-  { id: 'ai-engineer', title: 'AI Engineer', description: 'Ship model-powered systems with retrieval, tools, evaluation, guardrails, and observability.', unlockText: 'Complete AI Engineering and the engineer project.', requiredModuleIds: ['llms', 'prompting', 'structured-outputs', 'embeddings', 'vector-databases', 'rag', 'tool-calling', 'agents', 'evaluation', 'guardrails', 'observability'], requiredLessonIds: lessonIds('large-language-models', 'tokens', 'context-windows', 'prompt-engineering', 'structured-outputs', 'embeddings', 'vector-databases', 'rag', 'tool-calling', 'ai-agents', 'data-and-evaluation', 'evaluating-ai-responses', 'ai-assistants', 'responsible-ai', 'ai-observability').map((lesson) => lesson.id), projectId: 'engineer-project', requiredProjectLessonIds: lessonIds('chatbot-production', 'capstone-rag', 'capstone-agent').map((lesson) => lesson.id), projectCompletion: 'any', portfolioArtifacts: ['A tested RAG or agent repository', 'Evaluation dataset and results', 'Threat model and guardrail decisions', 'Tracing or observability evidence'], tone: 'gold' },
+  { id: 'ai-engineer', title: 'AI Engineer', description: 'Ship model-powered systems with retrieval, tools, evaluation, guardrails, and observability.', unlockText: 'Complete AI Engineering and the engineer project.', requiredModuleIds: ['llms', 'prompting', 'ai-apis', 'observability'], requiredLessonIds: lessonIds('large-language-models', 'tokens', 'context-windows', 'prompt-engineering', 'structured-outputs', 'embeddings', 'vector-databases', 'rag', 'tool-calling', 'ai-agents', 'data-and-evaluation', 'evaluating-ai-responses', 'ai-assistants', 'responsible-ai', 'ai-observability').map((lesson) => lesson.id), projectId: 'engineer-project', requiredProjectLessonIds: lessonIds('chatbot-production', 'capstone-rag', 'capstone-agent').map((lesson) => lesson.id), projectCompletion: 'any', portfolioArtifacts: ['A tested RAG or agent repository', 'Evaluation dataset and results', 'Threat model and guardrail decisions', 'Tracing or observability evidence'], tone: 'gold' },
   { id: 'ai-architect', title: 'AI Architect', description: 'Defend system decisions across cloud, reliability, security, enterprise integration, and cost.', unlockText: 'Complete architecture lessons, one cloud provider path, and the architecture project.', requiredModuleIds: ['cloud-fundamentals', 'system-design', 'distributed-systems', 'scalability', 'reliability', 'security-governance', 'cost-optimization', 'architecture-patterns', 'enterprise-integration', 'architecture-decision-records'], requiredLessonIds: lessonIds('inference-and-deployment', 'ai-cost-and-performance', 'ai-security', 'ai-threat-modeling', 'ai-identity-and-secrets', 'ai-privacy', 'ai-secure-deployment', 'ai-governance', 'cloud-fundamentals', 'iam-security', 'cloud-storage-compute', 'cloud-networking', 'containers-serverless', 'ci-cd', 'infrastructure-as-code', 'system-design', 'distributed-systems', 'scalability', 'reliability', 'cost-optimization', 'architecture-patterns', 'enterprise-integration', 'architecture-decision-records').map((lesson) => lesson.id), providerModuleIds: ['azure-track', 'aws-track', 'gcp-track'], projectId: 'architecture-project', requiredProjectLessonIds: ['capstone-evaluation'], projectCompletion: 'all', portfolioArtifacts: ['Deployed cloud architecture', 'Architecture diagram and ADRs', 'Reliability and incident plan', 'Threat model and security controls', 'Cost estimate and optimization plan', 'Final design review presentation'], tone: 'neutral' },
 ]
 

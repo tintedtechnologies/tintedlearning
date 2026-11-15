@@ -1,4 +1,4 @@
-import { ArrowRight, Bot, Braces, Box, Code2, Layers3, Search, SlidersHorizontal, Sparkles } from 'lucide-react'
+import { ArrowRight, Bot, Braces, Code2, Layers3, Orbit, SlidersHorizontal, Sparkles } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 const playgrounds = [
@@ -7,8 +7,7 @@ const playgrounds = [
   { title: 'Context windows', text: 'Explore how much information an AI model can consider at one time.', level: 'Foundations', focus: 'Language models', icon: Layers3, to: '/playground/context' },
   { title: 'Temperature', text: 'See how randomness can change the style of generated responses.', level: 'Foundations', focus: 'Model behavior', icon: SlidersHorizontal, to: '/playground/temperature' },
   { title: 'Prompt builder', text: 'Put together a clear request with instructions, context, and a goal.', level: 'Foundations', focus: 'Application design', icon: Sparkles, to: '/playground/prompt-builder' },
-  { title: 'Embeddings', text: 'Discover how AI systems compare the meaning of different text.', level: 'Intermediate', focus: 'Representations', icon: Box, to: '/playground/embeddings' },
-  { title: 'RAG', text: 'Follow a question as it searches for useful information before answering.', level: 'Intermediate', focus: 'Retrieval', icon: Search, to: '/playground/rag' },
+  { title: 'Embeddings', text: 'Compare sentences by meaning with a small model that runs in your browser.', level: 'Intermediate', focus: 'Search', icon: Orbit, to: '/playground/embeddings' },
   { title: 'AI agents', text: 'Watch a goal become a plan, tool choice, result, and next action.', level: 'Intermediate', focus: 'Systems', icon: Bot, to: '/playground/agents' },
 ]
 

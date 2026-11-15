@@ -1,8 +1,11 @@
 import { CheckCircle2, CircleAlert, Play, RotateCcw, Trash2 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { lessons } from '../data/curriculum'
+import { structuredLessons } from '../data/lessons'
 import { PlaygroundFrame } from '../components/playground/PlaygroundFrame'
 
-const exercises = [
+const baseExercises = [
   { title: 'Values', description: 'Store values and print a result.', code: 'name = "AI learner"\nscore = 82\nprint(name, "scored", score)' },
   { title: 'Conditions', description: 'Let a condition choose a path.', code: 'score = 82\n\nif score >= 60:\n    print("Pass")\nelse:\n    print("Try again")' },
   { title: 'Collections', description: 'Loop through a list of data.', code: 'numbers = [2, 4, 6, 8]\n\nfor number in numbers:\n    print(number, "->", number * 2)' },
@@ -28,6 +31,13 @@ const exercises = [
 ]
 
 export function PythonPage() {
+  const [searchParams] = useSearchParams()
+  const lessonId = searchParams.get('lesson') ?? ''
+  const exercises = useMemo(() => {
+    const starterCode = structuredLessons[lessonId]?.tryIt?.starterCode
+    const lessonTitle = lessons.find((lesson) => lesson.id === lessonId)?.title
+    return starterCode && lessonTitle ? [{ title: lessonTitle, description: 'The practice code from your lesson. Follow the lesson steps, then run it.', code: starterCode }, ...baseExercises] : baseExercises
+  }, [lessonId])
   const [exerciseIndex, setExerciseIndex] = useState(0)
   const [code, setCode] = useState(exercises[0].code)
   const [output, setOutput] = useState('')
@@ -56,11 +66,19 @@ export function PythonPage() {
     if (!pyodide) return
     setOutput('Running...')
     setHasRun(true)
+    if (/\binput\s*\(/.test(code)) {
+      setOutput('Input is not interactive in this browser playground. Replace input() with a sample value, such as name = "Ada".')
+      return
+    }
     try {
-      const result = await pyodide.runPythonAsync(`import io\nimport contextlib\n_buffer = io.StringIO()\nwith contextlib.redirect_stdout(_buffer):\n${code.split('\n').map((line) => `    ${line}`).join('\n')}\n_buffer.getvalue()`)
+      const source = JSON.stringify(code)
+      const result = await pyodide.runPythonAsync(`import io\nimport contextlib\n_buffer = io.StringIO()\nwith contextlib.redirect_stdout(_buffer):\n    exec(compile(${source}, "user_code.py", "exec"), {})\n_buffer.getvalue()`)
       setOutput(result || 'Your code ran without printed output.')
     } catch (error) {
-      setOutput(String(error))
+      const message = String(error)
+      const userLine = message.match(/File "user_code\.py", line (\d+)/)?.[1]
+      const exception = message.split('\n').filter(Boolean).at(-1) ?? 'Python could not run this code.'
+      setOutput(userLine ? `Line ${userLine}: ${exception}` : exception)
     }
   }
 

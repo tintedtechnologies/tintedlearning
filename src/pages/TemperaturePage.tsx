@@ -1,19 +1,34 @@
 import { useMemo, useState } from 'react'
 import { PlaygroundFrame } from '../components/playground/PlaygroundFrame'
 
-const scenarios = [
-  { id: 'facts', label: 'Explain a fact', prompt: 'Explain why the sky is blue.', low: 'The sky appears blue because air molecules scatter shorter blue wavelengths of light more strongly than longer red wavelengths.', medium: 'The sky looks blue because the atmosphere scatters blue light more than red light.', high: 'Blue sky? Light gets scattered around, and blue happens to bounce into your eyes more. Nature picked a favorite.', guidance: 'Use a lower temperature when you want consistent, precise wording.' },
-  { id: 'ideas', label: 'Brainstorm ideas', prompt: 'Suggest names for a community garden.', low: 'Community Garden, Neighborhood Garden, Shared Harvest.', medium: 'Shared Harvest, The Growing Commons, Green Corner, and Neighbor Roots.', high: 'How about Sunbeam Syndicate, The Tomato Club, or Root & Rise?', guidance: 'A higher temperature can help when variety and unexpected ideas are useful.' },
-  { id: 'code', label: 'Write code', prompt: 'Write a function that adds two numbers.', low: 'function add(a, b) { return a + b }', medium: 'function addNumbers(firstNumber, secondNumber) {\n  return firstNumber + secondNumber\n}', high: 'Here is a tiny addition engine:\n\nconst combine = (left, right) => left + right', guidance: 'For code, a lower or moderate temperature is often easier to test and reproduce.' },
-  { id: 'story', label: 'Write creatively', prompt: 'Describe a walk through a quiet forest.', low: 'The path moved through the forest beneath tall trees. Birds called from the branches.', medium: 'The path wound between tall trees while birdsong drifted through the cool morning air.', high: 'The forest kept its secrets in green layers, and every footstep sounded like a question.', guidance: 'Creative writing can benefit from more variation, as long as the result still fits the goal.' },
+const choices = [
+  { word: 'blue', base: 0.7 },
+  { word: 'clear', base: 0.12 },
+  { word: 'gray', base: 0.08 },
+  { word: 'beautiful', base: 0.06 },
+  { word: 'bright', base: 0.04 },
 ]
+
+function probabilities(temperature: number) {
+  const exponent = 1 / Math.max(0.05, temperature)
+  const weights = choices.map((choice) => choice.base ** exponent)
+  const total = weights.reduce((sum, weight) => sum + weight, 0)
+  return weights.map((weight, index) => ({ ...choices[index], probability: weight / total }))
+}
+
+function sample(items: ReturnType<typeof probabilities>) {
+  const random = Math.random()
+  let cursor = 0
+  for (const item of items) { cursor += item.probability; if (random <= cursor) return item.word }
+  return items[items.length - 1].word
+}
 
 export function TemperaturePage() {
   const [temperature, setTemperature] = useState(0.5)
-  const [scenarioId, setScenarioId] = useState('facts')
-  const scenario = useMemo(() => scenarios.find((item) => item.id === scenarioId) ?? scenarios[0], [scenarioId])
-  const response = temperature < 0.35 ? scenario.low : temperature < 0.7 ? scenario.medium : scenario.high
-  const rangeLabel = temperature < 0.35 ? 'Focused and predictable' : temperature < 0.7 ? 'Balanced' : 'Varied and expressive'
+  const [samples, setSamples] = useState<string[]>([])
+  const distribution = useMemo(() => probabilities(temperature), [temperature])
+  const rangeLabel = temperature < 0.35 ? 'Focused and predictable' : temperature < 0.9 ? 'Balanced' : 'More varied'
+  const pickFive = () => setSamples(Array.from({ length: 5 }, () => sample(distribution)))
 
-  return <PlaygroundFrame eyebrow="Temperature" title="How random should an AI response feel?" description="Temperature changes how readily a model explores less likely next tokens. It does not add knowledge or make a model smarter. Choose a scenario and move the slider to compare."><div className="mb-8 flex flex-wrap gap-2">{scenarios.map((item) => <button type="button" key={item.id} onClick={() => setScenarioId(item.id)} className={`rounded-full px-4 py-2 text-sm font-bold ${scenarioId === item.id ? 'bg-teal text-white' : 'bg-white text-teal shadow-sm hover:bg-mist'}`}>{item.label}</button>)}</div><div className="grid gap-8 lg:grid-cols-[0.8fr_1fr]"><aside className="rounded-3xl bg-sand p-7"><p className="eyebrow">Generation setting</p><p className="mt-4 font-display text-5xl font-bold text-teal">{temperature.toFixed(1)}</p><p className="mt-2 font-bold text-teal">{rangeLabel}</p><label htmlFor="temperature" className="mt-8 block text-sm font-bold text-teal">Temperature</label><input id="temperature" type="range" min="0" max="1" step="0.1" value={temperature} onChange={(event) => setTemperature(Number(event.target.value))} className="mt-4 w-full accent-teal" /><div className="mt-3 flex justify-between text-xs font-bold text-muted"><span>Predictable</span><span>More varied</span></div><p className="mt-8 text-sm leading-7 text-muted">{scenario.guidance}</p></aside><div className="rounded-3xl border border-line bg-white p-7 shadow-soft"><p className="eyebrow">Prompt</p><p className="mt-3 rounded-2xl bg-cream p-4 font-bold text-teal">{scenario.prompt}</p><p className="mt-8 text-xs font-bold uppercase tracking-widest text-muted">Example response</p><p className="mt-3 whitespace-pre-line text-lg leading-8 text-ink transition-all">{response}</p></div></div></PlaygroundFrame>
+  return <PlaygroundFrame eyebrow="Temperature" title="How does temperature change a response?" description="Temperature changes how likely a model is to choose less common next tokens. It changes variation, not knowledge or personality."><div className="grid gap-8 lg:grid-cols-[0.8fr_1fr]"><aside className="rounded-3xl bg-sand p-7"><p className="eyebrow">Generation setting</p><p className="mt-4 font-display text-5xl font-bold text-teal">{temperature.toFixed(1)}</p><p className="mt-2 font-bold text-teal">{rangeLabel}</p><label htmlFor="temperature" className="mt-8 block text-sm font-bold text-teal">Temperature</label><input id="temperature" type="range" min="0" max="2" step="0.1" value={temperature} onChange={(event) => { setTemperature(Number(event.target.value)); setSamples([]) }} className="mt-4 w-full accent-teal" /><div className="mt-3 flex justify-between text-xs font-bold text-muted"><span>0 · focused</span><span>2 · varied</span></div><button type="button" onClick={pickFive} className="button button-primary mt-7 w-full">Pick 5 times</button><p className="mt-5 text-sm leading-7 text-muted">At low temperature, the most likely token dominates. At higher temperature, less likely tokens get more opportunity.</p></aside><div className="rounded-3xl border border-line bg-white p-7 shadow-soft"><p className="eyebrow">Next-token probabilities</p><p className="mt-3 rounded-2xl bg-cream p-4 text-lg font-bold text-teal">The sky is ___</p><div className="mt-7 space-y-4">{distribution.map((item) => <div key={item.word}><div className="flex justify-between gap-4 text-sm font-bold text-ink"><span>{item.word}</span><span className="text-teal">{Math.round(item.probability * 100)}%</span></div><div className="mt-2 h-4 rounded-full bg-cream"><div className="h-full rounded-full bg-teal transition-all duration-300" style={{ width: `${item.probability * 100}%` }} /></div></div>)}</div>{samples.length > 0 && <div className="mt-8 rounded-2xl bg-mist p-5"><p className="eyebrow">Five sampled completions</p><div className="mt-3 flex flex-wrap gap-2">{samples.map((word, index) => <span key={`${word}-${index}`} className="rounded-full bg-white px-3 py-2 text-sm font-bold text-teal">{word}</span>)}</div><p className="mt-3 text-xs leading-5 text-muted">{temperature === 0 ? 'At temperature 0, the most likely token is selected every time.' : 'At higher temperatures, the same distribution can produce a mix of sampled tokens.'}</p></div>}</div></div></PlaygroundFrame>
 }

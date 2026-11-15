@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppLayout } from './layouts/AppLayout'
 import { AboutPage } from './pages/AboutPage'
@@ -7,13 +8,15 @@ import { LearningSectionPage } from './pages/LearningSectionPage'
 import { StageAssessmentPage } from './pages/StageAssessmentPage'
 import { LessonPage } from './pages/LessonPage'
 import { PlaygroundPage } from './pages/PlaygroundPage'
-import { TokensPage } from './pages/TokensPage'
-import { ContextPage } from './pages/ContextPage'
 import { TemperaturePage } from './pages/TemperaturePage'
 import { PromptBuilderPage } from './pages/PromptBuilderPage'
-import { EmbeddingsPage } from './pages/EmbeddingsPage'
-import { RagPage } from './pages/RagPage'
 import { AgentsPage } from './pages/AgentsPage'
+// These playgrounds use large libraries (a tokenizer and an embedding model), so each page
+// loads only when someone opens it, instead of with every page of the site.
+const TokensPage = lazy(() => import('./pages/TokensPage').then((module) => ({ default: module.TokensPage })))
+const ContextPage = lazy(() => import('./pages/ContextPage').then((module) => ({ default: module.ContextPage })))
+const EmbeddingsPage = lazy(() => import('./pages/EmbeddingsPage').then((module) => ({ default: module.EmbeddingsPage })))
+const playgroundLoading = <p className="shell py-16 text-muted">Loading the playground…</p>
 import { ScrollToTop } from './components/common/ScrollToTop'
 import { CareerPage } from './pages/CareerPage'
 import { PythonPage } from './pages/PythonPage'
@@ -35,6 +38,11 @@ export default function App() {
         <Route path="/learn" element={<LearnPage />} />
         <Route path="/learn/stage/:stageId/test" element={<StageAssessmentPage />} />
         <Route path="/learn/sections/:sectionId" element={<LearningSectionPage />} />
+        <Route path="/learn/algorithms-and-data-structures" element={<Navigate to="/learn/python-search-and-sort" replace />} />
+        <Route path="/learn/chatbot-openai" element={<Navigate to="/learn/build-a-chatbot" replace />} />
+        <Route path="/learn/chatbot-gemini" element={<Navigate to="/learn/build-a-chatbot" replace />} />
+        <Route path="/learn/chatbot-local" element={<Navigate to="/learn/build-a-chatbot" replace />} />
+        <Route path="/learn/chatbot-concepts" element={<Navigate to="/learn/large-language-models" replace />} />
         <Route path="/learn/:lessonId" element={<LessonPage />} />
         <Route path="/careers/:careerId" element={<CareerPage />} />
         <Route path="/portfolio" element={<PortfolioPage />} />
@@ -43,12 +51,12 @@ export default function App() {
         <Route path="/portfolio/:trackId" element={<PortfolioPage />} />
         <Route path="/playground/python" element={<PythonPage />} />
         <Route path="/playground" element={<PlaygroundPage />} />
-        <Route path="/playground/tokens" element={<TokensPage />} />
-          <Route path="/playground/context" element={<ContextPage />} />
+        <Route path="/playground/tokens" element={<Suspense fallback={playgroundLoading}><TokensPage /></Suspense>} />
+          <Route path="/playground/context" element={<Suspense fallback={playgroundLoading}><ContextPage /></Suspense>} />
           <Route path="/playground/temperature" element={<TemperaturePage />} />
           <Route path="/playground/prompt-builder" element={<PromptBuilderPage />} />
-          <Route path="/playground/embeddings" element={<EmbeddingsPage />} />
-          <Route path="/playground/rag" element={<RagPage />} />
+          <Route path="/playground/embeddings" element={<Suspense fallback={playgroundLoading}><EmbeddingsPage /></Suspense>} />
+          <Route path="/playground/rag" element={<Navigate to="/playground" replace />} />
           <Route path="/playground/agents" element={<AgentsPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
