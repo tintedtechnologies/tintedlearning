@@ -1,11 +1,13 @@
-import { BookOpen, CheckCircle2, CircleUserRound, FolderKanban, LayoutDashboard, LogOut, Trash2 } from 'lucide-react'
+import { BookOpen, CheckCircle2, CircleUserRound, FolderKanban, LayoutDashboard, Trash2 } from 'lucide-react'
 import { useEffect, useState, type ReactNode } from 'react'
 import { Show, SignInButton, useClerk, useUser } from '@clerk/react'
+import { ConfirmDialog } from '../components/common/ConfirmDialog'
+import { PlanBuilder } from '../components/learning/PlanBuilder'
+import { projectPlans } from '../data/projects'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { lessons } from '../data/curriculum'
-import { getSectionIdForLesson, getSectionLessonIds, getSectionModules, learningSections } from '../data/learningSections'
-import { getGoalTitle, getLearningPlanModules, getPlanEvidence, goalOptions, readLearningPlan, type LearningGoal } from '../data/learningPlans'
-import { useFocusTrap } from '../hooks/useFocusTrap'
+import { curriculumLessonTotal, getSectionIdForLesson, getSectionLessonIds, getSectionModules, learningSections } from '../data/learningSections'
+import { getGoalTitle, getLearningPlanModules, getPlanEvidence, goalOptions, projectsByGoal, readLearningPlan, type LearningGoal, type LearningPlanProfile } from '../data/learningPlans'
 import { useProgress } from '../hooks/useProgress'
 
 import { encodePortfolioProfile, readPortfolioProfile } from '../data/portfolioProfile'
@@ -26,13 +28,15 @@ export function DashboardPage() {
   const { signOut } = useClerk()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const progress = useProgress(lessons.length)
+  const progress = useProgress(curriculumLessonTotal)
   const [deleting, setDeleting] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [uploadError, setUploadError] = useState('')
-  const [confirmAction, setConfirmAction] = useState<'clear' | 'delete' | null>(null)
+  const [confirmAction, setConfirmAction] = useState<'clear' | 'delete' | 'image' | null>(null)
+  const [planSaving, setPlanSaving] = useState(false)
+  const [planError, setPlanError] = useState('')
   const [accountError, setAccountError] = useState('')
-  const confirmDialogRef = useFocusTrap<HTMLDivElement>(Boolean(confirmAction), () => { if (!deleting) setConfirmAction(null) })
+
 
   const plan = readLearningPlan(user?.unsafeMetadata?.tintedLearningPlan)
   const planModules = plan ? getLearningPlanModules(plan) : []
@@ -87,7 +91,7 @@ export function DashboardPage() {
   }
 
   const removeProfileImage = async () => {
-    if (!user || !window.confirm('Remove your profile image?')) return
+    if (!user) return
     setUploadError('')
     setUploading(true)
     try {
@@ -116,8 +120,48 @@ export function DashboardPage() {
     }
   }
 
+  const savePlanProfile = async (profile: LearningPlanProfile) => {
+    if (!user) return
+    setPlanSaving(true)
+    setPlanError('')
+    try {
+      await user.updateMetadata({ unsafeMetadata: { tintedLearningPlan: profile } })
+    } catch {
+      setPlanError('Your plan could not be saved. Please try again.')
+    } finally {
+      setPlanSaving(false)
+    }
+  }
+
+  const toggleEvidence = (evidenceId: string) => {
+    if (!plan) return
+    const current = plan.completedEvidenceIds ?? []
+    const next = current.includes(evidenceId) ? current.filter((id) => id !== evidenceId) : [...current, evidenceId]
+    void savePlanProfile({ ...plan, completedEvidenceIds: next })
+  }
+
+  const confirmCopy = {
+    clear: { title: 'Clear your progress?', description: 'All completed lessons for this account will be removed. Your personalized plan will remain.', label: 'Clear progress' },
+    delete: { title: 'Delete your account?', description: 'This permanently deletes your Clerk account, learning plan, and progress. You will be signed out and this action cannot be undone.', label: 'Delete account' },
+    image: { title: 'Remove your profile image?', description: 'Your profile will show your first initial instead.', label: 'Remove image' },
+  }
+
+  const runConfirmedAction = async () => {
+    if (confirmAction === 'clear') {
+      progress.clearProgress()
+      setConfirmAction(null)
+    } else if (confirmAction === 'image') {
+      await removeProfileImage()
+      setConfirmAction(null)
+    } else if (confirmAction === 'delete' && await deleteAccount()) {
+      setConfirmAction(null)
+    }
+  }
+
   const renderOverview = () => <DashboardPanel eyebrow="Dashboard" title={`Welcome back, ${user?.firstName ?? user?.username ?? 'learner'}.`} description="Your current plan, progress, and portfolio at a glance.">
-    <section className="mt-5 overflow-hidden rounded-2xl bg-teal text-white"><div className="grid gap-5 p-6 sm:grid-cols-[1fr_auto] sm:items-center">{plan ? <><div><p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">Current plan</p><h2 className="mt-2 font-display text-3xl font-bold">{getGoalTitle(plan.goal)}</h2><p className="mt-2 text-sm text-white/70">{planModules.length} modules · {plan.weeklyHours} hours per week</p></div><button type="button" onClick={() => navigate('/learn')} className="button bg-gold text-teal hover:bg-white">Open plan</button></> : <><div><p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">Personalized learning</p><h2 className="mt-2 font-display text-3xl font-bold">Build a plan around your goal.</h2><p className="mt-2 text-sm text-white/70">Answer a few questions and get a curated route through the curriculum.</p></div><button type="button" onClick={() => navigate('/learn')} className="button bg-gold text-teal hover:bg-white">Create plan</button></>}</div>{plan && <div className="border-t border-white/10 bg-white/5 px-6 py-4"><p className="text-xs font-bold uppercase tracking-widest text-white/50">Next recommended lesson</p>{nextPlanLesson ? <Link to={`/learn/${nextPlanLesson.id}`} className="mt-1 inline-flex items-center font-bold text-white hover:text-gold">{nextPlanLesson.title}<BookOpen size={16} className="ml-2" /></Link> : <p className="mt-1 font-bold text-gold">All plan lessons complete</p>}</div>}</section>
+    <section className="mt-5 overflow-hidden rounded-2xl bg-teal text-white"><div className="grid gap-5 p-6 sm:grid-cols-[1fr_auto] sm:items-center">{plan ? <><div><p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">Current plan</p><h2 className="mt-2 font-display text-3xl font-bold">{getGoalTitle(plan.goal)}</h2><p className="mt-2 text-sm text-white/70">{planModules.length} modules · {plan.weeklyHours} hours per week</p></div><a href="#portfolio-evidence" className="button bg-gold text-teal hover:bg-white">View projects</a></> : <><div><p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">Personalized learning</p><h2 className="mt-2 font-display text-3xl font-bold">Build a plan around your goal.</h2><p className="mt-2 text-sm text-white/70">Your plan ends in projects that become portfolio evidence.</p></div><a href="#create-plan" className="button bg-gold text-teal hover:bg-white">Create plan</a></>}</div>{plan && <div className="border-t border-white/10 bg-white/5 px-6 py-4"><p className="text-xs font-bold uppercase tracking-widest text-white/50">Next recommended lesson</p>{nextPlanLesson ? <Link to={`/learn/${nextPlanLesson.id}`} className="mt-1 inline-flex items-center font-bold text-white hover:text-gold">{nextPlanLesson.title}<BookOpen size={16} className="ml-2" /></Link> : <p className="mt-1 font-bold text-gold">All plan lessons complete</p>}</div>}</section>
+    {!plan ? <section id="create-plan" className="mt-5 rounded-2xl border border-line bg-white p-6"><p className="eyebrow">Create plan</p><h3 className="mt-2 font-display text-2xl font-bold text-teal">Choose your goal</h3><p className="mt-2 max-w-2xl text-sm leading-6 text-muted">Your plan lists the lessons for your goal, then the projects that turn them into portfolio evidence.</p><PlanBuilder saving={planSaving} error={planError} onSave={(profile) => { void savePlanProfile(profile) }} /></section>
+    : <section id="portfolio-evidence" className="mt-5 grid gap-6 rounded-2xl border border-line bg-white p-6 lg:grid-cols-2"><div><p className="eyebrow">Projects</p><h3 className="mt-2 font-display text-2xl font-bold text-teal">Build your portfolio evidence</h3><p className="mt-2 text-sm leading-6 text-muted">These projects produce the evidence for {getGoalTitle(plan.goal)}. Each one ends in finished work you can show.</p><ul className="mt-4 divide-y divide-line">{projectsByGoal[plan.goal].map((id) => { const lesson = lessons.find((item) => item.id === id); const project = projectPlans[id]; return <li key={id} className="py-3"><Link to={`/learn/${id}`} className="font-bold text-teal hover:text-gold">{lesson?.title ?? id}</Link><p className="mt-1 text-xs font-bold text-muted">{project?.time ?? ''}</p></li> })}</ul><Link to="/learn/sections/projects" className="mt-4 inline-flex text-sm font-bold text-teal hover:text-gold">See all projects</Link></div><div><p className="eyebrow">Evidence checklist</p><p className="mt-2 text-sm leading-6 text-muted">Tick an item when you have finished it.</p><div className="mt-4 space-y-3">{getPlanEvidence(plan.goal).map((item) => <label key={item.id} className="flex cursor-pointer items-start gap-3 text-sm leading-6 text-ink"><input type="checkbox" className="mt-1" checked={(plan.completedEvidenceIds ?? []).includes(item.id)} disabled={planSaving} onChange={() => toggleEvidence(item.id)} /><span>{item.title}</span></label>)}</div>{planError && <p className="mt-4 rounded-xl bg-red-50 p-3 text-sm font-bold text-red-700" role="alert">{planError}</p>}</div></section>}
 
     <div className="mt-5 grid gap-4 sm:grid-cols-3"><div className="rounded-2xl border border-line bg-white p-5"><p className="eyebrow">Full curriculum</p><p className="mt-2 font-display text-4xl font-bold text-teal">{progress.getProgressPercentage()}%</p><p className="mt-1 text-xs text-muted">{progress.completedLessons.length}/{lessons.length} lessons</p></div><div className="rounded-2xl border border-line bg-mist/60 p-5"><p className="eyebrow">Plan progress</p><p className="mt-2 font-display text-4xl font-bold text-teal">{plan ? `${planPercentage}%` : '—'}</p><p className="mt-1 text-xs text-muted">{plan ? `${completedPlanLessons}/${planLessons.length} lessons` : 'Create a plan to begin'}</p></div><div className="rounded-2xl border border-line bg-sand/60 p-5"><p className="eyebrow">Portfolio evidence</p><p className="mt-2 font-display text-4xl font-bold text-teal">{plan ? `${completedEvidence}/${evidence.length}` : '—'}</p><p className="mt-1 text-xs text-muted">items ready to show</p></div></div>
 
@@ -125,7 +169,7 @@ export function DashboardPage() {
   </DashboardPanel>
 
   const renderProgress = () => <DashboardPanel eyebrow="Learning record" title="Progress" description="Review completed work across your personalized plan and the full curriculum.">
-    <div className="grid gap-4 sm:grid-cols-2">{plan ? <section className="rounded-2xl border border-line bg-mist/50 p-5"><div className="flex items-end justify-between gap-4"><div><p className="eyebrow">Plan lessons</p><p className="mt-2 font-display text-4xl font-bold text-teal">{planPercentage}%</p></div><span className="text-xs font-bold text-muted">{completedPlanLessons}/{planLessons.length}</span></div><div role="progressbar" aria-label="Personalized plan lessons completed" aria-valuemin={0} aria-valuemax={100} aria-valuenow={planPercentage} className="mt-4 h-2 overflow-hidden rounded-full bg-white"><div className="h-full bg-teal" style={{ width: `${planPercentage}%` }} /></div></section> : <section className="rounded-2xl border border-line bg-mist/50 p-5"><p className="eyebrow">Personalized plan</p><p className="mt-2 font-bold text-teal">No plan created yet.</p><button type="button" onClick={() => navigate('/learn')} className="mt-3 text-sm font-bold text-teal hover:text-gold">Create a learning plan</button></section>}<section className="rounded-2xl border border-line bg-white p-5"><div className="flex items-end justify-between gap-4"><div><p className="eyebrow">Full curriculum</p><p className="mt-2 font-display text-4xl font-bold text-teal">{progress.getProgressPercentage()}%</p></div><span className="text-xs font-bold text-muted">{progress.completedLessons.length}/{lessons.length}</span></div><div role="progressbar" aria-label="Full curriculum lessons completed" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress.getProgressPercentage()} className="mt-4 h-2 overflow-hidden rounded-full bg-mist"><div className="h-full bg-gold" style={{ width: `${progress.getProgressPercentage()}%` }} /></div></section></div>
+    <div className="grid gap-4 sm:grid-cols-2">{plan ? <section className="rounded-2xl border border-line bg-mist/50 p-5"><div className="flex items-end justify-between gap-4"><div><p className="eyebrow">Plan lessons</p><p className="mt-2 font-display text-4xl font-bold text-teal">{planPercentage}%</p></div><span className="text-xs font-bold text-muted">{completedPlanLessons}/{planLessons.length}</span></div><div role="progressbar" aria-label="Personalized plan lessons completed" aria-valuemin={0} aria-valuemax={100} aria-valuenow={planPercentage} className="mt-4 h-2 overflow-hidden rounded-full bg-white"><div className="h-full bg-teal" style={{ width: `${planPercentage}%` }} /></div></section> : <section className="rounded-2xl border border-line bg-mist/50 p-5"><p className="eyebrow">Personalized plan</p><p className="mt-2 font-bold text-teal">No plan created yet.</p><a href="#create-plan" className="mt-3 inline-flex text-sm font-bold text-teal hover:text-gold">Create a learning plan</a></section>}<section className="rounded-2xl border border-line bg-white p-5"><div className="flex items-end justify-between gap-4"><div><p className="eyebrow">Full curriculum</p><p className="mt-2 font-display text-4xl font-bold text-teal">{progress.getProgressPercentage()}%</p></div><span className="text-xs font-bold text-muted">{progress.completedLessons.length}/{lessons.length}</span></div><div role="progressbar" aria-label="Full curriculum lessons completed" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress.getProgressPercentage()} className="mt-4 h-2 overflow-hidden rounded-full bg-mist"><div className="h-full bg-gold" style={{ width: `${progress.getProgressPercentage()}%` }} /></div></section></div>
     <div className="mt-5 grid gap-5 lg:grid-cols-[0.8fr_1.2fr]"><section><p className="eyebrow">Section progress</p><div className="mt-3 space-y-2">{learningSections.filter((section) => section.kind === 'learning').map((section) => { const sectionLessonIds = getSectionLessonIds(section); const completed = sectionLessonIds.filter((lessonId) => progress.completedLessons.includes(lessonId)).length; const complete = sectionLessonIds.length > 0 && completed === sectionLessonIds.length; return <Link key={section.id} to={`/learn/sections/${section.id}`} className={`flex items-center justify-between gap-3 rounded-xl border px-4 py-3 text-sm font-bold ${complete ? 'border-teal/20 bg-mist text-teal' : 'border-line bg-white text-muted'}`}><span>{section.title}</span><span className="flex items-center gap-2">{completed}/{sectionLessonIds.length}{complete && <CheckCircle2 size={17} />}</span></Link> })}</div></section><section><p className="eyebrow">Completed lessons</p><div className="mt-3 max-h-[28rem] overflow-y-auto rounded-2xl border border-line bg-white p-3">{progress.completedLessons.length ? lessons.filter((lesson) => progress.completedLessons.includes(lesson.id)).map((lesson) => <Link key={lesson.id} to={`/learn/${lesson.id}`} className="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-bold text-ink hover:bg-mist"><CheckCircle2 size={16} className="shrink-0 text-teal" />{lesson.title}</Link>) : <p className="p-4 text-sm text-muted">No lessons completed yet.</p>}</div></section></div>
   </DashboardPanel>
 
@@ -134,8 +178,8 @@ export function DashboardPage() {
   </DashboardPanel>
 
   const renderProfile = () => <DashboardPanel eyebrow="Settings" title="Profile & data" description="Manage your profile image, learning history, and account.">
-    <div className="grid gap-5 lg:grid-cols-[0.85fr_1.15fr]"><section className="rounded-3xl border border-teal/10 bg-mist p-6 shadow-soft"><p className="eyebrow">Profile image</p><div className="mt-5 flex items-center gap-4"><span className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gold text-2xl font-bold text-teal">{user?.imageUrl ? <img src={user.imageUrl} alt="Profile" className="h-full w-full object-cover" /> : (user?.firstName?.[0] ?? 'L')}</span><div><p className="font-display text-2xl font-bold text-teal">{user?.fullName ?? user?.username ?? 'Learner'}</p><p className="mt-1 text-sm text-muted">Signed-in learner</p></div></div><div className="mt-6 flex flex-wrap gap-3"><label className="button button-secondary cursor-pointer">{uploading ? 'Uploading...' : 'Upload image'}<input type="file" accept="image/png,image/jpeg,image/webp" className="sr-only" disabled={uploading} onChange={(event) => { void uploadProfileImage(event.target.files?.[0]); event.currentTarget.value = '' }} /></label><button type="button" onClick={() => { void removeProfileImage() }} disabled={uploading || !user?.imageUrl} className="button button-secondary disabled:opacity-40">Remove image</button></div>{uploadError && <p className="mt-4 text-sm font-bold text-red-700">{uploadError}</p>}</section>
-      <section className="rounded-3xl border border-line bg-cream p-6 shadow-soft"><p className="eyebrow">Account controls</p><h2 className="mt-2 font-display text-3xl font-bold text-teal">Manage your data</h2><p className="mt-2 max-w-xl text-sm leading-6 text-muted">Keep control of your account, lesson history, and personal information.</p>{progress.saveError && <p className="mt-4 rounded-xl bg-red-50 p-3 text-sm font-bold text-red-700">{progress.saveError}</p>}<div className="mt-6 grid gap-3"><button type="button" disabled={progress.isSaving} onClick={() => setConfirmAction('clear')} className="button button-secondary justify-start disabled:opacity-50"><Trash2 size={16} className="mr-2" />{progress.isSaving ? 'Saving progress...' : 'Clear lesson progress'}</button><button type="button" onClick={() => signOut()} className="button button-secondary justify-start"><LogOut size={16} className="mr-2" />Sign out</button><button type="button" disabled={deleting} onClick={() => setConfirmAction('delete')} className="button justify-start border border-red-200 bg-red-50 text-red-700 hover:bg-red-100 disabled:opacity-50"><Trash2 size={16} className="mr-2" />{deleting ? 'Deleting...' : 'Delete account'}</button></div></section></div>
+    <div className="grid gap-5 lg:grid-cols-[0.85fr_1.15fr]"><section className="rounded-3xl border border-teal/10 bg-mist p-6 shadow-soft"><p className="eyebrow">Profile image</p><div className="mt-5 flex items-center gap-4"><span className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gold text-2xl font-bold text-teal">{user?.imageUrl ? <img src={user.imageUrl} alt="Profile" className="h-full w-full object-cover" /> : (user?.firstName?.[0] ?? 'L')}</span><div><p className="font-display text-2xl font-bold text-teal">{user?.fullName ?? user?.username ?? 'Learner'}</p><p className="mt-1 text-sm text-muted">Signed-in learner</p></div></div><div className="mt-6 flex flex-wrap gap-3"><label className="button button-secondary cursor-pointer">{uploading ? 'Uploading...' : 'Upload image'}<input type="file" accept="image/png,image/jpeg,image/webp" className="sr-only" disabled={uploading} onChange={(event) => { void uploadProfileImage(event.target.files?.[0]); event.currentTarget.value = '' }} /></label><button type="button" onClick={() => setConfirmAction('image')} disabled={uploading || !user?.imageUrl} className="button button-secondary disabled:opacity-40">Remove image</button></div>{uploadError && <p className="mt-4 text-sm font-bold text-red-700">{uploadError}</p>}</section>
+      <section className="rounded-3xl border border-line bg-cream p-6 shadow-soft"><p className="eyebrow">Account controls</p><h2 className="mt-2 font-display text-3xl font-bold text-teal">Manage your data</h2><p className="mt-2 max-w-xl text-sm leading-6 text-muted">Keep control of your account, lesson history, and personal information.</p>{progress.saveError && <p className="mt-4 rounded-xl bg-red-50 p-3 text-sm font-bold text-red-700">{progress.saveError}</p>}<div className="mt-6 grid gap-3"><button type="button" disabled={progress.isSaving} onClick={() => setConfirmAction('clear')} className="button button-secondary justify-start disabled:opacity-50"><Trash2 size={16} className="mr-2" />{progress.isSaving ? 'Saving progress...' : 'Clear lesson progress'}</button><button type="button" disabled={deleting} onClick={() => setConfirmAction('delete')} className="button justify-start border border-red-200 bg-red-50 text-red-700 hover:bg-red-100 disabled:opacity-50"><Trash2 size={16} className="mr-2" />{deleting ? 'Deleting...' : 'Delete account'}</button></div></section></div>
   </DashboardPanel>
 
   return <main className="shell max-w-[90rem] py-6 sm:py-8">
@@ -144,6 +188,6 @@ export function DashboardPage() {
       <div className="space-y-10"><div className="rounded-2xl border border-line bg-white p-5 shadow-soft sm:p-7">{renderOverview()}</div>{renderPortfolio()}{renderProfile()}</div>}
     </Show>
 
-    {confirmAction && <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#123F3D]/50 p-5" role="presentation"><div ref={confirmDialogRef} role="dialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-description" onKeyDown={(event) => { if (event.key === 'Escape' && !deleting) setConfirmAction(null) }} className="w-full max-w-md rounded-3xl border border-line bg-white p-6 shadow-soft sm:p-8"><p className="eyebrow">Please confirm</p><h2 id="confirm-title" className="mt-3 font-display text-3xl font-bold text-teal">{confirmAction === 'clear' ? 'Clear your progress?' : 'Delete your account?'}</h2><p id="confirm-description" className="mt-4 text-sm leading-6 text-muted">{confirmAction === 'clear' ? 'All completed lessons for this account will be removed. Your personalized plan will remain.' : 'This permanently deletes your Clerk account, learning plan, and progress. You will be signed out and this action cannot be undone.'}</p>{accountError && <p className="mt-4 rounded-xl bg-red-50 p-3 text-sm font-bold leading-6 text-red-700">{accountError}</p>}<div className="mt-6 flex flex-wrap justify-end gap-3"><button type="button" autoFocus disabled={deleting} onClick={() => setConfirmAction(null)} className="button button-secondary disabled:opacity-50">Cancel</button><button type="button" disabled={deleting} onClick={async () => { if (confirmAction === 'clear') { progress.clearProgress(); setConfirmAction(null) } else if (await deleteAccount()) setConfirmAction(null) }} className={`button ${confirmAction === 'delete' ? 'bg-red-600 text-white hover:bg-red-700' : 'button-primary'} disabled:opacity-50`}>{deleting ? 'Deleting...' : confirmAction === 'clear' ? 'Clear progress' : 'Delete account'}</button></div></div></div>}
+    <ConfirmDialog open={Boolean(confirmAction)} title={confirmAction ? confirmCopy[confirmAction].title : ''} description={confirmAction ? confirmCopy[confirmAction].description : ''} confirmLabel={confirmAction ? confirmCopy[confirmAction].label : ''} destructive busy={deleting || uploading} error={accountError || uploadError} onConfirm={() => { void runConfirmedAction() }} onCancel={() => { setAccountError(''); setConfirmAction(null) }} />
   </main>
 }

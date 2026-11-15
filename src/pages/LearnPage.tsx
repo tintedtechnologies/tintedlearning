@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { SeoMetadata } from '../components/common/SeoMetadata'
 import { lessons } from '../data/curriculum'
-import { getSectionIdForLegacyStage, getSectionIdForModule, getSectionLessonIds, getSectionModules, isSectionLive, learningSections } from '../data/learningSections'
+import { curriculumLessonTotal, getSectionIdForLegacyStage, getSectionIdForModule, getSectionLessonIds, getSectionModules, isSectionLive, learningSections } from '../data/learningSections'
 import { useProgress } from '../hooks/useProgress'
 
 const sectionGroups = [
@@ -16,7 +16,7 @@ const sectionGroups = [
 
 export function LearnPage() {
   const { isSignedIn } = useAuth()
-  const progress = useProgress(lessons.length)
+  const progress = useProgress(curriculumLessonTotal)
   const [searchParams] = useSearchParams()
   const location = useLocation()
   const navigate = useNavigate()

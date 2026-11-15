@@ -5,7 +5,7 @@ import { certifications } from '../data/certifications'
 import { curriculumStages, lessons } from '../data/curriculum'
 import { lessonContent } from '../data/lessonContent'
 import { projectPlans } from '../data/projects'
-import { getSectionModules, learningSectionById } from '../data/learningSections'
+import { curriculumLessonTotal, getSectionModules, learningSectionById } from '../data/learningSections'
 import { useProgress } from '../hooks/useProgress'
 
 /** Shows a total in whole hours, rounded up to at least one hour, for example "About 3 hours total". */
@@ -17,7 +17,7 @@ function formatHoursTotal(minutes: number) {
 export function LearningSectionPage() {
   const { sectionId } = useParams()
   const section = sectionId ? learningSectionById.get(sectionId) : undefined
-  const progress = useProgress(lessons.length)
+  const progress = useProgress(curriculumLessonTotal)
 
   if (!section) return <Navigate to="/learn" replace />
 

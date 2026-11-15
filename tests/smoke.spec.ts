@@ -359,7 +359,7 @@ test('footer newsletter sends only the email address to the Google Form response
     await route.fulfill({ status: 200, body: '' })
   })
   await input.fill('reader@example.com')
-  await page.getByRole('button', { name: 'Sign up' }).click()
+  await page.getByRole('button', { name: 'Subscribe' }).click()
   await expect(page.getByText('Thanks. You are on the list.')).toBeVisible()
   expect(new URLSearchParams(posted).get('entry.1332342356')).toBe('reader@example.com')
   expect([...new URLSearchParams(posted).keys()]).toEqual(['entry.1332342356'])
@@ -383,4 +383,9 @@ test('the Learn page links to the certifications catalog, and the old URLs redir
 test('the ISC2 card says the exam is free under the offer, and mentions the annual fee without a price', async ({ page }) => {
   await page.goto('/learn/sections/certifications', { waitUntil: 'networkidle' })
   await expect(page.getByText(/annual maintenance fee applies once you are certified/)).toBeVisible()
+})
+
+test('the public header has no sign-up prompt', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'networkidle' })
+  await expect(page.getByRole('button', { name: /^Sign up$/ })).toHaveCount(0)
 })

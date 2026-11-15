@@ -192,6 +192,14 @@ export const learningSections: LearningSection[] = [
 
 export const learningSectionById = new Map(learningSections.map((section) => [section.id, section]))
 
+
+/**
+ * The number of lessons in the whole curriculum, counted once each across the learning sections.
+ * The Learn page section totals add up to this number, and progress is measured against it.
+ */
+export const curriculumLessonTotal = new Set(learningSections.filter((section) => section.kind === 'learning').flatMap((section) => getSectionLessonIds(section))).size
+
+
 export function getSectionModules(sectionId: string) {
   const section = learningSectionById.get(sectionId)
   if (!section) return []

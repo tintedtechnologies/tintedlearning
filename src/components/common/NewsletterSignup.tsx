@@ -53,7 +53,7 @@ export function NewsletterSignup() {
         <form className="mt-4 flex max-w-sm flex-col gap-2 sm:flex-row" onSubmit={submit} noValidate>
           <label className="sr-only" htmlFor="newsletter-email">Email address</label>
           <input id="newsletter-email" name={emailEntry} type="email" autoComplete="email" required placeholder="you@example.com" aria-invalid={Boolean(error)} aria-describedby={error ? 'newsletter-error' : undefined} className="min-w-0 flex-1 rounded-full bg-white px-4 py-2 text-sm text-ink" />
-          <button type="submit" disabled={isSubmitting} className="rounded-full bg-gold px-4 py-2 text-sm font-bold text-teal disabled:opacity-60">{isSubmitting ? 'Sending...' : 'Sign up'}</button>
+          <button type="submit" disabled={isSubmitting} className="rounded-full bg-gold px-4 py-2 text-sm font-bold text-teal disabled:opacity-60">{isSubmitting ? 'Sending...' : 'Subscribe'}</button>
         </form>
       )}
       {error && <p id="newsletter-error" className="mt-2 text-xs text-gold" role="alert">{error}</p>}

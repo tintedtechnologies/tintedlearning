@@ -183,3 +183,17 @@ export function readLearningPlan(value: unknown): LearningPlanProfile | null {
 export function getGoalTitle(goal: LearningGoal) {
   return goalOptions.find((option) => option.id === goal)?.title ?? 'Learning plan'
 }
+/**
+ * The Projects that produce each goal's portfolio evidence. A plan's Projects step lists these, so the plan
+ * ends in finished work rather than only lessons. Each id is a project lesson in the Projects section.
+ */
+export const projectsByGoal: Record<LearningGoal, string[]> = {
+  'explore-ai': ['automate-a-real-task'],
+  'python-developer': ['automate-a-real-task', 'build-a-chatbot'],
+  'ai-mathematics': ['analyze-a-public-dataset', 'math-research-capstone'],
+  'technical-leadership': ['build-for-a-real-client'],
+  'ai-developer': ['build-a-chatbot', 'capstone-rag'],
+  'ai-engineer': ['capstone-rag', 'capstone-agent', 'capstone-evaluation'],
+  'cloud-engineer': ['build-a-chatbot'],
+  'ai-architect': ['capstone-evaluation', 'build-for-a-real-client'],
+}

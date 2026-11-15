@@ -1,9 +1,9 @@
 import { careerLevels, curriculumModules, curriculumStages, lessons, portfolioProjects, portfolioTracks } from '../src/data/curriculum'
 import { certifications } from '../src/data/certifications'
-import { getSectionLessonIds, getSectionModules, learningSections, liveSectionIds } from '../src/data/learningSections'
+import { curriculumLessonTotal, getSectionLessonIds, getSectionModules, learningSections, liveSectionIds } from '../src/data/learningSections'
 import { lessonContent } from '../src/data/lessonContent'
 import { lessonResources } from '../src/data/lessonResources'
-import { getLearningPlanModules } from '../src/data/learningPlans'
+import { getLearningPlanModules, projectsByGoal } from '../src/data/learningPlans'
 import { structuredLessons } from '../src/data/lessons'
 import { projectPlans } from '../src/data/projects'
 import { checkStructuredLesson } from './lesson-rules'
@@ -216,4 +216,18 @@ if (failures.length) {
   process.exitCode = 1
 } else {
   console.log(`Curriculum valid: ${lessons.length} lessons, ${curriculumModules.length} modules, ${curriculumStages.length} stages.`)
+}
+// The Learn page section totals and the dashboard total must describe the same lessons.
+const sectionTotalSum = learningSections.filter((section) => section.kind === 'learning').reduce((total, section) => total + getSectionLessonIds(section).length, 0)
+if (sectionTotalSum !== curriculumLessonTotal) failures.push(`Section lesson totals (${sectionTotalSum}) must add up to the curriculum total (${curriculumLessonTotal})`)
+if (curriculumLessonTotal !== lessonIds.length) failures.push(`Every curriculum lesson must be in a learning section (${curriculumLessonTotal} of ${lessonIds.length})`)
+
+// Every goal's Projects step must point at real projects in the Projects section.
+const projectSectionLessonIds = new Set(learningSections.find((section) => section.id === 'projects') ? getSectionLessonIds(learningSections.find((section) => section.id === 'projects')!) : [])
+for (const [goal, ids] of Object.entries(projectsByGoal)) {
+  if (!ids.length) failures.push(`Goal ${goal} has no projects`)
+  for (const id of ids) {
+    if (!projectSectionLessonIds.has(id)) failures.push(`Goal ${goal} links to ${id}, which is not in the Projects section`)
+    if (!projectPlans[id]) failures.push(`Goal ${goal} links to ${id}, which has no project plan`)
+  }
 }
