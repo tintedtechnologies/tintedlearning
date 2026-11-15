@@ -164,7 +164,7 @@ export const certifications: Certification[] = [
     prepare: { links: [sectionLink('security', 'Security'), lessonLink('security-basics', 'How Apps Get Attacked')], stillNeed: 'The exam covers policy and governance topics the lessons only touch. Use ISC2\'s free training materials.' },
     officialUrl: 'https://www.isc2.org/Certifications/CC',
     lastChecked: certificationLastChecked,
-    note: 'ISC2 offers free training and exam under a program. Check the official page for its current terms.',
+    note: 'The exam is free under ISC2\'s current Free CC Training and Exam offer. An annual maintenance fee applies once you are certified. Check the official page for the offer\'s current terms.',
   },
   {
     id: 'comptia-security-plus',

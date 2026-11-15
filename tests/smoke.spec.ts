@@ -364,3 +364,23 @@ test('footer newsletter sends only the email address to the Google Form response
   expect(new URLSearchParams(posted).get('entry.1332342356')).toBe('reader@example.com')
   expect([...new URLSearchParams(posted).keys()]).toEqual(['entry.1332342356'])
 })
+
+test('section totals are shown in hours, and no minute totals remain', async ({ page }) => {
+  await page.goto('/learn/sections/projects', { waitUntil: 'networkidle' })
+  await expect(page.getByText('About 3 hours total', { exact: true }).first()).toBeVisible()
+  await expect(page.getByText(/\d+ min total/)).toHaveCount(0)
+})
+
+test('the Learn page links to the certifications catalog, and the old URLs redirect there', async ({ page }) => {
+  await page.goto('/learn', { waitUntil: 'networkidle' })
+  await expect(page.getByRole('link', { name: /Open the catalog/ })).toHaveAttribute('href', '/learn/sections/certifications')
+  for (const path of ['/certifications', '/learn/certifications']) {
+    await page.goto(path)
+    await expect(page).toHaveURL(/\/learn\/sections\/certifications$/)
+  }
+})
+
+test('the ISC2 card says the exam is free under the offer, and mentions the annual fee without a price', async ({ page }) => {
+  await page.goto('/learn/sections/certifications', { waitUntil: 'networkidle' })
+  await expect(page.getByText(/annual maintenance fee applies once you are certified/)).toBeVisible()
+})

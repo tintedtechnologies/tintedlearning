@@ -39,6 +39,8 @@ export default function App() {
         <Route path="/learn" element={<LearnPage />} />
         <Route path="/learn/stage/:stageId/test" element={<StageAssessmentPage />} />
         <Route path="/learn/sections/certifications" element={<CertificationsPage />} />
+        <Route path="/certifications" element={<Navigate to="/learn/sections/certifications" replace />} />
+        <Route path="/learn/certifications" element={<Navigate to="/learn/sections/certifications" replace />} />
         <Route path="/learn/certification/:slug" element={<Navigate to="/learn/sections/certifications" replace />} />
         <Route path="/learn/sections/:sectionId" element={<LearningSectionPage />} />
         <Route path="/learn/algorithms-and-data-structures" element={<Navigate to="/learn/python-search-and-sort" replace />} />

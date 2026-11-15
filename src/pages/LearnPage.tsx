@@ -84,7 +84,7 @@ export function LearnPage() {
           <div className={`mt-4 grid gap-4 ${group.title === 'Start here' ? 'sm:grid-cols-2 lg:grid-cols-3' : group.title === 'Prove it' ? 'sm:grid-cols-2' : 'sm:grid-cols-2'}`}>{group.ids.map(renderSectionCard)}{group.title === 'Prove it' && portfolioCard}</div>
         </section>)}
       </div>
-      <p className="mt-8 text-sm leading-6 text-muted">Looking for certifications? <Link to="/learn/sections/certifications" className="font-bold text-teal hover:text-gold">See the reference catalog</Link>.</p>
+      <Link to="/learn/sections/certifications" className="mt-8 flex flex-col rounded-3xl border border-line bg-white p-6 shadow-soft transition-colors hover:border-teal sm:flex-row sm:items-center sm:justify-between"><span><span className="block font-display text-2xl font-bold text-teal">Certifications</span><span className="mt-2 block max-w-2xl text-sm leading-6 text-muted">Looking for certifications? Browse the certifications catalog: real credentials from recognized organizations, free options first, with a guide to preparing for each one.</span></span><span className="mt-4 text-sm font-bold text-teal sm:mt-0">Open the catalog</span></Link>
     </section>
   </div>
 }

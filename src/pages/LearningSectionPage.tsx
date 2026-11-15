@@ -8,6 +8,12 @@ import { projectPlans } from '../data/projects'
 import { getSectionModules, learningSectionById } from '../data/learningSections'
 import { useProgress } from '../hooks/useProgress'
 
+/** Shows a total in whole hours, rounded up to at least one hour, for example "About 3 hours total". */
+function formatHoursTotal(minutes: number) {
+  const hours = Math.max(1, Math.round(minutes / 60))
+  return `About ${hours} hour${hours === 1 ? '' : 's'} total`
+}
+
 export function LearningSectionPage() {
   const { sectionId } = useParams()
   const section = sectionId ? learningSectionById.get(sectionId) : undefined
@@ -42,7 +48,7 @@ export function LearningSectionPage() {
           return <article key={`${module.id}-${moduleLessons[0]?.id ?? 'empty'}`} id={module.id} className="scroll-mt-8 rounded-3xl border border-line bg-white p-5 shadow-soft sm:p-7">
           <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-start">
             <div><h2 className="font-display text-2xl font-bold text-teal">{moduleTitle}</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-muted">{moduleDescription}</p></div>
-            {moduleLessons.length > 0 && <div className="shrink-0 text-right text-xs font-bold text-muted"><span className="block">{moduleLessons.filter((lesson) => progress.completedLessons.includes(lesson.id)).length}/{moduleLessons.length} complete</span><span className="mt-1 block font-medium">{moduleLessons.reduce((total, lesson) => total + lesson.duration, 0)} min total</span></div>}
+            {moduleLessons.length > 0 && <div className="shrink-0 text-right text-xs font-bold text-muted"><span className="block">{moduleLessons.filter((lesson) => progress.completedLessons.includes(lesson.id)).length}/{moduleLessons.length} complete</span><span className="mt-1 block font-medium">{formatHoursTotal(moduleLessons.reduce((total, lesson) => total + lesson.duration, 0))}</span></div>}
           </div>
           {moduleLessons.length > 0 && <ul className="mt-4 divide-y divide-line border-t border-line">
             {moduleLessons.map((lesson) => {
