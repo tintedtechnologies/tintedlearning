@@ -29,6 +29,15 @@ const projectMetadata: Record<string, { difficulty: string; time: string; cost: 
   'ai-mathematics-research': { difficulty: 'Advanced', time: '10-16 hours', cost: 'Free with public or synthetic data', setup: 'Python and scientific libraries' },
 }
 
+/** A sample entry for new users. Nothing is saved until they choose to use it. */
+const exampleAccomplishment = {
+  title: 'Evaluation report for a support-ticket assistant',
+  summary: 'Tested 40 cases across refunds, safety and wrong-order questions. Recorded each failure with the input and the expected answer, then changed one instruction and reran the same cases.',
+}
+
+const fieldClass = 'mt-2 w-full rounded-xl border border-line bg-white p-3 text-sm leading-6 text-ink placeholder:text-muted focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/20'
+const labelClass = 'block text-sm font-bold text-teal'
+
 function resumeText(profile: Pick<PortfolioProfile, 'displayName' | 'headline' | 'summary' | 'resume' | 'accomplishments' | 'githubLinks'>) {
   const divider = '============================================================'
   const section = (title: string) => [`${divider}`, title.toUpperCase(), divider]
@@ -84,6 +93,10 @@ function ExamplePortfolio() {
   return <section className="rounded-3xl border border-line bg-white p-6 shadow-soft sm:p-8"><p className="eyebrow text-teal">Resume</p><h1 className="mt-3 font-display text-5xl font-bold text-teal sm:text-6xl">Jordan Lee</h1><p className="mt-2 text-2xl font-bold text-teal">AI Engineer</p><p className="mt-3 text-sm font-medium text-muted">Austin, TX · jordan@example.com · (555) 010-2026 · linkedin.com/in/jordanlee · github.com/jordanlee · jordanlee.dev</p><p className="mt-5 max-w-3xl text-lg font-medium leading-8 text-muted">This example shows the new portfolio format: a professional resume header, evidence-backed work, GitHub links, certifications, and education.</p><section className="mt-8 grid gap-6 md:grid-cols-[1.3fr_0.7fr]"><div><h2 className="font-display text-4xl font-bold text-teal">Professional summary</h2><p className="mt-3 text-lg leading-8 text-muted">AI engineer who turns ambiguous product needs into tested, observable systems. Strongest in evaluation design, retrieval workflows, Python services, and cloud delivery.</p><h2 className="mt-8 font-display text-3xl font-bold text-teal">Professional experience</h2><ul className="mt-3 space-y-3 text-base font-medium leading-7 text-ink"><li>• Built an evaluation harness covering groundedness, safety, latency, cost, and failure review.</li><li>• Deployed a containerized service with health checks, logs, budget assumptions, and rollback notes.</li><li>• Documented technical decisions so reviewers could reproduce the result and understand the tradeoffs.</li></ul></div><div><h2 className="font-display text-3xl font-bold text-teal">Technical skills</h2><p className="mt-3 text-base font-medium leading-7 text-ink">Python, APIs, SQL, RAG, prompt design, evaluation, Docker, cloud operations, observability</p><h2 className="mt-8 font-display text-3xl font-bold text-teal">Certifications</h2><p className="mt-3 text-base leading-7 text-muted">AWS, Azure, and Google Cloud foundations; vendor-neutral cloud security study; AI risk and evaluation practice.</p><h2 className="mt-8 font-display text-3xl font-bold text-teal">Education</h2><p className="mt-3 text-base leading-7 text-muted">Independent AI engineering study supported by completed lessons, project reports, deployment artifacts, and public demonstrations.</p></div></section><section className="mt-10 border-t border-line pt-8"><h2 className="font-display text-4xl font-bold text-teal">Projects · GitHub links</h2><div className="mt-4 grid gap-3 sm:grid-cols-2"><a href="https://github.com/example/ai-evaluation-harness" target="_blank" rel="noreferrer" className="rounded-2xl bg-mist p-4 text-base font-bold text-teal hover:bg-cream">AI evaluation harness <ExternalLink size={15} className="ml-1 inline" /></a><a href="https://github.com/example/cloud-service" target="_blank" rel="noreferrer" className="rounded-2xl bg-mist p-4 text-base font-bold text-teal hover:bg-cream">Cloud service deployment <ExternalLink size={15} className="ml-1 inline" /></a></div></section></section>
 }
 
+function StepBadge({ step }: { step: number }) {
+  return <span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-teal font-display text-base font-bold text-white">{step}</span>
+}
+
 function PortfolioStudio({ user }: { user: NonNullable<ReturnType<typeof useUser>['user']> }) {
   const progress = useProgress(lessons.length)
   const [profile, setProfile] = useState<PortfolioProfile>(() => readPortfolioProfile(user.unsafeMetadata?.tintedPortfolio, user.fullName ?? user.username ?? ''))
@@ -109,6 +122,7 @@ function PortfolioStudio({ user }: { user: NonNullable<ReturnType<typeof useUser
   const updateResume = (next: Partial<PortfolioProfile['resume']>) => setProfile((current) => ({ ...current, resume: { ...current.resume, ...next } }))
   const updateAccomplishment = (id: string, next: Partial<PortfolioAccomplishment>) => setProfile((current) => ({ ...current, accomplishments: current.accomplishments.map((item) => item.id === id ? { ...item, ...next } : item) }))
   const addAccomplishment = () => setProfile((current) => ({ ...current, accomplishments: [...current.accomplishments, { id: crypto.randomUUID(), title: '', summary: '', link: '' }] }))
+  const useExampleAccomplishment = () => setProfile((current) => ({ ...current, accomplishments: [...current.accomplishments, { id: crypto.randomUUID(), ...exampleAccomplishment, link: '' }] }))
   const removeAccomplishment = (id: string) => setProfile((current) => ({ ...current, accomplishments: current.accomplishments.filter((item) => item.id !== id) }))
   const save = async () => {
     setSaving(true)
@@ -143,14 +157,143 @@ function PortfolioStudio({ user }: { user: NonNullable<ReturnType<typeof useUser
     }
   }
 
-  return <section className="rounded-3xl border border-teal/15 bg-white p-6 shadow-soft sm:p-8"><div className="flex flex-col justify-between gap-4 border-b border-line pb-6 sm:flex-row sm:items-start"><div><p className="eyebrow">Portfolio studio</p><h1 className="mt-2 font-display text-4xl font-bold text-teal">Build your resume and proof.</h1><p className="mt-3 max-w-2xl text-sm leading-6 text-muted">Create a resume, collect GitHub work, and track your learning progress.</p></div><span className={`rounded-full px-3 py-2 text-xs font-bold ${profile.visibility === 'public' ? 'bg-mist text-teal' : 'bg-sand text-teal'}`}>{profile.visibility === 'public' ? 'Public sharing on' : 'Private'}</span></div><nav className="mt-5 flex flex-wrap gap-2" aria-label="Portfolio sections"><a href="#resume" className="rounded-full bg-sand px-3 py-2 text-xs font-bold text-teal hover:bg-mist">Resume</a><a href="#portfolio" className="rounded-full bg-sand px-3 py-2 text-xs font-bold text-teal hover:bg-mist">Portfolio</a><a href="#progress" className="rounded-full bg-sand px-3 py-2 text-xs font-bold text-teal hover:bg-mist">Progress</a></nav>
-    <section id="resume" className="mt-6 scroll-mt-6 rounded-2xl bg-sand p-5"><p className="eyebrow">Resume</p><h2 className="mt-2 font-display text-2xl font-bold text-teal">Your professional profile</h2><div className="mt-4 grid gap-3 lg:grid-cols-2"><label><span className="text-sm font-bold text-teal">Name</span><input value={profile.displayName} onChange={(event) => updateProfile({ displayName: event.target.value })} className="mt-2 w-full rounded-xl border border-line p-3 text-sm" /></label><label><span className="text-sm font-bold text-teal">Headline / target role</span><input value={profile.headline} onChange={(event) => updateProfile({ headline: event.target.value })} placeholder="AI engineer focused on reliable systems" className="mt-2 w-full rounded-xl border border-line p-3 text-sm" /></label><label><span className="text-sm font-bold text-teal">Location</span><input value={profile.resume.location} onChange={(event) => updateResume({ location: event.target.value })} placeholder="City, State or Remote" className="mt-2 w-full rounded-xl border border-line p-3 text-sm" /></label><label><span className="text-sm font-bold text-teal">Email</span><input value={profile.resume.email} onChange={(event) => updateResume({ email: event.target.value })} type="email" className="mt-2 w-full rounded-xl border border-line p-3 text-sm" /></label><label><span className="text-sm font-bold text-teal">Phone</span><input value={profile.resume.phone} onChange={(event) => updateResume({ phone: event.target.value })} className="mt-2 w-full rounded-xl border border-line p-3 text-sm" /></label><label><span className="text-sm font-bold text-teal">LinkedIn</span><input value={profile.resume.linkedin} onChange={(event) => updateResume({ linkedin: event.target.value })} placeholder="https://linkedin.com/in/..." className="mt-2 w-full rounded-xl border border-line p-3 text-sm" /></label><label><span className="text-sm font-bold text-teal">GitHub</span><input value={profile.resume.github} onChange={(event) => updateResume({ github: event.target.value })} placeholder="https://github.com/..." className="mt-2 w-full rounded-xl border border-line p-3 text-sm" /></label><label><span className="text-sm font-bold text-teal">Portfolio URL</span><input value={profile.resume.portfolio} onChange={(event) => updateResume({ portfolio: event.target.value })} placeholder="https://..." className="mt-2 w-full rounded-xl border border-line p-3 text-sm" /></label></div>
-    <label className="mt-5 block"><span className="text-sm font-bold text-teal">Professional summary</span><textarea value={profile.resume.summary} onChange={(event) => updateResume({ summary: event.target.value })} rows={4} placeholder="Write two or three sentences about your experience, specialization, and value." className="mt-2 w-full rounded-xl border border-line p-3 text-sm leading-6" /></label><div className="mt-5 grid gap-3 lg:grid-cols-2"><label><span className="text-sm font-bold text-teal">Technical skills</span><textarea value={profile.resume.skills} onChange={(event) => updateResume({ skills: event.target.value })} rows={4} placeholder="Cloud platforms, AI, languages, frameworks, and tools" className="mt-2 w-full rounded-xl border border-line p-3 text-sm leading-6" /></label><label><span className="text-sm font-bold text-teal">Professional experience</span><textarea value={profile.resume.experience} onChange={(event) => updateResume({ experience: event.target.value })} rows={4} placeholder="Roles, responsibilities, and measurable achievements" className="mt-2 w-full rounded-xl border border-line p-3 text-sm leading-6" /></label><label><span className="text-sm font-bold text-teal">Certifications</span><textarea value={profile.resume.certifications} onChange={(event) => updateResume({ certifications: event.target.value })} rows={3} placeholder="AWS, Azure, Google Cloud, security, and other credentials" className="mt-2 w-full rounded-xl border border-line p-3 text-sm leading-6" /></label><label><span className="text-sm font-bold text-teal">Education</span><textarea value={profile.resume.education} onChange={(event) => updateResume({ education: event.target.value })} rows={3} placeholder="Degrees, institutions, and relevant training" className="mt-2 w-full rounded-xl border border-line p-3 text-sm leading-6" /></label></div></section>
-    <section id="portfolio" className="mt-8 scroll-mt-6 rounded-3xl bg-mist p-5"><div className="flex items-center justify-between gap-3"><div><p className="eyebrow">Portfolio</p><h2 className="mt-2 font-display text-2xl font-bold text-teal">Your work and accomplishments</h2></div><button type="button" onClick={addAccomplishment} className="button button-secondary">Add accomplishment</button></div><div className="mt-4 space-y-3">{profile.accomplishments.map((item) => <div key={item.id} className="rounded-xl bg-white p-4"><div className="flex items-start gap-3"><div className="grid min-w-0 flex-1 gap-3 sm:grid-cols-2"><input value={item.title} onChange={(event) => updateAccomplishment(item.id, { title: event.target.value })} placeholder="Project or accomplishment" className="rounded-lg border border-line p-3 text-sm" /><input value={item.link} onChange={(event) => updateAccomplishment(item.id, { link: event.target.value })} placeholder="GitHub or evidence URL" className="rounded-lg border border-line p-3 text-sm" /><textarea value={item.summary} onChange={(event) => updateAccomplishment(item.id, { summary: event.target.value })} rows={3} placeholder="What did you do, and what evidence can someone inspect?" className="mt-0 w-full rounded-lg border border-line p-3 text-sm leading-6 sm:col-span-2" /></div><button type="button" onClick={() => removeAccomplishment(item.id)} aria-label={`Remove ${item.title || 'accomplishment'}`} className="rounded-lg border border-line px-3 py-2 text-sm font-bold text-muted hover:border-red-300 hover:text-red-700">Remove</button></div></div>)}{!profile.accomplishments.length && <p className="text-sm leading-6 text-muted">Add your first project, lesson insight, evaluation report, or deployment result.</p>}</div></section>
-    {progressSnapshot.completedLessons > 0 && <section id="progress" className="mt-8 scroll-mt-6 rounded-2xl border border-line p-5"><p className="eyebrow">Current progress on Tinted Learning</p><h2 className="mt-2 font-display text-2xl font-bold text-teal">Show what you have finished.</h2><div className="mt-4 flex flex-wrap gap-2">{progressSnapshot.sections.filter((section) => section.completed > 0).map((section) => <span key={section.title} className="rounded-full bg-mist px-3 py-2 text-xs font-bold text-teal">{section.title}: {section.completed}/{section.total}</span>)}</div></section>}
-    {saveError && <p className="mt-5 rounded-xl bg-red-50 p-3 text-sm font-bold text-red-700">{saveError}</p>}<div className="mt-6 flex flex-wrap items-center gap-3"><button type="button" onClick={() => { void save() }} disabled={saving} className="button button-primary disabled:opacity-50">{saving ? 'Saving...' : 'Save portfolio'}</button><ResumeExportActions profile={profile} /><button type="button" onClick={() => setConfirmClearOpen(true)} disabled={saving} className="button border border-red-200 bg-red-50 text-red-700 hover:bg-red-100 disabled:opacity-50">Clear all resume data</button><ConfirmDialog open={confirmClearOpen} title="Clear all resume data?" description="This removes your resume, accomplishments, links and portfolio settings. Your learning progress is kept. This cannot be undone." confirmLabel="Clear resume data" destructive busy={saving} error={saveError} onConfirm={() => { setConfirmClearOpen(false); void clearPortfolio() }} onCancel={() => setConfirmClearOpen(false)} />{saved && <span className="text-sm font-bold text-teal">Saved.</span>}</div>
+  const isNewPortfolio = !profile.resume.summary && !profile.resume.experience && !profile.accomplishments.length
+  const isPublic = profile.visibility === 'public'
+
+  return <div className="space-y-8">
+    <section className="rounded-3xl border border-line bg-white p-6 shadow-soft sm:p-8">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <p className="eyebrow">Portfolio studio</p>
+          <h1 className="mt-2 font-display text-4xl font-bold text-teal">Build your resume and proof.</h1>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">Write your resume, list the work you can show, and see what you have finished. Click Save portfolio to keep your changes.</p>
+        </div>
+        <span className={`inline-flex shrink-0 items-center rounded-full px-3 py-2 text-xs font-bold ${isPublic ? 'bg-mist text-teal' : 'bg-sand text-teal'}`}>{isPublic ? 'Public sharing on' : 'Private'}</span>
+      </div>
+      <nav aria-label="On this page" className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-line pt-5 text-sm font-bold">
+        <span className="text-muted">On this page</span>
+        <a href="#resume" className="text-teal underline decoration-gold decoration-2 underline-offset-4 hover:text-gold">Resume</a>
+        <a href="#portfolio" className="text-teal underline decoration-gold decoration-2 underline-offset-4 hover:text-gold">Portfolio</a>
+        <a href="#progress" className="text-teal underline decoration-gold decoration-2 underline-offset-4 hover:text-gold">Progress</a>
+      </nav>
+    </section>
+
+    {isNewPortfolio && <details open className="rounded-3xl border border-line bg-white p-5 shadow-soft sm:p-6">
+      <summary className="cursor-pointer text-sm font-bold text-teal">See an example resume before you start</summary>
+      <div className="mt-6"><ExamplePortfolio /></div>
+    </details>}
+
+    <section id="resume" className="scroll-mt-6 rounded-3xl bg-mist p-6 sm:p-8">
+      <div className="flex items-start gap-4">
+        <StepBadge step={1} />
+        <div>
+          <p className="eyebrow">Resume</p>
+          <h2 className="mt-1 font-display text-3xl font-bold text-teal">Your professional profile</h2>
+          <p className="mt-2 text-sm leading-6 text-ink">Contact details and the summary that opens your resume.</p>
+        </div>
+      </div>
+      <div className="mt-8 grid gap-5 lg:grid-cols-2">
+        <label><span className={labelClass}>Name</span><input value={profile.displayName} onChange={(event) => updateProfile({ displayName: event.target.value })} className={fieldClass} /></label>
+        <label><span className={labelClass}>Headline / target role</span><input value={profile.headline} onChange={(event) => updateProfile({ headline: event.target.value })} placeholder="AI engineer focused on reliable systems" className={fieldClass} /></label>
+        <label><span className={labelClass}>Location</span><input value={profile.resume.location} onChange={(event) => updateResume({ location: event.target.value })} placeholder="City, State or Remote" className={fieldClass} /></label>
+        <label><span className={labelClass}>Email</span><input value={profile.resume.email} onChange={(event) => updateResume({ email: event.target.value })} type="email" className={fieldClass} /></label>
+        <label><span className={labelClass}>Phone</span><input value={profile.resume.phone} onChange={(event) => updateResume({ phone: event.target.value })} className={fieldClass} /></label>
+        <label><span className={labelClass}>LinkedIn</span><input value={profile.resume.linkedin} onChange={(event) => updateResume({ linkedin: event.target.value })} placeholder="https://linkedin.com/in/..." className={fieldClass} /></label>
+        <label><span className={labelClass}>GitHub</span><input value={profile.resume.github} onChange={(event) => updateResume({ github: event.target.value })} placeholder="https://github.com/..." className={fieldClass} /></label>
+        <label><span className={labelClass}>Portfolio URL</span><input value={profile.resume.portfolio} onChange={(event) => updateResume({ portfolio: event.target.value })} placeholder="https://..." className={fieldClass} /></label>
+      </div>
+      <label className="mt-6 block"><span className={labelClass}>Professional summary</span><textarea value={profile.resume.summary} onChange={(event) => updateResume({ summary: event.target.value })} rows={4} placeholder="Write two or three sentences about your experience, specialization, and value." className={fieldClass} /></label>
+      <div className="mt-6 grid gap-5 lg:grid-cols-2">
+        <label><span className={labelClass}>Technical skills</span><textarea value={profile.resume.skills} onChange={(event) => updateResume({ skills: event.target.value })} rows={4} placeholder="Cloud platforms, AI, languages, frameworks, and tools" className={fieldClass} /></label>
+        <label><span className={labelClass}>Professional experience</span><textarea value={profile.resume.experience} onChange={(event) => updateResume({ experience: event.target.value })} rows={4} placeholder="Roles, responsibilities, and measurable achievements" className={fieldClass} /></label>
+        <label><span className={labelClass}>Certifications</span><textarea value={profile.resume.certifications} onChange={(event) => updateResume({ certifications: event.target.value })} rows={3} placeholder="AWS, Azure, Google Cloud, security, and other credentials" className={fieldClass} /></label>
+        <label><span className={labelClass}>Education</span><textarea value={profile.resume.education} onChange={(event) => updateResume({ education: event.target.value })} rows={3} placeholder="Degrees, institutions, and relevant training" className={fieldClass} /></label>
+      </div>
+    </section>
+
+    <section id="portfolio" className="scroll-mt-6 rounded-3xl bg-mist p-6 sm:p-8">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex items-start gap-4">
+          <StepBadge step={2} />
+          <div>
+            <p className="eyebrow">Portfolio</p>
+            <h2 className="mt-1 font-display text-3xl font-bold text-teal">Your work and accomplishments</h2>
+            <p className="mt-2 text-sm leading-6 text-ink">Each entry should say what you did and how someone can check it.</p>
+          </div>
+        </div>
+        <button type="button" onClick={addAccomplishment} className="button button-secondary shrink-0">Add accomplishment</button>
+      </div>
+
+      <div className="mt-8 space-y-4">
+        {profile.accomplishments.map((item) => <div key={item.id} className="rounded-2xl border border-line bg-white p-5">
+          <div className="flex items-start justify-between gap-3">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted">Accomplishment</p>
+            <button type="button" onClick={() => removeAccomplishment(item.id)} aria-label={`Remove ${item.title || 'accomplishment'}`} className="rounded-lg px-3 py-1 text-sm font-bold text-muted hover:bg-red-50 hover:text-red-700">Remove</button>
+          </div>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <label><span className={labelClass}>Title</span><input value={item.title} onChange={(event) => updateAccomplishment(item.id, { title: event.target.value })} placeholder="Project or accomplishment" className={fieldClass} /></label>
+            <label><span className={labelClass}>Evidence link</span><input value={item.link} onChange={(event) => updateAccomplishment(item.id, { link: event.target.value })} placeholder="GitHub or evidence URL" className={fieldClass} /></label>
+            <label className="sm:col-span-2"><span className={labelClass}>What you did and how to check it</span><textarea value={item.summary} onChange={(event) => updateAccomplishment(item.id, { summary: event.target.value })} rows={3} placeholder="What did you do, and what evidence can someone inspect?" className={fieldClass} /></label>
+          </div>
+        </div>)}
+
+        {!profile.accomplishments.length && <div className="rounded-2xl border border-dashed border-teal/40 bg-white p-6">
+          <p className="eyebrow">Example entry</p>
+          <h3 className="mt-2 font-display text-2xl font-bold text-teal">{exampleAccomplishment.title}</h3>
+          <p className="mt-3 max-w-2xl text-sm leading-7 text-ink">{exampleAccomplishment.summary}</p>
+          <div className="mt-5 flex flex-wrap items-center gap-4">
+            <button type="button" onClick={useExampleAccomplishment} className="button button-secondary">Use as a starting point</button>
+            <p className="text-sm text-muted">Nothing is saved until you click Save portfolio.</p>
+          </div>
+        </div>}
+      </div>
+    </section>
+
+    <section id="progress" className="scroll-mt-6 rounded-3xl bg-mist p-6 sm:p-8">
+      <div className="flex items-start gap-4">
+        <StepBadge step={3} />
+        <div>
+          <p className="eyebrow">Progress</p>
+          <h2 className="mt-1 font-display text-3xl font-bold text-teal">What you have finished</h2>
+          <p className="mt-2 text-sm leading-6 text-ink">{progressSnapshot.completedLessons} of {progressSnapshot.totalLessons} lessons completed on Tinted Learning.</p>
+        </div>
+      </div>
+      {progressSnapshot.completedLessons === 0 && <p className="mt-6 rounded-2xl bg-white p-4 text-sm leading-6 text-ink">Finish a lesson and it will appear here, section by section.</p>}
+      <ul className="mt-8 space-y-5">
+        {progressSnapshot.sections.map((section) => {
+          const percent = section.total ? Math.round((section.completed / section.total) * 100) : 0
+          return <li key={section.title}>
+            <div className="flex items-center justify-between gap-4 text-sm font-bold text-teal">
+              <span>{section.title}</span>
+              <span>{section.completed}/{section.total}</span>
+            </div>
+            <div className="mt-2 h-2 overflow-hidden rounded-full bg-white" aria-hidden="true">
+              <div className="h-full rounded-full bg-teal" style={{ width: `${percent}%` }} />
+            </div>
+          </li>
+        })}
+      </ul>
+    </section>
+
+    <section className="rounded-3xl border border-line bg-white p-6 shadow-soft sm:p-8">
+      <h2 className="font-display text-2xl font-bold text-teal">Save and export</h2>
+      {saveError && <p role="alert" className="mt-4 rounded-xl bg-red-50 p-3 text-sm font-bold text-red-700">{saveError}</p>}
+      <div className="mt-5 flex flex-wrap items-center gap-3">
+        <button type="button" onClick={() => { void save() }} disabled={saving} className="button button-primary disabled:opacity-50">{saving ? 'Saving...' : 'Save portfolio'}</button>
+        <ResumeExportActions profile={profile} />
+        {saved && <span role="status" className="text-sm font-bold text-teal">Saved.</span>}
+      </div>
+    </section>
+
+    <section className="rounded-3xl border border-red-100 bg-white p-6 sm:p-8">
+      <h2 className="font-display text-2xl font-bold text-teal">Clear all resume data</h2>
+      <p className="mt-2 max-w-2xl text-sm leading-6 text-ink">This removes your resume, accomplishments and portfolio settings. Your learning progress is kept. You will be asked to confirm first.</p>
+      <button type="button" onClick={() => setConfirmClearOpen(true)} disabled={saving} className="button mt-5 border border-red-200 bg-red-50 text-red-700 hover:bg-red-100 disabled:opacity-50">Clear all resume data</button>
+      <ConfirmDialog open={confirmClearOpen} title="Clear all resume data?" description="This removes your resume, accomplishments, links and portfolio settings. Your learning progress is kept. This cannot be undone." confirmLabel="Clear resume data" destructive busy={saving} error={saveError} onConfirm={() => { setConfirmClearOpen(false); void clearPortfolio() }} onCancel={() => setConfirmClearOpen(false)} />
+    </section>
+
     <ResumePrintDocument profile={profile} />
-  </section>
+  </div>
 }
 
 export function PortfolioPage() {
