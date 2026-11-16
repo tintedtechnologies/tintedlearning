@@ -408,8 +408,8 @@ test('the Instagram link appears in the footer and on the About page', async ({ 
 test('the About page shows its call to action near the top, and the statistics page links every source', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 })
   await page.goto('/about', { waitUntil: 'networkidle' })
-  await expect(page.getByRole('link', { name: /Explore the pathway/ }).first()).toBeInViewport()
-  await expect(page.getByRole('link', { name: /Try Python/ }).first()).toBeInViewport()
+  await expect(page.getByRole('link', { name: /Start the 5-minute AI lesson/ }).first()).toBeInViewport()
+  await expect(page.getByRole('link', { name: /Browse all sections/ }).first()).toBeInViewport()
   await page.goto('/why-this-matters', { waitUntil: 'networkidle' })
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Black students')
   await expect(page.getByRole('link', { name: /Pew Research Center, February 2026/ }).first()).toHaveAttribute('href', 'https://www.pewresearch.org/internet/2026/02/24/demographic-differences-in-how-teens-use-and-view-ai/')

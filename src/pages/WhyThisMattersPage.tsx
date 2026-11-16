@@ -2,6 +2,15 @@ import { ExternalLink } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { SeoMetadata } from '../components/common/SeoMetadata'
 
+const teacherAccess = [
+  {
+    figure: '27% vs 11%',
+    text: 'of school districts had given teachers AI training by fall 2023. The first number is for districts serving mostly White students. The second is for districts serving mostly students of color. The figure counts districts that offered training, not how many teachers attended.',
+    source: 'RAND, The State of Public Education in 2024',
+    url: 'https://www.rand.org/pubs/commentary/2024/08/five-charts-that-tell-us-about-the-state-of-public.html',
+  },
+]
+
 const courseAccess = [
   {
     figure: 'Fewer than half',
@@ -46,6 +55,10 @@ const resourceAccess = [
 
 const sources = [
   {
+    text: 'RAND, "The State of Public Education in 2024 in Five Charts"',
+    url: 'https://www.rand.org/pubs/commentary/2024/08/five-charts-that-tell-us-about-the-state-of-public.html',
+  },
+  {
     text: 'Gopalan and Frankenberg, "A Second Look at the 2023-24 Civil Rights Data Collection," AdvancED Equity',
     url: 'https://www.advancedequity.org/briefs/a-second-look-202324crdc',
   },
@@ -86,6 +99,13 @@ export function WhyThisMattersPage() {
     <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-ink">A student who never gets a computer science or calculus class has fewer ways into AI and computing later. Each figure below links to the study it comes from.</p>
 
     <section className="mt-14">
+      <h2 className="font-display text-3xl font-bold text-teal">Teachers are part of the gap too</h2>
+      <ul className="mt-8 space-y-6">
+        {teacherAccess.map((item) => <EvidenceRow key={item.figure} {...item} />)}
+      </ul>
+    </section>
+
+    <section className="mt-16">
       <h2 className="font-display text-3xl font-bold text-teal">Black students have less access to the courses that lead to computing</h2>
       <ul className="mt-8 space-y-6">
         {courseAccess.map((item) => <EvidenceRow key={item.figure} {...item} />)}

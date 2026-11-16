@@ -17,7 +17,6 @@ export function HomePage() {
     <section className="border-b border-line bg-cream">
       <div className="shell grid gap-8 py-10 sm:py-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-14 lg:py-16">
         <div>
-          <p className="eyebrow">A practical path into AI</p>
           <h1 className="mt-3 max-w-3xl font-display text-4xl font-bold leading-[1.04] tracking-tight text-teal sm:text-5xl lg:text-6xl">A clear path into AI.</h1>
           <p className="mt-4 max-w-xl text-lg leading-7 text-muted">Learn how AI works, practice the skills behind it, and build proof of what you can do.</p>
           <div className="mt-6 flex flex-wrap gap-3"><Link to="/learn/what-is-ai" className="button button-primary">Start the 5-minute AI lesson <ArrowRight size={17} className="ml-2" /></Link><Link to="/learn" className="button button-secondary">Explore the curriculum</Link></div>
