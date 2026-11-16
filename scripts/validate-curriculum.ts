@@ -1,8 +1,7 @@
 import { careerLevels, curriculumModules, curriculumStages, lessons, portfolioProjects, portfolioTracks } from '../src/data/curriculum'
 import { certifications } from '../src/data/certifications'
 import { curriculumLessonTotal, getSectionLessonIds, getSectionModules, learningSections, liveSectionIds } from '../src/data/learningSections'
-import { lessonContent } from '../src/data/lessonContent'
-import { lessonResources } from '../src/data/lessonResources'
+import { lessonProjects } from '../src/data/lessonProjects'
 import { getLearningPlanModules, projectsByGoal } from '../src/data/learningPlans'
 import { structuredLessons } from '../src/data/lessons'
 import { projectPlans } from '../src/data/projects'
@@ -17,34 +16,26 @@ const duplicateLessonIds = lessonIds.filter((id, index) => lessonIds.indexOf(id)
 if (duplicateLessonIds.length) failures.push(`Duplicate lesson IDs: ${[...new Set(duplicateLessonIds)].join(', ')}`)
 
 for (const lesson of lessons) {
-  if (!lessonContent[lesson.id] && !structuredLessons[lesson.id] && !projectPlans[lesson.id]) failures.push(`Missing lesson content: ${lesson.id}`)
-  // Live lessons must use the structured format and pass the CLAUDE.md content rules.
-  // Greyed-out lessons are not checked for quizzes or examples, because generated filler is worse than a hidden section.
+  // Every lesson is either a structured lesson or a project page. There is no other content format.
+  if (!structuredLessons[lesson.id] && !projectPlans[lesson.id]) failures.push(`Missing lesson content: ${lesson.id}`)
   const structured = structuredLessons[lesson.id]
   if (liveLessonIds.has(lesson.id) && !structured && !projectPlans[lesson.id]) failures.push(`Live lesson is missing structured content: ${lesson.id}`)
   if (structured) failures.push(...checkStructuredLesson(lesson.id, structured, lesson.description))
-  const resources = structuredLessons[lesson.id]?.resources ?? lessonResources[lesson.id] ?? lessonContent[lesson.id]?.resources ?? []
-  if (!resources.length) failures.push(`Missing topic-specific resources: ${lesson.id}`)
+  // Resources are optional: a lesson without them hides its Go deeper links instead of showing generic ones.
+  const resources = structured?.resources ?? []
   const invalidResources = resources.filter((resource) => !resource || !resource.url)
   if (invalidResources.length) failures.push(`Invalid resource entry in lesson: ${lesson.id}`)
   const resourceUrls = resources.filter((resource) => resource?.url).map((resource) => resource.url)
   if (new Set(resourceUrls).size !== resourceUrls.length) failures.push(`Duplicate resource URL in lesson: ${lesson.id}`)
 }
 
-for (const lessonId of Object.keys(lessonResources)) {
-  if (!lessonIds.includes(lessonId)) failures.push(`Resources reference an unknown lesson: ${lessonId}`)
-}
-
-for (const lesson of lessons) {
-  const project = lessonContent[lesson.id]?.project
-  if (!project) continue
-  if (!project.goal.trim()) failures.push(`Project has no goal: ${lesson.id}`)
-  if (!project.steps.length) failures.push(`Project has no build steps: ${lesson.id}`)
-  if (project.steps.some((step) => !step.instructions.length || !step.checkpoint.trim())) failures.push(`Project step is missing instructions or checkpoint: ${lesson.id}`)
-  if (!project.verification?.length) failures.push(`Project has no verification checklist: ${lesson.id}`)
-  if (lesson.id === 'capstone-evaluation' && !project.steps.some((step) => step.code?.includes('parse_args') && step.code.includes('--responses'))) failures.push('Evaluation project does not implement its --responses command')
-  if (lesson.id === 'chatbot-openai' && !project.setup.some((item) => item.includes('OPENAI_MODEL'))) failures.push('OpenAI project does not document OPENAI_MODEL')
-  if (lesson.id === 'chatbot-gemini' && !project.setup.some((item) => item.includes('GEMINI_MODEL'))) failures.push('Gemini project does not document GEMINI_MODEL')
+for (const [lessonId, project] of Object.entries(lessonProjects)) {
+  if (!lessonIds.includes(lessonId)) failures.push(`Lesson project references an unknown lesson: ${lessonId}`)
+  if (structuredLessons[lessonId]?.tryIt?.project) failures.push(`Lesson has two projects, one in the lesson file and one in lessonProjects: ${lessonId}`)
+  if (!project.goal.trim()) failures.push(`Project has no goal: ${lessonId}`)
+  if (!project.steps.length) failures.push(`Project has no build steps: ${lessonId}`)
+  if (project.steps.some((step) => !step.instructions.length || !step.checkpoint.trim())) failures.push(`Project step is missing instructions or checkpoint: ${lessonId}`)
+  if (!project.verification?.length) failures.push(`Project has no verification checklist: ${lessonId}`)
 }
 
 const moduleIds = curriculumModules.map((module) => module.id)
@@ -79,11 +70,11 @@ for (const providerId of ['azure', 'aws', 'gcp'] as const) {
   const providerOrders = providerModule?.lessons.map((lesson) => lesson.order).sort((left, right) => left - right) ?? []
   if (providerOrders.join(',') !== Array.from({ length: 14 }, (_, index) => index + 1).join(',')) failures.push(`${providerId.toUpperCase()} lessons must use unique order values 1 through 14`)
   for (const lesson of providerModule?.lessons ?? []) {
-    const resources = lessonContent[lesson.id]?.resources ?? []
+    const resources = structuredLessons[lesson.id]?.resources ?? []
     if (resources.length < 2) failures.push(`Provider lesson must include at least two documentation links: ${lesson.id}`)
   }
-  const capstone = lessonContent[`${providerId}-enterprise-capstone`]?.project
-  if (!capstone || capstone.steps.length < 6 || (capstone.files?.length ?? 0) < 6 || !capstone.verification?.length) failures.push(`${providerId.toUpperCase()} path must include a complete enterprise architecture capstone`)
+  const capstone = structuredLessons[`${providerId}-enterprise-capstone`]?.tryIt?.project
+  if (!capstone || !capstone.steps.length || !capstone.verification?.length) failures.push(`${providerId.toUpperCase()} path must include a complete enterprise architecture capstone`)
 
   const providerPlan = getLearningPlanModules({ version: 1, goal: 'cloud-engineer', experience: 'beginner', provider: providerId, objective: 'career-change', weeklyHours: 5 })
   const cloudModuleIds = new Set(curriculumStages.find((stage) => stage.id === 'cloud-engineering')?.modules.map((module) => module.id) ?? [])

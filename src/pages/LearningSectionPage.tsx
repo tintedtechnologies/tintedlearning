@@ -3,7 +3,7 @@ import { Link, Navigate, useParams } from 'react-router-dom'
 import { SeoMetadata } from '../components/common/SeoMetadata'
 import { certifications } from '../data/certifications'
 import { curriculumStages, lessons } from '../data/curriculum'
-import { lessonContent } from '../data/lessonContent'
+import { structuredLessons } from '../data/lessons'
 import { projectPlans } from '../data/projects'
 import { curriculumLessonTotal, getSectionModules, learningSectionById } from '../data/learningSections'
 import { useProgress } from '../hooks/useProgress'
@@ -53,11 +53,11 @@ export function LearningSectionPage() {
           {moduleLessons.length > 0 && <ul className="mt-4 divide-y divide-line border-t border-line">
             {moduleLessons.map((lesson) => {
               const complete = progress.completedLessons.includes(lesson.id)
-              const content = lessonContent[lesson.id]
+              const goals = structuredLessons[lesson.id]?.goals ?? []
               const project = projectPlans[lesson.id]
               return <li key={lesson.id} className="flex items-start gap-3 py-4">
                 <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${complete ? 'bg-teal text-white' : 'bg-mist text-teal'}`}>{complete ? <Check size={15} /> : <Circle size={15} />}</span>
-                <div className="min-w-0 flex-1"><Link to={`/learn/${lesson.id}`} className="block"><span className="block font-bold text-ink hover:text-teal">{lesson.title}</span><span className="mt-1 block text-xs text-muted">{project ? project.time : `${lesson.duration} min · ${lesson.difficulty}`}</span><span className="mt-2 block max-w-3xl text-sm leading-6 text-muted">{project ? `${project.whatYouBuild.split('. ')[0]}.` : lesson.description}</span></Link>{!project && content?.learningPoints?.length ? <ul className="mt-2 hidden list-disc space-y-1 pl-4 text-xs leading-5 text-muted sm:block">{content.learningPoints.slice(0, 2).map((point) => <li key={point}>{point}</li>)}</ul> : null}</div>
+                <div className="min-w-0 flex-1"><Link to={`/learn/${lesson.id}`} className="block"><span className="block font-bold text-ink hover:text-teal">{lesson.title}</span><span className="mt-1 block text-xs text-muted">{project ? project.time : `${lesson.duration} min · ${lesson.difficulty}`}</span><span className="mt-2 block max-w-3xl text-sm leading-6 text-muted">{project ? `${project.whatYouBuild.split('. ')[0]}.` : lesson.description}</span></Link>{!project && goals.length ? <ul className="mt-2 hidden list-disc space-y-1 pl-4 text-xs leading-5 text-muted sm:block">{goals.slice(0, 2).map((point) => <li key={point}>{point}</li>)}</ul> : null}</div>
                 <button type="button" onClick={() => progress.setLessonComplete(lesson.id, !complete)} aria-label={`${complete ? 'Mark' : 'Mark'} ${lesson.title} ${complete ? 'incomplete' : 'complete'}`} className="mt-1 shrink-0 text-muted hover:text-teal">{complete ? <Check size={17} /> : <Circle size={17} />}</button>
               </li>
             })}

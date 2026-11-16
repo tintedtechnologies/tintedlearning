@@ -458,4 +458,3 @@ export function isCareerLevelComplete(level: CareerLevel, completedLessonIds: st
   return lessonsComplete && projectsComplete && providerComplete
 }
 
-export const firstLesson = lessons[0]
