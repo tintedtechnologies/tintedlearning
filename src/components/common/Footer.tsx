@@ -24,7 +24,7 @@ export function Footer() {
         </div>
       </div>
       <div className="shell flex flex-col gap-3 border-t border-white/15 py-5 text-xs text-white/55 sm:flex-row sm:items-center sm:justify-between">
-        <span>© 2026 Tinted Learning · A project by <a href="https://tintedtechnologies.com" className="underline hover:text-white" rel="noopener">Tinted Technologies</a></span>
+        <span>© 2026 Tinted Learning · A project by <a href="https://tintedtechnologies.com" className="underline hover:text-white" rel="noopener">Tinted Technologies</a> · v1.1.0</span>
         <div className="flex gap-4">
           <Link to="/terms" className="hover:text-white">Terms</Link>
           <Link to="/privacy" className="hover:text-white">Privacy</Link>

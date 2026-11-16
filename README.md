@@ -9,7 +9,7 @@ Tinted Learning teaches the essential mental model in the app, then points learn
 
 ## Current Release
 
-**v1.0.6**
+**v1.1.0**
 
 This release adds the expanded source-map learning experience: 163 lessons across seven stages, advanced Python and AI Mathematics & Research paths, a standalone Technical Leadership & Communication stage, animated concept explanations, 14-lesson Azure, AWS, and Google Cloud provider paths with enterprise architecture capstones, an expanded browser playground, current cloud certification paths, updated AI security and governance guidance, foldable curriculum stages, and optional Clerk accounts for synced progress, stage tracking, dashboards, and portfolio direction.
 

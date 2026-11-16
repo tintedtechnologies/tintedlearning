@@ -2,7 +2,7 @@ import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { SeoMetadata } from '../components/common/SeoMetadata'
-import { certifications, excludedCertifications } from '../data/certifications'
+import { certifications } from '../data/certifications'
 import { lessons } from '../data/curriculum'
 import { learningSectionById } from '../data/learningSections'
 import type { Certification, CertificationArea, CertificationCost, CertificationLevel } from '../types/curriculum'
@@ -87,22 +87,12 @@ export function CertificationsPage() {
       {shown.length === 0 && <p className="mt-8 text-muted">No credentials match these filters. Try another area, level or cost.</p>}
     </section>
 
-    <section className="mt-16 grid gap-6 md:grid-cols-2">
-      <div className="rounded-3xl border border-line bg-white p-6">
-        <h2 className="font-display text-2xl font-bold text-teal">How to list them</h2>
-        <p className="mt-3 text-sm leading-6 text-muted">List an exam with its name, the issuer and the year you passed it. Put a free badge or a Tinted Learning project next to it, so the reader sees evidence of skill, not only a logo.</p>
-        <p className="mt-3 rounded-xl bg-cream/70 p-3 text-sm leading-6 text-teal">Example: <span className="font-bold">AWS Certified Cloud Practitioner (2026)</span>, with a line below: "Built and deployed Study Tracker to AWS, with private networking and a budget alert."</p>
-      </div>
+    <section className="mt-16">
       <div className="rounded-3xl border border-line bg-white p-6">
         <h2 className="font-display text-2xl font-bold text-teal">Free versus paid</h2>
         <p className="mt-3 text-sm leading-6 text-muted">Many credentials cost money to sit the exam, even when the training is free. Issuers sometimes offer free vouchers or student programs, but these change. Check the official page before you book, and never pay a third-party site for an answer key.</p>
         <p className="mt-3 text-xs leading-5 text-muted">Sections on Tinted Learning that these credentials build on: {['cloud-engineering', 'ai-engineering', 'security', 'python'].map(sectionTitle).join(', ')}.</p>
       </div>
     </section>
-
-    <details className="mt-10 rounded-3xl bg-sand/60 p-6">
-      <summary className="cursor-pointer font-bold text-teal">Credentials we left out</summary>
-      <ul className="mt-3 space-y-2 text-sm leading-6 text-muted">{excludedCertifications.map((item) => <li key={item.name}><span className="font-bold text-teal">{item.name}:</span> {item.reason}</li>)}</ul>
-    </details>
   </main>
 }

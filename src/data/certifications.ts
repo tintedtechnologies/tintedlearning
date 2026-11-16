@@ -280,8 +280,8 @@ export const certifications: Certification[] = [
   },
 ]
 
-/** Credentials excluded from the catalog, with the reason. Kept here so the choice can be reviewed. */
-export const excludedCertifications = [
-  { name: 'Microsoft Certified: Azure AI Engineer Associate (AI-102)', reason: 'The official page says the certification and its renewal assessment are retired.' },
-  { name: 'GitHub Foundations', reason: 'Not found on the official page when checked, so not listed.' },
-]
+/*
+ * Credentials left out of the catalog, with the reason. A record for whoever reviews the list next.
+ * - Microsoft Certified: Azure AI Engineer Associate (AI-102): The official page says the certification and its renewal assessment are retired.
+ * - GitHub Foundations: Not found on the official page when checked, so not listed.
+ */
