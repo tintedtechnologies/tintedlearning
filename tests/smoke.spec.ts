@@ -1,6 +1,13 @@
 import { expect, test } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 
+// The newsletter prompt appears on the second page viewed. Mark it closed for every test except its own,
+// so it never sits over the page a test is checking.
+test.beforeEach(async ({ page }, testInfo) => {
+  if (testInfo.title.includes('newsletter prompt')) return
+  await page.addInitScript(() => window.localStorage.setItem('tl-newsletter-prompt', 'closed'))
+})
+
 test('homepage exposes onboarding routes and donation link', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByRole('heading', { name: 'Start with your goal.' })).toBeVisible()
@@ -415,4 +422,32 @@ test('removed careers and portfolio track pages redirect to live pages', async (
   await expect(page).toHaveURL(/\/learn$/)
   await page.goto('/portfolio/cloud-deployment')
   await expect(page).toHaveURL(/\/portfolio$/)
+})
+
+test('the newsletter prompt appears on the second page on desktop, never on phones, and never again once closed', async ({ page }, testInfo) => {
+  await page.goto('/')
+  test.skip((await page.locator('#newsletter-email').count()) === 0, 'Set VITE_NEWSLETTER_FORM_URL to show the newsletter form.')
+  const prompt = page.getByRole('complementary', { name: 'Get new lessons when they drop' })
+  await expect(prompt).toHaveCount(0)
+
+  // Move to a second page inside the app.
+  if (await page.getByRole('button', { name: 'Open menu' }).count()) await page.getByRole('button', { name: 'Open menu' }).click()
+  await page.getByRole('link', { name: 'About', exact: true }).first().click()
+  await expect(page).toHaveURL(/\/about$/)
+
+  if (testInfo.project.name === 'mobile') {
+    await expect(prompt).toHaveCount(0)
+    return
+  }
+
+  await expect(prompt).toBeVisible()
+  await prompt.getByRole('button', { name: 'No thanks' }).click()
+  await expect(prompt).toHaveCount(0)
+
+  // It stays closed on later pages and after a reload.
+  await page.getByRole('link', { name: 'Learn', exact: true }).first().click()
+  await expect(prompt).toHaveCount(0)
+  await page.reload()
+  await page.goto('/about')
+  await expect(prompt).toHaveCount(0)
 })
