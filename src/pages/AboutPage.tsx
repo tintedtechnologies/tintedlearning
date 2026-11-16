@@ -81,7 +81,8 @@ export function AboutPage() {
             </figure>
           ))}
         </div>
-        <p className="mt-12 max-w-3xl text-lg leading-8 text-ink">Teachers are part of the gap too. The RAND figures above describe the districts, not individual teachers.</p>
+        <p className="mt-12 max-w-3xl text-lg leading-8 text-ink">In high schools where Black and Latino students make up more than three-quarters of enrollment, only 32% offered calculus. That is 18 percentage points below schools with fewer of those students. <a href="https://www.advancedequity.org/briefs/a-second-look-202324crdc" target="_blank" rel="noreferrer" className={linkClass}>Read the analysis of the 2023-24 data</a>.</p>
+        <p className="mt-6 max-w-3xl text-lg leading-8 text-ink">Teachers are part of the gap too. The RAND figures above describe the districts, not individual teachers.</p>
         <p className="mt-6 max-w-3xl text-lg leading-8 text-ink">Students are already using AI. Pew Research Center's 2026 survey found that Black teens use AI chatbots for schoolwork at higher rates than White teens. <a href="https://www.pewresearch.org/internet/2026/02/24/demographic-differences-in-how-teens-use-and-view-ai/" target="_blank" rel="noreferrer" className={linkClass}>Read the Pew report</a>.</p>
       </div>
     </section>
@@ -123,7 +124,7 @@ export function AboutPage() {
           <li key={source.href}><a href={source.href} target="_blank" rel="noreferrer" className={linkClass}>{source.text}</a></li>
         ))}
       </ol>
-      <p className="mt-8 text-base leading-7 text-ink">The international figures and their sources are on the <Link to="/why-this-matters" className={linkClass}>Why this matters</Link> page.</p>
+      <p className="mt-8 text-base leading-7 text-ink">The full evidence, with what each study does and does not show, is on the <Link to="/why-this-matters" className={linkClass}>Why this matters</Link> page.</p>
     </section>
 
     <section className="shell max-w-4xl border-t border-line py-14 text-center">
