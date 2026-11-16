@@ -24,11 +24,14 @@ const titleOf = (id: string) => certifications.find((item) => item.id === id)?.n
 const lessonTitle = (id: string) => lessons.find((lesson) => lesson.id === id)?.title ?? id
 const sectionTitle = (id: string) => learningSectionById.get(id)?.title ?? id
 
+/** One filter row: the label in the first column, its options in the second, so every row lines up. */
 function Chips<T extends string>({ label, options, value, onChange }: { label: string; options: readonly T[]; value: T; onChange: (value: T) => void }) {
-  return <div className="flex flex-wrap items-center justify-center gap-2">
-    <span className="mr-1 text-xs font-bold uppercase tracking-widest text-muted">{label}</span>
-    {options.map((option) => <button key={option} type="button" aria-pressed={value === option} onClick={() => onChange(option)} className={`rounded-full px-3 py-1.5 text-xs font-bold ${value === option ? 'bg-teal text-white' : 'bg-mist text-teal hover:bg-sand'}`}>{option}</button>)}
-  </div>
+  return <>
+    <span className="mt-3 text-center text-xs font-bold uppercase tracking-widest text-muted first:mt-0 sm:mt-0 sm:text-right">{label}</span>
+    <div role="group" aria-label={label} className="flex flex-wrap justify-center gap-2 sm:justify-start">
+      {options.map((option) => <button key={option} type="button" aria-pressed={value === option} onClick={() => onChange(option)} className={`rounded-full px-3 py-1.5 text-xs font-bold ${value === option ? 'bg-teal text-white' : 'bg-mist text-teal hover:bg-sand'}`}>{option}</button>)}
+    </div>
+  </>
 }
 
 function CredentialCard({ item }: { item: Certification }) {
@@ -77,7 +80,7 @@ export function CertificationsPage() {
     </section>
 
     <section className="mt-12">
-      <div className="space-y-3">
+      <div className="mx-auto grid w-fit grid-cols-1 items-center gap-x-4 gap-y-2 sm:grid-cols-[auto_auto] sm:gap-y-3">
         <Chips label="Area" options={areas} value={area} onChange={setArea} />
         <Chips label="Level" options={levels} value={level} onChange={setLevel} />
         <Chips label="Cost" options={costs} value={cost} onChange={setCost} />
