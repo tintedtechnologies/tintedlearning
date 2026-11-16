@@ -223,8 +223,8 @@ export function DashboardPage() {
 
     <section aria-label="Your progress" className="grid gap-4 sm:grid-cols-3">
       <Stat label="Lessons finished" value={`${overallPercent}%`} detail={`${progress.completedLessons.length} of ${lessons.length} lessons`} />
-      <Stat label="Plan progress" value={plan ? `${planPercentage}%` : '—'} detail={plan ? `${completedPlanLessons} of ${planLessons.length} plan lessons` : 'Create a plan to begin'} />
-      <Stat label="Evidence ready" value={plan ? `${completedEvidence} of ${evidence.length}` : '—'} detail="Portfolio items you have finished" />
+      <Stat label="Plan progress" value={plan ? `${planPercentage}%` : 'No plan'} detail={plan ? `${completedPlanLessons} of ${planLessons.length} plan lessons` : 'Create a plan to begin'} />
+      <Stat label="Evidence ready" value={plan ? `${completedEvidence} of ${evidence.length}` : 'No plan'} detail="Portfolio items you have finished" />
     </section>
 
     <section aria-labelledby="position-title" className="rounded-3xl border border-line bg-white p-6 shadow-soft sm:p-8">

@@ -25,10 +25,10 @@ Advance toward a career milestone or certification
 
 ## Main navigation
 
-- `/` — Home and orientation
-- `/learn` — Full curriculum pathway
-- `/playground` — Practice hub
-- `/about` — Mission, access, and what Tinted Learning provides
+- `/`: Home and orientation
+- `/learn`: Full curriculum pathway
+- `/playground`: Practice hub
+- `/about`: Mission, access, and what Tinted Learning provides
 
 ## Curriculum
 
@@ -100,10 +100,10 @@ Each lesson includes:
 
 ## Career milestones
 
-- `/careers/start-here` — First working program and learning plan
-- `/careers/ai-developer` — Working AI application with software evidence
-- `/careers/ai-engineer` — AI system with retrieval/tools/evaluation evidence
-- `/careers/ai-architect` — Cloud architecture, security, reliability, cost, and design evidence
+- `/careers/start-here`: First working program and learning plan
+- `/careers/ai-developer`: Working AI application with software evidence
+- `/careers/ai-engineer`: AI system with retrieval/tools/evaluation evidence
+- `/careers/ai-architect`: Cloud architecture, security, reliability, cost, and design evidence
 
 Each milestone contains:
 
@@ -116,20 +116,20 @@ Each milestone contains:
 
 ## Practice hub
 
-- `/playground` — Practice directory
-- `/playground/python` — Browser Python lab with guided starters
-- `/playground/tokens` — Tokenization visual
-- `/playground/context` — Context-window visual
-- `/playground/temperature` — Temperature visual
-- `/playground/prompt-builder` — Prompt construction tool
-- `/playground/embeddings` — Embedding-space visual
-- `/playground/rag` — Retrieval pipeline visual
-- `/playground/agents` — Agent loop visual
+- `/playground`: Practice directory
+- `/playground/python`: Browser Python lab with guided starters
+- `/playground/tokens`: Tokenization visual
+- `/playground/context`: Context-window visual
+- `/playground/temperature`: Temperature visual
+- `/playground/prompt-builder`: Prompt construction tool
+- `/playground/embeddings`: Embedding-space visual
+- `/playground/rag`: Retrieval pipeline visual
+- `/playground/agents`: Agent loop visual
 
 ## Portfolio
 
-- `/portfolio` — Portfolio studio and tracks
-- `/portfolio/:trackId` — Portfolio track details, deliverables, evidence, and resources
+- `/portfolio`: Portfolio studio and tracks
+- `/portfolio/:trackId`: Portfolio track details, deliverables, evidence, and resources
 
 Portfolio tracks include cloud deployment, CI/CD, infrastructure as code, AI evaluation, technical leadership, and AI mathematics research.
 
