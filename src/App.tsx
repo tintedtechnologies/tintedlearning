@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppLayout } from './layouts/AppLayout'
 import { AboutPage } from './pages/AboutPage'
+import { WhyThisMattersPage } from './pages/WhyThisMattersPage'
 import { HomePage } from './pages/HomePage'
 import { LearnPage } from './pages/LearnPage'
 import { LearningSectionPage } from './pages/LearningSectionPage'
@@ -65,6 +66,7 @@ export default function App() {
           <Route path="/playground/rag" element={<Navigate to="/playground" replace />} />
           <Route path="/playground/agents" element={<AgentsPage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/why-this-matters" element={<WhyThisMattersPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />

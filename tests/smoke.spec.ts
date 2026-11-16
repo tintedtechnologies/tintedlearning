@@ -397,3 +397,13 @@ test('the Instagram link appears in the footer and on the About page', async ({ 
   await page.goto('/', { waitUntil: 'networkidle' })
   await expect(page.getByRole('contentinfo').getByRole('link', { name: 'Instagram' })).toHaveAttribute('href', 'https://www.instagram.com/tintedtechnologies')
 })
+
+test('the About page shows its call to action near the top, and the statistics page links every source', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 })
+  await page.goto('/about', { waitUntil: 'networkidle' })
+  await expect(page.getByRole('link', { name: /Explore the pathway/ }).first()).toBeInViewport()
+  await expect(page.getByRole('link', { name: /Try Python/ }).first()).toBeInViewport()
+  await page.goto('/why-this-matters', { waitUntil: 'networkidle' })
+  await expect(page.getByRole('link', { name: /OECD, PISA 2025 Results/ }).first()).toHaveAttribute('href', 'https://www.oecd.org/en/publications/2026/09/pisa-2025-results-volume-i_5265bfb1.html')
+  await expect(page.getByRole('link', { name: /UNESCO, Global Education Monitoring Report 2023/ })).toHaveAttribute('href', 'https://www.unesco.org/gem-report/en/technology')
+})
