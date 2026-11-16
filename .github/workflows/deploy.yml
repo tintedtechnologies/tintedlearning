@@ -44,6 +44,20 @@ jobs:
               exit 1
               ;;
           esac
+      - name: Check optional form links
+        env:
+          VITE_FEEDBACK_FORM_URL: ${{ secrets.VITE_FEEDBACK_FORM_URL }}
+          VITE_NEWSLETTER_FORM_URL: ${{ secrets.VITE_NEWSLETTER_FORM_URL }}
+        run: |
+          # These do not stop the deploy. A missing link hides that feature on the live site, so say so in the log.
+          if [ -z "$VITE_NEWSLETTER_FORM_URL" ]; then
+            echo "::warning::Secret VITE_NEWSLETTER_FORM_URL is not set. The newsletter signup will not appear in the footer."
+          fi
+          if [ -z "$VITE_FEEDBACK_FORM_URL" ]; then
+            echo "::warning::Secret VITE_FEEDBACK_FORM_URL is not set. The feedback button will not appear."
+          fi
+      - name: Validate curriculum
+        run: npm run validate:curriculum
       - name: Build
         env:
           VITE_CLERK_PUBLISHABLE_KEY: ${{ secrets.VITE_CLERK_PUBLISHABLE_KEY }}
