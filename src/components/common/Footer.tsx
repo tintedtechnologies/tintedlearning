@@ -28,6 +28,7 @@ export function Footer() {
         <div className="flex gap-4">
           <Link to="/terms" className="hover:text-white">Terms</Link>
           <Link to="/privacy" className="hover:text-white">Privacy</Link>
+          <a href="https://www.instagram.com/tintedtechnologies" target="_blank" rel="noreferrer" className="hover:text-white">Instagram</a>
         </div>
       </div>
     </footer>

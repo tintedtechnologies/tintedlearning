@@ -158,7 +158,7 @@ export function PortfolioPage() {
   const { user, isLoaded } = useUser()
 
   if (!trackId) {
-    return <main className="shell py-12 sm:py-16"><p className="eyebrow">Portfolio studio</p>{isLoaded && user ? <PortfolioStudio user={user} /> : <><ExamplePortfolio /><div className="mt-8 flex flex-wrap gap-3"><SignInButton mode="modal"><button type="button" className="button button-primary">Sign in to build your portfolio</button></SignInButton><Link to="/portfolio/ai-system-evaluation" className="button button-secondary">Explore the example project</Link></div></>}</main>
+    return <main className="shell py-12 sm:py-16"><p className="eyebrow">Portfolio studio</p>{!isLoaded ? <p className="mt-8 font-bold text-teal">Loading your portfolio...</p> : user ? <PortfolioStudio user={user} /> : <><ExamplePortfolio /><div className="mt-8 flex flex-wrap gap-3"><SignInButton mode="modal"><button type="button" className="button button-primary">Sign in to build your portfolio</button></SignInButton><Link to="/portfolio/ai-system-evaluation" className="button button-secondary">Explore the example project</Link></div></>}</main>
   }
 
   if (trackId === 'example') return <main className="shell py-12 sm:py-16"><Link to="/portfolio" className="text-xs font-bold uppercase tracking-[0.2em] text-teal hover:text-gold">Back to portfolio studio</Link><div className="mt-8"><ExamplePortfolio /></div><div className="mt-8 flex flex-wrap gap-3"><SignInButton mode="modal"><button type="button" className="button button-primary">Sign in to build your portfolio</button></SignInButton><Link to="/portfolio/ai-system-evaluation" className="button button-secondary">Open the example project</Link></div></main>

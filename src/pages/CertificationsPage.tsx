@@ -15,7 +15,7 @@ const costOrder: Record<CertificationCost, number> = { Free: 0, 'Free training, 
 const levelOrder: Record<CertificationLevel, number> = { Entry: 0, Associate: 1, Professional: 2 }
 
 const paths: { title: string; intro: string; ids: string[] }[] = [
-  { title: 'New to tech', intro: 'Start with free foundations, then one entry certificate.', ids: ['isc2-certified-in-cybersecurity', 'freecodecamp-certifications', 'aws-cloud-practitioner'] },
+  { title: 'New to tech', intro: 'Start with free training, then one entry certificate.', ids: ['freecodecamp-certifications', 'azure-fundamentals', 'aws-cloud-practitioner'] },
   { title: 'Moving into cloud', intro: 'Earn one entry certificate, then an associate-level exam on the same cloud.', ids: ['azure-fundamentals', 'azure-administrator', 'kcna'] },
   { title: 'Moving into AI', intro: 'Learn the vocabulary first, then show you can use AI responsibly.', ids: ['azure-ai-fundamentals', 'aws-ai-practitioner', 'gcp-generative-ai-leader'] },
 ]

@@ -24,6 +24,8 @@ export function AboutPage() {
           <aside className="rounded-3xl border border-teal/15 bg-teal p-6 text-white sm:p-8"><p className="text-xs font-bold uppercase tracking-[0.2em] text-gold">A careful promise</p><h3 className="mt-3 font-display text-2xl font-bold">Free access is the starting point, not the whole answer.</h3><ul className="mt-5 space-y-3 text-sm leading-7 text-white/80"><li>• Learn the core idea in plain language.</li><li>• Practice with code, math, and interactive visuals.</li><li>• Follow authoritative resources for deeper study.</li><li>• Build projects that make understanding visible.</li><li>• Know where real instructors, peers, and experience still matter.</li></ul></aside>
         </div>
 
+        <div className="mt-12 text-center"><p className="text-xs font-bold uppercase tracking-[0.18em] text-teal">Follow Tinted Technologies</p><a href="https://www.instagram.com/tintedtechnologies" target="_blank" rel="noreferrer" className="mt-3 inline-flex font-bold text-teal hover:text-gold">Instagram: @tintedtechnologies</a></div>
+
         <div className="mt-12 text-center"><p className="mx-auto max-w-2xl text-base leading-7 text-muted">Start where you are. Learn the idea, practice the skill, build something real, and collect evidence you can use for your next step.</p><div className="mt-8 flex flex-wrap justify-center gap-3"><Link to="/learn" className="button button-primary">Explore the pathway <ArrowRight size={17} className="ml-2" /></Link><Link to="/playground/python" className="button button-secondary">Try Python <ArrowRight size={17} className="ml-2" /></Link></div></div>
       </div>
     </div>

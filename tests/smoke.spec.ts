@@ -380,12 +380,20 @@ test('the Learn page links to the certifications catalog, and the old URLs redir
   }
 })
 
-test('the ISC2 card says the exam is free under the offer, and mentions the annual fee without a price', async ({ page }) => {
+test('the ISC2 card says the free program closed and shows the exam as paid', async ({ page }) => {
   await page.goto('/learn/sections/certifications', { waitUntil: 'networkidle' })
-  await expect(page.getByText(/annual maintenance fee applies once you are certified/)).toBeVisible()
+  await expect(page.getByText(/closed its free One Million Certified in Cybersecurity program on May 20, 2026/)).toBeVisible()
+  await expect(page.getByText(/exam codes issued under it can be used until December 31, 2026/i)).toBeVisible()
 })
 
 test('the public header has no sign-up prompt', async ({ page }) => {
   await page.goto('/', { waitUntil: 'networkidle' })
   await expect(page.getByRole('button', { name: /^Sign up$/ })).toHaveCount(0)
+})
+
+test('the Instagram link appears in the footer and on the About page', async ({ page }) => {
+  await page.goto('/about', { waitUntil: 'networkidle' })
+  await expect(page.getByRole('link', { name: 'Instagram: @tintedtechnologies' })).toHaveAttribute('href', 'https://www.instagram.com/tintedtechnologies')
+  await page.goto('/', { waitUntil: 'networkidle' })
+  await expect(page.getByRole('contentinfo').getByRole('link', { name: 'Instagram' })).toHaveAttribute('href', 'https://www.instagram.com/tintedtechnologies')
 })
