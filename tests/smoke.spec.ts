@@ -409,3 +409,10 @@ test('the About page shows its call to action near the top, and the statistics p
   await expect(page.getByRole('link', { name: /Gopalan and Frankenberg/ }).first()).toHaveAttribute('href', 'https://www.advancedequity.org/briefs/a-second-look-202324crdc')
   await expect(page.getByText(/OECD|UNESCO|PISA/)).toHaveCount(0)
 })
+
+test('removed careers and portfolio track pages redirect to live pages', async ({ page }) => {
+  await page.goto('/careers/ai-engineer')
+  await expect(page).toHaveURL(/\/learn$/)
+  await page.goto('/portfolio/cloud-deployment')
+  await expect(page).toHaveURL(/\/portfolio$/)
+})

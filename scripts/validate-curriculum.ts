@@ -1,4 +1,4 @@
-import { careerLevels, curriculumModules, curriculumStages, lessons, portfolioProjects, portfolioTracks } from '../src/data/curriculum'
+import { curriculumModules, curriculumStages, lessons, portfolioProjects, portfolioTracks } from '../src/data/curriculum'
 import { certifications } from '../src/data/certifications'
 import { curriculumLessonTotal, getSectionLessonIds, getSectionModules, learningSections, liveSectionIds } from '../src/data/learningSections'
 import { lessonProjects } from '../src/data/lessonProjects'
@@ -169,38 +169,12 @@ for (const lessonId of securitySection?.crossReferenceLessonIds ?? []) {
   if (!lessonIds.includes(lessonId) || securitySectionLessonIds.has(lessonId)) failures.push(`Security provider cross-reference must be a valid related lesson not duplicated in Security: ${lessonId}`)
 }
 
-const careerIds = careerLevels.map((level) => level.id)
-if (new Set(careerIds).size !== careerIds.length) failures.push('Duplicate career level IDs')
-for (const level of careerLevels) {
-  for (const moduleId of level.requiredModuleIds) {
-    if (!moduleIds.includes(moduleId)) failures.push(`Career level ${level.id} references unknown module: ${moduleId}`)
-  }
-  for (const lessonId of [...(level.requiredLessonIds ?? []), ...(level.requiredProjectLessonIds ?? [])]) {
-    if (!lessonIds.includes(lessonId)) failures.push(`Career level ${level.id} references unknown lesson: ${lessonId}`)
-  }
-  for (const providerModuleId of level.providerModuleIds ?? []) {
-    const providerModule = curriculumModules.find((module) => module.id === providerModuleId)
-    if (!providerModule || !providerModule.provider || providerModule.provider === 'shared') failures.push(`Career level ${level.id} references invalid provider module: ${providerModuleId}`)
-  }
-  if (!level.portfolioArtifacts.length) failures.push(`Career level has no portfolio artifacts: ${level.id}`)
-}
-
 for (const track of portfolioTracks) {
   if (!track.deliverables.length || !track.evidence.length || !track.resources.length) failures.push(`Portfolio track is incomplete: ${track.id}`)
 }
-
-for (const projectKey of ['cloudDeployment', 'cicdDeployment', 'infrastructureAsCode'] as const) {
-  const project = portfolioProjects[projectKey]
-  if (!project || !project.files?.length || !project.verification?.length || !project.steps.length) failures.push(`Portfolio project is incomplete: ${projectKey}`)
+for (const [key, project] of Object.entries(portfolioProjects)) {
+  if (!project.steps.length || !project.verification?.length) failures.push(`Portfolio project is incomplete: ${key}`)
 }
-
-const cloudDeploymentCode = portfolioProjects.cloudDeployment.steps[0].code ?? ''
-const terraformCode = portfolioProjects.infrastructureAsCode.steps[0].code ?? ''
-const ciCode = portfolioProjects.cicdDeployment.steps[1].code ?? ''
-if (!terraformCode.includes('google_cloud_run_v2_service_iam_member') || !terraformCode.includes('roles/run.invoker')) failures.push('Terraform walkthrough does not configure Cloud Run invocation access')
-if (!ciCode.includes('deploy-cloudrun@v3') || !ciCode.includes('id-token: write')) failures.push('CI/CD walkthrough does not use the maintained deploy action and OIDC permission')
-if (!cloudDeploymentCode.includes('cat > app.py') || !cloudDeploymentCode.includes('cat > Dockerfile')) failures.push('Cloud deployment walkthrough does not provide separate copyable file creation')
-if (!(portfolioProjects.cicdDeployment.steps[0].code ?? '').includes('test_client')) failures.push('CI/CD test example does not define a runnable Flask test client')
 
 if (failures.length) {
   console.error(failures.join('\n'))

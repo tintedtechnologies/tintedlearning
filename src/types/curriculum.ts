@@ -70,8 +70,6 @@ export interface LearningResource {
 
 export type CurriculumStageId = 'foundation' | 'software-engineering' | 'ai-engineering' | 'cloud-engineering' | 'ai-architecture' | 'research' | 'professional-practice' | 'projects'
 
-export type CareerLevelId = 'start-here' | 'ai-developer' | 'ai-engineer' | 'ai-architect'
-
 export interface CurriculumModule {
   id: string
   title: string
@@ -136,20 +134,3 @@ export interface LearningSection {
   assessmentStageIds?: CurriculumStageId[]
   crossReferenceLessonIds?: string[]
 }
-
-export interface CareerLevel {
-  id: CareerLevelId
-  title: string
-  description: string
-  unlockText: string
-  requiredModuleIds: string[]
-  requiredLessonIds?: string[]
-  projectId?: string
-  requiredProjectLessonIds?: string[]
-  projectCompletion?: 'any' | 'all'
-  providerModuleIds?: string[]
-  portfolioArtifacts: string[]
-  tone: 'teal' | 'gold' | 'neutral'
-}
-
-

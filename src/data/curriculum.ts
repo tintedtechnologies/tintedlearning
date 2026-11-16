@@ -1,4 +1,4 @@
-import type { CareerLevel, CurriculumModule, CurriculumStage, Lesson, LearningResource, PortfolioTrack } from '../types/curriculum'
+import type { CurriculumModule, CurriculumStage, Lesson, LearningResource, PortfolioTrack } from '../types/curriculum'
 import { advancedProviderCloudLessons } from './advancedProviderCloudLessons'
 import { applyCloudTrackPlan, cloudTrackOrder } from './cloudTrackPlan'
 import { orientationLessons } from './orientationLessons'
@@ -373,64 +373,15 @@ export const curriculumStages: CurriculumStage[] = [
   },
 ]
 
-export const careerLevels: CareerLevel[] = [
-  { id: 'start-here', title: 'Start Here', description: 'Build the foundation that makes engineering practice approachable.', unlockText: 'Begin with Foundations.', requiredModuleIds: ['ai-fundamentals', 'computing-math', 'python'], requiredLessonIds: lessonIds('what-is-ai', 'how-ai-learns', 'machine-learning', 'python-basics').map((lesson) => lesson.id), portfolioArtifacts: ['A written learning plan and a first working Python program.'], tone: 'neutral' },
-  { id: 'ai-developer', title: 'AI Developer', description: 'Build and explain a working AI application with dependable software boundaries.', unlockText: 'Complete Foundations, Software Engineering, and the developer project.', requiredModuleIds: ['git-github', 'linux-cli', 'apis-rest', 'http-networking', 'databases-sql', 'data-structures', 'testing-debugging', 'docker'], requiredLessonIds: lessonIds('what-is-ai', 'machine-learning', 'python-basics', 'python-data-structures', 'python-files-and-errors', 'python-apis', 'algorithms-and-data-structures', 'ai-apis', 'git-github', 'linux-cli', 'http-networking', 'databases-sql', 'testing-debugging', 'docker').map((lesson) => lesson.id), projectId: 'developer-project', requiredProjectLessonIds: lessonIds('chatbot-concepts', 'chatbot-openai', 'chatbot-gemini', 'chatbot-local').map((lesson) => lesson.id), projectCompletion: 'any', portfolioArtifacts: ['A public Git repository', 'README with setup and decisions', 'Automated tests', 'A working API-backed or local AI application'], tone: 'teal' },
-  { id: 'ai-engineer', title: 'AI Engineer', description: 'Ship model-powered systems with retrieval, tools, evaluation, guardrails, and observability.', unlockText: 'Complete AI Engineering and the engineer project.', requiredModuleIds: ['llms', 'prompting', 'ai-apis', 'observability'], requiredLessonIds: lessonIds('large-language-models', 'tokens', 'context-windows', 'prompt-engineering', 'structured-outputs', 'embeddings', 'vector-databases', 'rag', 'tool-calling', 'ai-agents', 'data-and-evaluation', 'evaluating-ai-responses', 'ai-assistants', 'responsible-ai', 'ai-observability').map((lesson) => lesson.id), projectId: 'engineer-project', requiredProjectLessonIds: lessonIds('build-a-chatbot', 'capstone-rag', 'capstone-agent').map((lesson) => lesson.id), projectCompletion: 'any', portfolioArtifacts: ['A tested RAG or agent repository', 'Evaluation dataset and results', 'Threat model and guardrail decisions', 'Tracing or observability evidence'], tone: 'gold' },
-  { id: 'ai-architect', title: 'AI Architect', description: 'Defend system decisions across cloud, reliability, security, enterprise integration, and cost.', unlockText: 'Complete architecture lessons, one cloud provider path, and the architecture project.', requiredModuleIds: ['cloud-fundamentals', 'system-design', 'distributed-systems', 'scalability', 'reliability', 'security-governance', 'cost-optimization', 'architecture-patterns', 'enterprise-integration', 'architecture-decision-records'], requiredLessonIds: lessonIds('inference-and-deployment', 'ai-cost-and-performance', 'ai-security', 'ai-threat-modeling', 'ai-identity-and-secrets', 'ai-privacy', 'ai-secure-deployment', 'ai-governance', 'cloud-fundamentals', 'iam-security', 'cloud-storage-compute', 'cloud-networking', 'containers-serverless', 'ci-cd', 'infrastructure-as-code', 'system-design', 'distributed-systems', 'scalability', 'reliability', 'cost-optimization', 'architecture-patterns', 'enterprise-integration', 'architecture-decision-records').map((lesson) => lesson.id), providerModuleIds: ['azure-track', 'aws-track', 'gcp-track'], projectId: 'architecture-project', requiredProjectLessonIds: ['capstone-evaluation'], projectCompletion: 'all', portfolioArtifacts: ['Deployed cloud architecture', 'Architecture diagram and ADRs', 'Reliability and incident plan', 'Threat model and security controls', 'Cost estimate and optimization plan', 'Final design review presentation'], tone: 'neutral' },
-]
-
 export const curriculumModules = curriculumStages.flatMap((stage) => stage.modules)
 
 export const portfolioTracks: PortfolioTrack[] = [
-  {
-    id: 'github-pages-portfolio', title: 'Publish your engineering portfolio', tone: 'teal',
-    description: 'Use GitHub to publish a simple portfolio site that links to your repositories, deployed demos, architecture decisions, and evaluation evidence.',
-    deliverables: ['A public GitHub repository with a clear README', 'A GitHub Pages site with project summaries and links', 'A short About page describing your target role and technical focus', 'A projects page showing screenshots, live URLs, architecture diagrams, and tradeoffs'],
-    evidence: ['Each project has setup and verification instructions', 'Every live demo links to source code', 'Secrets and private data are excluded', 'The portfolio explains what changed after testing or deployment'],
-    resources: [resource('GitHub Pages documentation', 'GitHub', 'Publish a static portfolio directly from a GitHub repository.', 'https://docs.github.com/en/pages/getting-started-with-github-pages'), resource('GitHub Skills', 'GitHub', 'Practice repositories, pull requests, reviews, and Actions with guided exercises.', 'https://skills.github.com/')],
-  },
-  {
-    id: 'cloud-deployment', title: 'Deploy a real AI application', tone: 'gold',
-    description: 'Use the complete Google Cloud walkthrough now, then compare the equivalent Azure Container Apps and AWS ECS Express Mode architecture paths.',
-    deliverables: ['A deployed service on Azure, AWS, or GCP', 'A public or authenticated demo URL', 'A deployment README with architecture and operating costs', 'A threat model covering identity, data, tools, and provider boundaries'],
-    evidence: ['Deployment works from a clean checkout', 'Secrets are stored outside the repository', 'Logs and health checks are visible', 'The service has a documented rollback or recovery path', 'The portfolio records provider, region, service choices, and cost assumptions'],
-    resources: [resource('Azure Container Apps quickstart', 'Microsoft Learn', 'Deploy source code to Azure Container Apps with the current Azure CLI workflow.', 'https://learn.microsoft.com/en-us/azure/container-apps/quickstart-code-to-cloud'), resource('Azure Container Apps GitHub Actions', 'Microsoft Learn', 'Automate revisions with Azure login, managed identity, ACR, and the deployment action.', 'https://learn.microsoft.com/en-us/azure/container-apps/github-actions'), resource('AWS ECS Express Mode migration', 'AWS', 'Use the current AWS path recommended for new deployments after App Runner availability changes.', 'https://docs.aws.amazon.com/apprunner/latest/dg/apprunner-availability-change.html'), resource('Google Cloud Architecture Center', 'Google Cloud', 'Study Google Cloud architecture patterns and implementation guidance.', 'https://cloud.google.com/architecture')],
-  },
-  {
-    id: 'cicd-deployment', title: 'Automate CI/CD deployment', tone: 'neutral',
-    description: 'Make every change pass tests and security checks before a repeatable deployment promotes the same artifact to an environment.',
-    deliverables: ['A GitHub Actions workflow', 'Automated tests and linting on pull requests', 'A built and scanned artifact', 'A staging deployment with a documented promotion or rollback path'],
-    evidence: ['A failing test blocks the workflow', 'A successful commit produces a traceable artifact', 'Deployment status and logs are visible', 'The README explains environment variables and approvals', 'The workflow does not expose secrets in logs'],
-    resources: [resource('GitHub Actions documentation', 'GitHub', 'Build workflows for testing, artifacts, releases, and deployment automation.', 'https://docs.github.com/en/actions'), resource('DevOps architecture', 'Google Cloud', 'Study continuous integration, delivery, deployment strategies, and operational feedback.', 'https://cloud.google.com/architecture/devops')],
-  },
   {
     id: 'ai-system-evaluation', title: 'Evaluate and operate an AI system', tone: 'teal',
     description: 'Build a provider-neutral evaluation harness that makes quality, safety, latency, cost, and failure modes visible before an AI feature reaches users.',
     deliverables: ['A representative evaluation case set', 'A versioned rubric and deterministic checks', 'Baseline and candidate comparison results', 'Failure taxonomy and red-team cases', 'Threat model with mitigations and residual risks', 'README with reproduction, limitations, and operating plan'],
     evidence: ['The same case set runs against multiple versions', 'Results include quality, safety, latency, and cost signals', 'High-severity failures have owners and mitigations', 'Provider, model, prompt, retrieval, and evaluator versions are recorded', 'The harness can run locally without exposing secrets or private data', 'The portfolio explains what the evaluation cannot prove'],
     resources: [resource('Full Stack Deep Learning', 'FSDL', 'Study evaluation, observability, deployment, and the full lifecycle of AI applications.', 'https://fullstackdeeplearning.com/llm-bootcamp/'), resource('MLflow evaluation', 'MLflow', 'Explore evaluation datasets, scorers, traces, and monitoring for generative AI applications.', 'https://mlflow.org/docs/latest/genai/eval-monitor/'), resource('OWASP GenAI Top 10', 'OWASP', 'Review current risks such as prompt injection, sensitive information disclosure, excessive agency, and unbounded consumption.', 'https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/')],
-  },
-  {
-    id: 'infrastructure-as-code-execution', title: 'Execute infrastructure as code', tone: 'gold',
-    description: 'Provision a small cloud environment from versioned Terraform, review the plan, apply it safely, and destroy it when finished.',
-    deliverables: ['A Terraform repository with variables and outputs', 'A reviewed terraform plan artifact', 'A provisioned environment with least-privilege access', 'A documented destroy and recovery procedure'],
-    evidence: ['The infrastructure can be recreated from a clean checkout', 'Remote state and credentials are protected', 'Manual drift is detected or documented', 'Resources are tagged and cost-bounded', 'The portfolio includes the plan, diagram, and provider tradeoffs'],
-    resources: [resource('Terraform tutorials', 'HashiCorp', 'Learn providers, state, modules, plans, applies, and infrastructure lifecycle.', 'https://developer.hashicorp.com/terraform/tutorials'), resource('Get started with Terraform on Azure', 'HashiCorp', 'Practice Azure resource groups, variables, outputs, remote state, and lifecycle operations.', 'https://developer.hashicorp.com/terraform/tutorials/azure-get-started')],
-  },
-  {
-    id: 'technical-leadership-portfolio', title: 'Build a technical leadership portfolio', tone: 'gold',
-    description: 'Lead a bounded initiative from customer discovery through scope, business case, decision, delivery plan, demo, negotiation, and reflection.',
-    deliverables: ['A customer discovery and stakeholder brief', 'A scope of work with exclusions and acceptance criteria', 'A value proposition and business case', 'A decision memo and customer-centered demo script', 'A risk-first delivery plan and negotiation log', 'A reflection that records feedback, changed assumptions, and next practice'],
-    evidence: ['At least three stakeholder perspectives are represented', 'Claims are separated from assumptions and supported by evidence', 'The scope makes ownership, change control, and acceptance visible', 'The business case includes cost, risk, alternatives, and sensitivity', 'The portfolio does not expose private data or promise unsupported outcomes', 'A reviewer can understand the decision and what should happen next'],
-    resources: [resource('The Mom Test', 'Rob Fitzpatrick', 'Learn how to ask customer questions that uncover real behavior and problems.', 'http://momtestbook.com/'), resource('Google technical writing', 'Google', 'Practice clear technical explanations, structure, and audience-aware documentation.', 'https://developers.google.com/tech-writing'), resource('Principled negotiation', 'Harvard Program on Negotiation', 'Study interests, options, objective criteria, and durable agreements.', 'https://www.pon.harvard.edu/about/what-is-negotiation/')],
-  },
-  {
-    id: 'ai-mathematics-research', title: 'Publish an AI mathematics investigation', tone: 'teal',
-    description: 'Formulate a mathematical question, derive and implement a method, run reproducible experiments, analyze uncertainty, and publish an evidence-backed conclusion.',
-    deliverables: ['A research proposal with hypothesis, assumptions, variables, and baseline', 'A tested Python implementation of the mathematical method', 'Reproducible experiment scripts and environment instructions', 'Results with uncertainty, sensitivity, or error analysis', 'A technical report with derivation, failure cases, and limitations', 'A short presentation explaining what the evidence does and does not show'],
-    evidence: ['A clean checkout reproduces the main result', 'Tests cover known cases and numerical edge cases', 'Data provenance, seeds, versions, and parameters are recorded', 'The report distinguishes observations from interpretations', 'The conclusion includes limitations and a follow-up experiment', 'The work uses public or synthetic data with appropriate attribution'],
-    resources: [resource('Scientific Python ecosystem', 'SciPy', 'Use NumPy, SciPy, Matplotlib, and related tools for reproducible computational experiments.', 'https://scipy.org/'), resource('The Turing Way', 'The Turing Way', 'Learn practical reproducibility, project organization, documentation, and open research practices.', 'https://book.the-turing-way.org/'), resource('Numerical accuracy', 'MIT OpenCourseWare', 'Study approximation, floating-point error, stability, and numerical computation.', 'https://ocw.mit.edu/courses/18-330-introduction-to-numerical-analysis-spring-2004/')],
   },
 ]
 
@@ -449,12 +400,3 @@ export function getOrderedModuleLessons(moduleId: string) {
 export function getCurriculumLessonSequence() {
   return curriculumStages.flatMap((stage) => stage.modules.flatMap((module) => getOrderedModuleLessons(module.id)))
 }
-
-export function isCareerLevelComplete(level: CareerLevel, completedLessonIds: string[]) {
-  const lessonsComplete = (level.requiredLessonIds ?? []).every((lessonId) => completedLessonIds.includes(lessonId))
-  const projectIds = level.requiredProjectLessonIds ?? []
-  const projectsComplete = !projectIds.length || (level.projectCompletion === 'all' ? projectIds.every((lessonId) => completedLessonIds.includes(lessonId)) : projectIds.some((lessonId) => completedLessonIds.includes(lessonId)))
-  const providerComplete = !level.providerModuleIds?.length || level.providerModuleIds.some((moduleId) => getModuleProgress(curriculumModules.find((module) => module.id === moduleId)!, completedLessonIds).complete)
-  return lessonsComplete && projectsComplete && providerComplete
-}
-

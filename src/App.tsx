@@ -20,7 +20,6 @@ const ContextPage = lazy(() => import('./pages/ContextPage').then((module) => ({
 const EmbeddingsPage = lazy(() => import('./pages/EmbeddingsPage').then((module) => ({ default: module.EmbeddingsPage })))
 const playgroundLoading = <p className="shell py-16 text-muted">Loading the playground…</p>
 import { ScrollToTop } from './components/common/ScrollToTop'
-import { CareerPage } from './pages/CareerPage'
 import { PythonPage } from './pages/PythonPage'
 import { PortfolioPage } from './pages/PortfolioPage'
 import { PortfolioSharePage } from './pages/PortfolioSharePage'
@@ -51,7 +50,7 @@ export default function App() {
         <Route path="/learn/chatbot-production" element={<Navigate to="/learn/build-a-chatbot" replace />} />
         <Route path="/learn/chatbot-concepts" element={<Navigate to="/learn/large-language-models" replace />} />
         <Route path="/learn/:lessonId" element={<LessonPage />} />
-        <Route path="/careers/:careerId" element={<CareerPage />} />
+        <Route path="/careers/*" element={<Navigate to="/learn" replace />} />
         <Route path="/portfolio" element={<PortfolioPage />} />
         <Route path="/portfolio/share" element={<PortfolioSharePage />} />
         <Route path="/portfolio/example" element={<PortfolioPage />} />

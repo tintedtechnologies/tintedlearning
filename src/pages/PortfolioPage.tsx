@@ -11,22 +11,11 @@ import { useProgress } from '../hooks/useProgress'
 import type { PortfolioAccomplishment, PortfolioProfile } from '../types/portfolio'
 
 const projectByTrack: Record<string, keyof typeof portfolioProjects> = {
-  'cloud-deployment': 'cloudDeployment',
-  'cicd-deployment': 'cicdDeployment',
-  'infrastructure-as-code-execution': 'infrastructureAsCode',
   'ai-system-evaluation': 'aiSystemEvaluation',
-  'technical-leadership-portfolio': 'technicalLeadershipPortfolio',
-  'ai-mathematics-research': 'aiMathematicsResearchPortfolio',
 }
 
 const projectMetadata: Record<string, { difficulty: string; time: string; cost: string; setup: string }> = {
-  'github-pages-portfolio': { difficulty: 'Beginner', time: '2-4 hours', cost: 'Free', setup: 'GitHub account' },
-  'cloud-deployment': { difficulty: 'Intermediate', time: '4-8 hours', cost: 'Cloud billing may apply', setup: 'Cloud account, CLI, Docker' },
-  'cicd-deployment': { difficulty: 'Advanced', time: '6-10 hours', cost: 'Cloud billing may apply', setup: 'GitHub Actions and cloud IAM' },
   'ai-system-evaluation': { difficulty: 'Advanced', time: '8-12 hours', cost: 'Free with local mock; provider costs vary', setup: 'Python and evaluation cases' },
-  'infrastructure-as-code-execution': { difficulty: 'Advanced', time: '6-10 hours', cost: 'Cloud billing may apply', setup: 'Terraform and cloud account' },
-  'technical-leadership-portfolio': { difficulty: 'Advanced', time: '8-12 hours', cost: 'Free', setup: 'Stakeholder case and reviewer' },
-  'ai-mathematics-research': { difficulty: 'Advanced', time: '10-16 hours', cost: 'Free with public or synthetic data', setup: 'Python and scientific libraries' },
 }
 
 /** A sample entry for new users. Nothing is saved until they choose to use it. */
