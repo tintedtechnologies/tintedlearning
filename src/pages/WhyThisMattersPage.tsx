@@ -4,7 +4,7 @@ import { SeoMetadata } from '../components/common/SeoMetadata'
 
 const teacherAccess = [
   {
-    figure: '27% vs 11%',
+    figure: '27% vs 11% (fall 2023)',
     text: 'of school districts had given teachers AI training by fall 2023. The first number is for districts serving mostly White students. The second is for districts serving mostly students of color. The figure counts districts that offered training, not how many teachers attended.',
     source: 'RAND, The State of Public Education in 2024',
     url: 'https://www.rand.org/pubs/commentary/2024/08/five-charts-that-tell-us-about-the-state-of-public.html',
@@ -13,41 +13,41 @@ const teacherAccess = [
 
 const courseAccess = [
   {
-    figure: 'Fewer than half',
+    figure: 'Fewer than half (2020-21)',
     text: 'of Black high school students attend a school that offers a full range of math, science and computer science courses.',
     source: 'Civil Rights Data Collection, 2020-21, reported by K-12 Dive',
     url: 'https://www.k12dive.com/news/black-latino-access-stem-courses-civil-rights-data-collection/716794/',
   },
   {
-    figure: '32%',
+    figure: '32% (2023-24)',
     text: 'of high schools where Black and Latino students make up more than three-quarters of enrollment offer calculus. Schools with fewer of those students are 18 percentage points more likely to offer it.',
-    source: 'Civil Rights Data Collection, 2023-24, analyzed by Gopalan and Frankenberg',
+    source: 'Authors\' calculations from the federal 2023-24 Civil Rights Data Collection (Gopalan and Frankenberg)',
     url: 'https://www.advancedequity.org/briefs/a-second-look-202324crdc',
   },
   {
-    figure: '51% and 45%',
+    figure: '51% and 45% (2023-24)',
     text: 'of all U.S. high schools offered computer science and calculus, respectively, in 2023-24. Nearly half of high schools did not offer computer science.',
-    source: 'Civil Rights Data Collection, 2023-24, analyzed by Gopalan and Frankenberg',
+    source: 'Authors\' calculations from the federal 2023-24 Civil Rights Data Collection (Gopalan and Frankenberg)',
     url: 'https://www.advancedequity.org/briefs/a-second-look-202324crdc',
   },
 ]
 
 const resourceAccess = [
   {
-    figure: '25%',
+    figure: '25% (2018)',
     text: 'of Black teens say they are at least sometimes unable to finish homework because they lack a reliable computer or internet connection. Across all teens, the figure is 17%. This survey is from 2018, so it shows the pattern, not today\'s level.',
     source: 'Pew Research Center, 2018 survey of 743 teens',
     url: 'https://www.pewresearch.org/fact-tank/2018/10/26/nearly-one-in-five-teens-cant-always-finish-their-homework-because-of-the-digital-divide/',
   },
   {
-    figure: 'About 1 in 5',
+    figure: 'About 1 in 5 (2026)',
     text: 'teens in households earning under $30,000 a year do all or most of their schoolwork with chatbots\' help. In higher-income households, the figure is 7%.',
     source: 'Pew Research Center, February 2026, survey of 1,458 teens',
     url: 'https://www.pewresearch.org/internet/2026/02/24/demographic-differences-in-how-teens-use-and-view-ai/',
   },
   {
-    figure: 'About 6 in 10',
-    text: 'Black or Hispanic teens say they have used chatbots for schoolwork help. About half of White teens say the same.',
+    figure: 'About 6 in 10 (2026)',
+    text: 'Black or Hispanic teens say they have used chatbots for schoolwork help. Roughly half of White teens say the same.',
     source: 'Pew Research Center, February 2026',
     url: 'https://www.pewresearch.org/internet/2026/02/24/demographic-differences-in-how-teens-use-and-view-ai/',
   },
@@ -95,7 +95,7 @@ function EvidenceRow({ figure, text, source, url }: { figure: string; text: stri
 export function WhyThisMattersPage() {
   return <><SeoMetadata title="Why this matters" description="For Black students and students without the resources to learn computing, the gap starts in school. The sourced evidence, with links to each study." /><main className="shell max-w-4xl py-12 text-center sm:py-16">
     <p className="eyebrow">Why this matters</p>
-    <h1 className="mx-auto mt-3 max-w-3xl font-display text-4xl font-bold leading-tight text-teal sm:text-5xl">The gap starts in high school, and it falls hardest on Black students and students without resources.</h1>
+    <h1 className="mx-auto mt-3 max-w-3xl font-display text-4xl font-bold leading-tight text-teal sm:text-5xl">The gap starts in high school, and it falls hardest on some students, including Black students and students without resources.</h1>
     <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-ink">A student who never gets a computer science or calculus class has fewer ways into AI and computing later. Each figure below links to the study it comes from.</p>
 
     <section className="mt-14">

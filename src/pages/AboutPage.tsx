@@ -40,7 +40,7 @@ export function AboutPage() {
     <header className="shell max-w-4xl pb-12 pt-16 sm:pt-24">
       <p className="eyebrow text-teal">About Tinted Learning</p>
       <h1 className="mx-auto mt-5 max-w-3xl font-display text-5xl font-bold leading-[1.05] tracking-[-0.025em] text-teal sm:text-6xl">A free place to learn AI, from the first idea to a project you can show.</h1>
-      <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-ink">Tinted Learning is a free website that teaches AI and the skills behind it. You can read, practice and build without an account, a degree or special software.</p>
+      <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-ink">Tinted Learning is a free website that teaches AI and the skills behind it. You can read lessons and practice in your browser without an account, a degree or special software. Your portfolio needs a free account, so you can save your work.</p>
       <div className="mt-9 flex flex-wrap justify-center gap-6">
         <Link to="/learn/what-is-ai" className={ctaClass}>Start the 5-minute AI lesson <ArrowRight size={17} className="ml-2" /></Link>
         <Link to="/learn" className={ctaClass}>Browse all sections <ArrowRight size={17} className="ml-2" /></Link>
