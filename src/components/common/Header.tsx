@@ -91,7 +91,7 @@ export function Header() {
             </NavLink>
           ))}
           <a href={donationUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-bold text-teal hover:text-gold"><Coffee size={16} />Donate</a>
-          <AuthSwitch state={steadyState} user={displayUser} />
+          <div className="flex w-36 items-center whitespace-nowrap"><AuthSwitch state={steadyState} user={displayUser} /></div>
         </nav>
 
         <button type="button" className="icon-button md:hidden" onClick={() => setIsOpen((open) => !open)} aria-expanded={isOpen} aria-label={isOpen ? 'Close menu' : 'Open menu'}>
