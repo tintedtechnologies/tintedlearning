@@ -75,7 +75,7 @@ export function Header() {
   const displayUser = user ?? lastUser.current
 
   return (
-    <header className="border-b border-line/80 bg-cream/90 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-line/80 bg-cream/90 backdrop-blur">
       <div className="shell flex h-20 items-center justify-between">
         <Link to="/" className="group flex items-center gap-3" onClick={() => setIsOpen(false)}>
           <img src="/tintedlearninglogo.png" alt="Tinted Learning logo" className="h-12 w-12 shrink-0 rounded-2xl object-contain transition-transform group-hover:-rotate-6" />

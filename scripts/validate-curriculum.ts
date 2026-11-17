@@ -89,7 +89,7 @@ for (const id of lessonIds) {
   if (!curriculumLessonIds.includes(id)) failures.push(`Lesson is not placed in a curriculum module: ${id}`)
 }
 
-const expectedSectionIds = ['foundations', 'math', 'python', 'research', 'software-engineering', 'technical-leadership', 'ai-engineering', 'projects', 'cloud-engineering', 'security', 'certifications']
+const expectedSectionIds = ['foundations', 'math', 'python', 'research', 'software-engineering', 'technical-leadership', 'ai-engineering', 'projects', 'cloud-engineering', 'security', 'game-development', 'vibe-coding', 'certifications']
 if (learningSections.map((section) => section.id).join(',') !== expectedSectionIds.join(',')) failures.push('Learning sections do not match the defined section catalog and order')
 if (new Set(learningSections.map((section) => section.id)).size !== learningSections.length) failures.push('Duplicate learning section IDs')
 const sectionLessonReferences = learningSections.flatMap((section) => getSectionLessonIds(section))

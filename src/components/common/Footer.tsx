@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { NewsletterSignup } from './NewsletterSignup'
+import { analyticsMeasurementId, resetAnalyticsChoice } from './AnalyticsConsent'
 
 export function Footer() {
   return (
@@ -7,7 +8,7 @@ export function Footer() {
       <div className="shell grid gap-10 py-12 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
           <p className="font-display text-2xl font-bold">Tinted Learning</p>
-          <p className="mt-3 max-w-xs text-sm leading-6 text-white/70">Free AI education for everyone.</p>
+          <p className="mt-3 max-w-xs text-sm leading-6 text-white/70">Free tech education for everyone.</p>
           <div className="mt-6"><NewsletterSignup /></div>
         </div>
         <div>
@@ -20,15 +21,16 @@ export function Footer() {
         </div>
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">Learn, practice, build</p>
-          <p className="mt-4 text-sm leading-6 text-white/70">A free path into AI for people wherever they are starting from.</p>
+          <p className="mt-4 text-sm leading-6 text-white/70">A free path into tech for people wherever they are starting from.</p>
         </div>
       </div>
       <div className="shell flex flex-col gap-3 border-t border-white/15 py-5 text-xs text-white/55 sm:flex-row sm:items-center sm:justify-between">
-        <span>© 2026 Tinted Learning · A project by <a href="https://tintedtechnologies.com" className="underline hover:text-white" rel="noopener">Tinted Technologies</a> · v1.1.0</span>
+        <span>© 2026 Tinted Learning · A project by <a href="https://tintedtechnologies.com" className="underline hover:text-white" rel="noopener">Tinted Technologies LLC</a> · v1.1.0</span>
         <div className="flex gap-4">
           <Link to="/terms" className="hover:text-white">Terms</Link>
           <Link to="/privacy" className="hover:text-white">Privacy</Link>
           <a href="https://www.instagram.com/tintedtechnologies" target="_blank" rel="noreferrer" className="hover:text-white">Instagram</a>
+          {analyticsMeasurementId && <button type="button" onClick={resetAnalyticsChoice} className="hover:text-white">Analytics settings</button>}
         </div>
       </div>
     </footer>

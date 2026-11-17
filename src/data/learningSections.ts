@@ -73,7 +73,7 @@ const architectureModuleIds = [
  * Sections open to learners. Every other section shows as "Coming soon" on the Learn page.
  * Add a section here only when all of its lessons are rewritten (scripts/validate-curriculum.ts enforces this).
  */
-export const liveSectionIds = ['foundations', 'python', 'math', 'software-engineering', 'ai-engineering', 'cloud-engineering', 'security', 'research', 'technical-leadership', 'projects', 'certifications']
+export const liveSectionIds = ['foundations', 'python', 'math', 'software-engineering', 'ai-engineering', 'cloud-engineering', 'security', 'research', 'technical-leadership', 'projects', 'game-development', 'vibe-coding', 'certifications']
 
 export const isSectionLive = (sectionId: string) => liveSectionIds.includes(sectionId)
 
@@ -180,6 +180,20 @@ export const learningSections: LearningSection[] = [
     kind: 'learning',
     modules: [only('security-governance', securityLessonIds)],
     crossReferenceLessonIds: providerSecurityLessonIds,
+  },
+  {
+    id: 'game-development',
+    title: 'Game Development',
+    description: 'Make small 2D games in Godot with GDScript: movement, pickups, signals, a score, saved best scores, and a game you export and share.',
+    kind: 'learning',
+    modules: [all('game-development')],
+  },
+  {
+    id: 'vibe-coding',
+    title: 'Vibe Coding',
+    description: 'Build with an AI assistant without giving up control: clear goals, small steps, tested and readable code, safe sharing, and a tool you can explain.',
+    kind: 'learning',
+    modules: [all('vibe-coding')],
   },
   {
     id: 'certifications',

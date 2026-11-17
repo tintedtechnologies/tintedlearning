@@ -94,6 +94,10 @@ export function StructuredLessonBody({ lessonId, lesson, answers, onAnswer, onRe
       {lesson.goalSections.map((section) => <div key={section.heading}>
         <h2>{section.heading}</h2>
         {section.paragraphs.map((paragraph) => <p key={paragraph}><Prose text={paragraph} /></p>)}
+        {section.figures?.map((figure) => <figure key={figure.src} className="my-6 overflow-hidden rounded-2xl border border-line bg-white shadow-sm">
+          <img src={figure.src} alt={figure.alt} loading="lazy" className="block h-auto w-full" />
+          <figcaption className="border-t border-line px-4 py-3 text-sm leading-6 text-muted">{figure.caption}<span className="mt-2 block text-xs text-muted/80">Image: <a href={figure.credit.url} target="_blank" rel="noreferrer" className="underline hover:text-teal">{figure.credit.text}</a></span></figcaption>
+        </figure>)}
         <CodeBlock example={section.example} />
       </div>)}
 

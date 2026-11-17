@@ -35,6 +35,8 @@ export type LessonCategory =
   | 'AI Security'
   | 'Professional Practice'
   | 'Projects and Practice'
+  | 'Game Development'
+  | 'Vibe Coding'
 
 export interface Lesson {
   id: string
@@ -68,7 +70,7 @@ export interface LearningResource {
   url: string
 }
 
-export type CurriculumStageId = 'foundation' | 'software-engineering' | 'ai-engineering' | 'cloud-engineering' | 'ai-architecture' | 'research' | 'professional-practice' | 'projects'
+export type CurriculumStageId = 'foundation' | 'software-engineering' | 'ai-engineering' | 'cloud-engineering' | 'ai-architecture' | 'research' | 'professional-practice' | 'projects' | 'game-development' | 'vibe-coding'
 
 export interface CurriculumModule {
   id: string

@@ -12,6 +12,7 @@ const sectionGroups = [
   { title: 'Build skills', ids: ['software-engineering', 'ai-engineering', 'cloud-engineering', 'security'] },
   { title: 'Grow', ids: ['research', 'technical-leadership'] },
   { title: 'Prove it', ids: ['projects'] },
+  { title: 'Make things', ids: ['game-development', 'vibe-coding'] },
 ] as const
 
 export function LearnPage() {
@@ -65,15 +66,15 @@ export function LearnPage() {
   </article>
 
   return <div>
-    <SeoMetadata title="Learn" description="Explore independent sections in AI, math, Python, research, software engineering, AI engineering, cloud, security, and certifications." />
+    <SeoMetadata title="Learn" description="Explore independent sections in tech, from Python and software engineering to cloud, security, AI engineering, math, research, and certifications." />
     <section className="shell py-12 sm:py-16">
       <p className="eyebrow">Learn by section</p>
       <div className="mt-3 flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div>
           <h1 className="section-title">Choose what you want to learn.</h1>
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-muted">Each section stands on its own. New to AI? Start with Foundations, or jump straight to what you need.</p>
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-muted">Each section stands on its own. New to tech? Start with Foundations, or jump straight to what you need.</p>
         </div>
-        {nextLesson && <div className="max-w-sm"><p className="eyebrow">{hasProgress ? 'Continue learning' : 'New here?'}</p><Link to={`/learn/${nextLesson.id}`} className="mt-2 inline-flex items-start gap-2 font-bold leading-6 text-teal hover:text-gold"><span>{hasProgress ? nextLesson.title : 'Start Learning'}</span><ArrowRight size={17} className="mt-1 shrink-0" /></Link>{!hasProgress && <span className="mt-1 block text-xs text-muted">Begin with a five-minute introduction to AI.</span>}</div>}
+        {nextLesson && <div className="max-w-sm"><p className="eyebrow">{hasProgress ? 'Continue learning' : 'New here?'}</p><Link to={`/learn/${nextLesson.id}`} className="mt-2 inline-flex items-start gap-2 font-bold leading-6 text-teal hover:text-gold"><span>{hasProgress ? nextLesson.title : 'Start Learning'}</span><ArrowRight size={17} className="mt-1 shrink-0" /></Link>{!hasProgress && <span className="mt-1 block text-xs text-muted">Begin with the Foundations section.</span>}</div>}
       </div>
     </section>
 

@@ -49,6 +49,27 @@ const supportingResources = {
 }
 
 const lessonCatalog: Lesson[] = [
+  { id: 'godot-what-is-a-game-engine', title: 'What Is a Game Engine?', description: 'Learn the game loop, delta time, and scenes and nodes, the ideas every Godot game uses.', duration: 8, difficulty: 'Beginner', category: 'Game Development', order: 1 },
+  { id: 'godot-first-project', title: 'Your First Godot Project', description: 'Install Godot, create a project, run the main scene and read the project folder.', duration: 8, difficulty: 'Beginner', category: 'Game Development', order: 2 },
+  { id: 'godot-scenes-and-nodes', title: 'Building Scenes From Nodes', description: 'Build a player scene from nodes, save it and place it as an instance in a level.', duration: 8, difficulty: 'Beginner', category: 'Game Development', order: 3 },
+  { id: 'gdscript-basics', title: 'GDScript Basics', description: 'Declare variables, write functions and use if statements in the language Godot uses for game code.', duration: 8, difficulty: 'Beginner', category: 'Game Development', order: 4 },
+  { id: 'godot-player-movement', title: 'Player Movement', description: 'Read keyboard input, set a velocity and move a character that stops at walls.', duration: 8, difficulty: 'Intermediate', category: 'Game Development', order: 5 },
+  { id: 'godot-collisions-and-pickups', title: 'Collisions and Pickups', description: 'Detect a coin with an Area2D, score once and remove the coin after pickup.', duration: 8, difficulty: 'Intermediate', category: 'Game Development', order: 6 },
+  { id: 'godot-signals', title: 'Signals', description: 'Send messages between nodes so a coin can tell the level it was collected, without reaching into other nodes.', duration: 8, difficulty: 'Intermediate', category: 'Game Development', order: 7 },
+  { id: 'godot-ui-and-game-over', title: 'Score, Menus and Game Over', description: 'Keep a score on screen with a CanvasLayer, lay out controls and restart the level with a button.', duration: 8, difficulty: 'Intermediate', category: 'Game Development', order: 8 },
+  { id: 'godot-spawning-and-timers', title: 'Spawning With Timers', description: 'Spawn falling rocks with a Timer, create copies of a scene and remove them when they leave the screen.', duration: 8, difficulty: 'Intermediate', category: 'Game Development', order: 9 },
+  { id: 'godot-saving-high-scores', title: 'Saving High Scores', description: 'Save and load a best score with ConfigFile, using a default for the first run.', duration: 8, difficulty: 'Intermediate', category: 'Game Development', order: 10 },
+  { id: 'godot-coin-dash-capstone', title: 'Capstone: Ship Coin Dash', description: 'Combine the parts into one level, export it for your computer and share it with a README.', duration: 8, difficulty: 'Intermediate', category: 'Game Development', order: 11 },
+  { id: 'vibe-coding-what-it-is', title: 'What Vibe Coding Is', description: 'Describe software in plain words, see where an AI assistant helps and where it does not, and start with a written goal.', duration: 8, difficulty: 'Beginner', category: 'Vibe Coding', order: 1 },
+  { id: 'describing-a-goal-to-an-ai', title: 'Describing a Goal Clearly', description: 'Name inputs, outputs and rules, add examples with exact results, and ask for one change at a time.', duration: 8, difficulty: 'Beginner', category: 'Vibe Coding', order: 2 },
+  { id: 'working-in-small-steps', title: 'Working in Small Steps', description: 'Split a feature into visible steps, run after each one and keep a short log of what changed.', duration: 8, difficulty: 'Beginner', category: 'Vibe Coding', order: 3 },
+  { id: 'reading-ai-generated-code', title: 'Reading AI-Generated Code', description: 'Trace the data, spot shared default values and ask for a plain explanation of every line you keep.', duration: 8, difficulty: 'Intermediate', category: 'Vibe Coding', order: 4 },
+  { id: 'testing-ai-generated-code', title: 'Testing AI-Generated Code', description: 'Check normal, empty and bad input with tests that compare against answers you worked out.', duration: 8, difficulty: 'Intermediate', category: 'Vibe Coding', order: 5 },
+  { id: 'debugging-with-an-ai-assistant', title: 'Debugging With an AI Assistant', description: 'Read a traceback, write a useful bug report and reproduce the bug before you ask for a fix.', duration: 8, difficulty: 'Intermediate', category: 'Vibe Coding', order: 6 },
+  { id: 'checkpoints-with-git', title: 'Checkpoints With Git', description: 'Commit working code before each change, read the diff and restore the checkpoint when a change breaks things.', duration: 8, difficulty: 'Intermediate', category: 'Vibe Coding', order: 7 },
+  { id: 'safety-when-sharing-code', title: 'Safety When You Share Code', description: 'Keep secrets out of chats, avoid running user text as code and check input before the program relies on it.', duration: 8, difficulty: 'Intermediate', category: 'Vibe Coding', order: 8 },
+  { id: 'when-to-stop-prompting-and-design', title: 'When to Stop Prompting and Design', description: 'Recognize when fixes keep breaking each other, then write a one-page design and rebuild from it.', duration: 8, difficulty: 'Intermediate', category: 'Vibe Coding', order: 9 },
+  { id: 'vibe-coding-capstone', title: 'Capstone: A Small Tool You Can Explain', description: 'Build a small tool end to end, check it against requirements and explain it in an honest README.', duration: 8, difficulty: 'Intermediate', category: 'Vibe Coding', order: 10 },
   { id: 'what-is-ai', title: 'What is Artificial Intelligence?', description: 'Define AI and understand how modern systems use patterns to produce useful results.', duration: 5, difficulty: 'Beginner', category: 'AI Foundations', order: 1 },
   { id: 'how-ai-learns', title: 'How Does AI Learn?', description: 'Understand learning from examples, patterns, feedback, and generalization.', duration: 7, difficulty: 'Beginner', category: 'AI Foundations', order: 2 },
   { id: 'machine-learning', title: 'What is Machine Learning?', description: 'Distinguish AI, machine learning, deep learning, and hand-written rules.', duration: 8, difficulty: 'Beginner', category: 'AI Foundations', order: 3 },
@@ -193,6 +214,8 @@ const sourceMapResources = {
 }
 
 const modulePrerequisites: Record<string, string[]> = {
+  'game-development': ['Basic programming: variables, functions, and if statements. Python helps, but it is not required.', 'Godot, a free game engine, installed on your computer.'],
+  'vibe-coding': ['Python basics: functions, lists, dictionaries, and running a script.', 'Git basics from the Software Engineering section: commit, status and diff.'],
   'ai-fundamentals': ['No prior AI knowledge.'],
   'computing-math': ['AI fundamentals or equivalent curiosity about how software learns.'],
   'research-methods': ['Probability and statistics for AI from the Math section.', 'Python basics: functions, loops and reading files.'],
@@ -369,6 +392,22 @@ export const curriculumStages: CurriculumStage[] = [
       moduleWithLessons('math-project', 'AI Mathematics research project', 'Turn a mathematical question into a reproducible model, experiment, and evidence-backed explanation.', lessonIds('math-research-capstone'), sourceMapResources.math),
       moduleWithLessons('data-project', 'Data project', 'Analyze a public dataset honestly: one question, clean data, a clear chart and a report with its limits.', lessonIds('analyze-a-public-dataset')),
       moduleWithLessons('client-project', 'Client project', 'Build something for a real client, from discovery and a signed scope to delivery and an approved case study.', lessonIds('build-for-a-real-client')),
+    ],
+  },
+  {
+    id: 'game-development', eyebrow: 'Build track', title: 'Game Development', tone: 'gold',
+    learnerOutcome: { understand: 'How a game engine runs its loop, and how scenes, nodes, signals and physics work together.', build: 'A playable 2D game with movement, pickups, a score, a game over screen and saved best scores.', show: 'An exported game with a README that explains the controls, the parts and what you would improve next.' },
+    description: 'Make small 2D games with Godot and GDScript, one system at a time, from the first moving character to a shipped build.',
+    modules: [
+      moduleWithLessons('game-development', 'Godot and GDScript', 'Build a playable 2D game in Godot, from the game loop to an exported build.', lessonsInOrder('godot-what-is-a-game-engine', 'godot-first-project', 'godot-scenes-and-nodes', 'gdscript-basics', 'godot-player-movement', 'godot-collisions-and-pickups', 'godot-signals', 'godot-ui-and-game-over', 'godot-spawning-and-timers', 'godot-saving-high-scores', 'godot-coin-dash-capstone')),
+    ],
+  },
+  {
+    id: 'vibe-coding', eyebrow: 'Build track', title: 'Vibe Coding', tone: 'teal',
+    learnerOutcome: { understand: 'How to describe software clearly, check generated code, and keep control of the result.', build: 'A small Python tool built in steps, with tests, checkpoints and a clear design.', show: 'A tested tool with a README that explains how it was built and what was checked.' },
+    description: 'Build with an AI assistant without giving up control: write clear goals, work in small steps, read and test what is generated, and keep honest records.',
+    modules: [
+      moduleWithLessons('vibe-coding', 'Building with an AI assistant', 'Describe, build, read, test and ship small tools with an AI assistant, keeping every step checked.', lessonsInOrder('vibe-coding-what-it-is', 'describing-a-goal-to-an-ai', 'working-in-small-steps', 'reading-ai-generated-code', 'testing-ai-generated-code', 'debugging-with-an-ai-assistant', 'checkpoints-with-git', 'safety-when-sharing-code', 'when-to-stop-prompting-and-design', 'vibe-coding-capstone')),
     ],
   },
 ]

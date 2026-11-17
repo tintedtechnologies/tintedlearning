@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-
-const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID?.trim()
+import { analyticsMeasurementId, useAnalyticsChoice } from './AnalyticsConsent'
 
 declare global {
   interface Window {
@@ -10,22 +9,34 @@ declare global {
   }
 }
 
+/**
+ * Loads Google Analytics only after the visitor allows it. If they later decline,
+ * the standard Google opt-out flag stops measurement for the rest of the visit.
+ */
 export function GoogleAnalytics() {
   const location = useLocation()
+  const choice = useAnalyticsChoice()
 
   useEffect(() => {
-    if (!measurementId) return
+    if (!analyticsMeasurementId) return
+
+    const disableKey = `ga-disable-${analyticsMeasurementId}`
+    if (choice !== 'granted') {
+      if (choice === 'denied') (window as unknown as Record<string, boolean>)[disableKey] = true
+      return
+    }
+    (window as unknown as Record<string, boolean>)[disableKey] = false
 
     if (!window.gtag) {
       const script = document.createElement('script')
       script.async = true
-      script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${analyticsMeasurementId}`
       document.head.appendChild(script)
 
       window.dataLayer = window.dataLayer || []
       window.gtag = (...args: unknown[]) => window.dataLayer.push(args)
       window.gtag('js', new Date())
-      window.gtag('config', measurementId, { send_page_view: false })
+      window.gtag('config', analyticsMeasurementId, { send_page_view: false })
     }
 
     window.gtag('event', 'page_view', {
@@ -33,7 +44,7 @@ export function GoogleAnalytics() {
       page_path: `${location.pathname}${location.search}`,
       page_title: document.title,
     })
-  }, [location])
+  }, [location, choice])
 
   return null
 }

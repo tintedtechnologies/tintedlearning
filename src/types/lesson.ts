@@ -30,9 +30,22 @@ export interface CodeExample {
   runWith?: 'pytest'
 }
 
+export interface LessonFigure {
+  /** Path under public/, starting with a slash. */
+  src: string
+  /** Describes the image for screen readers, in one sentence. */
+  alt: string
+  /** Says what to click or look for, using the numbers shown on the image. */
+  caption: string
+  /** Required for screenshots taken from the Godot documentation. */
+  credit: { text: string; url: string }
+}
+
 export interface GoalSection {
   heading: string
   paragraphs: string[]
+  /** Screenshot-style illustrations placed after the paragraphs. */
+  figures?: LessonFigure[]
   example: CodeExample
 }
 

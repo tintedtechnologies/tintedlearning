@@ -51,3 +51,19 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .resume-print-document h3 { margin: 0.9rem 0 0.25rem; color: #245b56; font-size: 1.1rem; font-weight: 800; }
   .resume-print-document p { margin: 0.3rem 0; font-size: 0.98rem; font-weight: 500; line-height: 1.6; }
 }
+
+/* Homepage: each screen snaps into place while the homepage is open. */
+html.home-snap { scroll-snap-type: y proximity; scroll-padding-top: 5rem; }
+html.home-snap .home-screen { scroll-snap-align: start; }
+
+/* Homepage hero: a gentle rise-in on load and when the rotating word changes. */
+@keyframes home-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.home-rise { animation: home-rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+/* Homepage hero: soft warm and teal glows over the cream background. */
+.home-hero {
+  background:
+    radial-gradient(60rem 30rem at 12% -8%, rgba(222, 166, 103, 0.22), transparent 62%),
+    radial-gradient(50rem 32rem at 92% 6%, rgba(220, 235, 231, 0.9), transparent 60%),
+    #f7f5ef;
+}

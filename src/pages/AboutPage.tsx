@@ -16,8 +16,8 @@ const howItWorks = [
 
 /** What each section teaches, in the learner's terms. Taken from the section's modules. */
 const sections = [
-  { id: 'foundations', title: 'Foundations', intro: 'Start here if AI is new to you.', learn: ['What AI is, how a learning system improves from examples, and how to frame a useful problem', 'The portable cloud ideas behind every provider: identity, storage, networking and containers', 'The programming workflow and math intuition that the rest of the site builds on'] },
-  { id: 'math', title: 'Math', intro: 'The math behind AI, taught for AI.', learn: ['Probability and statistics, vectors and matrices, and what they mean for a model', 'Calculus and gradients: how a model learns by adjusting its numbers', 'Optimization and numerical methods, with a modeling project to finish'] },
+  { id: 'foundations', title: 'Foundations', intro: 'Start here if tech is new to you.', learn: ['What AI is, how a learning system improves from examples, and how to frame a useful problem', 'The portable cloud ideas behind every provider: identity, storage, networking and containers', 'The programming workflow and math intuition that the rest of the site builds on'] },
+  { id: 'math', title: 'Math', intro: 'The math behind AI and data, taught for builders.', learn: ['Probability and statistics, vectors and matrices, and what they mean for a model', 'Calculus and gradients: how a model learns by adjusting its numbers', 'Optimization and numerical methods, with a modeling project to finish'] },
   { id: 'python', title: 'Python', intro: 'From your first program to a complete project.', learn: ['Write scripts, use lists and dictionaries, and read and write files', 'Call web APIs, handle errors, and test your code', 'Build a project with packages, classes and iterators, ready to show'] },
   { id: 'research', title: 'Research', intro: 'Answer a question with evidence.', learn: ['Turn a vague question into one you can test, and collect clean data', 'Design a fair comparison and tell real differences from chance', 'Read a research paper and report your results honestly'] },
   { id: 'software-engineering', title: 'Software Engineering', intro: 'Build Study Tracker, a real Python API, step by step.', learn: ['Use the command line, Git and GitHub to save and share your work', 'Build an API with FastAPI, store data in SQLite, and keep secrets out of the code', 'Test the whole app, add logging, and package it with Docker'] },
@@ -35,14 +35,14 @@ const linkClass = 'font-bold text-teal underline decoration-gold decoration-2 un
 const ctaClass = 'inline-flex items-center font-bold text-teal hover:text-gold'
 
 export function AboutPage() {
-  return <><SeoMetadata title="About Tinted Learning" description="Tinted Learning is a free place to learn AI, from plain-language lessons to browser practice and portfolio projects." /><main className="min-h-[calc(100vh-5rem)] bg-cream text-center">
+  return <><SeoMetadata title="About Tinted Learning" description="Tinted Learning is a free way into tech, from plain-language lessons to browser practice and portfolio projects." /><main className="min-h-[calc(100vh-5rem)] bg-cream text-center">
 
     <header className="shell max-w-4xl pb-12 pt-16 sm:pt-24">
       <p className="eyebrow text-teal">About Tinted Learning</p>
-      <h1 className="mx-auto mt-5 max-w-3xl font-display text-5xl font-bold leading-[1.05] tracking-[-0.025em] text-teal sm:text-6xl">A free place to learn AI, from the first idea to a project you can show.</h1>
-      <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-ink">Tinted Learning is a free website that teaches AI and the skills behind it. You can read lessons and practice in your browser without an account, a degree or special software. Your portfolio needs a free account, so you can save your work.</p>
+      <h1 className="mx-auto mt-5 max-w-3xl font-display text-5xl font-bold leading-[1.05] tracking-[-0.025em] text-teal sm:text-6xl">A free way into tech, from the first idea to a project you can show.</h1>
+      <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-ink">Tinted Learning is a free website that teaches the tech skills behind software, cloud and AI. You can read lessons and practice in your browser without an account, a degree or special software. Your portfolio needs a free account, so you can save your work.</p>
       <div className="mt-9 flex flex-wrap justify-center gap-6">
-        <Link to="/learn/what-is-ai" className={ctaClass}>Start the 5-minute AI lesson <ArrowRight size={17} className="ml-2" /></Link>
+        <Link to="/learn/sections/foundations" className={ctaClass}>Start with Foundations <ArrowRight size={17} className="ml-2" /></Link>
         <Link to="/learn" className={ctaClass}>Browse all sections <ArrowRight size={17} className="ml-2" /></Link>
       </div>
     </header>
@@ -66,7 +66,7 @@ export function AboutPage() {
     <section className="shell max-w-5xl py-16 sm:py-20">
       <p className="eyebrow text-teal">What is on the site</p>
       <h2 className="mt-3 font-display text-3xl font-bold text-teal sm:text-4xl">Sections you can start in any order</h2>
-      <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-ink">Each section stands on its own. Start with Foundations if AI is new to you, or go straight to the section for the work you want to do.</p>
+      <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-ink">Each section stands on its own. Start with Foundations if tech is new to you, or go straight to the section for the work you want to do.</p>
       <ul className="mt-10 grid gap-4 text-left sm:grid-cols-2">
         {sections.map((section) => (
           <li key={section.id} className="flex flex-col rounded-2xl border border-line bg-white p-6">
@@ -113,7 +113,7 @@ export function AboutPage() {
     <section className="shell max-w-4xl border-t border-line py-14 text-center">
       <p className="text-lg leading-8 text-ink">Learn the idea, practice the skill, and build something real.</p>
       <div className="mt-8 flex flex-wrap items-center justify-center gap-6">
-        <Link to="/learn/what-is-ai" className={ctaClass}>Start the 5-minute AI lesson <ArrowRight size={17} className="ml-2" /></Link>
+        <Link to="/learn/sections/foundations" className={ctaClass}>Start with Foundations <ArrowRight size={17} className="ml-2" /></Link>
         <Link to="/playground/python" className={ctaClass}>Try Python <ArrowRight size={17} className="ml-2" /></Link>
         <a href="https://www.instagram.com/tintedtechnologies" target="_blank" rel="noreferrer" className="font-bold text-teal hover:text-gold">Instagram: @tintedtechnologies</a>
       </div>

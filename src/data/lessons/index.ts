@@ -1,3 +1,24 @@
+import godotWhatIsAGameEngine from './godot-what-is-a-game-engine'
+import godotFirstProject from './godot-first-project'
+import godotScenesAndNodes from './godot-scenes-and-nodes'
+import gdscriptBasics from './gdscript-basics'
+import godotPlayerMovement from './godot-player-movement'
+import godotCollisionsAndPickups from './godot-collisions-and-pickups'
+import godotSignals from './godot-signals'
+import godotUiAndGameOver from './godot-ui-and-game-over'
+import godotSpawningAndTimers from './godot-spawning-and-timers'
+import godotSavingHighScores from './godot-saving-high-scores'
+import godotCoinDashCapstone from './godot-coin-dash-capstone'
+import vibeCodingWhatItIs from './vibe-coding-what-it-is'
+import describingAGoalToAnAi from './describing-a-goal-to-an-ai'
+import workingInSmallSteps from './working-in-small-steps'
+import readingAiGeneratedCode from './reading-ai-generated-code'
+import testingAiGeneratedCode from './testing-ai-generated-code'
+import debuggingWithAnAiAssistant from './debugging-with-an-ai-assistant'
+import checkpointsWithGit from './checkpoints-with-git'
+import safetyWhenSharingCode from './safety-when-sharing-code'
+import whenToStopPromptingAndDesign from './when-to-stop-prompting-and-design'
+import vibeCodingCapstone from './vibe-coding-capstone'
 import type { StructuredLesson } from '../../types/lesson'
 import cloudFundamentals from './cloud-fundamentals'
 import configAndSecrets from './config-and-secrets'
@@ -164,6 +185,27 @@ import securityBasics from './security-basics'
 
 /** Rewritten lessons for the live sections, keyed by lesson id. */
 export const structuredLessons: Record<string, StructuredLesson> = {
+  'godot-what-is-a-game-engine': godotWhatIsAGameEngine,
+  'godot-first-project': godotFirstProject,
+  'godot-scenes-and-nodes': godotScenesAndNodes,
+  'gdscript-basics': gdscriptBasics,
+  'godot-player-movement': godotPlayerMovement,
+  'godot-collisions-and-pickups': godotCollisionsAndPickups,
+  'godot-signals': godotSignals,
+  'godot-ui-and-game-over': godotUiAndGameOver,
+  'godot-spawning-and-timers': godotSpawningAndTimers,
+  'godot-saving-high-scores': godotSavingHighScores,
+  'godot-coin-dash-capstone': godotCoinDashCapstone,
+  'vibe-coding-what-it-is': vibeCodingWhatItIs,
+  'describing-a-goal-to-an-ai': describingAGoalToAnAi,
+  'working-in-small-steps': workingInSmallSteps,
+  'reading-ai-generated-code': readingAiGeneratedCode,
+  'testing-ai-generated-code': testingAiGeneratedCode,
+  'debugging-with-an-ai-assistant': debuggingWithAnAiAssistant,
+  'checkpoints-with-git': checkpointsWithGit,
+  'safety-when-sharing-code': safetyWhenSharingCode,
+  'when-to-stop-prompting-and-design': whenToStopPromptingAndDesign,
+  'vibe-coding-capstone': vibeCodingCapstone,
   // Foundations: AI basics
   'what-is-ai': whatIsAi,
   'how-ai-learns': howAiLearns,
