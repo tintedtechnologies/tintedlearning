@@ -64,7 +64,6 @@ export function LearningSectionPage() {
             })}
           </ul>}
           {module.prerequisites.length > 0 && section.id !== 'projects' && <p className="mt-4 text-xs leading-5 text-muted"><span className="font-bold text-teal">Helpful context:</span> {module.prerequisites.join(' · ')}</p>}
-          {section.id === 'foundations' && module.id === 'computing-math' && <p className="mt-4 rounded-xl bg-mist/70 px-4 py-3 text-sm leading-6 text-muted">This is the programming and data orientation. Continue with the <Link to="/learn/sections/python" className="font-bold text-teal hover:text-gold">Python section</Link> for hands-on coding, syntax, testing, and project work.</p>}
         </article>
         })}
       </section>

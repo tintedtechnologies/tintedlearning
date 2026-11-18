@@ -16,7 +16,8 @@ const howItWorks = [
 
 /** What each section teaches, in the learner's terms. Taken from the section's modules. */
 const sections = [
-  { id: 'foundations', title: 'Foundations', intro: 'Start here if tech is new to you.', learn: ['What AI is, how a learning system improves from examples, and how to frame a useful problem', 'The portable cloud ideas behind every provider: identity, storage, networking and containers', 'The programming workflow and math intuition that the rest of the site builds on'] },
+  { id: 'ai-foundations', title: 'AI Foundations', intro: 'Start here if AI is new to you.', learn: ['What AI is, how a learning system improves from examples, and how to frame a useful problem', 'Features, labels, bias, errors, and thresholds: how to read a model and its mistakes', 'How to describe a problem so a model can help with it'] },
+  { id: 'cloud-foundations', title: 'Cloud Foundations', intro: 'The portable cloud ideas behind every provider.', learn: ['Shared responsibility, identity, storage, networking, and containers', 'Service models, regions, latency, and backups', 'Delivery and infrastructure as code, so you can run an app the same way every time'] },
   { id: 'math', title: 'Math', intro: 'The math behind AI and data, taught for builders.', learn: ['Probability and statistics, vectors and matrices, and what they mean for a model', 'Calculus and gradients: how a model learns by adjusting its numbers', 'Optimization and numerical methods, with a modeling project to finish'] },
   { id: 'python', title: 'Python', intro: 'From your first program to a complete project.', learn: ['Write scripts, use lists and dictionaries, and read and write files', 'Call web APIs, handle errors, and test your code', 'Build a project with packages, classes and iterators, ready to show'] },
   { id: 'research', title: 'Research', intro: 'Answer a question with evidence.', learn: ['Turn a vague question into one you can test, and collect clean data', 'Design a fair comparison and tell real differences from chance', 'Read a research paper and report your results honestly'] },
@@ -42,7 +43,7 @@ export function AboutPage() {
       <h1 className="mx-auto mt-5 max-w-3xl font-display text-5xl font-bold leading-[1.05] tracking-[-0.025em] text-teal sm:text-6xl">A free way into tech, from the first idea to a project you can show.</h1>
       <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-ink">Tinted Learning is a free website that teaches the tech skills behind software, cloud and AI. You can read lessons and practice in your browser without an account, a degree or special software. Your portfolio needs a free account, so you can save your work.</p>
       <div className="mt-9 flex flex-wrap justify-center gap-6">
-        <Link to="/learn/sections/foundations" className={ctaClass}>Start with Foundations <ArrowRight size={17} className="ml-2" /></Link>
+        <Link to="/learn/sections/ai-foundations" className={ctaClass}>Start with AI Foundations <ArrowRight size={17} className="ml-2" /></Link>
         <Link to="/learn" className={ctaClass}>Browse all sections <ArrowRight size={17} className="ml-2" /></Link>
       </div>
     </header>
@@ -113,7 +114,7 @@ export function AboutPage() {
     <section className="shell max-w-4xl border-t border-line py-14 text-center">
       <p className="text-lg leading-8 text-ink">Learn the idea, practice the skill, and build something real.</p>
       <div className="mt-8 flex flex-wrap items-center justify-center gap-6">
-        <Link to="/learn/sections/foundations" className={ctaClass}>Start with Foundations <ArrowRight size={17} className="ml-2" /></Link>
+        <Link to="/learn/sections/ai-foundations" className={ctaClass}>Start with AI Foundations <ArrowRight size={17} className="ml-2" /></Link>
         <Link to="/playground/python" className={ctaClass}>Try Python <ArrowRight size={17} className="ml-2" /></Link>
         <a href="https://www.instagram.com/tintedtechnologies" target="_blank" rel="noreferrer" className="font-bold text-teal hover:text-gold">Instagram: @tintedtechnologies</a>
       </div>

@@ -8,7 +8,7 @@ const lesson: StructuredLesson = {
     'Decide when a repeated calculation has settled and can stop',
   ],
   bigIdea: "Computers store numbers with a fixed number of digits, so most decimals are rounded slightly, very large results can overflow, and tiny differences can vanish. Numerical methods are the techniques that get reliable answers anyway. A formula that is correct on paper can still fail on a computer if you calculate it the wrong way.",
-  whyItMatters: "Halfway through a long training run, a model's loss suddenly becomes `nan`, meaning not a number, and hours of computing are wasted. Very often the cause is not a wrong formula but a stable one written unstably, such as raising e to the power of a large score. Knowing these traps lets you prevent them, and recognize them quickly when they happen.",
+  whyItMatters: "Halfway through a long calculation, a result suddenly becomes `nan`, meaning not a number, and hours of computing are wasted. Very often the cause is not a wrong formula but a stable one written unstably, such as raising e to the power of a large score. Knowing these traps lets you prevent them, and recognize them quickly when they happen.",
   goalSections: [
     {
       heading: 'Numbers are stored approximately',
@@ -38,7 +38,7 @@ const lesson: StructuredLesson = {
       heading: 'Overflow and how to avoid it',
       paragraphs: [
         "A float can only hold numbers up to about 1.8 times 10 to the power 308. Go beyond that and the calculation overflows: Python raises an error, or other libraries return infinity, which then turns into `nan` as it spreads through later sums.",
-        "The exponential function `exp(x)`, e raised to the power x, grows extremely fast. `math.exp(1000)` overflows. This matters because AI models use exponentials all the time, most famously in softmax, which turns a list of scores into probabilities that add up to 1.",
+        "The exponential function `exp(x)`, e raised to the power x, grows extremely fast. `math.exp(1000)` overflows. This matters because exponentials appear all the time in growth and decay formulas, and in softmax, which turns any list of numbers into shares that add up to 1.",
         "The fix is a rearrangement that gives exactly the same answer: subtract the largest score from every score before taking exponentials. Now the biggest exponent is 0, nothing overflows, and the probabilities come out the same.",
       ],
       example: {
@@ -85,7 +85,7 @@ const lesson: StructuredLesson = {
   ],
   seeItInAction: {
     title: 'The same formula, unstable and stable',
-    intro: "Softmax is used whenever a model picks between options, such as the next word. Here it is written straight from the textbook formula, and then the stable way, on scores large enough to break the first version.",
+    intro: "Softmax is used whenever a formula must share 100 percent among several options, such as the shares of a survey. Here it is written straight from the textbook formula, and then the stable way, on scores large enough to break the first version.",
     example: {
       language: 'python',
       code: code`
@@ -108,7 +108,7 @@ const lesson: StructuredLesson = {
       output: 'naive failed: math range error\nstable: [5e-05, 0.00669, 0.99326]\nadds to 1: True',
     },
     steps: [
-      { code: 'scores = [800, 805, 810]', explanation: "Raw scores of this size are realistic inside large models, especially early in training." },
+      { code: 'scores = [800, 805, 810]', explanation: "Raw scores of this size are realistic in large sums of measurements, especially when the numbers are not scaled first." },
       { code: 'exps = [math.exp(s) for s in scores]', explanation: "The textbook formula takes e to the power of each score. e to the 800 is far beyond the largest float." },
       { code: 'except OverflowError as error:', explanation: "Python refuses with `math range error`. Libraries such as NumPy would quietly return infinity instead, and the probabilities would become `nan` further on." },
       { code: 'exps = [math.exp(s - top) for s in scores]', explanation: "Subtracting the top score shifts every score by the same amount, to -10, -5 and 0. Shifting all scores equally does not change the final probabilities, but now every exponential is at most 1." },
@@ -192,7 +192,7 @@ const lesson: StructuredLesson = {
     paragraphs: [
       "Some problems are sensitive by nature. A problem is ill-conditioned when a tiny change in the input causes a large change in the answer. No clever method can fix that, because the sensitivity belongs to the problem, not to the code.",
       "Subtracting nearly equal numbers is the everyday example. 1.0000001 minus 1.0000000 is 0.0000001, but if each number carries a rounding error around the 16th digit, that error is now a much bigger share of the tiny result. This is called catastrophic cancellation.",
-      "In AI, conditioning shows up when two input features are almost copies of each other, such as height in centimetres and height in inches. The model cannot tell which one deserves the credit, and its learned weights can swing wildly between training runs. Removing duplicate features, or adding a small penalty for large weights, makes the problem better conditioned.",
+      "In a data table, conditioning shows up when two columns are almost copies of each other, such as height in centimetres and height in inches. A fit cannot tell which column deserves the credit, and its coefficients can swing wildly from one sample to the next. Removing duplicate columns, or adding a small penalty for large coefficients, makes the problem better conditioned.",
     ],
   },
 }

@@ -2,7 +2,7 @@ import type { Lesson } from '../types/curriculum'
 
 /**
  * The order, titles, descriptions and levels of each Cloud Engineering provider track, as set by the
- * section plan in CLAUDE.md. Every track follows the same 14-lesson structure.
+ * section plan in CLAUDE.md. Every track follows the same 16-lesson structure.
  */
 type TrackLesson = Pick<Lesson, 'id' | 'title' | 'description' | 'difficulty'>
 
@@ -13,6 +13,8 @@ export const cloudTrackPlan: Record<'azure' | 'aws' | 'gcp', TrackLesson[]> = {
     { id: 'azure-compute-storage', title: 'Azure Compute and Storage', description: 'Choose compute and storage, and keep Study Tracker\'s notes in a locked-down Blob Storage account.', difficulty: 'Intermediate' },
     { id: 'azure-networking', title: 'Azure Networking', description: 'A virtual network with separate subnets, so only the app is public and the database stays private.', difficulty: 'Intermediate' },
     { id: 'azure-deployment', title: 'Deploy an Azure Workload', description: 'Push Study Tracker\'s image to a private registry and run it on Azure Container Apps.', difficulty: 'Intermediate' },
+    { id: 'azure-infrastructure-as-code', title: 'Describe Azure Infrastructure as Code', description: 'Describe Study Tracker\'s Azure resources in a Bicep template, preview every change with what-if, and decide on drift.', difficulty: 'Intermediate' },
+    { id: 'azure-troubleshooting', title: 'Troubleshoot a Failed Azure Deployment', description: 'Find the first failed operation, match its error to a cause, and fix one thing with least privilege.', difficulty: 'Intermediate' },
     { id: 'azure-operations-cost', title: 'Monitoring, Reliability, and Cost on Azure', description: 'Search Study Tracker\'s logs, get an email when errors start, and read what each part costs.', difficulty: 'Intermediate' },
     { id: 'azure-data-platforms', title: 'Azure Databases and Data Platforms', description: 'Move Study Tracker from SQLite to a private, managed PostgreSQL server with automatic backups.', difficulty: 'Intermediate' },
     { id: 'azure-containers-aks', title: 'Containers and Kubernetes on Azure', description: 'When AKS is worth it, and running Study Tracker on a short-lived Kubernetes cluster.', difficulty: 'Advanced' },
@@ -29,6 +31,8 @@ export const cloudTrackPlan: Record<'azure' | 'aws' | 'gcp', TrackLesson[]> = {
     { id: 'aws-compute-storage', title: 'AWS Compute and Storage', description: 'Choose compute and storage, and keep Study Tracker\'s notes in a private S3 bucket its role can read.', difficulty: 'Intermediate' },
     { id: 'aws-networking', title: 'AWS Networking', description: 'A VPC with public and private subnets and security groups, so only the app is public and the database stays private.', difficulty: 'Intermediate' },
     { id: 'aws-deployment', title: 'Deploy an AWS Workload', description: 'Push Study Tracker\'s image to Amazon ECR and run it on ECS Express Mode with public HTTPS.', difficulty: 'Intermediate' },
+    { id: 'aws-infrastructure-as-code', title: 'Describe AWS Infrastructure as Code', description: 'Describe Study Tracker\'s AWS resources in a CloudFormation template, preview updates with change sets, and handle drift.', difficulty: 'Intermediate' },
+    { id: 'aws-troubleshooting', title: 'Troubleshoot a Failed AWS Deployment', description: 'Read stack events in time order, find the first failed resource, and use CloudTrail to explain what changed.', difficulty: 'Intermediate' },
     { id: 'aws-operations-cost', title: 'Monitoring, Reliability, and Cost on AWS', description: 'Search Study Tracker\'s logs in CloudWatch, get an email when errors start, and read what each part costs.', difficulty: 'Intermediate' },
     { id: 'aws-data-platforms', title: 'AWS Databases and Data Platforms', description: 'Move Study Tracker from SQLite to a private, encrypted RDS for PostgreSQL database with automatic backups.', difficulty: 'Intermediate' },
     { id: 'aws-containers-eks', title: 'Containers and Kubernetes on AWS', description: 'When EKS is worth it, and running Study Tracker on a short-lived EKS Auto Mode cluster.', difficulty: 'Advanced' },
@@ -45,6 +49,8 @@ export const cloudTrackPlan: Record<'azure' | 'aws' | 'gcp', TrackLesson[]> = {
     { id: 'gcp-compute-storage', title: 'Google Cloud Compute and Storage', description: 'Choose compute and storage, and keep Study Tracker\'s notes in a private Cloud Storage bucket its service account can read.', difficulty: 'Intermediate' },
     { id: 'gcp-networking', title: 'Google Cloud Networking', description: 'A custom VPC network, firewall rules and private services access, so the database will have no public address.', difficulty: 'Intermediate' },
     { id: 'gcp-deployment', title: 'Deploy a Google Cloud Workload', description: 'Push Study Tracker\'s image to Artifact Registry and run it on Cloud Run with its own service account.', difficulty: 'Intermediate' },
+    { id: 'gcp-infrastructure-as-code', title: 'Describe Google Cloud Infrastructure as Code', description: 'Describe Study Tracker\'s Google Cloud resources in Terraform, save and apply reviewed plans, and keep state safe.', difficulty: 'Intermediate' },
+    { id: 'gcp-troubleshooting', title: 'Troubleshoot a Failed Google Cloud Deployment', description: 'Filter Cloud Logging by severity and time, read the first error, and confirm the fix with a full deployment.', difficulty: 'Intermediate' },
     { id: 'gcp-operations-cost', title: 'Monitoring, Reliability, and Cost on Google Cloud', description: 'Search Study Tracker\'s logs in Cloud Logging, get an email when errors start, and read what each part costs.', difficulty: 'Intermediate' },
     { id: 'gcp-data-platforms', title: 'Google Cloud Databases and Data Platforms', description: 'Move Study Tracker to a private Cloud SQL for PostgreSQL instance, with its URL in Secret Manager.', difficulty: 'Intermediate' },
     { id: 'gcp-containers-gke', title: 'Containers and Kubernetes on Google Cloud', description: 'When GKE is worth it, and running Study Tracker on a short-lived GKE Autopilot cluster.', difficulty: 'Advanced' },

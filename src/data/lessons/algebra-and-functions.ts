@@ -7,8 +7,8 @@ const lesson: StructuredLesson = {
     'Read and write a function as a rule that turns an input into an output',
     'Chain two functions together and work out the final result',
   ],
-  bigIdea: "Algebra uses letters to stand for numbers, so you can write a rule once and use it for any value. A function is one of those rules: it takes an input and gives back exactly one output. An AI model is, at heart, a very large function, built by chaining many small ones together.",
-  whyItMatters: "A taxi app shows you a fare before you book. Behind that number is a function: a base fee plus a price per kilometer, with the distance as the input. When the app adds a late-night surcharge, it applies a second function to the result of the first. If you can read rules like these, you can see what any pricing tool, spreadsheet formula or AI model is really doing with its inputs.",
+  bigIdea: "Algebra uses letters to stand for numbers, so you can write a rule once and use it for any value. A function is one of those rules: it takes an input and gives back exactly one output. Many real calculations, from pricing rules to spreadsheets, are long chains of small functions, one feeding the next.",
+  whyItMatters: "A taxi app shows you a fare before you book. Behind that number is a function: a base fee plus a price per kilometer, with the distance as the input. When the app adds a late-night surcharge, it applies a second function to the result of the first. If you can read rules like these, you can see what any pricing tool or spreadsheet formula is really doing with its inputs.",
   goalSections: [
     {
       heading: 'Letters that stand for numbers',
@@ -36,7 +36,7 @@ const lesson: StructuredLesson = {
       paragraphs: [
         "In math a function is written `f(x) = 2x + 1`. Read it as: the function f takes an input called x, multiplies it by 2 and adds 1. So `f(3)` is 7 and `f(0)` is 1. The `2x` means 2 times x.",
         "A function of the form `f(x) = ax + b` is called linear, because its graph is a straight line. The number `a`, the slope, says how much the output rises when the input goes up by 1. The number `b`, the intercept, is the output when the input is 0.",
-        "Simple prediction models are exactly this. A model that predicts house price from size might be `price = 3000 * size + 50000`. Training such a model means finding good values for the slope and the intercept.",
+        "Estimating a value from a measurement is often exactly this. A rule that estimates house price from size might be `price = 3000 * size + 50000`. Finding good values for the slope and the intercept from past sales is called fitting the line.",
       ],
       example: {
         language: 'python',
@@ -55,7 +55,7 @@ const lesson: StructuredLesson = {
       paragraphs: [
         "You can feed the output of one function into another. This is called composition, and it is written `g(f(x))`: first apply f, then apply g to the result. Order matters, so always work from the inside out.",
         "With `f(x) = x + 2` and `g(x) = 3x`, `g(f(4))` is `g(6)`, which is 18. But `f(g(4))` is `f(12)`, which is 14. Same two functions, different order, different answer.",
-        "Neural networks are built this way. Each layer is a function, and the network passes the input through layer after layer. Many simple functions chained together can describe very complicated patterns.",
+        "Calculators and computer programs are built this way too. Each step is a function, and the result passes from step to step. Many simple functions chained together can describe very complicated patterns.",
       ],
       example: {
         language: 'python',
@@ -162,27 +162,27 @@ const lesson: StructuredLesson = {
       answerIsOutput: true,
     },
     {
-      question: 'A model predicts rent as `rent = 15 * size + 400`, with size in square meters. What does the 15 mean?',
+      question: 'A rent estimate uses `rent = 15 * size + 400`, with size in square meters. What does the 15 mean?',
       options: [
         { text: 'The rent for a flat of size zero', explanation: 'That is the intercept, 400: the output when the input is 0.' },
         { text: 'The average size of a flat', explanation: 'The formula does not contain any average. 15 multiplies the size.' },
-        { text: 'The highest rent the model can predict', explanation: 'A linear function has no maximum. Bigger flats always get higher predictions.' },
+        { text: 'The highest rent the formula can give', explanation: 'A linear function has no maximum. Bigger flats always get higher predictions.' },
         { text: 'How much the predicted rent rises for each extra square meter', explanation: '15 is the slope: each additional square meter adds 15 to the prediction.' },
       ],
       answer: 3,
     },
   ],
-  takeaway: 'A function is a rule from input to output, a linear one is set by its slope and intercept, and AI models are long chains of such rules.',
+  takeaway: 'A function is a rule from input to output, a linear one is set by its slope and intercept, and long calculations are chains of such rules.',
   resources: [
     { title: 'Algebra 1', provider: 'Khan Academy', description: 'Free lessons and practice on variables, equations and functions.', url: 'https://www.khanacademy.org/math/algebra' },
     { title: 'Desmos graphing calculator', provider: 'Desmos', description: 'Type a function like y = 2x + 1 and watch its graph change as you edit it.', url: 'https://www.desmos.com/calculator' },
   ],
   underTheHood: {
-    heading: 'Why neural networks need functions that bend',
+    heading: 'Why some functions bend and others stay straight',
     paragraphs: [
       "Chain two linear functions and you just get another linear function. For example, applying `2x + 1` and then `3x` gives `6x + 3`, still a straight line. Chain a thousand straight lines and the result is still one straight line, which cannot describe a curve.",
-      "Neural networks get around this by placing a simple non-linear function between layers, called an activation function. A popular one, ReLU, is just `max(0, x)`: negative inputs become 0, positive ones pass through unchanged. Its graph has a bend at 0.",
-      "That one bend changes everything. Combine many lines with bends and you can build up almost any shape, like drawing a curve out of many short straight pieces. This is why a network made of very simple parts can learn something as complicated as recognizing faces.",
+      "Mathematicians get around this with functions that bend, such as `max(0, x)`, which sends negative inputs to 0 and passes positive ones through unchanged. A fee that starts only after a threshold is passed is a real example. Its graph has a bend at 0.",
+      "That one bend changes everything. Combine many lines with bends and you can build up almost any shape, like drawing a curve out of many short straight pieces. This is why simple parts can describe something as complicated as the outline of a coastline.",
     ],
   },
 }

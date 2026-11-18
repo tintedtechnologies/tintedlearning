@@ -8,14 +8,14 @@ const lesson: StructuredLesson = {
     'Measure how similar two vectors are with distance and cosine similarity',
   ],
   bigIdea: "Computers cannot compare songs, houses or sentences directly, but they can compare lists of numbers. A vector is an ordered list of numbers that describes something, one number per feature. Once things are vectors, \"how alike are these?\" becomes a calculation.",
-  whyItMatters: "When a streaming service suggests a film you end up loving, it has not watched anything. It has turned each film into a vector of numbers, and turned your taste into one too, then looked for films whose vectors sit close to yours. The same idea powers search engines, product recommendations and the way chatbots find relevant documents.",
+  whyItMatters: "When a streaming service suggests a film you end up loving, it has not watched anything. It has turned each film into a vector of numbers, and turned your taste into one too, then looked for films whose vectors sit close to yours. The same idea sorts photos by similar colors, matches a map position to the nearest shop, and compares recipes by their ingredients.",
   goalSections: [
     {
       heading: 'Turning things into vectors',
       paragraphs: [
         "A feature is one measurable property, such as a house's size or a song's tempo. A vector lists the features in a fixed order, like `[3, 120, 1]` for 3 bedrooms, 120 square meters and 1 garage. The number of features is the vector's length, also called its dimension.",
         "The order must be the same for every item. If one house is `[bedrooms, size]` and another is `[size, bedrooms]`, any comparison between them is nonsense.",
-        "Not every feature starts as a number. Yes or no features become 1 or 0. Categories, like a film's genre, become several 0 or 1 features, one per category. AI models also learn their own vectors for words and images, called embeddings, with hundreds of features nobody chose by hand.",
+        "Not every feature starts as a number. Yes or no features become 1 or 0. Categories, like a film's genre, become several 0 or 1 features, one per category. Sensors and surveys also produce vectors, with one number per reading or answer, such as the temperature, humidity and wind speed a weather station records each hour.",
       ],
       example: {
         language: 'python',
@@ -186,7 +186,7 @@ const lesson: StructuredLesson = {
     paragraphs: [
       "There is a second way to write the dot product: the length of the first vector, times the length of the second, times the cosine of the angle between them. The cosine of an angle is 1 at 0 degrees, 0 at 90 degrees and -1 at 180 degrees.",
       "Rearranging gives cosine similarity: the dot product divided by the two lengths leaves only the cosine of the angle. That is why it ignores size and only measures direction.",
-      "In the example above, `[1, 2]` and `[2, -1]` have a dot product of 0. They sit at exactly 90 degrees to each other, which is called orthogonal. In a learned embedding, two words whose vectors are nearly orthogonal have almost nothing in common, while words pointing the same way, like king and queen, share a lot of meaning.",
+      "In the example above, `[1, 2]` and `[2, -1]` have a dot product of 0. They sit at exactly 90 degrees to each other, which is called orthogonal. Two recipes whose ingredient vectors are nearly orthogonal have almost nothing in common, while recipes pointing the same way, like two tomato sauces, share most of their ingredients.",
     ],
   },
 }

@@ -12,6 +12,60 @@ const sectionLink = (id: string, label: string) => ({ label, to: `/learn/section
 const lessonLink = (id: string, label: string) => ({ label, to: `/learn/${id}` })
 
 export const certifications: Certification[] = [
+  // Networking
+  {
+    id: 'comptia-network-plus',
+    name: 'CompTIA Network+',
+    issuer: 'CompTIA',
+    area: 'Networking',
+    level: 'Entry',
+    cost: 'Paid exam',
+    employerSentence: 'Shows you can install, configure, and troubleshoot wired and wireless networks and the protocols they use.',
+    prepare: { links: [sectionLink('networking-foundations', 'Networking Foundations'), lessonLink('networking-ip-addresses-and-subnets', 'IP Addresses and Subnets'), lessonLink('networking-troubleshooting-a-connection', 'Troubleshooting a Connection')], stillNeed: 'The exam covers vendor-neutral hardware, tools, and performance-based questions in depth. Use the CompTIA exam objectives for the current version.' },
+    officialUrl: 'https://www.comptia.org/certifications/network',
+    lastChecked: certificationLastChecked,
+    note: 'Exam N10-009 (version 9), launched June 20, 2024. CompTIA usually retires an exam about three years after launch.',
+  },
+  {
+    id: 'cisco-ccna',
+    name: 'Cisco Certified Network Associate (CCNA)',
+    issuer: 'Cisco',
+    area: 'Networking',
+    level: 'Associate',
+    cost: 'Paid exam',
+    employerSentence: 'Shows you can configure and troubleshoot switched and routed networks on Cisco equipment, with basic automation and security.',
+    prepare: { links: [sectionLink('networking-foundations', 'Networking Foundations'), lessonLink('networking-dns-names-to-addresses', 'DNS: Names to Addresses')], stillNeed: 'CCNA is hands-on with Cisco devices. Practice in a lab, and check the official page for the current topics and any learning options.' },
+    officialUrl: 'https://www.cisco.com/site/us/en/learn/training-certifications/certifications/enterprise/ccna/index.html',
+    lastChecked: certificationLastChecked,
+    note: 'Exam 200-301 (CCNA). The official page lists the current exam.',
+  },
+  // Programming & Developer Tools
+  {
+    id: 'unity-certified-associate-game-developer',
+    name: 'Unity Certified Associate: Game Developer',
+    issuer: 'Unity',
+    area: 'Programming & Developer Tools',
+    level: 'Associate',
+    cost: 'Paid exam',
+    employerSentence: 'Shows you can build, test, and ship interactive game projects, from scripting to a playable build.',
+    prepare: { links: [sectionLink('game-development', 'Game Development'), lessonLink('godot-coin-dash-capstone', 'Capstone: Ship Coin Dash')], stillNeed: 'The credential tests Unity, not Godot. Godot has no vendor certification, so the Godot lessons are practice rather than exam preparation.' },
+    officialUrl: 'https://unity.com/products/unity-certifications',
+    lastChecked: certificationLastChecked,
+    note: 'The associate exam is 90 minutes with 100 questions, according to the Unity certification page.',
+  },
+  {
+    id: 'github-foundations',
+    name: 'GitHub Foundations',
+    issuer: 'GitHub, with the exam administered by Microsoft',
+    area: 'Programming & Developer Tools',
+    level: 'Entry',
+    cost: 'Paid exam',
+    employerSentence: 'Shows you can work on GitHub: repositories, commits, branches, pull requests, and project boards.',
+    prepare: { links: [sectionLink('vibe-coding', 'Vibe Coding'), lessonLink('git-github', 'Git and GitHub'), lessonLink('checkpoints-with-git', 'Checkpoints With Git')], stillNeed: 'The exam covers GitHub features in depth. Practice on a real repository, and read the official GitHub documentation.' },
+    officialUrl: 'https://learn.microsoft.com/en-us/credentials/certifications/github-foundations',
+    lastChecked: certificationLastChecked,
+    note: 'Exam GH-900. Microsoft Learn describes the certification and its validity. Some third-party sites list different terms, so check the official page before you book.',
+  },
   // Cloud
   {
     id: 'azure-fundamentals',

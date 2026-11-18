@@ -20,16 +20,16 @@ export function LessonPage() {
   const structured = lesson ? structuredLessons[lesson.id] : undefined
   const projectPlan = lesson ? projectPlans[lesson.id] : undefined
 
-  // A new lesson starts from its saved answers.
+  // Each visit starts the quiz empty. Earlier answers are kept in saved progress for the
+  // "tested" record, but they are not shown again, so a learner always answers the questions.
   useEffect(() => {
-    setAnswers(progress.getLessonQuizAnswers(lessonId ?? ''))
+    setAnswers({})
     setEvidenceNote(progress.getLessonEvidenceNote(lessonId ?? ''))
   }, [lessonId])
 
-  // When saved progress finishes loading, merge it in without wiping answers given in the meantime.
+  // When saved progress finishes loading, merge in the evidence note without wiping one typed meanwhile.
   useEffect(() => {
     if (!progress.isLoaded) return
-    setAnswers((current) => ({ ...progress.getLessonQuizAnswers(lessonId ?? ''), ...current }))
     setEvidenceNote((current) => current || progress.getLessonEvidenceNote(lessonId ?? ''))
   }, [progress.isLoaded])
 

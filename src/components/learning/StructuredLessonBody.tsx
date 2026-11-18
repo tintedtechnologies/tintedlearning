@@ -1,4 +1,5 @@
 import { ChevronDown, ExternalLink, RotateCcw } from 'lucide-react'
+import { ConceptScene } from './ConceptScene'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import type { GuidedProject } from '../../types/curriculum'
@@ -94,6 +95,7 @@ export function StructuredLessonBody({ lessonId, lesson, answers, onAnswer, onRe
       {lesson.goalSections.map((section) => <div key={section.heading}>
         <h2>{section.heading}</h2>
         {section.paragraphs.map((paragraph) => <p key={paragraph}><Prose text={paragraph} /></p>)}
+        {section.visual && <ConceptScene visual={section.visual} />}
         {section.figures?.map((figure) => <figure key={figure.src} className="my-6 overflow-hidden rounded-2xl border border-line bg-white shadow-sm">
           <img src={figure.src} alt={figure.alt} loading="lazy" className="block h-auto w-full" />
           <figcaption className="border-t border-line px-4 py-3 text-sm leading-6 text-muted">{figure.caption}<span className="mt-2 block text-xs text-muted/80">Image: <a href={figure.credit.url} target="_blank" rel="noreferrer" className="underline hover:text-teal">{figure.credit.text}</a></span></figcaption>
@@ -130,7 +132,7 @@ export function StructuredLessonBody({ lessonId, lesson, answers, onAnswer, onRe
       </div>)}</div>
     </section>
 
-    <Quiz quiz={lesson.quiz} answers={answers} onAnswer={onAnswer} onRetry={onRetry} />
+    <Quiz key={lessonId} quiz={lesson.quiz} answers={answers} onAnswer={onAnswer} onRetry={onRetry} />
 
     <section className="mx-auto max-w-3xl rounded-3xl bg-sand p-6 sm:p-8" aria-labelledby="takeaway-heading">
       <h2 id="takeaway-heading" className="font-display text-2xl font-bold text-teal">Key takeaway</h2>

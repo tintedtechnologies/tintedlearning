@@ -1,3 +1,19 @@
+import geometryAndTrigonometry from './geometry-and-trigonometry'
+import logicAndProof from './logic-and-proof'
+import sequencesAndGrowth from './sequences-and-growth'
+import featuresAndLabels from './features-and-labels'
+import biasInTrainingData from './bias-in-training-data'
+import errorsConfidenceAndThresholds from './errors-confidence-and-thresholds'
+import cloudServiceModels from './cloud-service-models'
+import latencyAndRegions from './latency-and-regions'
+import backupsAndRecoveryBasics from './backups-and-recovery-basics'
+import installPythonInVsCode from './install-python-in-vs-code'
+import vscodeSetupWalkthrough from './vscode-setup-walkthrough'
+import installAnAiAssistant from './install-an-ai-assistant'
+import projectRulesForYourAssistant from './project-rules-for-your-assistant'
+import permissionsAndApprovals from './permissions-and-approvals'
+import promptInjectionAndUntrustedText from './prompt-injection-and-untrusted-text'
+import checkingPackagesBeforeInstall from './checking-packages-before-install'
 import godotWhatIsAGameEngine from './godot-what-is-a-game-engine'
 import godotFirstProject from './godot-first-project'
 import godotScenesAndNodes from './godot-scenes-and-nodes'
@@ -21,6 +37,43 @@ import whenToStopPromptingAndDesign from './when-to-stop-prompting-and-design'
 import vibeCodingCapstone from './vibe-coding-capstone'
 import type { StructuredLesson } from '../../types/lesson'
 import cloudFundamentals from './cloud-fundamentals'
+import networkingHowDevicesConnect from './networking-how-devices-connect'
+import networkingIpAddressesAndSubnets from './networking-ip-addresses-and-subnets'
+import networkingDnsNamesToAddresses from './networking-dns-names-to-addresses'
+import networkingPortsAndProtocols from './networking-ports-and-protocols'
+import networkingTroubleshootingAConnection from './networking-troubleshooting-a-connection'
+import iotWhatIsIt from './iot-what-is-it'
+import iotSensorsAndReadings from './iot-sensors-and-readings'
+import iotConnectivityChoices from './iot-connectivity-choices'
+import iotDeviceMessages from './iot-device-messages'
+import iotSecurityBasics from './iot-security-basics'
+import aiTypesOfProblems from './ai-types-of-problems'
+import trainingAndUsingAModel from './training-and-using-a-model'
+import whyAiMakesMistakes from './why-ai-makes-mistakes'
+import responsibleDataAndPrivacy from './responsible-data-and-privacy'
+import aiFoundationsCheckpoint from './ai-foundations-checkpoint'
+import cloudCostsAndBudgets from './cloud-costs-and-budgets'
+import monitoringAndLogsBasics from './monitoring-and-logs-basics'
+import cloudFoundationsCheckpoint from './cloud-foundations-checkpoint'
+import networkingDhcpAndNat from './networking-dhcp-and-nat'
+import networkingHttpsAndCertificates from './networking-https-and-certificates'
+import networkingFirewallsAndVpns from './networking-firewalls-and-vpns'
+import networkingHomeAndWifiSecurity from './networking-home-and-wifi-security'
+import networkingCheckpoint from './networking-checkpoint'
+import iotMicrocontrollersAndSafety from './iot-microcontrollers-and-safety'
+import iotPowerAndBatteryLife from './iot-power-and-battery-life'
+import iotOverTheAirUpdates from './iot-over-the-air-updates'
+import iotEdgeAndPrivacy from './iot-edge-and-privacy'
+import iotCheckpoint from './iot-checkpoint'
+import fractionsPercentagesAndUnits from './fractions-percentages-and-units'
+import exponentsAndLogarithms from './exponents-and-logarithms'
+import readingChartsAndGraphs from './reading-charts-and-graphs'
+import setsAndCounting from './sets-and-counting'
+import mathCheckpoint from './math-checkpoint'
+import pythonStringsAndText from './python-strings-and-text'
+import pythonUserInputAndPrograms from './python-user-input-and-programs'
+import pythonReadingCsvFiles from './python-reading-csv-files'
+import pythonBeginnerCheckpoint from './python-beginner-checkpoint'
 import configAndSecrets from './config-and-secrets'
 import iamSecurity from './iam-security'
 import cloudStorageCompute from './cloud-storage-compute'
@@ -184,7 +237,42 @@ import aiThreatModeling from './ai-threat-modeling'
 import securityBasics from './security-basics'
 
 /** Rewritten lessons for the live sections, keyed by lesson id. */
+import authenticationPasswordsAndMfa from './authentication-passwords-and-mfa'
+import encryptionEssentials from './encryption-essentials'
+import secureWebCoding from './secure-web-coding'
+import phishingAndSocialEngineering from './phishing-and-social-engineering'
+import generalThreatModeling from './general-threat-modeling'
+import securityMonitoringAndResponse from './security-monitoring-and-response'
+import securityCheckpoint from './security-checkpoint'
+import openModelsAndRunningLocally from './open-models-and-running-locally'
+import measuringClassifierPerformance from './measuring-classifier-performance'
+import softwareDesignBasics from './software-design-basics'
+import handlingErrorsAndReliability from './handling-errors-and-reliability'
+import planningSmallChanges from './planning-small-changes'
+import codeReviewAndTeamwork from './code-review-and-teamwork'
+import azureInfrastructureAsCode from './azure-infrastructure-as-code'
+import azureTroubleshooting from './azure-troubleshooting'
+import awsInfrastructureAsCode from './aws-infrastructure-as-code'
+import awsTroubleshooting from './aws-troubleshooting'
+import gcpInfrastructureAsCode from './gcp-infrastructure-as-code'
+import gcpTroubleshooting from './gcp-troubleshooting'
 export const structuredLessons: Record<string, StructuredLesson> = {
+  'geometry-and-trigonometry': geometryAndTrigonometry,
+  'logic-and-proof': logicAndProof,
+  'sequences-and-growth': sequencesAndGrowth,
+  'features-and-labels': featuresAndLabels,
+  'bias-in-training-data': biasInTrainingData,
+  'errors-confidence-and-thresholds': errorsConfidenceAndThresholds,
+  'cloud-service-models': cloudServiceModels,
+  'latency-and-regions': latencyAndRegions,
+  'backups-and-recovery-basics': backupsAndRecoveryBasics,
+  'install-python-in-vs-code': installPythonInVsCode,
+  'vscode-setup-walkthrough': vscodeSetupWalkthrough,
+  'install-an-ai-assistant': installAnAiAssistant,
+  'project-rules-for-your-assistant': projectRulesForYourAssistant,
+  'permissions-and-approvals': permissionsAndApprovals,
+  'prompt-injection-and-untrusted-text': promptInjectionAndUntrustedText,
+  'checking-packages-before-install': checkingPackagesBeforeInstall,
   'godot-what-is-a-game-engine': godotWhatIsAGameEngine,
   'godot-first-project': godotFirstProject,
   'godot-scenes-and-nodes': godotScenesAndNodes,
@@ -375,4 +463,60 @@ export const structuredLessons: Record<string, StructuredLesson> = {
   'optimization-and-training': optimizationAndTraining,
   'numerical-methods-for-ai': numericalMethodsForAi,
   'mathematical-modeling-for-ai': mathematicalModelingForAi,
+  'networking-how-devices-connect': networkingHowDevicesConnect,
+  'networking-ip-addresses-and-subnets': networkingIpAddressesAndSubnets,
+  'networking-dns-names-to-addresses': networkingDnsNamesToAddresses,
+  'networking-ports-and-protocols': networkingPortsAndProtocols,
+  'networking-troubleshooting-a-connection': networkingTroubleshootingAConnection,
+  'iot-what-is-it': iotWhatIsIt,
+  'iot-sensors-and-readings': iotSensorsAndReadings,
+  'iot-connectivity-choices': iotConnectivityChoices,
+  'iot-device-messages': iotDeviceMessages,
+  'iot-security-basics': iotSecurityBasics,
+  'ai-types-of-problems': aiTypesOfProblems,
+  'training-and-using-a-model': trainingAndUsingAModel,
+  'why-ai-makes-mistakes': whyAiMakesMistakes,
+  'responsible-data-and-privacy': responsibleDataAndPrivacy,
+  'ai-foundations-checkpoint': aiFoundationsCheckpoint,
+  'cloud-costs-and-budgets': cloudCostsAndBudgets,
+  'monitoring-and-logs-basics': monitoringAndLogsBasics,
+  'cloud-foundations-checkpoint': cloudFoundationsCheckpoint,
+  'networking-dhcp-and-nat': networkingDhcpAndNat,
+  'networking-https-and-certificates': networkingHttpsAndCertificates,
+  'networking-firewalls-and-vpns': networkingFirewallsAndVpns,
+  'networking-home-and-wifi-security': networkingHomeAndWifiSecurity,
+  'networking-checkpoint': networkingCheckpoint,
+  'iot-microcontrollers-and-safety': iotMicrocontrollersAndSafety,
+  'iot-power-and-battery-life': iotPowerAndBatteryLife,
+  'iot-over-the-air-updates': iotOverTheAirUpdates,
+  'iot-edge-and-privacy': iotEdgeAndPrivacy,
+  'iot-checkpoint': iotCheckpoint,
+  'fractions-percentages-and-units': fractionsPercentagesAndUnits,
+  'exponents-and-logarithms': exponentsAndLogarithms,
+  'reading-charts-and-graphs': readingChartsAndGraphs,
+  'sets-and-counting': setsAndCounting,
+  'math-checkpoint': mathCheckpoint,
+  'python-strings-and-text': pythonStringsAndText,
+  'python-user-input-and-programs': pythonUserInputAndPrograms,
+  'python-reading-csv-files': pythonReadingCsvFiles,
+  'python-beginner-checkpoint': pythonBeginnerCheckpoint,
+  'authentication-passwords-and-mfa': authenticationPasswordsAndMfa,
+  'encryption-essentials': encryptionEssentials,
+  'secure-web-coding': secureWebCoding,
+  'phishing-and-social-engineering': phishingAndSocialEngineering,
+  'general-threat-modeling': generalThreatModeling,
+  'security-monitoring-and-response': securityMonitoringAndResponse,
+  'security-checkpoint': securityCheckpoint,
+  'open-models-and-running-locally': openModelsAndRunningLocally,
+  'measuring-classifier-performance': measuringClassifierPerformance,
+  'software-design-basics': softwareDesignBasics,
+  'handling-errors-and-reliability': handlingErrorsAndReliability,
+  'planning-small-changes': planningSmallChanges,
+  'code-review-and-teamwork': codeReviewAndTeamwork,
+  'azure-infrastructure-as-code': azureInfrastructureAsCode,
+  'azure-troubleshooting': azureTroubleshooting,
+  'aws-infrastructure-as-code': awsInfrastructureAsCode,
+  'aws-troubleshooting': awsTroubleshooting,
+  'gcp-infrastructure-as-code': gcpInfrastructureAsCode,
+  'gcp-troubleshooting': gcpTroubleshooting,
 }

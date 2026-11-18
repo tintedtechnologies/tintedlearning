@@ -7,8 +7,8 @@ const lesson: StructuredLesson = {
     'Estimate a derivative by nudging the input a tiny amount',
     'Use a gradient to tell which way, and how strongly, each input pushes the output',
   ],
-  bigIdea: "A derivative measures how much an output changes when you nudge an input a tiny bit: it is the slope at a single point. When a function has many inputs, the gradient is the list of slopes, one per input. Training an AI model means using the gradient to decide which way to adjust each of its settings.",
-  whyItMatters: "A model has millions of settings and a score for how wrong it is. Nobody can try every combination. The gradient answers a precise question for every setting at once: if I nudge this up a little, does the error go up or down, and by how much? That answer is what lets a model improve step by step instead of by blind guessing.",
+  bigIdea: "A derivative measures how much an output changes when you nudge an input a tiny bit: it is the slope at a single point. When a function has many inputs, the gradient is the list of slopes, one per input. Fitting a curve to measurements, or tuning a machine, means using the gradient to decide which way to adjust each of its settings.",
+  whyItMatters: "A machine tuned by a computer may have millions of settings and a score for how far it is from the target. Nobody can try every combination. The gradient answers a precise question for every setting at once: if I nudge this up a little, does the error go up or down, and by how much? That answer is what lets a design improve step by step instead of by blind guessing.",
   goalSections: [
     {
       heading: 'A derivative is a slope at one point',
@@ -37,7 +37,7 @@ const lesson: StructuredLesson = {
       paragraphs: [
         "You do not need calculus rules to find a slope. Nudge the input by a tiny amount, call it `h`, and see how much the output moves. The slope is roughly the change in output divided by the change in input: `(f(x + h) - f(x)) / h`.",
         "The smaller the nudge, the closer the estimate gets to the true derivative. With `h = 0.001` at `x = 3`, the estimate for `x * x` is 6.001, very close to the exact answer of 6.",
-        "This trick is called a finite difference. It is slow for large models, but it is a great way to check that a derivative worked out another way is correct.",
+        "This trick is called a finite difference. It is slow when there are many settings, but it is a great way to check that a derivative worked out another way is correct.",
       ],
       example: {
         language: 'python',
@@ -58,7 +58,7 @@ const lesson: StructuredLesson = {
       paragraphs: [
         "Most real functions have several inputs. A partial derivative is the slope with respect to one input while the others are held still. The gradient is the list of all of them.",
         "For `f(a, b) = a * a + 3 * b`, nudging `a` gives a slope of `2a`, and nudging `b` gives a slope of 3. At `a = 2, b = 1`, the gradient is `[4, 3]`: increasing `a` raises the output by about 4 per unit, increasing `b` by about 3.",
-        "The gradient points in the direction where the output climbs fastest. Step the opposite way, and the output falls fastest. That is the whole idea behind training.",
+        "The gradient points in the direction where the output climbs fastest. Step the opposite way, and the output falls fastest. That is the whole idea behind gradient descent, the method of stepping downhill.",
       ],
       example: {
         language: 'python',
@@ -77,8 +77,8 @@ const lesson: StructuredLesson = {
     },
   ],
   seeItInAction: {
-    title: 'Which setting should a model change?',
-    intro: "A tiny model predicts `w * x + b`. For one example, with `x = 2` and a true answer of 10, its error is the squared gap between prediction and truth. The program works out the gradient of the error and uses it to decide which way to move each setting.",
+    title: 'Which setting should change?',
+    intro: "A tiny rule predicts `w * x + b`. For one example, with `x = 2` and a true answer of 10, its error is the squared gap between prediction and truth. The program works out the gradient of the error and uses it to decide which way to move each setting.",
     example: {
       language: 'python',
       code: code`
@@ -105,7 +105,7 @@ const lesson: StructuredLesson = {
       { code: 'grad_w = (error(w + h, b) - error(w, b)) / h', explanation: "Nudge `w` alone and watch the error. The slope is about -28: raising `w` would lower the error quickly." },
       { code: 'grad_b = ...', explanation: "Nudge `b` alone. Its slope is about -14, so raising `b` also helps, but half as strongly, because `b` is not multiplied by `x`." },
       { code: 'w, b = w - 0.05 * grad_w, b - 0.05 * grad_b', explanation: "Step each setting against its slope. A negative gradient means increase it, and the bigger slope gets the bigger change." },
-      { code: 'error after one step: 12.25', explanation: "One step guided by the gradient cut the error from 49 to 12.25, a quarter of where it started. Repeating this is how training works." },
+      { code: 'error after one step: 12.25', explanation: "One step guided by the gradient cut the error from 49 to 12.25, a quarter of where it started. Repeating this is how the error is driven down." },
     ],
   },
   tryIt: {
@@ -166,7 +166,7 @@ const lesson: StructuredLesson = {
       answerIsOutput: true,
     },
     {
-      question: 'A model\'s error has gradient `[8, -0.5]` for its two settings. To reduce the error, what should you do?',
+      question: 'A fitted curve\'s error has gradient `[8, -0.5]` for its two settings. To reduce the error, what should you do?',
       options: [
         { text: 'Increase the first setting and decrease the second', explanation: 'That steps with the gradient, which increases the error.' },
         { text: 'Change only the second setting, because it is negative', explanation: 'A negative gradient is still useful information. Both settings should move.' },
@@ -176,17 +176,17 @@ const lesson: StructuredLesson = {
       answer: 2,
     },
   ],
-  takeaway: 'A derivative is the slope at a point, a gradient is a slope for every input, and stepping against the gradient is how a model reduces its error.',
+  takeaway: 'A derivative is the slope at a point, a gradient is a slope for every input, and stepping against the gradient is how you reduce an error.',
   resources: [
     { title: 'Derivatives introduction', provider: 'Khan Academy', description: 'Free lessons on slopes, derivatives and rates of change.', url: 'https://www.khanacademy.org/math/calculus-1/cs1-derivatives-definition-and-basic-rules' },
     { title: 'Essence of calculus', provider: '3Blue1Brown', description: 'A visual video series that builds derivatives from intuition.', url: 'https://www.3blue1brown.com/topics/calculus' },
   ],
   underTheHood: {
-    heading: 'The chain rule and backpropagation',
+    heading: 'The chain rule for functions inside functions',
     paragraphs: [
-      "Nudging each setting separately would be far too slow for a model with a billion settings. Instead, frameworks like PyTorch use the chain rule: when functions are chained, the slope of the whole chain is the slopes of the links multiplied together.",
+      "Nudging each setting separately would be far too slow for a machine with a billion settings. Instead, software that computes derivatives uses the chain rule: when functions are chained, the slope of the whole chain is the slopes of the links multiplied together.",
       "If `y = g(f(x))`, and f triples its input while g doubles its input, then y changes 3 times 2, which is 6 times as fast as x. In the example above, the error is a square of a gap, and the gap depends on `w` times 2. The chain rule gives 2 times the gap times 2, which is -28 at the start, matching the nudge estimate.",
-      "Backpropagation applies this rule backwards through every layer of a network. It computes the whole gradient in roughly the time of one forward pass, which is what makes training huge models possible.",
+      "Reverse-mode differentiation is the name for applying this rule backwards through a long chain of steps. Some fields call it backpropagation. It computes the whole gradient in roughly the time of one forward pass, which is what makes very large problems practical.",
     ],
   },
 }

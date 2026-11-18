@@ -41,11 +41,22 @@ export interface LessonFigure {
   credit: { text: string; url: string }
 }
 
+export interface ConceptVisual {
+  /** variables: one box per value, revealed in order. list: all boxes, one highlighted. loop: all boxes, one highlighted per step. */
+  kind: "variables" | "list" | "loop"
+  values: string[]
+  /** Names for the boxes when kind is variables. */
+  names?: string[]
+  caption: string
+}
+
 export interface GoalSection {
   heading: string
   paragraphs: string[]
   /** Screenshot-style illustrations placed after the paragraphs. */
   figures?: LessonFigure[]
+  /** A three.js visual that steps through the idea, for visual learners. */
+  visual?: ConceptVisual
   example: CodeExample
 }
 

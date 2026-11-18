@@ -8,11 +8,11 @@ import { curriculumLessonTotal, getSectionIdForLegacyStage, getSectionIdForModul
 import { useProgress } from '../hooks/useProgress'
 
 const sectionGroups = [
-  { title: 'Start here', ids: ['foundations', 'math', 'python'] },
-  { title: 'Build skills', ids: ['software-engineering', 'ai-engineering', 'cloud-engineering', 'security'] },
+  { title: 'Start here', ids: ['ai-foundations', 'cloud-foundations', 'networking-foundations', 'iot-foundations', 'python', 'math'] },
+  { title: 'Build skills', ids: ['python-next-steps', 'software-engineering', 'ai-engineering', 'cloud-engineering', 'security'] },
   { title: 'Grow', ids: ['research', 'technical-leadership'] },
-  { title: 'Prove it', ids: ['projects'] },
   { title: 'Make things', ids: ['game-development', 'vibe-coding'] },
+  { title: 'Prove it', ids: ['projects'] },
 ] as const
 
 export function LearnPage() {

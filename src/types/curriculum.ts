@@ -33,10 +33,13 @@ export type LessonCategory =
   | 'AI Architecture'
   | 'Build Chatbots'
   | 'AI Security'
+  | 'Application Security'
   | 'Professional Practice'
   | 'Projects and Practice'
   | 'Game Development'
   | 'Vibe Coding'
+  | 'Networking'
+  | 'IoT'
 
 export interface Lesson {
   id: string
@@ -70,7 +73,7 @@ export interface LearningResource {
   url: string
 }
 
-export type CurriculumStageId = 'foundation' | 'software-engineering' | 'ai-engineering' | 'cloud-engineering' | 'ai-architecture' | 'research' | 'professional-practice' | 'projects' | 'game-development' | 'vibe-coding'
+export type CurriculumStageId = 'foundation' | 'software-engineering' | 'ai-engineering' | 'cloud-engineering' | 'ai-architecture' | 'research' | 'professional-practice' | 'projects' | 'game-development' | 'vibe-coding' | 'networking-foundations' | 'iot-foundations'
 
 export interface CurriculumModule {
   id: string
@@ -95,7 +98,7 @@ export interface CurriculumStage {
   status?: 'available' | 'coming-soon'
 }
 
-export type CertificationArea = 'Cloud' | 'AI' | 'Security' | 'Programming & Developer Tools'
+export type CertificationArea = 'Cloud' | 'AI' | 'Security' | 'Networking' | 'Programming & Developer Tools'
 export type CertificationLevel = 'Entry' | 'Associate' | 'Professional'
 /** Never a price: prices change and vary by country. */
 export type CertificationCost = 'Free' | 'Free training, paid exam' | 'Paid exam'

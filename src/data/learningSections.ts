@@ -27,6 +27,14 @@ const mathLessonIds = [
   'optimization-and-training',
   'numerical-methods-for-ai',
   'mathematical-modeling-for-ai',
+  'geometry-and-trigonometry',
+  'logic-and-proof',
+  'sequences-and-growth',
+  'fractions-percentages-and-units',
+  'exponents-and-logarithms',
+  'reading-charts-and-graphs',
+  'sets-and-counting',
+  'math-checkpoint',
 ]
 
 const researchLessonIds = [
@@ -38,7 +46,7 @@ const researchLessonIds = [
   'reporting-results',
 ]
 
-const securityLessonIds = lessons.filter((lesson) => lesson.category === 'AI Security').map((lesson) => lesson.id)
+const securityLessonIds = lessons.filter((lesson) => lesson.category === 'AI Security' || lesson.category === 'Application Security').map((lesson) => lesson.id)
 const providerSecurityLessonIds = ['azure-track', 'aws-track', 'gcp-track']
   .flatMap((moduleId) => moduleById.get(moduleId)?.lessons ?? [])
   .filter((lesson) => lesson.id.includes('security'))
@@ -73,30 +81,44 @@ const architectureModuleIds = [
  * Sections open to learners. Every other section shows as "Coming soon" on the Learn page.
  * Add a section here only when all of its lessons are rewritten (scripts/validate-curriculum.ts enforces this).
  */
-export const liveSectionIds = ['foundations', 'python', 'math', 'software-engineering', 'ai-engineering', 'cloud-engineering', 'security', 'research', 'technical-leadership', 'projects', 'game-development', 'vibe-coding', 'certifications']
+export const liveSectionIds = ['ai-foundations', 'cloud-foundations', 'networking-foundations', 'iot-foundations', 'python', 'python-next-steps', 'math', 'software-engineering', 'ai-engineering', 'cloud-engineering', 'security', 'research', 'technical-leadership', 'projects', 'game-development', 'vibe-coding', 'certifications']
 
 export const isSectionLive = (sectionId: string) => liveSectionIds.includes(sectionId)
 
 export const learningSections: LearningSection[] = [
   {
-    id: 'foundations',
-    title: 'Foundations',
-    description: 'Get oriented with essential AI ideas, portable cloud concepts, and the programming workflows that support further study.',
+    id: 'ai-foundations',
+    title: 'AI Foundations',
+    description: 'Start with what AI is, how learning systems use data, how to describe a problem for a model, and how to read errors and confidence scores.',
     kind: 'learning',
-    modules: [
-      { ...all('ai-fundamentals'), title: 'AI Fundamentals', description: 'Understand what AI is, how learning systems work, and how to frame useful problems.' },
-      { ...all('cloud-fundamentals'), title: 'Cloud Fundamentals', description: 'Learn portable cloud concepts: shared responsibility, identity, compute, storage, networking, delivery, and cost.' },
-      only('computing-math', ['programming-and-data-workflows'], {
-        title: 'Programming Fundamentals',
-        description: 'Understand how code, data, experiments, and models fit together in a reproducible AI workflow.',
-      }),
-    ],
+    modules: [all('ai-fundamentals')],
     assessmentStageIds: ['foundation'],
+  },
+  {
+    id: 'cloud-foundations',
+    title: 'Cloud Foundations',
+    description: 'Learn the portable cloud ideas behind every provider: shared responsibility, service models, identity, storage, networking, regions, backups, and delivery.',
+    kind: 'learning',
+    modules: [all('cloud-fundamentals')],
+  },
+  {
+    id: 'networking-foundations',
+    title: 'Networking Foundations',
+    description: 'Learn how devices connect, how IP addresses and subnets work, how names become addresses, how ports and protocols carry traffic, and how to troubleshoot a connection step by step.',
+    kind: 'learning',
+    modules: [all('networking-foundations')],
+  },
+  {
+    id: 'iot-foundations',
+    title: 'IoT Foundations',
+    description: 'Learn how connected devices sense and act, how to read sensor data, choose a wireless connection, send messages with MQTT, and keep devices secure.',
+    kind: 'learning',
+    modules: [all('iot-foundations')],
   },
   {
     id: 'math',
     title: 'Math',
-    description: 'Build the mathematical intuition behind representations, probability, optimization, and numerical methods.',
+    description: 'Build the mathematics behind measurement, change, chance, shape, and optimization, with examples from science, engineering, economics, and everyday life.',
     kind: 'learning',
     modules: [only('computing-math', mathLessonIds)],
   },
@@ -105,7 +127,53 @@ export const learningSections: LearningSection[] = [
     title: 'Python',
     description: 'Learn Python from first programs through data work, testing, package design, and a complete developer project.',
     kind: 'learning',
-    modules: [all('python')],
+    modules: [
+      only('computing-math', ['programming-and-data-workflows'], {
+        title: 'Programming Fundamentals',
+        description: 'Understand how code, data, experiments, and models fit together in a reproducible AI workflow.',
+      }),
+      only('python', [
+        'install-python-in-vs-code',
+        'python-basics',
+        'python-control-flow',
+        'python-functions',
+        'python-data-structures',
+        'python-files-and-errors',
+        'python-errors-and-debugging',
+        'python-packages-and-environments',
+        'python-strings-and-text',
+        'python-user-input-and-programs',
+        'python-reading-csv-files',
+        'python-beginner-checkpoint',
+      ], {
+        title: 'Python basics',
+        description: 'Write, run, and check small programs: values, decisions, loops, functions, text, files, CSV data, and a checkpoint tool.',
+      }),
+    ],
+  },
+  {
+    id: 'python-next-steps',
+    title: 'Python Next Steps',
+    description: 'Go further with data analysis, APIs, testing, algorithms, object-oriented design, typing, and a complete developer project.',
+    kind: 'learning',
+    modules: [
+      only('python', [
+        'python-data-analysis',
+        'python-apis',
+        'python-testing',
+        'python-ai-projects',
+        'python-project-evaluation',
+        'python-search-and-sort',
+        'python-recursion-and-graphs',
+        'python-object-oriented-design',
+        'python-iterators-generators',
+        'python-typing-and-packages',
+        'python-developer-capstone',
+      ], {
+        title: 'Python next steps',
+        description: 'Analyze data, call APIs, test whole programs, study algorithms, design with objects, and finish a developer project.',
+      }),
+    ],
   },
   {
     id: 'research',
@@ -120,18 +188,21 @@ export const learningSections: LearningSection[] = [
   {
     id: 'software-engineering',
     title: 'Software Engineering',
-    description: 'Build Study Tracker, a real Python API, step by step: the command line, Git, an API, a database, tests, logging and Docker, in 11 lessons.',
+    description: 'Build Study Tracker, a real Python API, step by step: the command line, Git, an API, a database, tests, logging and Docker, in 15 lessons.',
     kind: 'learning',
     modules: [
       all('linux-cli'),
       all('git-github'),
       all('code-quality'),
+      all('software-design'),
       all('http-networking'),
       all('apis-rest'),
       all('databases-sql'),
       only('testing-debugging', ['testing-debugging']),
+      all('error-handling'),
       all('logging'),
       all('docker'),
+      all('team-practice'),
       all('software-engineering-capstone'),
     ],
     assessmentStageIds: ['software-engineering'],
@@ -176,7 +247,7 @@ export const learningSections: LearningSection[] = [
   {
     id: 'security',
     title: 'Security',
-    description: 'Study threat modeling, identity, privacy, supply chains, secure deployment, and security credentials across AI and cloud systems.',
+    description: 'Start with passwords, encryption, secure web coding, phishing, threat modeling, and incident response, then apply the same thinking to AI, cloud, and supply-chain systems.',
     kind: 'learning',
     modules: [only('security-governance', securityLessonIds)],
     crossReferenceLessonIds: providerSecurityLessonIds,
@@ -231,7 +302,7 @@ export function getSectionLessonIds(section: LearningSection) {
 
 export function getSectionIdForLegacyStage(stageId: string): string | undefined {
   const legacyStageSections: Record<string, string> = {
-    foundation: 'foundations',
+    foundation: 'ai-foundations',
     'software-engineering': 'software-engineering',
     'ai-engineering': 'ai-engineering',
     'cloud-engineering': 'cloud-engineering',

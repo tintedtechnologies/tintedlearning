@@ -12,6 +12,7 @@ const lesson: StructuredLesson = {
   goalSections: [
     {
       heading: 'Lists: items in order',
+      visual: { kind: 'list', values: ['"Dune"', '"Emma"', '"Frankenstein"'], caption: 'A list keeps its items in order. Each item has a position, and the first position is 0.' },
       paragraphs: [
         "A list holds values in a fixed order, inside square brackets and separated by commas. Each item has a position number, called an index, and counting starts at 0. So `tasks[0]` is the first item, and `tasks[-1]` is a shortcut for the last.",
         "Lists can change after you create them. `append()` adds an item to the end, `remove()` takes out the first matching item, and assigning to an index replaces that item. `len()` tells you how many items there are.",

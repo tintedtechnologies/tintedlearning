@@ -7,8 +7,8 @@ const lesson: StructuredLesson = {
     'Multiply a matrix by a vector by hand',
     'Check that shapes fit before multiplying and predict the shape of the result',
   ],
-  bigIdea: "A matrix is a grid of numbers arranged in rows and columns. Multiplying a matrix by a vector turns one list of numbers into another, which is exactly what each layer of a neural network does. Most of the arithmetic inside modern AI is this one operation, repeated billions of times.",
-  whyItMatters: "When an AI model reads your sentence, each word becomes a vector, and the model pushes those vectors through layer after layer of matrix multiplications. When a model fails with a message like \"shapes (3,) and (4, 2) not aligned\", it means two of these grids did not fit together. Understanding matrices turns that error from gibberish into a five-second fix.",
+  bigIdea: "A matrix is a grid of numbers arranged in rows and columns. Multiplying a matrix by a vector turns one list of numbers into another, which is exactly what a rotation, a scaling, or a change of units does to a point. Computer graphics, physics engines, and data tables are built on this one operation, repeated millions of times.",
+  whyItMatters: "When a game draws a scene, each corner of every object becomes a vector, and the engine pushes those vectors through a chain of matrix multiplications to move, turn, and scale the scene. When a program fails with a message like \"shapes (3,) and (4, 2) not aligned\", it means two of these grids did not fit together. Understanding matrices turns that error from gibberish into a five-second fix.",
   goalSections: [
     {
       heading: 'Rows, columns and shape',
@@ -38,7 +38,7 @@ const lesson: StructuredLesson = {
       paragraphs: [
         "To multiply a matrix by a vector, take each row of the matrix in turn and work out its dot product with the vector: multiply matching positions and add them up. Each row gives one number, so the result is a new vector with one entry per row.",
         "For the matrix with rows `[1, 2]` and `[3, 4]`, times the vector `[10, 1]`: the first row gives 1 times 10 plus 2 times 1, which is 12. The second gives 3 times 10 plus 4 times 1, which is 34. The answer is `[12, 34]`.",
-        "Each row acts like a recipe that mixes the inputs in its own proportions. In a neural network, these numbers are called weights, and training means adjusting them.",
+        "Each row acts like a recipe that mixes the inputs in its own proportions. In a weighted average, these numbers are called weights, and changing them changes the result.",
       ],
       example: {
         language: 'python',
@@ -60,7 +60,7 @@ const lesson: StructuredLesson = {
       paragraphs: [
         "A matrix times a vector only works if each row has as many numbers as the vector. In shape terms, a (rows, n) matrix can only multiply a vector of length n. The result has length rows.",
         "The same rule extends to two matrices. A (2, 3) matrix times a (3, 4) matrix works, because the inner numbers match, 3 and 3. The result takes the outer numbers: (2, 4). A (2, 3) times a (2, 3) does not work, because 3 and 2 do not match.",
-        "Checking shapes before you calculate catches a huge share of mistakes in AI code. Write the shapes side by side and make sure the inner pair matches.",
+        "Checking shapes before you calculate catches a huge share of mistakes in matrix code. Write the shapes side by side and make sure the inner pair matches.",
       ],
       example: {
         language: 'text',
@@ -74,7 +74,7 @@ const lesson: StructuredLesson = {
     },
   ],
   seeItInAction: {
-    title: 'One layer of a tiny neural network',
+    title: 'One step of a tiny weighted mix',
     intro: "A layer takes 3 input numbers about a house (size in hundreds of square meters, bedrooms, age in decades) and turns them into 2 new numbers. The weight matrix has shape (2, 3): 2 outputs, each mixing 3 inputs.",
     example: {
       language: 'python',
@@ -167,11 +167,11 @@ const lesson: StructuredLesson = {
     { title: 'Linear transformations and matrices', provider: '3Blue1Brown', description: 'A visual explanation of what multiplying by a matrix does to space.', url: 'https://www.3blue1brown.com/lessons/linear-transformations' },
   ],
   underTheHood: {
-    heading: 'Why AI runs on graphics cards',
+    heading: 'Why matrix work runs fast on parallel hardware',
     paragraphs: [
       "Look at the matrix-vector code again. Each row's dot product does not depend on any other row. Row 1 and row 2 could be calculated at the same moment by two different workers.",
       "A normal processor, the CPU, has a handful of powerful cores and does a few things at once. A graphics card, the GPU, has thousands of simpler cores, originally designed to work out the color of every pixel on a screen at the same time. That is the same shape of problem: many small independent multiply-and-add jobs.",
-      "A large language model multiplies matrices with thousands of rows and columns for every word it produces. Spread across thousands of GPU cores, those dot products happen side by side instead of one after another. That is why AI companies buy GPUs by the warehouse, and why libraries like NumPy and PyTorch exist: they hand these multiplications to fast, parallel code.",
+      "A physics simulation or a 3D game multiplies matrices with thousands of rows and columns many times every second. Spread across thousands of GPU cores, those dot products happen side by side instead of one after another. That is why game studios and scientists buy graphics cards for this work, and why libraries like NumPy exist: they hand these multiplications to fast, parallel code.",
     ],
   },
 }

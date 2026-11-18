@@ -29,6 +29,7 @@ const lesson: StructuredLesson = {
     },
     {
       heading: 'Variables and types of values',
+      visual: { kind: 'variables', names: ['msg', 'count', 'price'], values: ['"Roll a dice!"', '6', '2.5'], caption: 'Each assignment creates a named box that holds one value. The name is the variable, and the value is what it holds. Press Next to see each box appear.' },
       paragraphs: [
         "A variable is a name that points to a value. You create one with a single equals sign: `price = 4.5` means \"from now on, `price` refers to 4.5\". It does not mean the two sides are equal in the math sense.",
         "Values come in different kinds, called types. Text is called a string, written in quotes: `\"Ada\"`. Whole numbers are integers: `3`. Numbers with a decimal point are floats: `4.5`. True and false values are Booleans, written `True` and `False` with capital letters.",

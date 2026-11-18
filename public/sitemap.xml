@@ -15,9 +15,13 @@
   <url><loc>https://tintedlearning.com/portfolio/</loc></url>
   <url><loc>https://tintedlearning.com/terms/</loc></url>
   <url><loc>https://tintedlearning.com/privacy/</loc></url>
-  <url><loc>https://tintedlearning.com/learn/sections/foundations/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/sections/ai-foundations/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/sections/cloud-foundations/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/sections/networking-foundations/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/sections/iot-foundations/</loc></url>
   <url><loc>https://tintedlearning.com/learn/sections/math/</loc></url>
   <url><loc>https://tintedlearning.com/learn/sections/python/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/sections/python-next-steps/</loc></url>
   <url><loc>https://tintedlearning.com/learn/sections/research/</loc></url>
   <url><loc>https://tintedlearning.com/learn/sections/software-engineering/</loc></url>
   <url><loc>https://tintedlearning.com/learn/sections/technical-leadership/</loc></url>
@@ -39,6 +43,12 @@
   <url><loc>https://tintedlearning.com/learn/godot-spawning-and-timers/</loc></url>
   <url><loc>https://tintedlearning.com/learn/godot-saving-high-scores/</loc></url>
   <url><loc>https://tintedlearning.com/learn/godot-coin-dash-capstone/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/vscode-setup-walkthrough/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/install-an-ai-assistant/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/project-rules-for-your-assistant/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/permissions-and-approvals/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/prompt-injection-and-untrusted-text/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/checking-packages-before-install/</loc></url>
   <url><loc>https://tintedlearning.com/learn/vibe-coding-what-it-is/</loc></url>
   <url><loc>https://tintedlearning.com/learn/describing-a-goal-to-an-ai/</loc></url>
   <url><loc>https://tintedlearning.com/learn/working-in-small-steps/</loc></url>
@@ -54,6 +64,12 @@
   <url><loc>https://tintedlearning.com/learn/machine-learning/</loc></url>
   <url><loc>https://tintedlearning.com/learn/data-and-evaluation/</loc></url>
   <url><loc>https://tintedlearning.com/learn/ai-problem-solving/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/features-and-labels/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/bias-in-training-data/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/errors-confidence-and-thresholds/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/geometry-and-trigonometry/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/logic-and-proof/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/sequences-and-growth/</loc></url>
   <url><loc>https://tintedlearning.com/learn/probability-and-statistics/</loc></url>
   <url><loc>https://tintedlearning.com/learn/algebra-and-functions/</loc></url>
   <url><loc>https://tintedlearning.com/learn/vectors-and-representations/</loc></url>
@@ -69,6 +85,7 @@
   <url><loc>https://tintedlearning.com/learn/numerical-methods-for-ai/</loc></url>
   <url><loc>https://tintedlearning.com/learn/statistical-inference-and-experiments/</loc></url>
   <url><loc>https://tintedlearning.com/learn/mathematical-modeling-for-ai/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/install-python-in-vs-code/</loc></url>
   <url><loc>https://tintedlearning.com/learn/python-basics/</loc></url>
   <url><loc>https://tintedlearning.com/learn/python-control-flow/</loc></url>
   <url><loc>https://tintedlearning.com/learn/python-functions/</loc></url>
@@ -163,6 +180,9 @@
   <url><loc>https://tintedlearning.com/learn/docker/</loc></url>
   <url><loc>https://tintedlearning.com/learn/testing-debugging/</loc></url>
   <url><loc>https://tintedlearning.com/learn/cloud-fundamentals/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/cloud-service-models/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/latency-and-regions/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/backups-and-recovery-basics/</loc></url>
   <url><loc>https://tintedlearning.com/learn/azure-track/</loc></url>
   <url><loc>https://tintedlearning.com/learn/aws-track/</loc></url>
   <url><loc>https://tintedlearning.com/learn/gcp-track/</loc></url>
@@ -180,19 +200,75 @@
   <url><loc>https://tintedlearning.com/learn/architecture-patterns/</loc></url>
   <url><loc>https://tintedlearning.com/learn/enterprise-integration/</loc></url>
   <url><loc>https://tintedlearning.com/learn/architecture-decision-records/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/networking-how-devices-connect/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/networking-ip-addresses-and-subnets/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/networking-dns-names-to-addresses/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/networking-ports-and-protocols/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/networking-troubleshooting-a-connection/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/iot-what-is-it/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/iot-sensors-and-readings/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/iot-connectivity-choices/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/iot-device-messages/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/iot-security-basics/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/networking-dhcp-and-nat/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/networking-https-and-certificates/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/networking-firewalls-and-vpns/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/networking-home-and-wifi-security/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/networking-checkpoint/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/iot-microcontrollers-and-safety/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/iot-power-and-battery-life/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/iot-over-the-air-updates/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/iot-edge-and-privacy/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/iot-checkpoint/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/ai-types-of-problems/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/training-and-using-a-model/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/why-ai-makes-mistakes/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/responsible-data-and-privacy/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/ai-foundations-checkpoint/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/cloud-costs-and-budgets/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/monitoring-and-logs-basics/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/cloud-foundations-checkpoint/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/fractions-percentages-and-units/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/exponents-and-logarithms/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/reading-charts-and-graphs/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/sets-and-counting/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/math-checkpoint/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/python-strings-and-text/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/python-user-input-and-programs/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/python-reading-csv-files/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/python-beginner-checkpoint/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/authentication-passwords-and-mfa/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/encryption-essentials/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/secure-web-coding/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/phishing-and-social-engineering/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/general-threat-modeling/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/security-monitoring-and-response/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/security-checkpoint/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/open-models-and-running-locally/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/measuring-classifier-performance/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/software-design-basics/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/handling-errors-and-reliability/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/planning-small-changes/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/code-review-and-teamwork/</loc></url>
   <url><loc>https://tintedlearning.com/learn/azure-identity-resources/</loc></url>
   <url><loc>https://tintedlearning.com/learn/azure-compute-storage/</loc></url>
   <url><loc>https://tintedlearning.com/learn/azure-networking/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/azure-infrastructure-as-code/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/azure-troubleshooting/</loc></url>
   <url><loc>https://tintedlearning.com/learn/azure-operations-cost/</loc></url>
   <url><loc>https://tintedlearning.com/learn/azure-deployment/</loc></url>
   <url><loc>https://tintedlearning.com/learn/aws-identity-resources/</loc></url>
   <url><loc>https://tintedlearning.com/learn/aws-compute-storage/</loc></url>
   <url><loc>https://tintedlearning.com/learn/aws-networking/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/aws-infrastructure-as-code/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/aws-troubleshooting/</loc></url>
   <url><loc>https://tintedlearning.com/learn/aws-operations-cost/</loc></url>
   <url><loc>https://tintedlearning.com/learn/aws-deployment/</loc></url>
   <url><loc>https://tintedlearning.com/learn/gcp-identity-resources/</loc></url>
   <url><loc>https://tintedlearning.com/learn/gcp-compute-storage/</loc></url>
   <url><loc>https://tintedlearning.com/learn/gcp-networking/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/gcp-infrastructure-as-code/</loc></url>
+  <url><loc>https://tintedlearning.com/learn/gcp-troubleshooting/</loc></url>
   <url><loc>https://tintedlearning.com/learn/gcp-operations-cost/</loc></url>
   <url><loc>https://tintedlearning.com/learn/gcp-deployment/</loc></url>
   <url><loc>https://tintedlearning.com/learn/azure-governance-landing-zones/</loc></url>

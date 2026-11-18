@@ -34,6 +34,7 @@ const lesson: StructuredLesson = {
     },
     {
       heading: 'Repeating work with a for loop',
+      visual: { kind: 'loop', values: ['"Dune"', '"Emma"', '"Frankenstein"'], caption: 'A for loop visits each item in order. The loop variable takes one value per step, and the body runs once for each item.' },
       paragraphs: [
         "A list holds several values in order, written in square brackets: `[\"Ana\", \"Ben\", \"Chen\"]`. A `for` loop takes each item from the list in turn, gives it a temporary name, and runs the indented lines once for that item.",
         "In `for name in names:`, the word `name` is a variable you choose. On the first pass it holds the first item, on the second pass the second item, and so on until the list runs out.",

@@ -5,10 +5,10 @@ const lesson: StructuredLesson = {
   goals: [
     'Write a chance as a number between 0 and 1 and calculate simple probabilities',
     'Summarize a list of numbers with the mean, the median and the spread',
-    'Check whether a model\'s confidence matches how often it is right',
+    'Check whether a stated probability matches how often the event really happens',
   ],
-  bigIdea: "Probability puts a number on how likely something is, from 0 (impossible) to 1 (certain). Statistics describes what a pile of data looks like, such as its typical value and how spread out it is. AI models use both: they learn from data, and they answer with probabilities rather than certainties.",
-  whyItMatters: "A weather app says there is a 70% chance of rain, it stays dry, and people say the forecast was wrong. It was not, necessarily. A good 70% forecast should be dry on about 3 out of every 10 such days. Reading AI predictions sensibly, and checking whether they deserve trust, depends on understanding exactly this kind of number.",
+  bigIdea: "Probability puts a number on how likely something is, from 0 (impossible) to 1 (certain). Statistics describes what a pile of data looks like, such as its typical value and how spread out it is. Forecasters, doctors, and engineers use both: they estimate chances from past data, and they state probabilities rather than certainties.",
+  whyItMatters: "A weather app says there is a 70% chance of rain, it stays dry, and people say the forecast was wrong. It was not, necessarily. A good 70% forecast should be dry on about 3 out of every 10 such days. Reading forecasts, test results, and risk estimates sensibly, and checking whether they deserve trust, depends on understanding exactly this kind of number.",
   goalSections: [
     {
       heading: 'Chance as a number',
@@ -54,13 +54,13 @@ const lesson: StructuredLesson = {
     {
       heading: 'Confidence is not certainty',
       paragraphs: [
-        "Many models answer with a probability, such as \"80% likely to be spam\". An 80% prediction is meant to be wrong about 1 time in 5. A single wrong answer does not prove the model is bad, and a single right one does not prove it is good.",
-        "To judge it, collect many predictions made at the same confidence and count how often they came true. If the model says 80% and those predictions come true about 80% of the time, the model is calibrated: its numbers mean what they say. If they come true only 50% of the time, the model is overconfident, and you should not trust its percentages at face value.",
+        "Many forecasts and filters state a probability, such as \"80% likely to be spam\". An 80% prediction is meant to be wrong about 1 time in 5. A single wrong answer does not prove the forecaster is bad, and a single right one does not prove the forecaster is good.",
+        "To judge it, collect many predictions made at the same confidence and count how often they came true. If the forecaster says 80% and those predictions come true about 80% of the time, the forecaster is calibrated: its numbers mean what they say. If they come true only 50% of the time, the forecaster is overconfident, and you should not trust its percentages at face value.",
       ],
       example: {
         language: 'python',
         code: code`
-          # 10 emails the model called "80% likely spam", and whether each really was
+          # 10 emails a filter called "80% likely spam", and whether each really was
           really_spam = [True, True, False, True, True, True, False, True, True, True]
 
           rate = sum(really_spam) / len(really_spam)
@@ -146,11 +146,11 @@ const lesson: StructuredLesson = {
       answer: 2,
     },
     {
-      question: 'A model labels 200 photos "90% likely a cat". 120 of them really are cats. What does this tell you?',
+      question: 'A weather service forecasts a 90% chance of rain on 200 days, and it rains on 120 of them. What does this tell you?',
       options: [
-        { text: 'The model is overconfident: its 90% predictions are right only 60% of the time', explanation: '120 out of 200 is 60%. Calibrated 90% predictions should be right about 180 times.' },
-        { text: 'The model is working, since most of them were cats', explanation: 'Being right more often than not is not enough. The model claimed 90%, so 60% means its numbers are not trustworthy.' },
-        { text: 'The model is underconfident, since it said only 90%', explanation: 'Underconfident would mean being right more often than claimed, such as 98% of the time.' },
+        { text: 'The forecaster is overconfident: its 90% forecasts came true only 60% of the time', explanation: '120 out of 200 is 60%. Calibrated 90% predictions should be right about 180 times.' },
+        { text: 'The forecaster is working, since it rained on most of those days', explanation: 'Being right more often than not is not enough. The forecaster claimed 90%, so 60% means its numbers are not trustworthy.' },
+        { text: 'The forecaster is underconfident, since it said only 90%', explanation: 'Underconfident would mean being right more often than claimed, such as 98% of the time.' },
         { text: 'Nothing, because a probability cannot be checked', explanation: 'A single prediction cannot be checked, but many predictions at the same confidence can be.' },
       ],
       answer: 0,
@@ -166,7 +166,7 @@ const lesson: StructuredLesson = {
     paragraphs: [
       "Often you want a probability given that you already know something, written P(A given B). The classic example: a disease affects 1 in 100 people, and a test catches 90% of cases but also wrongly flags 9% of healthy people. You test positive. How likely is it that you are sick?",
       "Picture 1,000 people. 10 are sick, and 9 of them test positive. Of the 990 healthy people, 9% test positive too, about 89. So of 98 positive tests, only 9 are real: about 9%, not 90%.",
-      "This calculation is Bayes' rule, and it explains why rare events produce many false alarms. It is also built into many AI systems. A spam filter, for example, combines how common spam is overall with how strongly each word points to spam.",
+      "This calculation is Bayes' rule, and it explains why rare events produce many false alarms. It is also the reasoning behind medical tests, court evidence, and many spam filters. A spam filter, for example, combines how common spam is overall with how strongly each word points to spam.",
     ],
   },
 }

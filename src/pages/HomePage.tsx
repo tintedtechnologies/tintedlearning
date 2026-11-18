@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { SeoMetadata } from '../components/common/SeoMetadata'
 
 const routes = [
-  { icon: Compass, title: 'I am starting fresh', description: 'Learn the basic ideas, math, Python, and software habits that every tech path builds on.', to: '/learn/sections/foundations' },
+  { icon: Compass, title: 'I am starting fresh', description: 'Learn the basic ideas, math, Python, and software habits that every tech path builds on.', to: '/learn/sections/ai-foundations' },
   { icon: Code2, title: 'I want to become a Python developer', description: 'Practice maintainable Python, testing, APIs, algorithms, packages, and project work.', to: '/learn/sections/python' },
   { icon: BrainCircuit, title: 'I already use AI', description: 'Move from prompts to evaluation, retrieval, agents, and reliable production systems.', to: '/learn/sections/ai-engineering' },
   { icon: FlaskConical, title: 'I like math and research', description: 'Study modeling, optimization, inference, numerical methods, and reproducible experiments.', to: '/learn/sections/math' },
@@ -65,7 +65,7 @@ export function HomePage() {
         </p>
 
         <div className="home-rise mt-8 flex flex-wrap justify-center gap-3" style={{ animationDelay: '240ms' }}>
-          <Link to="/learn/sections/foundations" className="button button-primary">Start with Foundations <ArrowRight size={17} className="ml-2" /></Link>
+          <Link to="/learn/sections/ai-foundations" className="button button-primary">Start with AI Foundations <ArrowRight size={17} className="ml-2" /></Link>
           <Link to="/learn" className="button button-secondary">Explore the curriculum</Link>
         </div>
 

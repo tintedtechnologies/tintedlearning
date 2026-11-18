@@ -173,14 +173,14 @@ const lesson: StructuredLesson = {
   takeaway: 'Write the model as variables, a formula and explicit assumptions, fit it to data, and trust it only where tests on new observations show its assumptions still hold.',
   resources: [
     { title: 'Fitting a line to data', provider: 'Khan Academy', description: 'Free lessons on scatter plots, lines of best fit and residuals.', url: 'https://www.khanacademy.org/math/statistics-probability/describing-relationships-quantitative-data' },
-    { title: 'Linear regression', provider: 'Google for Developers', description: 'How the same straight-line model is trained and evaluated in machine learning.', url: 'https://developers.google.com/machine-learning/crash-course/linear-regression' },
+    { title: 'Linear regression', provider: 'Google for Developers', description: 'How the same straight-line model is fitted and checked in statistics.', url: 'https://developers.google.com/machine-learning/crash-course/linear-regression' },
   ],
   underTheHood: {
     heading: 'Why least squares picks the line it does',
     paragraphs: [
       "There are endless lines you could draw through a scatter of points. Least squares chooses the one with the smallest total of squared residuals. Squaring makes every gap positive, and it punishes one large miss more than several small ones.",
       "The slope formula used above comes from calculus. Write the sum of squared residuals as a function of `a` and `b`, set both of its slopes to zero to find the bottom of that bowl-shaped function, and solve. The answer is the covariance of the two variables (how they move together) divided by the variance of the input (how much it moves on its own).",
-      "Gradient descent, from the optimization lesson, would find the same line by walking downhill. The exact formula is faster here, but it only exists for simple models. For neural networks, walking downhill is the only practical option.",
+      "Gradient descent, from the optimization lesson, would find the same line by walking downhill. The exact formula is faster here, but it only exists for simple models. For very complicated models, walking downhill is often the only practical option.",
     ],
   },
 }

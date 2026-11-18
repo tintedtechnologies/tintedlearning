@@ -1,6 +1,9 @@
 import type { CurriculumModule, CurriculumStage, Lesson, LearningResource, PortfolioTrack } from '../types/curriculum'
 import { advancedProviderCloudLessons } from './advancedProviderCloudLessons'
 import { applyCloudTrackPlan, cloudTrackOrder } from './cloudTrackPlan'
+import { engineeringExpansionLessons } from './engineeringExpansionLessons'
+import { foundationsExpansionLessons } from './foundationsExpansionLessons'
+import { networkingIotLessons } from './networkingIotLessons'
 import { orientationLessons } from './orientationLessons'
 import { portfolioProjects } from './portfolioProjects'
 import { providerCloudLessons } from './providerCloudLessons'
@@ -60,6 +63,12 @@ const lessonCatalog: Lesson[] = [
   { id: 'godot-spawning-and-timers', title: 'Spawning With Timers', description: 'Spawn falling rocks with a Timer, create copies of a scene and remove them when they leave the screen.', duration: 8, difficulty: 'Intermediate', category: 'Game Development', order: 9 },
   { id: 'godot-saving-high-scores', title: 'Saving High Scores', description: 'Save and load a best score with ConfigFile, using a default for the first run.', duration: 8, difficulty: 'Intermediate', category: 'Game Development', order: 10 },
   { id: 'godot-coin-dash-capstone', title: 'Capstone: Ship Coin Dash', description: 'Combine the parts into one level, export it for your computer and share it with a README.', duration: 8, difficulty: 'Intermediate', category: 'Game Development', order: 11 },
+  { id: 'vscode-setup-walkthrough', title: 'Set Up VS Code for Vibe Coding', description: 'Install VS Code, open a project folder, find the panels you need, and decide whether to trust a folder.', duration: 8, difficulty: 'Beginner', category: 'Vibe Coding', order: 100 },
+  { id: 'install-an-ai-assistant', title: 'Install an AI Assistant', description: 'Check the plan, install GitHub Copilot, Claude Code, or the Codex CLI, sign in, and confirm it runs.', duration: 8, difficulty: 'Beginner', category: 'Vibe Coding', order: 101 },
+  { id: 'project-rules-for-your-assistant', title: 'Give Your Assistant Project Rules', description: 'Write an instructions file the assistant reads, then test that it follows the rules in a new chat.', duration: 8, difficulty: 'Intermediate', category: 'Vibe Coding', order: 102 },
+  { id: 'permissions-and-approvals', title: 'Permissions and Approvals', description: 'Read each approval before you allow it, choose the narrowest permission, and use read-only mode for answers.', duration: 8, difficulty: 'Intermediate', category: 'Vibe Coding', order: 103 },
+  { id: 'prompt-injection-and-untrusted-text', title: 'Prompt Injection and Untrusted Text', description: 'Recognize instructions hidden in files and web pages, and limit what an assistant can do after reading them.', duration: 8, difficulty: 'Intermediate', category: 'Vibe Coding', order: 104 },
+  { id: 'checking-packages-before-install', title: 'Checking Packages Before You Install', description: 'Look up each suggested package on its official registry, install from a reviewed list, and use a virtual environment.', duration: 8, difficulty: 'Intermediate', category: 'Vibe Coding', order: 105 },
   { id: 'vibe-coding-what-it-is', title: 'What Vibe Coding Is', description: 'Describe software in plain words, see where an AI assistant helps and where it does not, and start with a written goal.', duration: 8, difficulty: 'Beginner', category: 'Vibe Coding', order: 1 },
   { id: 'describing-a-goal-to-an-ai', title: 'Describing a Goal Clearly', description: 'Name inputs, outputs and rules, add examples with exact results, and ask for one change at a time.', duration: 8, difficulty: 'Beginner', category: 'Vibe Coding', order: 2 },
   { id: 'working-in-small-steps', title: 'Working in Small Steps', description: 'Split a feature into visible steps, run after each one and keep a short log of what changed.', duration: 8, difficulty: 'Beginner', category: 'Vibe Coding', order: 3 },
@@ -75,21 +84,28 @@ const lessonCatalog: Lesson[] = [
   { id: 'machine-learning', title: 'What is Machine Learning?', description: 'Distinguish AI, machine learning, deep learning, and hand-written rules.', duration: 8, difficulty: 'Beginner', category: 'AI Foundations', order: 3 },
   { id: 'data-and-evaluation', title: 'Data, Training, and Evaluation', description: 'Learn why data quality, held-out tests, and task-specific metrics matter.', duration: 10, difficulty: 'Beginner', category: 'AI Foundations', order: 4 },
   { id: 'ai-problem-solving', title: 'How AI Problems Are Framed', description: 'Turn a real-world goal into inputs, outputs, constraints, and an evaluation plan.', duration: 9, difficulty: 'Beginner', category: 'AI Foundations', order: 5 },
-  { id: 'probability-and-statistics', title: 'Probability and Statistics for AI', description: 'Build an intuitive foundation for uncertainty, distributions, and evidence.', duration: 12, difficulty: 'Intermediate', category: 'Math and Computing', order: 1 },
-  { id: 'algebra-and-functions', title: 'Algebra and Functions for AI', description: 'Build the language of variables, functions, graphs, and transformations.', duration: 12, difficulty: 'Beginner', category: 'Math and Computing', order: 2 },
-  { id: 'vectors-and-representations', title: 'Vectors and Representations', description: 'Understand how AI turns information into numbers it can compare and transform.', duration: 11, difficulty: 'Intermediate', category: 'Math and Computing', order: 3 },
-  { id: 'matrices-and-linear-algebra', title: 'Matrices and Linear Algebra', description: 'See how matrix operations power transformations inside models.', duration: 13, difficulty: 'Intermediate', category: 'Math and Computing', order: 4 },
-  { id: 'calculus-and-gradients', title: 'Calculus and Gradients', description: 'Understand slopes, change, and why gradients guide learning.', duration: 13, difficulty: 'Intermediate', category: 'Math and Computing', order: 5 },
+  { id: 'features-and-labels', title: 'Features and Labels: Describing Data to a Model', description: 'Choose the inputs a model sees and the answer it must predict, and build a feature table that lines up with its labels.', duration: 8, difficulty: 'Beginner', category: 'AI Foundations', order: 6 },
+  { id: 'bias-in-training-data', title: 'Bias in Training Data', description: 'Find missing groups, measurement gaps, and biased labels, and compare outcomes across groups before you train.', duration: 8, difficulty: 'Beginner', category: 'AI Foundations', order: 7 },
+  { id: 'errors-confidence-and-thresholds', title: 'Errors, Confidence, and Thresholds', description: 'Read a model score as confidence, choose a threshold from the cost of each mistake, and count false positives and negatives.', duration: 8, difficulty: 'Intermediate', category: 'AI Foundations', order: 8 },
+  { id: 'geometry-and-trigonometry', title: 'Geometry and Trigonometry', description: 'Use the Pythagorean theorem and sine and cosine to find distances and sides, and see why radians are the natural unit.', duration: 10, difficulty: 'Intermediate', category: 'Math and Computing', order: 90 },
+  { id: 'logic-and-proof', title: 'Logic and Proof', description: 'Build truth tables, tell a claim from its converse, and write direct and contradiction proofs.', duration: 10, difficulty: 'Intermediate', category: 'Math and Computing', order: 91 },
+  { id: 'sequences-and-growth', title: 'Sequences and Growth', description: 'Work with arithmetic and geometric sequences, add up series, and compare linear with exponential growth.', duration: 10, difficulty: 'Intermediate', category: 'Math and Computing', order: 92 },
+  { id: 'probability-and-statistics', title: 'Probability and Statistics', description: 'Build an intuitive foundation for chance, averages, spread, and evidence, from coin flips to medical tests.', duration: 12, difficulty: 'Intermediate', category: 'Math and Computing', order: 1 },
+  { id: 'algebra-and-functions', title: 'Algebra and Functions', description: 'Build the language of variables, formulas, functions, graphs, and transformations.', duration: 12, difficulty: 'Beginner', category: 'Math and Computing', order: 2 },
+  { id: 'vectors-and-representations', title: 'Vectors and Representations', description: 'Use lists of numbers to describe, compare, and combine things, from positions on a map to amounts in a recipe.', duration: 11, difficulty: 'Intermediate', category: 'Math and Computing', order: 3 },
+  { id: 'matrices-and-linear-algebra', title: 'Matrices and Linear Algebra', description: 'See how rows and columns organize numbers, and how a matrix transforms points, shapes, and coordinates.', duration: 13, difficulty: 'Intermediate', category: 'Math and Computing', order: 4 },
+  { id: 'calculus-and-gradients', title: 'Calculus and Rates of Change', description: 'Understand slopes, rates of change, and how many small steps add up to a total.', duration: 13, difficulty: 'Intermediate', category: 'Math and Computing', order: 5 },
   { id: 'programming-and-data-workflows', title: 'Programming and Data Workflows', description: 'See how code, data, baselines and repeatable steps fit together in an AI project.', duration: 10, difficulty: 'Intermediate', category: 'Math and Computing', order: 6 },
   { id: 'research-questions', title: 'Asking a Good Research Question', description: 'Turn a vague question into one you can test, name the groups and the measure, and write a prediction before looking at data.', duration: 8, difficulty: 'Intermediate', category: 'Research', order: 1 },
   { id: 'reading-research-papers', title: 'Reading a Research Paper', description: 'Find the claim and the comparison in a paper, judge its sample and measure, and look for what it did not test.', duration: 8, difficulty: 'Intermediate', category: 'Research', order: 5 },
   { id: 'reporting-results', title: 'Reporting Results Honestly', description: 'Write the answer with its likely range and limits, draw charts that show the true scale, and produce the report from one script.', duration: 8, difficulty: 'Intermediate', category: 'Research', order: 6 },
   { id: 'data-collection-and-cleaning', title: 'Data Collection and Cleaning', description: 'Collect data with consent and a clear plan, find messy values and clean them with written rules that anyone can repeat.', duration: 9, difficulty: 'Intermediate', category: 'Research', order: 2 },
   { id: 'experiment-design', title: 'Experiment Design', description: 'Compare groups fairly with a comparison group, random assignment and handling of confounders.', duration: 9, difficulty: 'Intermediate', category: 'Research', order: 3 },
-  { id: 'optimization-and-training', title: 'Optimization and Training', description: 'Learn how loss functions and gradient-based updates improve a model.', duration: 12, difficulty: 'Intermediate', category: 'Math and Computing', order: 10 },
-  { id: 'numerical-methods-for-ai', title: 'Numerical Methods for AI', description: 'Understand approximation, stability, conditioning, and the computational limits of mathematical algorithms.', duration: 16, difficulty: 'Advanced', category: 'Math and Computing', order: 11 },
+  { id: 'optimization-and-training', title: 'Optimization', description: 'Find the best choice under a rule, such as the lowest cost or the shortest route, using steps that improve on each try.', duration: 12, difficulty: 'Intermediate', category: 'Math and Computing', order: 10 },
+  { id: 'numerical-methods-for-ai', title: 'Numerical Methods', description: 'Understand approximation, rounding, stability, and when a computer answer is close enough.', duration: 16, difficulty: 'Advanced', category: 'Math and Computing', order: 11 },
   { id: 'statistical-inference-and-experiments', title: 'Statistical Inference and Experiments', description: 'Ask whether a gap could be chance, read a p-value and a confidence interval in plain words, and tell clear results from important ones.', duration: 12, difficulty: 'Advanced', category: 'Research', order: 4 },
-  { id: 'mathematical-modeling-for-ai', title: 'Mathematical Modeling for AI', description: 'Translate a real system into assumptions, variables, objectives, constraints, and measurable predictions.', duration: 16, difficulty: 'Advanced', category: 'Math and Computing', order: 13 },
+  { id: 'mathematical-modeling-for-ai', title: 'Mathematical Modeling', description: 'Translate a real situation into variables, a formula, assumptions, and tests.', duration: 16, difficulty: 'Advanced', category: 'Math and Computing', order: 13 },
+  { id: 'install-python-in-vs-code', title: 'Install Python in VS Code', description: 'Install Python on macOS, Windows, or Linux, add the VS Code Python extension, and run your first program.', duration: 6, difficulty: 'Beginner', category: 'Python', order: 1 },
   { id: 'python-basics', title: 'Running Python and Values', description: 'Run a Python program and work with variables, values, and basic expressions.', duration: 8, difficulty: 'Beginner', category: 'Python', order: 1 },
   { id: 'python-control-flow', title: 'Conditions and Loops', description: 'Use decisions and repetition to control what a Python program does.', duration: 9, difficulty: 'Beginner', category: 'Python', order: 2 },
   { id: 'python-functions', title: 'Functions and Reusable Code', description: 'Package instructions into functions that accept inputs and return results.', duration: 9, difficulty: 'Beginner', category: 'Python', order: 3 },
@@ -178,12 +194,15 @@ const lessonCatalog: Lesson[] = [
   { id: 'capstone-agent', title: 'Project: Design a Tool-Using Agent', description: 'Build an agent with goals, tools, permissions, limits, and tests.', duration: 360, difficulty: 'Intermediate', category: 'Projects and Practice', order: 4 },
   { id: 'capstone-evaluation', title: 'Project: Evaluate an AI System', description: 'Create an evaluation plan that measures quality, safety, cost, and reliability.', duration: 300, difficulty: 'Intermediate', category: 'Projects and Practice', order: 6 },
   ...orientationLessons,
+  ...networkingIotLessons,
+  ...foundationsExpansionLessons,
+  ...engineeringExpansionLessons,
   ...providerCloudLessons,
   ...advancedProviderCloudLessons,
 ]
 
 // Foundations cloud and programming lessons are written at true beginner level.
-const beginnerFoundationIds = new Set(['cloud-fundamentals', 'iam-security', 'cloud-storage-compute', 'cloud-networking', 'containers-serverless', 'ci-cd', 'infrastructure-as-code', 'programming-and-data-workflows'])
+const beginnerFoundationIds = new Set(['cloud-fundamentals', 'iam-security', 'cloud-storage-compute', 'cloud-networking', 'containers-serverless', 'ci-cd', 'infrastructure-as-code', 'programming-and-data-workflows', 'networking-how-devices-connect', 'networking-ip-addresses-and-subnets', 'networking-dns-names-to-addresses', 'networking-ports-and-protocols', 'networking-troubleshooting-a-connection', 'iot-what-is-it', 'iot-sensors-and-readings', 'iot-connectivity-choices', 'iot-device-messages', 'iot-security-basics'])
 
 // Reading time for rewritten lessons is calculated from their word count, never typed by hand.
 export const lessons: Lesson[] = lessonCatalog.map(applyCloudTrackPlan).map((lesson) => {
@@ -216,6 +235,11 @@ const sourceMapResources = {
 const modulePrerequisites: Record<string, string[]> = {
   'game-development': ['Basic programming: variables, functions, and if statements. Python helps, but it is not required.', 'Godot, a free game engine, installed on your computer.'],
   'vibe-coding': ['Python basics: functions, lists, dictionaries, and running a script.', 'Git basics from the Software Engineering section: commit, status and diff.'],
+  'software-design': ['Basic Python functions and reading code.', 'The Software Engineering lessons on readable code.'],
+  'error-handling': ['Python functions and exceptions.', 'A working Study Tracker API.'],
+  'team-practice': ['Git basics: commit, branch and push.', 'A small change to practice on.'],
+  'networking-foundations': ['Basic computer use and a willingness to use a terminal.', 'Python basics for the address and check exercises. Optional for the concepts.'],
+  'iot-foundations': ['Basic computer use. Python basics help for the reading and message exercises.', 'Networking Foundations is helpful for the connection and security lessons.'],
   'ai-fundamentals': ['No prior AI knowledge.'],
   'computing-math': ['AI fundamentals or equivalent curiosity about how software learns.'],
   'research-methods': ['Probability and statistics for AI from the Math section.', 'Python basics: functions, loops and reading files.'],
@@ -311,13 +335,16 @@ export const curriculumStages: CurriculumStage[] = [
     description: 'Learn the durable software practices around AI systems: boundaries, persistence, correctness, and repeatable delivery.',
     modules: [
       moduleWithLessons('code-quality', 'Readable code', 'Write code other people can read, change and review.', lessonIds('readable-code'), sourceMapResources.git),
+      moduleWithLessons('software-design', 'Software design', 'Give each part one job, pass in what it needs, and keep the connections between parts small.', lessonIds('software-design-basics'), sourceMapResources.git),
       moduleWithLessons('http-networking', 'HTTP and the web', 'Follow requests and responses between apps and servers.', lessonIds('http-networking'), sourceMapResources.web),
       moduleWithLessons('apis-rest', 'Build an API', 'Build Study Tracker as a FastAPI app, with settings and secrets kept out of the code.', lessonIds('build-an-api', 'config-and-secrets'), sourceMapResources.web),
       moduleWithLessons('databases-sql', 'Databases and SQL', 'Store Study Tracker data in SQLite and query it with SQL.', lessonIds('databases-sql'), sourceMapResources.sql),
       moduleWithLessons('data-structures', 'Data structures', 'Choose structures and algorithms that make application behavior correct and efficient.', lessonIds('python-data-structures'), sourceMapResources.math),
       moduleWithLessons('testing-debugging', 'Testing a whole app', 'Test every endpoint against a test database and run the tests on every push.', lessonIds('python-files-and-errors', 'testing-debugging'), sourceMapResources.testing),
+      moduleWithLessons('error-handling', 'Errors and reliability', 'Separate user errors from system failures, keep messages safe, and retry only what can recover.', lessonIds('handling-errors-and-reliability'), sourceMapResources.testing),
       moduleWithLessons('logging', 'Logging', 'Record what Study Tracker does so you can find problems later.', lessonIds('logging'), sourceMapResources.testing),
       moduleWithLessons('docker', 'Docker', 'Package Study Tracker so it runs the same way on any computer.', lessonIds('docker'), sourceMapResources.docker),
+      moduleWithLessons('team-practice', 'Planning and teamwork', 'Work in small changes, define done, plan against capacity, and review code well.', lessonIds('planning-small-changes', 'code-review-and-teamwork'), sourceMapResources.git),
       moduleWithLessons('software-engineering-capstone', 'Capstone', 'Finish and ship Study Tracker as a portfolio piece.', lessonIds('software-engineering-capstone'), sourceMapResources.git),
     ],
   },
@@ -327,15 +354,15 @@ export const curriculumStages: CurriculumStage[] = [
     modules: [
       moduleWithLessons('llms', 'How modern AI works', 'What generative AI is, how language models turn tokens into text, and where they go wrong.', lessonsInOrder('generative-ai', 'neural-networks', 'tokens', 'large-language-models', 'transformers-and-attention', 'context-windows', 'multimodal-ai', 'hallucinations', 'models')),
       moduleWithLessons('prompting', 'Using AI well', 'Everyday habits, prompts, system prompts, assistants, evaluation and responsible use.', lessonsInOrder('talk-to-ai', 'prompt-engineering', 'system-prompts', 'ai-assistants', 'evaluating-ai-responses', 'responsible-ai')),
-      moduleWithLessons('ai-apis', 'Building with AI', 'Add AI features to Study Tracker: model calls, structured output, tools, retrieval, MCP, agents and streaming.', lessonsInOrder('ai-apis', 'structured-outputs', 'tool-calling', 'embeddings', 'vector-databases', 'rag', 'mcp', 'ai-agents', 'fine-tuning', 'inference-and-deployment'), sourceMapResources.web),
-      moduleWithLessons('observability', 'Running AI in production', 'Observe, control the cost of and design the experience around Study Tracker\'s AI features.', lessonsInOrder('ai-observability', 'ai-cost-and-performance', 'ai-product-design')),
+      moduleWithLessons('ai-apis', 'Building with AI', 'Add AI features to Study Tracker: model calls, structured output, tools, retrieval, MCP, agents and streaming.', lessonsInOrder('ai-apis', 'structured-outputs', 'tool-calling', 'embeddings', 'vector-databases', 'rag', 'mcp', 'ai-agents', 'fine-tuning', 'inference-and-deployment', 'open-models-and-running-locally'), sourceMapResources.web),
+      moduleWithLessons('observability', 'Running AI in production', 'Observe, control the cost of and design the experience around Study Tracker\'s AI features.', lessonsInOrder('ai-observability', 'measuring-classifier-performance', 'ai-cost-and-performance', 'ai-product-design')),
     ],
   },
   {
     id: 'cloud-engineering', eyebrow: 'Stage 04', title: 'Cloud Engineering', tone: 'neutral', assessment: stageAssessments['cloud-engineering'], learnerOutcome: { understand: 'How cloud platforms provide identity, storage, compute, networking, and operations.', build: 'A deployed service with secure identity, monitoring, cost awareness, and rollback thinking.', show: 'A deployed workload, architecture diagram, provider choice, and certification preparation evidence.' },
     description: 'Learn the shared cloud vocabulary, then choose a provider track for hands-on deployment and operations.',
     modules: [
-      moduleWithLessons('cloud-fundamentals', 'Cloud Fundamentals', 'Learn portable concepts behind every provider: shared responsibility, identity, compute, storage, networking, containers, serverless, delivery, and infrastructure as code.', lessonIds('cloud-fundamentals', 'iam-security', 'cloud-storage-compute', 'cloud-networking', 'containers-serverless', 'ci-cd', 'infrastructure-as-code'), [...sourceMapResources.azure, ...sourceMapResources.aws, ...sourceMapResources.gcp]),
+      moduleWithLessons('cloud-fundamentals', 'Cloud Fundamentals', 'Learn portable concepts behind every provider: shared responsibility, identity, compute, storage, networking, containers, serverless, delivery, and infrastructure as code.', lessonIds('cloud-fundamentals', 'iam-security', 'cloud-storage-compute', 'cloud-networking', 'containers-serverless', 'ci-cd', 'infrastructure-as-code', 'cloud-service-models', 'latency-and-regions', 'backups-and-recovery-basics', 'cloud-costs-and-budgets', 'monitoring-and-logs-basics', 'cloud-foundations-checkpoint'), [...sourceMapResources.azure, ...sourceMapResources.aws, ...sourceMapResources.gcp]),
       moduleWithLessons('azure-track', 'Azure Cloud Engineering', 'Master Azure foundations, governance, identity, compute, data, networking, containers, events, security, resilience, AI platforms, operations, cost, deployment, and enterprise architecture.', providerLessons('azure'), sourceMapResources.azure, 'azure'),
       moduleWithLessons('aws-track', 'AWS Cloud Engineering', 'Master AWS foundations, multi-account governance, IAM, compute, data, networking, containers, events, security, resilience, AI platforms, operations, cost, deployment, and enterprise architecture.', providerLessons('aws'), sourceMapResources.aws, 'aws'),
       moduleWithLessons('gcp-track', 'Google Cloud Engineering', 'Master Google Cloud foundations, governance, IAM, compute, data, networking, containers, events, security, resilience, AI platforms, operations, cost, deployment, and enterprise architecture.', providerLessons('gcp'), sourceMapResources.gcp, 'gcp'),
@@ -349,7 +376,7 @@ export const curriculumStages: CurriculumStage[] = [
       moduleWithLessons('scalability', 'Scalability', 'Design for changing traffic, workload shape, throughput, and capacity.', lessonIds('scalability'), sourceMapResources.architecture),
       moduleWithLessons('reliability', 'Reliability', 'Make availability, recovery, graceful degradation, and incident response part of the design.', lessonIds('reliability'), sourceMapResources.architecture),
       moduleWithLessons('distributed-systems', 'Distributed systems', 'Reason about coordination, consistency, queues, retries, and partial failure.', lessonIds('distributed-systems'), sourceMapResources.architecture),
-      moduleWithLessons('security-governance', 'Security and governance', 'Make trust boundaries, privacy, ownership, risk, and change management visible.', lessons.filter((lesson) => lesson.category === 'AI Security').concat(lessonIds('ai-governance')), sourceMapResources.security),
+      moduleWithLessons('security-governance', 'Security and governance', 'Make trust boundaries, privacy, ownership, risk, and change management visible.', lessonsInOrder('authentication-passwords-and-mfa', 'encryption-essentials', 'secure-web-coding', 'phishing-and-social-engineering', 'general-threat-modeling', 'security-monitoring-and-response', 'security-checkpoint').concat(lessons.filter((lesson) => lesson.category === 'AI Security'), lessonIds('ai-governance')), sourceMapResources.security),
       moduleWithLessons('architecture-patterns', 'Architecture patterns', 'Choose patterns deliberately for retrieval, eventing, workflows, providers, and human review.', lessonIds('architecture-patterns'), sourceMapResources.architecture),
       moduleWithLessons('enterprise-integration', 'Enterprise integration', 'Connect identity, existing systems, data ownership, and change processes without losing control.', lessonIds('enterprise-integration'), sourceMapResources.architecture),
       moduleWithLessons('cost-optimization', 'Cost optimization', 'Compare quality, latency, infrastructure, model, and operational costs as one system.', lessonIds('cost-optimization'), sourceMapResources.architecture),
@@ -407,7 +434,23 @@ export const curriculumStages: CurriculumStage[] = [
     learnerOutcome: { understand: 'How to describe software clearly, check generated code, and keep control of the result.', build: 'A small Python tool built in steps, with tests, checkpoints and a clear design.', show: 'A tested tool with a README that explains how it was built and what was checked.' },
     description: 'Build with an AI assistant without giving up control: write clear goals, work in small steps, read and test what is generated, and keep honest records.',
     modules: [
-      moduleWithLessons('vibe-coding', 'Building with an AI assistant', 'Describe, build, read, test and ship small tools with an AI assistant, keeping every step checked.', lessonsInOrder('vibe-coding-what-it-is', 'describing-a-goal-to-an-ai', 'working-in-small-steps', 'reading-ai-generated-code', 'testing-ai-generated-code', 'debugging-with-an-ai-assistant', 'checkpoints-with-git', 'safety-when-sharing-code', 'when-to-stop-prompting-and-design', 'vibe-coding-capstone')),
+      moduleWithLessons('vibe-coding', 'Building with an AI assistant', 'Describe, build, read, test and ship small tools with an AI assistant, keeping every step checked.', lessonsInOrder('vibe-coding-what-it-is', 'vscode-setup-walkthrough', 'install-an-ai-assistant', 'project-rules-for-your-assistant', 'describing-a-goal-to-an-ai', 'working-in-small-steps', 'reading-ai-generated-code', 'testing-ai-generated-code', 'debugging-with-an-ai-assistant', 'checkpoints-with-git', 'permissions-and-approvals', 'prompt-injection-and-untrusted-text', 'safety-when-sharing-code', 'checking-packages-before-install', 'when-to-stop-prompting-and-design', 'vibe-coding-capstone')),
+    ],
+  },
+  {
+    id: 'networking-foundations', eyebrow: 'Start here', title: 'Networking Foundations', tone: 'teal',
+    learnerOutcome: { understand: 'How devices, addresses, names, ports and routes work together to move data across a network.', build: 'A small Python check that reads IP addresses, flags devices on the wrong network and finds the first failing connection step.', show: 'A short written troubleshooting record for a connection problem, with the tests you ran and what each one ruled out.' },
+    description: 'Learn how devices connect, how IP addresses and subnets work, how names become addresses, how ports pick a service, and how to find a broken connection step by step.',
+    modules: [
+      moduleWithLessons('networking-foundations', 'Networking basics', 'Connect devices, read addresses and subnets, follow names and ports, and troubleshoot a connection in order.', lessonsInOrder('networking-how-devices-connect', 'networking-ip-addresses-and-subnets', 'networking-dhcp-and-nat', 'networking-dns-names-to-addresses', 'networking-https-and-certificates', 'networking-ports-and-protocols', 'networking-firewalls-and-vpns', 'networking-home-and-wifi-security', 'networking-troubleshooting-a-connection', 'networking-checkpoint')),
+    ],
+  },
+  {
+    id: 'iot-foundations', eyebrow: 'Start here', title: 'IoT Foundations', tone: 'gold',
+    learnerOutcome: { understand: 'How connected devices read the world, choose a connection, send messages, and stay secure.', build: 'A small Python program that cleans sensor readings, picks a connection and checks a device message.', show: 'A written design for one connected device, with its sensors, connection, message format and security checks.' },
+    description: 'Learn how Internet of Things devices sense, decide and communicate, with sensor readings, connection choices, MQTT messages and basic device security.',
+    modules: [
+      moduleWithLessons('iot-foundations', 'IoT basics', 'Follow a reading through a connected device, choose a connection, send trusted messages and keep devices secure.', lessonsInOrder('iot-what-is-it', 'iot-microcontrollers-and-safety', 'iot-sensors-and-readings', 'iot-connectivity-choices', 'iot-power-and-battery-life', 'iot-device-messages', 'iot-over-the-air-updates', 'iot-edge-and-privacy', 'iot-security-basics', 'iot-checkpoint')),
     ],
   },
 ]

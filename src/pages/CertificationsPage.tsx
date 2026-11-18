@@ -7,7 +7,7 @@ import { lessons } from '../data/curriculum'
 import { learningSectionById } from '../data/learningSections'
 import type { Certification, CertificationArea, CertificationCost, CertificationLevel } from '../types/curriculum'
 
-const areas: ('All' | CertificationArea)[] = ['All', 'Cloud', 'AI', 'Security', 'Programming & Developer Tools']
+const areas: ('All' | CertificationArea)[] = ['All', 'Cloud', 'AI', 'Security', 'Networking', 'Programming & Developer Tools']
 const levels: ('All' | CertificationLevel)[] = ['All', 'Entry', 'Associate', 'Professional']
 const costs: ('All' | CertificationCost)[] = ['All', 'Free', 'Free training, paid exam', 'Paid exam']
 
@@ -18,6 +18,9 @@ const paths: { title: string; intro: string; ids: string[] }[] = [
   { title: 'New to tech', intro: 'Start with free training, then one entry certificate.', ids: ['freecodecamp-certifications', 'azure-fundamentals', 'aws-cloud-practitioner'] },
   { title: 'Moving into cloud', intro: 'Earn one entry certificate, then an associate-level exam on the same cloud.', ids: ['azure-fundamentals', 'azure-administrator', 'kcna'] },
   { title: 'Moving into AI', intro: 'Learn the vocabulary first, then show you can use AI responsibly.', ids: ['azure-ai-fundamentals', 'aws-ai-practitioner', 'gcp-generative-ai-leader'] },
+  { title: 'Connecting networks', intro: 'Learn how devices talk to each other, then prove it with a vendor-neutral entry exam and a hands-on associate exam.', ids: ['comptia-network-plus', 'cisco-ccna'] },
+  { title: 'Building with AI tools', intro: 'Learn the GitHub workflow that AI-assisted projects run on.', ids: ['github-foundations'] },
+  { title: 'Making games', intro: 'Learn the engine and the project workflow, then take a recognized game developer credential.', ids: ['unity-certified-associate-game-developer'] },
 ]
 
 const titleOf = (id: string) => certifications.find((item) => item.id === id)?.name ?? id
