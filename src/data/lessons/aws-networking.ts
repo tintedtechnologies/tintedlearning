@@ -65,7 +65,7 @@ const lesson: StructuredLesson = {
              |  HTTPS
           public-a / public-b     load balancer, tasks (route 0.0.0.0/0 -> internet gateway)
              |  TCP 5432 from sg-study-app only
-          private-a / private-b   PostgreSQL (lesson 7), no internet route
+          private-a / private-b   PostgreSQL (lesson 9), no internet route
         `,
       },
     },
@@ -110,7 +110,7 @@ const lesson: StructuredLesson = {
     },
     steps: [
       { code: '--tag-specifications \'ResourceType=vpc,Tags=[...]\'', explanation: "EC2 resources are tagged as they are created. The `Name` tag is what the console shows, and the `project` tag puts each one in the `study-tracker` resource group." },
-      { code: 'aws ec2 modify-vpc-attribute --vpc-id $VPC_ID --enable-dns-hostnames', explanation: "Lets resources in the VPC get DNS names, which the database endpoint in lesson 7 relies on." },
+      { code: 'aws ec2 modify-vpc-attribute --vpc-id $VPC_ID --enable-dns-hostnames', explanation: "Lets resources in the VPC get DNS names, which the database endpoint in lesson 9 relies on." },
       { code: 'PUB1=$(aws ec2 create-subnet ... --cidr-block 10.0.0.0/24 --availability-zone $AZ1 ...)', explanation: "Creates public subnet A. Repeat with `10.0.1.0/24` in `$AZ2` as `PUB2` named `public-b`, then `10.0.2.0/24` in `$AZ1` as `PRIV1` named `private-a`, and `10.0.3.0/24` in `$AZ2` as `PRIV2` named `private-b`." },
       { code: 'aws ec2 create-route --route-table-id $RT_PUB --destination-cidr-block 0.0.0.0/0 --gateway-id $IGW', explanation: "Sends internet-bound traffic to the internet gateway. Only subnets associated with this route table become public." },
       { code: 'aws ec2 associate-route-table --route-table-id $RT_PUB --subnet-id $PUB1', explanation: "Makes public subnet A public. Run it again with `$PUB2`. The private subnets are never associated, so they keep the main route table with no internet route." },

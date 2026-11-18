@@ -99,7 +99,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Take a function from a project and check every library call against the official documentation for your version. Write down any call you cannot confirm.',
-      'Add "json.dumps" to the used_calls list and to the confirmed set in the seItInAction example, and predict the result. Run it to check.',
+      'Add "json.dumps" to the used_calls list and to the confirmed set in the seeItInAction example, and predict the result. Run it to check.',
       'Write a review note for one generated change with what you checked, what you ran, and what you did not check.',
     ],
   },

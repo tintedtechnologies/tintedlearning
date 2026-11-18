@@ -17,13 +17,13 @@ const architectureDiagram = code`
 `
 
 const lesson: StructuredLesson = {
-  assumes: 'all 13 earlier Azure lessons, Docker Desktop, and the architecture lessons System Design and Architecture Decision Records. Set the track variables first.',
+  assumes: 'all 15 earlier Azure lessons, Docker Desktop, and the architecture lessons System Design and Architecture Decision Records. Set the track variables first.',
   goals: [
     'Describe Study Tracker\'s whole Azure architecture in one diagram and one decision record',
     'Deploy the whole architecture from one Bicep file, as many times as you like',
     'Prove the deployment meets its requirements, then remove everything cleanly',
   ],
-  bigIdea: "Infrastructure as code, or IaC, describes every cloud resource in files kept with the app, so the whole system can be created, reviewed, changed and deleted by running them, as the Foundations lesson introduced. The capstone rebuilds the Study Tracker you assembled by hand over 13 lessons from a single Bicep file, Azure's language for describing resources. If you can delete everything and recreate it in minutes, you truly own the system.",
+  bigIdea: "Infrastructure as code, or IaC, describes every cloud resource in files kept with the app, so the whole system can be created, reviewed, changed and deleted by running them, as the Foundations lesson introduced. The capstone rebuilds the Study Tracker you assembled by hand in the earlier lessons from a single Bicep file, Azure's language for describing resources. If you can delete everything and recreate it in minutes, you truly own the system.",
   whyItMatters: "Ask a team that built its cloud setup by hand to recreate it in a new region, and the answer is usually weeks of clicking, guessing at old settings and discovering things nobody wrote down. A system described in code can be rebuilt by anyone, reviewed in a pull request before it changes, and compared against what is actually running. That, together with the diagram and decision record, is what turns a working project into a portfolio piece an employer can trust.",
   goalSections: [
     {
@@ -119,7 +119,7 @@ const lesson: StructuredLesson = {
     ],
     project: {
       goal: 'Rebuild Study Tracker on Azure from one Bicep file, prove every requirement from the track with evidence, document it with a diagram and a decision record, then delete everything.',
-      prerequisites: ['All 13 earlier Azure lessons.', 'The Azure CLI signed in as `studyadmin`, Docker Desktop, and the Study Tracker repository with the PostgreSQL-ready code from lesson 7.'],
+      prerequisites: ['All 15 earlier Azure lessons.', 'The Azure CLI signed in as `studyadmin`, Docker Desktop, and the Study Tracker repository with the PostgreSQL-ready code from lesson 9.'],
       setup: ['Set the track variables `RG`, `LOCATION` and `SUFFIX`.', 'Save `main.bicep` and `main.bicepparam` in your repository, and set your suffix and email in the parameters file.'],
       files: [
         { path: 'main.bicep', purpose: 'Every Study Tracker resource, tagged, in one file.' },
@@ -130,11 +130,11 @@ const lesson: StructuredLesson = {
       ],
       dependencies: ['az bicep install', 'Docker Desktop'],
       steps: [
-        { title: 'Retire the hand-built version', instructions: ['List what you built by hand with `az resource list --resource-group $RG -o table` and save the output in `docs/evidence.md`.', 'Delete the resource group, then purge the vault so its name can be reused. If you turned on purge protection in lesson 10, choose a new `SUFFIX` instead.'], commands: ['az group delete --name $RG --yes', 'az keyvault purge --name kv-study-$SUFFIX'], checkpoint: '`az group exists --name $RG` prints `false`.' },
+        { title: 'Retire the hand-built version', instructions: ['List what you built by hand with `az resource list --resource-group $RG -o table` and save the output in `docs/evidence.md`.', 'Delete the resource group, then purge the vault so its name can be reused. If you turned on purge protection in lesson 12, choose a new `SUFFIX` instead.'], commands: ['az group delete --name $RG --yes', 'az keyvault purge --name kv-study-$SUFFIX'], checkpoint: '`az group exists --name $RG` prints `false`.' },
         { title: 'Check the code', instructions: ['Compile the template and fix anything the compiler reports.', 'Read through each resource and match it to the lesson that introduced it.'], commands: ['az bicep build --file main.bicep'], checkpoint: 'The build finishes with no errors or warnings.' },
         { title: 'First deployment', instructions: ['Set `DB_PASSWORD`, create the resource group, preview with what-if and deploy, as in See it in action.', 'Leave `DEPLOY_APP` unset.'], commands: ['az deployment group what-if --resource-group $RG --parameters main.bicepparam', 'az deployment group create --resource-group $RG --name study-tracker-base --parameters main.bicepparam'], checkpoint: 'The deployment succeeds and the portal shows about 20 resources, all tagged.' },
         { title: 'Image and second deployment', instructions: ['Push the image to the new registry.', 'Set `DEPLOY_APP=true` and deploy again. Open the app\'s `/docs`.'], commands: ['az acr login --name acrstudy$SUFFIX', 'docker build --platform linux/amd64 -t acrstudy$SUFFIX.azurecr.io/study-tracker:v3 .', 'docker push acrstudy$SUFFIX.azurecr.io/study-tracker:v3'], checkpoint: 'The app answers at its address, and a saved session survives the app scaling to zero.' },
-        { title: 'Collect the evidence', instructions: ['For each requirement in the checklist, run the proving command and paste its output with the date.', 'Trigger the error alert with repeated 503s, and repeat the restore drill from lesson 11.'], checkpoint: 'Every line of the checklist has real evidence.' },
+        { title: 'Collect the evidence', instructions: ['For each requirement in the checklist, run the proving command and paste its output with the date.', 'Trigger the error alert with repeated 503s, and repeat the restore drill from lesson 13.'], checkpoint: 'Every line of the checklist has real evidence.' },
         { title: 'Diagram and decision record', instructions: ['Add the architecture diagram to `docs/architecture.md`, adjusted to what you deployed.', 'Write at least one decision record in `docs/adr/`, with options, consequences and a revisit trigger.'], checkpoint: 'A reviewer could explain the system and one key decision after five minutes of reading.' },
         { title: 'Clean up', instructions: ['Delete the resource group and purge the vault.', 'Check Cost analysis over the next two days to confirm spending stops.'], commands: ['az group delete --name $RG --yes', 'az keyvault purge --name kv-study-$SUFFIX'], checkpoint: 'No Study Tracker resources remain, and the budget shows no new costs.' },
       ],
@@ -202,7 +202,7 @@ const lesson: StructuredLesson = {
     heading: 'How a Bicep deployment works',
     paragraphs: [
       "Azure never runs Bicep directly. `az` compiles the file into an Azure Resource Manager template, a JSON document, and sends it to Resource Manager, the same front door that checks Azure Policy. Resource Manager builds a graph of the resources and their references, then creates everything in parallel where it can, waiting only where one resource needs another.",
-      "Each resource is sent as a desired state, like Kubernetes in lesson 8. If the resource exists and already matches, nothing happens. If a setting differs, only that setting is updated. That is why running the same deployment twice is safe, and why what-if can predict the outcome by comparing the file with what exists.",
+      "Each resource is sent as a desired state, like Kubernetes in lesson 10. If the resource exists and already matches, nothing happens. If a setting differs, only that setting is updated. That is why running the same deployment twice is safe, and why what-if can predict the outcome by comparing the file with what exists.",
       "By default, deployments to a resource group add and update resources but do not delete ones that are no longer in the file. Removing a resource from the code does not remove it from Azure, which is one more reason the capstone ends by deleting the whole group, and why larger teams use features such as deployment stacks to keep the two in sync.",
     ],
   },

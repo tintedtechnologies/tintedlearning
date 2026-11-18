@@ -52,7 +52,7 @@ const lesson: StructuredLesson = {
     {
       heading: 'Protecting data in transit and at rest',
       paragraphs: [
-        'Data in transit is data moving across a network. Use TLS for every connection that carries personal data or passwords, as covered in the HTTPS lesson. A connection that is only partly encrypted, or that accepts an invalid certificate, is not protected.',
+        'Data in transit is data moving across a network. Use TLS for every connection that carries personal data or passwords, as covered in HTTPS and Certificates. A connection that is only partly encrypted, or that accepts an invalid certificate, is not protected.',
         'Data at rest is data stored on a disk, in a database, or in a backup. Encrypt it with keys that are stored separately from the data, in a key management service or a secure key store, rather than beside it. Rotate keys on a schedule and when someone with access leaves.',
         'Do not invent your own encryption. Use established libraries and well-known modes, because small mistakes in a home-made scheme can break it completely. Your job is to choose the right tool, use it correctly, and protect its keys.',
       ],
@@ -96,7 +96,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Find out whether the website you use most has a secure connection, and what kind of certificate it presents. Write down the name on the certificate.',
-      'Change the message in the seItInAction example to a longer sentence and predict whether the hash length changes. Run it to check.',
+      'Change the message in the seeItInAction example to a longer sentence and predict whether the hash length changes. Run it to check.',
       'List three places your own data is stored, such as a phone, a cloud account, or a backup, and write whether each is encrypted at rest.',
     ],
   },
@@ -124,7 +124,7 @@ const lesson: StructuredLesson = {
       ` },
       options: [
         { text: '64', explanation: 'Yes. SHA-256 always produces 64 hexadecimal characters, whatever the input length.' },
-        { text: '36', explanation: 'That is the length of the message, not the hash.' },
+        { text: '36', explanation: 'That is not the hash length. The message is 33 characters, and the hash is always 64 for SHA-256.' },
         { text: '256', explanation: 'That is the number of bits. The hexadecimal text is 64 characters long.' },
         { text: 'An error', explanation: 'The code is valid Python and runs without an error.' },
       ],

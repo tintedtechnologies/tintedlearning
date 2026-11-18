@@ -79,7 +79,7 @@ const lesson: StructuredLesson = {
   ],
   seeItInAction: {
     title: 'A coin that scores once and disappears',
-    intro: 'This complete coin script waits for the player to enter its area, scores once, and removes itself. The player is found by its group, which is a tag you add in the Groups tab. Read the handler from top to bottom. Watch the order of the steps: the score changes before the coin is removed.',
+    intro: 'This complete coin script waits for the player to enter its area, scores once, and removes itself. The player is found by its group, which is a tag you add in the Groups tab. Read the handler from top to bottom. Watch the order of the steps: the points are shown before the coin is removed.',
     example: {
       language: 'text',
       runnable: false,

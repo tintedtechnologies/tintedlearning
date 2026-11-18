@@ -153,8 +153,8 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'State the question and its units, estimate before calculating, compare options over the same period, check the result two ways, and explain the answer with its assumptions and limits.',
   resources: [
-    { title: 'Estimation and Fermi problems', provider: 'Khan Academy', description: 'Free lessons on estimating quantities and checking whether an answer is reasonable.', url: 'https://www.khanacademy.org/math/algebra-basics' },
-    { title: 'Practice with quantitative reasoning', provider: 'Khan Academy', description: 'Free practice in reasoning with numbers, from arithmetic to algebra.', url: 'https://www.khanacademy.org/math/arithmetic-home' },
+    { title: 'Algebra basics', provider: 'Khan Academy', description: 'Free lessons on the variables, equations and rates behind everyday calculations.', url: 'https://www.khanacademy.org/math/algebra-basics' },
+    { title: 'Arithmetic', provider: 'Khan Academy', description: 'Free practice with whole numbers, decimals, fractions and percentages.', url: 'https://www.khanacademy.org/math/arithmetic-home' },
   ],
 }
 

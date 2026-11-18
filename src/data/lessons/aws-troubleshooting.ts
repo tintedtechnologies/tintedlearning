@@ -92,7 +92,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Run the describe-stack-events command against a test stack, or write down the command, and find the first failed event.',
-      'Change the AppRole event in the seItInAction example to CREATE_COMPLETE and predict the root cause. Run it to check.',
+      'Change the AppRole event in the seeItInAction example to CREATE_COMPLETE and predict the root cause. Run it to check.',
       'Write the CloudTrail search you would run for a failure that started at 12:00, including the time window and the entity you would look for.',
     ],
   },

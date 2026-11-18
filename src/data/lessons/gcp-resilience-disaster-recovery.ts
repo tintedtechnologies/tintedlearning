@@ -73,7 +73,7 @@ const lesson: StructuredLesson = {
   ],
   seeItInAction: {
     title: 'Restoring Study Tracker\'s database',
-    intro: "Save a few sessions and note the UTC time. Wait ten minutes, save one more, then restore to the noted time: the last session should be missing from the restored copy. After lesson 10 the secret has versions 1 and 2, so the new one is 3: adjust if yours differ. Cloning takes several minutes. In PowerShell, set variables as `$NAME = ...`, and write the replacement as `$DB_URL -replace '@[^:]+:5432', \"@${RESTORE_HOST}:5432\"`, saved to a file with `Set-Content -NoNewline` for `--data-file`.",
+    intro: "Save a few sessions and note the UTC time. Wait ten minutes, save one more, then restore to the noted time: the last session should be missing from the restored copy. After lesson 12 the secret has versions 1 and 2, so the new one is 3: adjust if yours differ. Cloning takes several minutes. In PowerShell, set variables as `$NAME = ...`, and write the replacement as `$DB_URL -replace '@[^:]+:5432', \"@${RESTORE_HOST}:5432\"`, saved to a file with `Set-Content -NoNewline` for `--data-file`.",
     example: {
       language: 'bash',
       code: code`

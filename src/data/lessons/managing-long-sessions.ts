@@ -96,7 +96,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Write a project brief for a tool you are building, with the goal, the decisions that stand, the files, and the next step. Keep it under one page.',
-      'Change code_storage in the seItInAction example to "SQLite" and predict the output. Run it to check.',
+      'Change code_storage in the seeItInAction example to "SQLite" and predict the output. Run it to check.',
       'Start a new session with your brief and one file, and ask for only the next step. Note whether the answer followed the brief.',
     ],
   },

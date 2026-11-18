@@ -118,7 +118,7 @@ const lesson: StructuredLesson = {
         { text: 'Split the pilot into smaller contracts so each one avoids review', explanation: 'Splitting work to avoid review is a control failure, and procurement would see it.' },
         { text: 'Ignore the request, since procurement slows everything down', explanation: 'Ignoring a formal request puts the approval itself at risk.' },
       ],
-      answer: 2,
+      answer: 1,
     },
     {
       question: 'Which pricing approach best fits a pilot whose scope and acceptance criteria are already written?',
@@ -135,7 +135,7 @@ const lesson: StructuredLesson = {
   resources: [
     { title: 'Procurement', provider: 'Wikipedia', description: 'How organizations buy goods and services, and the terms they negotiate.', url: 'https://en.wikipedia.org/wiki/Procurement' },
     { title: 'Negotiation', provider: 'Wikipedia', description: 'The principles of reaching agreement between parties with different interests.', url: 'https://en.wikipedia.org/wiki/Negotiation' },
-    { title: 'Service manual: buying digital services', provider: 'UK Government Digital Service', description: 'Public-sector guidance on procuring and managing digital services, including how buyers and suppliers agree terms.', url: 'https://www.gov.uk/service-manual' },
+    { title: 'The Service Manual', provider: 'UK Government Digital Service', description: 'Public-sector guidance on procuring and managing digital services, including how buyers and suppliers agree terms.', url: 'https://www.gov.uk/service-manual' },
   ],
   underTheHood: {
     heading: 'Why trades hold better than discounts',

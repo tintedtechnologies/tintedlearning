@@ -54,7 +54,7 @@ const lesson: StructuredLesson = {
       paragraphs: [
         'The state file is Terraform\'s record of what it created. If the state is on one laptop, nobody else can see it, and a lost laptop can lose the record. Store the state in a shared remote backend, such as a Cloud Storage bucket, with versioning turned on.',
         'Enable state locking, so that only one apply can run against the same state at a time. Without a lock, two deployments can each read the old state and write conflicting results.',
-        'Protect the state, because it can contain sensitive values. Restrict who can read the bucket, and never commit a local state file to version control. Review access to the state bucket every quarter, as people join and leave the team. Use the same review for state access as for code, because the state can contain sensitive values. Test the lock by starting two applies in a test project, and confirm the second one waits. Give the state bucket a clear name that includes the environment.',
+        'Protect the state, because it can contain sensitive values. Restrict who can read the bucket, and never commit a local state file to version control. Review access to the state bucket every quarter, as people join and leave the team. Treat the state bucket like production: its access list belongs in code review, and each change to it should have a reviewer. Test the lock by starting two applies in a test project, and confirm the second one waits. Give the state bucket a clear name that includes the environment.',
       ],
       example: {
         language: 'python',
@@ -102,7 +102,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Write a Terraform variable for the environment and a bucket name that uses it. Do not put a secret in the file.',
-      'Change planned_changes in the seItInAction example to include a create action, and predict the output. Run it to check.',
+      'Change planned_changes in the seeItInAction example to include a create action, and predict the output. Run it to check.',
       'Write the steps you would follow to set up remote state for a team: the bucket, the versioning, the locking, and who can read it.',
     ],
   },

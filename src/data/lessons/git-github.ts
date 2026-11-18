@@ -123,7 +123,7 @@ const lesson: StructuredLesson = {
     {
       question: 'You run `git status` and see `modified: app.py`. What do you run to include it in your next commit?',
       options: [
-        { text: '`git commit app.py`', explanation: 'Commit saves what is staged. Stage the file with `git add` first, or use `git commit -a`.' },
+        { text: '`git commit -m "Update app"`', explanation: 'Commit saves only what is staged, and nothing is staged yet. Git would report that there is nothing to commit.' },
         { text: '`git push`', explanation: 'Push uploads commits that already exist. This change has not been committed yet.' },
         { text: '`git init`', explanation: 'That starts a new repository. You already have one.' },
         { text: '`git add app.py`', explanation: 'Staging the file puts the change into the next commit. Then run `git commit -m "..."`.' },

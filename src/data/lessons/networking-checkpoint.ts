@@ -56,7 +56,7 @@ const lesson: StructuredLesson = {
     {
       heading: 'Explain the finding and the fix',
       paragraphs: [
-        'Write the finding in one paragraph. For example: the printer has a fixed address that no longer answers, because the router was restarted and its DHCP pool now includes that address for a different device. The gateway and the internet work, so the router is not the problem.',
+        'Write the finding in one paragraph. For example: the printer was given its address by DHCP and never reserved one. After the router restarted, the printer received a different address, so the old address no longer reaches it. The gateway and the internet work, so the router is not the problem.',
         'Propose one fix and one test. The fix might be to reserve the printer\'s address outside the pool, or to give it a reservation tied to its hardware. The test is to ping the printer by its address from two laptops and to print a test page.',
         'Finish with a watch item. What would tell you the problem is back? A printer that drops offline again, or a second device with the same address, would be the signal. Writing this down means the next person does not start from zero.',
       ],
@@ -64,11 +64,11 @@ const lesson: StructuredLesson = {
         language: 'text',
         runnable: false,
         code: code`
-          Finding: the printer's address 192.168.1.20 now belongs to another device,
-          because the router restarted and handed that address out from its pool.
-          Fix: reserve 192.168.1.20 for the printer's hardware address, outside the pool.
-          Test: ping 192.168.1.20 from two laptops, then print a test page.
-          Watch: a second device with the same address, or the printer dropping offline.
+          Finding: the printer was never given a reserved address, so after the router
+          restarted it received a new one, and 192.168.1.20 no longer reaches it.
+          Fix: reserve the printer's hardware address in the router, with a fixed address.
+          Test: ping the printer's new address from two laptops, then print a test page.
+          Watch: the printer changing address again, or a printer that drops offline.
         `,
       },
     },
@@ -152,8 +152,8 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'A network diagnosis is an ordered set of tests, each with a recorded result, and a good fix ends with a test that proves it worked and a watch item for the future.',
   resources: [
-    { title: 'Troubleshooting network connections', provider: 'Cisco Networking Academy', description: 'Free networking courses covering ordered testing and fault isolation.', url: 'https://www.netacad.com/' },
-    { title: 'Network troubleshooting guide', provider: 'Cloudflare', description: 'A plain guide to finding where a connection fails, from device to service.', url: 'https://www.cloudflare.com/learning/' },
+    { title: 'Cisco Networking Academy', provider: 'Cisco', description: 'Free networking courses from Cisco, covering how networks are built and run.', url: 'https://www.netacad.com/' },
+    { title: 'Cloudflare Learning Center', provider: 'Cloudflare', description: 'Plain explainers on networking topics, including DNS and how connections work.', url: 'https://www.cloudflare.com/learning/' },
   ],
 }
 

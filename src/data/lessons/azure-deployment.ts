@@ -30,7 +30,7 @@ const lesson: StructuredLesson = {
     {
       heading: 'Running it on Container Apps',
       paragraphs: [
-        "Container Apps groups apps into an environment, which is attached to `snet-apps`, the subnet you created for it, and sends container logs to a Log Analytics workspace, Azure's log store. Lesson 6 queries those logs.",
+        "Container Apps groups apps into an environment, which is attached to `snet-apps`, the subnet you created for it, and sends container logs to a Log Analytics workspace, Azure's log store. Lesson 8 queries those logs.",
         "The container app itself says which image to run, which port the app listens on, 8000 for Study Tracker, and that ingress is external, meaning it gets a public HTTPS address. It uses `id-study-tracker` both as its identity and to pull from the registry, after that identity is given the AcrPull role.",
         "Scaling settings control cost. With a minimum of 0 copies, called replicas, the app scales to zero when nobody uses it and starts again on the next request, which takes a few seconds. Small sizes, a quarter of a processor core and half a gigabyte of memory, are plenty for Study Tracker.",
       ],
@@ -51,15 +51,15 @@ const lesson: StructuredLesson = {
       heading: 'Where the data lives, for now',
       paragraphs: [
         "Study Tracker still saves sessions to SQLite, now on the container's own disk. That disk disappears whenever the container stops, which happens every time the app scales to zero. So sessions you save now are temporary, exactly the problem the Docker lesson solved with a volume.",
-        "The real fix is a managed database, which lesson 7 adds. Until then, treat this deployment as a test of the pipeline from image to public address.",
-        "The AI features need a model. With no `AI_MODEL` set they return the friendly unavailable message from Designing AI Products, while sessions and totals keep working. Lesson 13 connects a model hosted in Azure.",
+        "The real fix is a managed database, which lesson 9 adds. Until then, treat this deployment as a test of the pipeline from image to public address.",
+        "The AI features need a model. With no `AI_MODEL` set they return the friendly unavailable message from Designing AI Products, while sessions and totals keep working. Lesson 15 connects a model hosted in Azure.",
       ],
       example: {
         language: 'text',
         code: code`
           Works now                         Temporary or unavailable until later
-          GET /docs, POST /sessions          sessions vanish when the app scales to zero (lesson 7)
-          GET /totals                        notes assistant and planner: 503 until lesson 13
+          GET /docs, POST /sessions          sessions vanish when the app scales to zero (lesson 9)
+          GET /totals                        notes assistant and planner: 503 until lesson 15
         `,
       },
     },
@@ -137,7 +137,7 @@ const lesson: StructuredLesson = {
         { text: 'Azure deletes data every night', explanation: 'Azure does not delete your data. It was never stored somewhere lasting.' },
         { text: 'The registry removed the image', explanation: 'The image is still there. Sessions are not stored in the image.' },
         { text: 'The budget alert stopped the app', explanation: 'Budgets only send emails.' },
-        { text: 'The app scaled to zero, and SQLite\'s file lived on the container\'s temporary disk', explanation: 'With a minimum of 0 replicas, the container stops when idle and its disk goes with it, until lesson 7 adds a database.' },
+        { text: 'The app scaled to zero, and SQLite\'s file lived on the container\'s temporary disk', explanation: 'With a minimum of 0 replicas, the container stops when idle and its disk goes with it, until lesson 9 adds a database.' },
       ],
       answer: 3,
     },

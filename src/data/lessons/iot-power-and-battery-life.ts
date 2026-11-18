@@ -136,7 +136,7 @@ const lesson: StructuredLesson = {
       options: [
         { text: '1852 days', explanation: 'Yes. The average draw is 0.045 milliamps, which gives about 1852 days.' },
         { text: '35 days', explanation: '35 days is the answer for sixty messages an hour, not one.' },
-        { text: '2000 days', explanation: 'The program divides the capacity by the average current and by 24, which gives a value close to but not exactly 2000.' },
+        { text: '2000 days', explanation: 'The 2000 is the battery capacity in milliamp hours, not the life. Dividing it by the average current and by 24 gives about 1852 days.' },
         { text: 'An error', explanation: 'The code is valid Python and runs without an error.' },
       ],
       answer: 0,

@@ -8,7 +8,7 @@ const lesson: StructuredLesson = {
     'Explore a graph with breadth-first search to find the shortest route',
   ],
   bigIdea: "Some problems contain smaller copies of themselves, like folders inside folders. A recursive function solves them by calling itself on the smaller piece until it reaches a case simple enough to answer directly. Networks of connections, called graphs, are explored with the same step-by-step thinking, using a queue to visit places in order.",
-  whyItMatters: "A map app finding the fewest train changes between two stations, a social network suggesting \"people you may know\", and a tool totalling the size of every file in nested folders all solve the same kinds of problem. Each one is a graph or a nested structure, and each one is a few lines of Python once you know recursion and breadth-first search.",
+  whyItMatters: "A map app finding the fewest train changes between two stations, a social network suggesting \"people you may know\", and a tool totaling the size of every file in nested folders all solve the same kinds of problem. Each one is a graph or a nested structure, and each one is a few lines of Python once you know recursion and breadth-first search.",
   goalSections: [
     {
       heading: 'Recursion and the base case',
@@ -60,7 +60,7 @@ const lesson: StructuredLesson = {
       heading: 'Breadth-first search for shortest routes',
       paragraphs: [
         "Breadth-first search, or BFS, explores a graph in rings. First it visits every node one step from the start, then every node two steps away, and so on. Because it goes ring by ring, the first time it reaches a node is always by a route with the fewest steps.",
-        "BFS uses a queue: a line where the first item added is the first taken out. Python's `collections.deque` is a fast queue. Take a node from the front, add its unvisited neighbours to the back, and repeat until the queue is empty.",
+        "BFS uses a queue: a line where the first item added is the first taken out. Python's `collections.deque` is a fast queue. Take a node from the front, add its unvisited neighbors to the back, and repeat until the queue is empty.",
         "A visited set stops it going round in circles. If you swap the queue for a stack, where the last item added is taken first, you get depth-first search, which dives down one path before backing up.",
       ],
       example: {
@@ -207,7 +207,7 @@ const lesson: StructuredLesson = {
       question: 'Why does breadth-first search find a route with the fewest steps?',
       options: [
         { text: 'It tries every possible route and picks the shortest', explanation: 'That would be far slower. BFS never needs to compare routes.' },
-        { text: 'It always follows the first neighbour in each list', explanation: 'That describes one path, not a search, and gives no guarantee about length.' },
+        { text: 'It always follows the first neighbor in each list', explanation: 'That describes one path, not a search, and gives no guarantee about length.' },
         { text: 'It uses recursion, which finds short answers', explanation: 'BFS is normally written with a queue, not recursion, and recursion has nothing to do with route length.' },
         { text: 'It visits every node 1 step away before any node 2 steps away, and so on', explanation: 'Because it moves outwards ring by ring, the first time it reaches a node is by a route with the fewest steps.' },
       ],

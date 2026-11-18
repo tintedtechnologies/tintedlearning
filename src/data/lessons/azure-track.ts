@@ -9,7 +9,7 @@ const lesson: StructuredLesson = {
     'Set up an Azure account safely, with multi-factor authentication and a budget alert',
     'Install the Azure CLI, sign in and check which subscription your commands will use',
   ],
-  bigIdea: "Azure is Microsoft's cloud. Over these 14 lessons you will run Study Tracker on it as a real production service, with a private database, managed secrets, monitoring, backups and an AI model. Everything you create lives in a subscription, where costs are billed, inside resource groups that let you delete related things together, so before creating anything you protect the account and set a budget alert.",
+  bigIdea: "Azure is Microsoft's cloud. Over these 16 lessons you will run Study Tracker on it as a real production service, with a private database, managed secrets, monitoring, backups and an AI model. Everything you create lives in a subscription, where costs are billed, inside resource groups that let you delete related things together, so before creating anything you protect the account and set a budget alert.",
   whyItMatters: "Cloud mistakes cost money quietly. A learner follows a tutorial, creates a database, closes the laptop and forgets it. Nothing breaks, nothing warns them, and a month later the bill arrives. Ten minutes of setup prevents that: multi-factor authentication stops someone else from running up your bill, and a budget alert emails you while a mistake is still small.",
   goalSections: [
     {
@@ -27,12 +27,12 @@ const lesson: StructuredLesson = {
               Resource group rg-study-tracker: delete it to remove everything below
                 Container registry       the Study Tracker image         lesson 5
                 Container app            the running API, public         lesson 5
-                PostgreSQL server        sessions and notes, private     lesson 7
+                PostgreSQL server        sessions and notes, private     lesson 9
                 Storage account          notes files                     lesson 3
-                Key Vault                secrets                         lesson 10
-                Monitoring and alerts    logs, metrics, emails           lesson 6
-                Function app             weekly summary                  lesson 9
-                AI model deployment      the study assistant's model     lesson 13
+                Key Vault                secrets                         lesson 12
+                Monitoring and alerts    logs, metrics, emails           lesson 8
+                Function app             weekly summary                  lesson 11
+                AI model deployment      the study assistant's model     lesson 15
         `,
       },
     },

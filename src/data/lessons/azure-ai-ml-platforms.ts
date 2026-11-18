@@ -98,7 +98,7 @@ const lesson: StructuredLesson = {
       `,
     },
     steps: [
-      { code: '--kind AIServices --sku S0 --custom-domain $AI', explanation: "Creates the Foundry resource. The custom domain gives it the address `https://ai-study-jd4821.openai.azure.com`, and the `project` tag satisfies the policy from lesson 12." },
+      { code: '--kind AIServices --sku S0 --custom-domain $AI', explanation: "Creates the Foundry resource. The custom domain gives it the address `https://ai-study-jd4821.openai.azure.com`, and the `project` tag satisfies the policy from lesson 14." },
       { code: 'az cognitiveservices account list-models ...', explanation: "Shows which OpenAI models and versions you can deploy in your region today. The list changes as models are added and retired, which is why this track never hard-codes one." },
       { code: '--deployment-name chat ... --sku-name GlobalStandard --sku-capacity 1', explanation: "Deploys your chosen chat model under the name `chat`, with the smallest capacity. Global Standard can process requests in any region Microsoft chooses. If your organization requires data to stay in one area, choose a regional or data-zone deployment type instead." },
       { code: 'az keyvault secret set --vault-name $KV --name ai-api-key ...', explanation: "Stores the key in Key Vault without printing it. The container app reads it through a reference, as with the database URL." },

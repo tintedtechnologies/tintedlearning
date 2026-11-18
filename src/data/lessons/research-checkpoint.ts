@@ -112,7 +112,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Write a testable question for a topic you care about, with the groups, the measure, and the prediction, all before looking at any data.',
-      'Change "analysis decided" in the seItInAction example to True and predict the output. Run it to check.',
+      'Change "analysis decided" in the seeItInAction example to True and predict the output. Run it to check.',
       'Write the limits section for your plan: two threats you could not remove and what a larger study would need.',
     ],
   },

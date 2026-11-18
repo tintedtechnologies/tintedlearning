@@ -190,7 +190,7 @@ const lesson: StructuredLesson = {
         print(len(words(q) & words(doc)))
       ` },
       options: [
-        { text: '1', explanation: '`.lower()` makes "Refund" match "refund", and "policy" also matches.' },
+        { text: '1', explanation: 'Both "refund" and "policy" match once lower-cased, so the count is 2, not 1.' },
         { text: '6', explanation: 'That is how many words are in the document. `&` keeps only the words both sets share.' },
         { text: '2', explanation: 'After lower-casing, "refund" and "policy" appear in both, so the shared set has 2 words.' },
         { text: '0', explanation: 'Lower-casing both sides means the capital R no longer prevents a match.' },

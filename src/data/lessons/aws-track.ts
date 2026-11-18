@@ -9,7 +9,7 @@ const lesson: StructuredLesson = {
     'Secure a new AWS account: protect the root user, create a daily user and set a budget alert',
     'Install the AWS CLI, sign in with your daily user and check which account your commands will use',
   ],
-  bigIdea: "Amazon Web Services, or AWS, is Amazon's cloud. Over these 14 lessons you will run Study Tracker on it as a real production service, with a private database, managed secrets, monitoring, backups and an AI model. On AWS, the account is the main boundary for billing, access and limits, so before creating anything you lock away the account's all-powerful root user, create a daily user and set a budget alert.",
+  bigIdea: "Amazon Web Services, or AWS, is Amazon's cloud. Over these 16 lessons you will run Study Tracker on it as a real production service, with a private database, managed secrets, monitoring, backups and an AI model. On AWS, the account is the main boundary for billing, access and limits, so before creating anything you lock away the account's all-powerful root user, create a daily user and set a budget alert.",
   whyItMatters: "A new AWS account starts with one login, the root user, which can do anything, including closing the account, and cannot be restricted. If its password leaks, someone can run expensive servers on your card within minutes. And even without an attacker, a forgotten test database quietly bills you every hour. Ten minutes of setup protects you from both: MFA on the root user, a separate daily user, and a budget that emails you while a mistake is still small.",
   goalSections: [
     {
@@ -26,12 +26,12 @@ const lesson: StructuredLesson = {
             Region us-east-1
               ECR repository            the Study Tracker image          lesson 5
               ECS Express Mode service  the running API, public HTTPS    lesson 5
-              RDS for PostgreSQL        sessions and notes, private      lesson 7
+              RDS for PostgreSQL        sessions and notes, private      lesson 9
               S3 bucket                 notes files                      lesson 3
-              Secrets Manager           secrets                          lesson 10
-              CloudWatch                logs, metrics, alarms            lesson 6
-              Lambda function           weekly summary                   lesson 9
-              Amazon Bedrock            the study assistant's model      lesson 13
+              Secrets Manager           secrets                          lesson 12
+              CloudWatch                logs, metrics, alarms            lesson 8
+              Lambda function           weekly summary                   lesson 11
+              Amazon Bedrock            the study assistant's model      lesson 15
           Every resource tagged project=study-tracker
         `,
       },

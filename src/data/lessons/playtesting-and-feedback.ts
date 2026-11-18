@@ -100,7 +100,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Invite two people to play your game for ten minutes each. Say nothing except the controls. Write down three moments where they hesitated or got stuck.',
-      'Add a fourth player to the no-hint problem in the seItInAction example and predict the new order. Run it to check.',
+      'Add a fourth player to the no-hint problem in the seeItInAction example and predict the new order. Run it to check.',
       'Write one change you would make after a playtest, the observation behind it, and the test you would run next.',
     ],
   },
@@ -149,7 +149,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Playtest by watching what players do, look for patterns across several players, rank the problems by how many players they affect, and keep testing after each change.',
   resources: [
-    { title: 'Playtesting guide', provider: 'Game Developer', description: 'Practical advice on running playtests, observing players, and acting on feedback.', url: 'https://www.gamedeveloper.com/' },
+    { title: 'Game Developer', provider: 'Game Developer', description: 'A games industry site with articles on playtesting, observing players, and acting on feedback.', url: 'https://www.gamedeveloper.com/' },
     { title: 'Game Design Workshop', provider: 'Tracy Fullerton (book overview)', description: 'A guide to playtesting and iteration, with exercises for each stage.', url: 'https://www.routledge.com/Game-Design-Workshop-A-Playcentric-Approach-to-Creating-Innovative-Games/Fullerton/p/book/9781032607016' },
   ],
 }

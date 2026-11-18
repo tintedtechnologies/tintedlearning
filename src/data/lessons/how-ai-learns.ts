@@ -91,7 +91,7 @@ const lesson: StructuredLesson = {
       { code: 'Start: setting = 2 minutes per km', explanation: "Before training, the setting is a rough starting value. Real models start with random settings, often millions of them." },
       { code: 'guess 5 x 2 = 10, error 10 too low', explanation: "The model guesses using its current setting, then compares the guess with the real time. It was 10 minutes too low." },
       { code: 'move halfway: setting = 3', explanation: "The model nudges its setting in the direction that reduces the error. Moving only part of the way stops one unusual example from throwing everything off." },
-      { code: 'setting = 3.5, then 3.75', explanation: "Each new example pulls the setting closer to the true pattern of 4 minutes per km. The errors shrink: 10, then 2, then 5 on a longer trip, and the setting keeps improving." },
+      { code: 'setting = 3.5, then 3.75', explanation: "Each new example pulls the setting closer to the true pattern of 4 minutes per km. The errors in minutes are 10, then 2, then 5, but the 5 comes from a longer trip, so the setting still moves closer to 4 each round." },
       { code: 'New order: 6 km -> 22.5 minutes', explanation: "Training is over and inference begins. The model uses its learned setting on a trip it has never seen. With more examples, it would get even closer to 24 minutes." },
     ],
   },

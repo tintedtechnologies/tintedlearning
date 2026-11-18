@@ -99,7 +99,7 @@ const lesson: StructuredLesson = {
       `,
     },
     steps: [
-      { code: 'DB_PASSWORD=$(python -c "import secrets; print(secrets.token_urlsafe(24))")', explanation: "Generates a long random password using only letters, digits, `-` and `_`, which are safe inside a URL. In PowerShell, write `$DB_PASSWORD = python -c \"...\"`. Store it in a password manager. Lesson 10 moves it into Key Vault." },
+      { code: 'DB_PASSWORD=$(python -c "import secrets; print(secrets.token_urlsafe(24))")', explanation: "Generates a long random password using only letters, digits, `-` and `_`, which are safe inside a URL. In PowerShell, write `$DB_PASSWORD = python -c \"...\"`. Store it in a password manager. Lesson 12 moves it into Key Vault." },
       { code: '--tier Burstable --sku-name Standard_B1ms --storage-size 32', explanation: "The smallest size, with 32 GB of storage, enough for a learning project. Burstable sizes suit apps that are idle most of the time." },
       { code: '--vnet vnet-study-tracker --subnet snet-db --private-dns-zone study-tracker.private.postgres.database.azure.com', explanation: "Private access only. The CLI creates the private DNS zone if it does not exist and links it to the network, so the app can find the server by name." },
       { code: 'az postgres flexible-server db create ... --name studytracker', explanation: "Creates Study Tracker's database inside the server. The app creates its tables itself on first use, as it did with SQLite." },
@@ -174,7 +174,7 @@ const lesson: StructuredLesson = {
     paragraphs: [
       "Study Tracker connects as `studyadmin`, the server's administrator, which can create and drop any table. That keeps this lesson short, and it works, but it breaks the least-privilege rule from lesson 2: a bug or an attacker using the app's connection could do anything the administrator can.",
       "The better setup gives the app its own database role, a PostgreSQL user that can read and write Study Tracker's tables but not drop them or create others, and keeps the administrator for migrations and maintenance. It is a few lines of SQL, such as `CREATE ROLE` and `GRANT`, run by the administrator.",
-      "Better still, Azure Database for PostgreSQL supports signing in with Microsoft Entra ID, so the app could connect using its managed identity and a short-lived token, with no database password at all. Setting that up requires connecting to the private server as an Entra administrator, which is why this track stores the password safely in Key Vault in lesson 10 and leaves passwordless database access as a next step.",
+      "Better still, Azure Database for PostgreSQL supports signing in with Microsoft Entra ID, so the app could connect using its managed identity and a short-lived token, with no database password at all. Setting that up requires connecting to the private server as an Entra administrator, which is why this track stores the password safely in Key Vault in lesson 12 and leaves passwordless database access as a next step.",
     ],
   },
 }

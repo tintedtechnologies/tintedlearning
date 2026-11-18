@@ -17,8 +17,8 @@ const lesson: StructuredLesson = {
       heading: 'Choosing compute on AWS',
       paragraphs: [
         "Amazon EC2 rents virtual machines. You choose the operating system, apply updates and handle failures yourself, which suits special software or full control.",
-        "Amazon ECS, the Elastic Container Service, runs Docker images. With Fargate, AWS also provides the machines underneath, so you never manage a server. For new web apps, AWS now recommends ECS Express Mode, which adds a public HTTPS address, a load balancer and scaling for you, and lesson 5 uses it. Amazon EKS runs Kubernetes, with more control and more to manage, which lesson 8 weighs up.",
-        "AWS Lambda runs functions when triggered, such as on a schedule or a new file, and costs nothing while idle. Study Tracker's API runs on ECS, because it already has a Docker image, and the weekly summary in lesson 9 uses Lambda.",
+        "Amazon ECS, the Elastic Container Service, runs Docker images. With Fargate, AWS also provides the machines underneath, so you never manage a server. For new web apps, AWS now recommends ECS Express Mode, which adds a public HTTPS address, a load balancer and scaling for you, and lesson 5 uses it. Amazon EKS runs Kubernetes, with more control and more to manage, which lesson 10 weighs up.",
+        "AWS Lambda runs functions when triggered, such as on a schedule or a new file, and costs nothing while idle. Study Tracker's API runs on ECS, because it already has a Docker image, and the weekly summary in lesson 11 uses Lambda.",
       ],
       example: {
         language: 'text',
@@ -34,7 +34,7 @@ const lesson: StructuredLesson = {
     {
       heading: 'Choosing storage on AWS',
       paragraphs: [
-        "Amazon S3, the Simple Storage Service, stores files as objects in buckets, reached over HTTPS by key, such as `biology.md`. Amazon EBS provides disks for one EC2 machine, and Amazon EFS is a shared file system several machines can mount. Databases are a separate choice, covered in lesson 7.",
+        "Amazon S3, the Simple Storage Service, stores files as objects in buckets, reached over HTTPS by key, such as `biology.md`. Amazon EBS provides disks for one EC2 machine, and Amazon EFS is a shared file system several machines can mount. Databases are a separate choice, covered in lesson 9.",
         "New S3 buckets start locked down. AWS's documentation states that new buckets do not allow public access, and that every new object is encrypted at rest automatically. Confirm both on your bucket rather than assuming, because older buckets and copied settings may differ.",
         "Bucket names are global across every AWS account, so this track names it `study-notes-` followed by your `SUFFIX`.",
       ],

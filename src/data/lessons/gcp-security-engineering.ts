@@ -16,7 +16,7 @@ const lesson: StructuredLesson = {
       paragraphs: [
         "Each value added to a secret becomes a numbered version, and versions can be enabled, disabled or destroyed. Disabling makes a version unreadable but recoverable. Destroying deletes its value forever.",
         "Rotating Study Tracker's password takes four steps: add a new version with the new URL, set the new password on the database user, deploy the app pinned to the new version, then disable the old one. Between the password change and the new revision, new connections fail, so expect a minute of errors. The Under the hood section shows how teams avoid even that.",
-        "Access is checked per secret. Only `study-tracker` holds Secret Accessor on `database-url`, granted in lesson 7, and the secret's own IAM policy shows exactly that.",
+        "Access is checked per secret. Only `study-tracker` holds Secret Accessor on `database-url`, granted in lesson 9, and the secret's own IAM policy shows exactly that.",
       ],
       example: {
         language: 'text',
@@ -65,7 +65,7 @@ const lesson: StructuredLesson = {
   ],
   seeItInAction: {
     title: 'Rotating the database password and checking access',
-    intro: "Run these in your terminal. They rotate the password, pin the app to the new version and disable the old one, then check encryption and public access. If your secret already has more than one version, use the new version's number instead of `2`. In PowerShell, set variables as `$NAME = ...`, keep the braces in `${DB_HOST}`, and write the URL to a file with `Set-Content -NoNewline` for `--data-file`, as in lesson 7.",
+    intro: "Run these in your terminal. They rotate the password, pin the app to the new version and disable the old one, then check encryption and public access. If your secret already has more than one version, use the new version's number instead of `2`. In PowerShell, set variables as `$NAME = ...`, keep the braces in `${DB_HOST}`, and write the URL to a file with `Set-Content -NoNewline` for `--data-file`, as in lesson 9.",
     example: {
       language: 'bash',
       code: code`

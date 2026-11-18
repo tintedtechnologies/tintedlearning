@@ -21,9 +21,9 @@ const lesson: StructuredLesson = {
         language: 'text',
         code: code`
           Question                       Riverside's answer          Status
-          Is the problem real?           yes, from the trial data    qualified
-          Is the decision-maker involved?yes, the dean joined the call  qualified
-          Is there a timetable and budget? budget not yet approved   not yet, ask again in March
+          Is the problem real?                 yes, from the trial data      qualified
+          Is the decision-maker involved?      yes, the dean joined the call  qualified
+          Is there a timetable and budget?     budget not yet approved       not yet, ask again in March
         `,
       },
     },

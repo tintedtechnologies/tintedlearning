@@ -8,7 +8,7 @@ const lesson: StructuredLesson = {
     'Design simple habits and workplace checks that make a successful attack less likely',
   ],
   bigIdea: 'Phishing and social engineering target people rather than machines. The attacker creates urgency, imitates someone trusted, and asks for something that seems routine, such as a password, a payment, or a code. Defenses combine a short list of habits, a verification step outside the message, and workplace processes that do not depend on any one person noticing.',
-  whyItMatters: 'An accounts assistant receives an email that looks like it comes from the company director, asking for an urgent bank transfer before a meeting. The email address differs by one letter, and the request skips the usual approval. A simple rule, that payment changes are confirmed by phone on a known number, would have stopped the transfer. The technology was fine. The process was not designed for a convincing message.',
+  whyItMatters: 'An accounts assistant receives an email that looks like it comes from the company director, asking for an urgent bank transfer before a meeting. The email domain ends in .co instead of .com, and the request skips the usual approval. A simple rule, that payment changes are confirmed by phone on a known number, would have stopped the transfer. The technology was fine. The process was not designed for a convincing message.',
   goalSections: [
     {
       heading: 'The patterns attackers use',
@@ -151,7 +151,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Attacks rely on urgency, authority, and an unusual request, so check the real destination, verify through a known channel, and make the process require a second approval that urgency cannot skip.',
   resources: [
-    { title: 'Avoiding social engineering and phishing attacks', provider: 'CISA', description: 'Practical guidance on recognizing phishing and reporting it.', url: 'https://www.cisa.gov/' },
+    { title: 'CISA', provider: 'Cybersecurity and Infrastructure Security Agency', description: 'The US agency\'s home page, with guidance on recognizing phishing and reporting it.', url: 'https://www.cisa.gov/' },
     { title: 'Phishing', provider: 'NCSC (UK)', description: 'Plain guidance on spotting phishing messages and what to do after one.', url: 'https://www.ncsc.gov.uk/guidance/phishing' },
   ],
 }

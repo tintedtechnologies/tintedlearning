@@ -73,7 +73,7 @@ const lesson: StructuredLesson = {
   ],
   seeItInAction: {
     title: 'Checking a build before sharing it',
-    intro: 'The program above runs a short pre-share checklist and reports what must be fixed before the build goes to anyone. Run it, then mark the high score check as passed and predict the result.',
+    intro: 'The program above runs a short pre-share checklist and reports what must be fixed before the build goes to anyone. Run it, then add a second tested platform to the list and predict which lines disappear.',
     example: {
       language: 'python',
       runnable: true,

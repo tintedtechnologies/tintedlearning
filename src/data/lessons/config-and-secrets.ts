@@ -62,7 +62,7 @@ const lesson: StructuredLesson = {
       paragraphs: [
         "Git keeps every commit forever. If you commit `.env` and then delete it in the next commit, the secret is still in the history, and anyone with a copy of the repository can read the old version with one command.",
         "So the fix is not deleting the file. Treat the secret as stolen: go to the service that issued it, revoke the old key and create a new one. This is called rotating the key. Then stop tracking the file and add it to `.gitignore`.",
-        "Rewriting history to remove the file is possible, but copies may already exist on GitHub and on other people's computers. Rotating comes first, every time. GitHub also scans public repositories for known key formats and may warn you, or the provider, but do not wait for that warning.",
+        "Rewriting history to remove the file is possible, but copies may already exist on GitHub and on other people's computers. Rotating comes first, every time. GitHub also scans public repositories for known key formats and may alert you or the provider, but do not wait for that alert.",
       ],
       example: {
         language: 'bash',

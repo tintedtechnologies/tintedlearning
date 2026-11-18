@@ -99,7 +99,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Write a CloudFormation parameter for the environment name and a resource that uses it in its name. Do not put any secret in the template.',
-      'Change the template value in the seItInAction example to 20 and predict the output. Run it to check.',
+      'Change the template value in the seeItInAction example to 20 and predict the output. Run it to check.',
       'Write the change-set steps you would follow for an update that replaces a database, with the check you would make before executing.',
     ],
   },

@@ -95,7 +95,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Run the operation list command against a test deployment, or write down the commands you would run, and identify the first failed operation.',
-      'Change the database state in the seItInAction example to Succeeded and predict which operation is investigated. Run it to check.',
+      'Change the database state in the seeItInAction example to Succeeded and predict which operation is investigated. Run it to check.',
       'Write the note you would leave in the repository after fixing a name conflict, with the cause, the change, and the check you ran.',
     ],
   },

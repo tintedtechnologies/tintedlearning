@@ -34,8 +34,8 @@ const lesson: StructuredLesson = {
     {
       heading: 'A labeling rule as code',
       paragraphs: [
-        "`check_labels.py` searches the project with Cloud Asset Inventory for the resource types in this track that support labels, then lists every one without a `project` label. It exits with status 1 when any are missing, so a CI pipeline, as in Testing a Whole App, fails the build instead of letting the drift grow.",
-        "It is a detective control: it finds problems after they exist, like an audit, rather than blocking them. The first run usually finds something you never created yourself, such as the Artifact Registry repository and bucket that source deployments create automatically in lesson 9.",
+        "`check_labels.py` searches the project with Cloud Asset Inventory for the resource types in this track that support labels, then lists every one without a `project` label. It exits with status 1 when any are missing, so a CI pipeline, as in Testing a whole app, fails the build instead of letting the drift grow.",
+        "It is a detective control: it finds problems after they exist, like an audit, rather than blocking them. The first run usually finds something you never created yourself, such as the Artifact Registry repository and bucket that source deployments create automatically in lesson 11.",
         "The logic lives in one small function, `unlabeled`, so the test checks it with sample data and no Google Cloud account.",
       ],
       example: {
@@ -47,7 +47,7 @@ const lesson: StructuredLesson = {
       heading: 'Organizations and landing zones',
       paragraphs: [
         "Companies use an organization resource, tied to their domain through Google Workspace or Cloud Identity, at the top of a tree. Folders group projects by team or environment, and IAM roles and policies set on a folder apply to every project inside it.",
-        "Organization policies are preventive rules on that tree, such as `iam.disableServiceAccountKeyCreation`, which blocks service account keys, or `gcp.resourceLocations`, which allows only certain regions. They need an organization: the administrator role that sets them can only be granted there, which is why a personal project uses a check like `check_labels.py` instead.",
+        "Organization policies are preventive rules on that tree, such as `iam.disableServiceAccountKeyCreation`, which blocks service account keys, or `gcp.resourceLocations`, which allows only certain regions. They need an organization to attach to. A personal project has none, so it uses a check like `check_labels.py` instead.",
         "A landing zone is a project set up correctly before a team moves in: identity, networking, logging, budgets and guardrails already in place. Google publishes landing zone designs and an enterprise foundations blueprint for building one. You have built a tiny one yourself in this track.",
       ],
       example: {
@@ -66,7 +66,7 @@ const lesson: StructuredLesson = {
   ],
   seeItInAction: {
     title: 'Labeling Study Tracker and checking the rule',
-    intro: "Run these from your `study-tracker` folder, with `check_labels.py` from Try it yourself, and use your own initials for `owner`. The Cloud SQL command uses the beta group from lesson 6. The output shows a typical first run of the check, before the automatically created resources are labeled.",
+    intro: "Run these from your `study-tracker` folder, with `check_labels.py` from Try it yourself, and use your own initials for `owner`. The Cloud SQL command uses the beta group from lesson 8. The output shows a typical first run of the check, before the automatically created resources are labeled.",
     example: {
       language: 'bash',
       code: code`
@@ -89,16 +89,16 @@ const lesson: StructuredLesson = {
     steps: [
       { code: '--update-labels environment=learning,owner=jd', explanation: "Adds or changes these labels and keeps any others. `--remove-labels` takes keys away, and `--clear-labels` removes them all." },
       { code: 'gcloud run services update ... --update-labels', explanation: "Labels the service. Cloud Run creates a new revision for the change, with the same image and settings." },
-      { code: 'gcloud beta sql instances patch study-tracker-db --update-labels ...', explanation: "Cloud SQL labels are set through the beta commands, as in lesson 7." },
+      { code: 'gcloud beta sql instances patch study-tracker-db --update-labels ...', explanation: "Cloud SQL labels are set through the beta commands, as in lesson 8." },
       { code: 'python check_labels.py $PROJECT_ID', explanation: "Searches the project and prints every resource without a `project` label, then a summary. It exits with status 1 because some are missing." },
-      { code: 'cloud-run-source-deploy, run-sources-...', explanation: "Created automatically by the source deployment in lesson 9. Label them with `gcloud artifacts repositories update` and `gcloud storage buckets update`, adding `project=study-tracker` too, then run the check again until it passes. Your list may differ." },
+      { code: 'cloud-run-source-deploy, run-sources-...', explanation: "Created automatically by the source deployment in lesson 11. Label them with `gcloud artifacts repositories update` and `gcloud storage buckets update`, adding `project=study-tracker` too, then run the check again until it passes. Your list may differ." },
     ],
   },
   tryIt: {
     instructions: [
       'Save `check_labels.py` and `test_check_labels.py` below and run `python -m pytest`.',
       'Run the commands above, label whatever the check reports, and run it again until it exits with status 0.',
-      'Add the check to your GitHub Actions workflow from Testing a Whole App, as a step that runs `python check_labels.py` for your project, and note what it would need to sign in to Google Cloud from CI.',
+      'Add the check to your GitHub Actions workflow from Testing a whole app, as a step that runs `python check_labels.py` for your project, and note what it would need to sign in to Google Cloud from CI.',
       'Clean up: labels cost nothing, so keep them. The final lesson deletes the whole project.',
     ],
     files: [
@@ -118,7 +118,7 @@ const lesson: StructuredLesson = {
       options: [
         { text: 'Organization policies cannot check labels at all', explanation: 'The reason here is simpler: there is no organization to set them on.' },
         { text: 'Scripts are always stronger than policies', explanation: 'A preventive policy would be stronger. This is the best option available here.' },
-        { text: 'A personal project has no organization, and the role that sets organization policies can only be granted on one', explanation: 'Organizations come from Google Workspace or Cloud Identity, tied to a domain.' },
+        { text: 'A personal project has no organization for policies to attach to', explanation: 'Organizations come from Google Workspace or Cloud Identity, tied to a domain.' },
         { text: 'Organization policies cost more than scripts', explanation: 'Cost is not the reason.' },
       ],
       answer: 2,

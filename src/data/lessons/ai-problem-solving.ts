@@ -139,7 +139,7 @@ const lesson: StructuredLesson = {
     paragraphs: [
       "Data leakage is when information that would not be available at prediction time sneaks into the training data. The model learns to rely on it, scores brilliantly in testing, then collapses in real use.",
       "Leakage is often subtle. A hospital model predicting pneumonia once learned that patients who received a certain antibiotic were sick. The antibiotic was given because doctors already suspected pneumonia, so the model was reading the doctors' decision, not the patient's condition. In a churn model, a field like \"account status: closing\" leaks the answer outright.",
-      "The defence is a timeline check. For every input column, write down when that value becomes known. Anything recorded after the moment the decision is made has to be removed, however predictive it looks.",
+      "The defense is a timeline check. For every input column, write down when that value becomes known. Anything recorded after the moment the decision is made has to be removed, however predictive it looks.",
     ],
   },
 }

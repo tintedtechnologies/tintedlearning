@@ -69,7 +69,7 @@ const lesson: StructuredLesson = {
   ],
   seeItInAction: {
     title: 'Comparing the template with the live environment',
-    intro: 'The program above compares the names in the template with the resources that exist, and reports what would be created and what is drift. The real tool does this in detail, but the question is the same. Run it, then delete the debug rule from the live set and predict the output.',
+    intro: 'The program above compares the names in the template with the resources that exist, and reports what would be created and what is drift. The real tool does this in detail, but the question is the same. Run it, then remove the old backup policy from the live set and predict the output.',
     example: {
       language: 'python',
       runnable: true,
@@ -93,7 +93,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Write a Bicep resource for a storage account for Study Tracker, with a name that includes an environment parameter. Do not include any secret.',
-      'Change the live set in the seItInAction example so that a resource is missing, and predict the create line. Run it to check.',
+      'Change the live set in the seeItInAction example so that a resource is missing, and predict the create line. Run it to check.',
       'Write the decision you would make for one drift item: update the template, or remove the live resource, with the reason.',
     ],
   },

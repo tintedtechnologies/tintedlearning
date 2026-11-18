@@ -110,7 +110,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Pick a function from a vibe-coded project. Write three tests for its current behavior, including one edge case, before changing anything.',
-      'Change total_after in the seItInAction example to sum the quantity first, and predict whether any case stops matching. Run it to check.',
+      'Change total_after in the seeItInAction example to sum the quantity first, and predict whether any case stops matching. Run it to check.',
       'Write one refactoring prompt that asks for a single, specific change, and explain why it is easier to review than "clean up this file".',
     ],
   },

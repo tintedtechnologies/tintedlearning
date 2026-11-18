@@ -85,7 +85,7 @@ const lesson: StructuredLesson = {
         HTTP/1.1 200 OK
         date: Mon, 02 Mar 2026 18:30:00 GMT
         server: uvicorn
-        content-length: 67
+        content-length: 69
         content-type: application/json
 
         [{"subject":"algebra","minutes":40,"studied_on":"2026-03-02","id":1}]
@@ -95,7 +95,7 @@ const lesson: StructuredLesson = {
       { code: 'curl -i http://127.0.0.1:8000/sessions', explanation: "`curl` sends a request from the terminal. With no other options it uses `GET`. `127.0.0.1` means this same computer, and `8000` is the port the server is listening on. `-i` asks curl to include the response headers." },
       { code: 'HTTP/1.1 200 OK', explanation: "The status line. 200 means the request worked. Always read this line first." },
       { code: 'date: ...\nserver: uvicorn', explanation: "Headers that say when the response was sent and which server software sent it. Study Tracker runs on Uvicorn, as you will see in the next lesson." },
-      { code: 'content-length: 67\ncontent-type: application/json', explanation: "The body is 67 bytes long and is JSON, so the client knows how to read it." },
+      { code: 'content-length: 69\ncontent-type: application/json', explanation: "The body is 69 bytes long and is JSON, so the client knows how to read it." },
       { code: '[{"subject":"algebra","minutes":40,"studied_on":"2026-03-02","id":1}]', explanation: "The body: a JSON list with one session. The square brackets mean list, and each curly-bracket object is one session with its four fields." },
     ],
   },

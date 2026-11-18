@@ -47,7 +47,7 @@ const lesson: StructuredLesson = {
         code: code`
           Shortcut           What it does
           Cmd+Shift+P        Open the Command Palette (Ctrl+Shift+P on Windows and Linux)
-          Ctrl+\`            Show or hide the integrated terminal
+          Ctrl+backtick     Show or hide the integrated terminal
           Cmd+B              Show or hide the Primary Side Bar
         `,
       },

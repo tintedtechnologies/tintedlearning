@@ -75,7 +75,7 @@ const lesson: StructuredLesson = {
     },
   ],
   seeItInAction: {
-    title: 'Totalling orders when some rows are bad',
+    title: 'Totaling orders when some rows are bad',
     intro: "Here a list of order quantities, as they might arrive from a spreadsheet, contains one bad value. The program adds up the good rows and records the bad ones instead of crashing.",
     example: {
       language: 'python',

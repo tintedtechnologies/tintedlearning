@@ -30,7 +30,7 @@ const lesson: StructuredLesson = {
     {
       heading: 'Replace permanent keys with short-lived credentials',
       paragraphs: [
-        'Long-lived access keys are the most common cause of cloud breaches in small projects. They do not expire, they are often copied into files and chats, and they keep working after the person who created them has left.',
+        'Long-lived access keys are a common cause of cloud breaches in small projects, and they are easy to overlook. They do not expire, they are often copied into files and chats, and they keep working after the person who created them has left.',
         'Prefer roles that issue temporary credentials. A workload, such as a container or a function, can assume a role and receive credentials that expire within hours. A developer can sign in through single sign-on and receive short-lived credentials for their session.',
         'Never put a key in code, a configuration file in a repository, or a chat message. If a key is ever exposed, revoke it at once, create a new one, and check the logs for use during the exposure window.',
       ],
@@ -101,7 +101,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Check your own cloud account for the owner or root account and confirm that multi-factor login is on for it.',
-      'Change the demo key in the seItInAction example to in_repo False and predict whether it is still flagged. Run it to check.',
+      'Change the demo key in the seeItInAction example to in_repo False and predict whether it is still flagged. Run it to check.',
       'Write a quarterly review checklist with five items for a cloud project you manage or plan to build.',
     ],
   },

@@ -42,7 +42,7 @@ const lesson: StructuredLesson = {
         code: code`
           study-tracker service account
             Storage Object Viewer           the notes bucket          lesson 3
-            Secret Manager Secret Accessor  database-url              lesson 7
+            Secret Manager Secret Accessor  database-url              lesson 9
             Agent Platform User                  the project               this lesson
         `,
       },
@@ -90,7 +90,7 @@ const lesson: StructuredLesson = {
       { code: 'AI_ENV="AI_AUTH=google,...,AI_EMBED_LOCATION=$REGION"', explanation: "Collects the AI settings once, for both the service and the job. No key appears anywhere: neither in the settings nor in Secret Manager." },
       { code: '--update-env-vars $AI_ENV', explanation: "Adds the AI settings to the service and keeps the others, such as `NOTES_BUCKET` and the secret." },
       { code: 'gcloud run jobs create index-notes ... --network vpc-study-tracker --subnet snet-apps', explanation: "A job with the service's image, service account and network, so it can reach the private database. It runs the two scripts, then stops." },
-      { code: '--set-secrets DATABASE_URL=database-url:2', explanation: "The same pinned version as the service, from lesson 11. If you rotated again, use your current number." },
+      { code: '--set-secrets DATABASE_URL=database-url:2', explanation: "The same pinned version as the service, from lesson 12. If you rotated again, use your current number." },
       { code: 'Indexed 4 paragraphs from notes/', explanation: "The job's log line. Now open `/docs` and try `POST /notes/ask`, `POST /assistant` and `POST /sessions/parse`. They answer instead of returning 503, worded differently from the examples in AI Engineering, as always." },
     ],
   },

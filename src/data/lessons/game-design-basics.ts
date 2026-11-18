@@ -97,7 +97,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Write your own game idea as one core mechanic in one sentence. If it takes more than one sentence, cut it down.',
-      'Change the seItInAction example so that the shooter is also marked playable, and predict the first choice. Run it to check.',
+      'Change the seeItInAction example so that the shooter is also marked playable, and predict the first choice. Run it to check.',
       'Describe the feedback that tells the player an action worked, for one action in your game.',
     ],
   },
@@ -146,7 +146,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Design a game as a loop of choices, feedback, and goals, write its core mechanic in one sentence, and build the smallest playable version first so the loop can be tested early.',
   resources: [
-    { title: 'Game design basics', provider: 'Godot Engine documentation', description: 'Introductory guidance on building small games in Godot, starting from a core loop.', url: 'https://docs.godotengine.org/en/stable/getting_started/introduction/index.html' },
+    { title: 'Godot Engine documentation: introduction', provider: 'Godot Engine', description: 'The official overview of the Godot engine and how its projects are organized.', url: 'https://docs.godotengine.org/en/stable/getting_started/introduction/index.html' },
     { title: 'Game Design Workshop', provider: 'Tracy Fullerton (book overview)', description: 'A widely used guide to prototyping, playtesting, and designing game loops.', url: 'https://www.routledge.com/Game-Design-Workshop-A-Playcentric-Approach-to-Creating-Innovative-Games/Fullerton/p/book/9781032607016' },
   ],
 }

@@ -81,7 +81,7 @@ const lesson: StructuredLesson = {
     },
   ],
   seeItInAction: {
-    title: 'Totalling a sales export',
+    title: 'Totaling a sales export',
     intro: 'The program below reads a small sales export, calculates the total for each product, and prints the grand total. It uses the same logic you would use on a real file. Run it, then add a row for jam and predict how the grand total changes.',
     example: {
       language: 'python',

@@ -157,7 +157,7 @@ const lesson: StructuredLesson = {
   underTheHood: {
     heading: 'Why a small sample needs a wider range',
     paragraphs: [
-      "The 1.96 in the script comes from the bell curve, which describes many averages well when the sample is large. With only eight learners per group, the averages are less stable, and a method called the t distribution gives a slightly wider range. The script's approximate range is a little narrower than the bootstrap range from the previous lesson, which is the expected difference between the two methods.",
+      "The 1.96 in the script comes from the bell curve, which describes many averages well when the sample is large. With only eight learners per group, the averages are less stable, and a method called the t distribution gives a slightly wider range than 1.96 does. The script uses 1.96 anyway, so its range is probably a little optimistic. The bootstrap range from the previous lesson is a different method, and it lands in roughly the same place. Neither is exact at this size.",
       "The honest move is to report the range from the method you chose, name the method and note that small samples make every range less reliable. A reader can then see that the result is a sketch of the effect, not a precise measurement.",
       "When a study grows, the approximations agree more closely, because the averages settle down. That is one reason larger studies are more trustworthy, and why a small study should describe its range as likely rather than certain.",
     ],

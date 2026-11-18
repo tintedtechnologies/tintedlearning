@@ -120,7 +120,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Open a Python project you did not write, or a public one on GitHub. Find its entry point, and write the path of one command or request in five steps.',
-      'Add a function to the source in the seItInAction example and predict whether it is listed. Run the program to check.',
+      'Add a function to the source in the seeItInAction example and predict whether it is listed. Run the program to check.',
       'Write a map of one module: each function, its inputs, its output, and what it depends on.',
     ],
   },
@@ -170,7 +170,7 @@ const lesson: StructuredLesson = {
   takeaway: 'Read unfamiliar Python by starting at the entry point, tracing one real example, mapping each module and its data shapes, and confirming every important guess with the tests, a small experiment, or a debugger.',
   resources: [
     { title: 'The ast module', provider: 'Python.org', description: 'The standard library reference for parsing Python source into a tree you can inspect.', url: 'https://docs.python.org/3/library/ast.html' },
-    { title: 'Reading code effectively', provider: 'Real Python', description: 'A practical tutorial on navigating and understanding existing Python codebases.', url: 'https://realpython.com/' },
+    { title: 'Real Python', provider: 'Real Python', description: 'Tutorials and guides on Python, from beginner to advanced topics.', url: 'https://realpython.com/' },
   ],
 }
 

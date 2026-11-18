@@ -56,7 +56,7 @@ const lesson: StructuredLesson = {
       heading: 'Public, private and DNS',
       paragraphs: [
         "Decide for each component whether the internet must reach it. Study Tracker's app must be public, so it gets a public address with HTTPS, called ingress. The database must not: it gets only a private address inside `snet-db`. Services that are public by default, such as storage, can also be given a private endpoint, a private address in your network, and have public access turned off. The security lesson does this.",
-        "Apps find services by name, not by address. Private addresses need private names, so Azure uses private DNS zones: name directories visible only inside your virtual network. When lesson 7 creates the database, it creates a zone so the app can reach it by name.",
+        "Apps find services by name, not by address. Private addresses need private names, so Azure uses private DNS zones: name directories visible only inside your virtual network. When lesson 9 creates the database, it creates a zone so the app can reach it by name.",
         "Network rules are one layer. Identity, from lesson 2, is another. Even inside the network, the database will still require a sign-in.",
       ],
       example: {

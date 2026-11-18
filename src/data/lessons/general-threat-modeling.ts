@@ -100,7 +100,7 @@ const lesson: StructuredLesson = {
     instructions: [
       'Draw the data flows for an app you use, with at least one trust boundary. Label what crosses each arrow.',
       'Write one threat for each of three STRIDE categories for that app, in the form attacker, method, and effect.',
-      'Change the photo tampering threat in the seItInAction example to likelihood 5 and impact 5, and predict the new order. Run it to check.',
+      'Change the photo tampering threat in the seeItInAction example to likelihood 5 and impact 5, and predict the new order. Run it to check.',
     ],
   },
   mistakes: [
@@ -149,7 +149,7 @@ const lesson: StructuredLesson = {
   takeaway: 'Draw the data flows and trust boundaries, walk each part through STRIDE, score threats by likelihood and impact, and build the defenses for the top of the list first.',
   resources: [
     { title: 'Threat Modeling Manifesto and resources', provider: 'OWASP', description: 'An overview of threat modeling methods, including STRIDE, with practical guidance.', url: 'https://owasp.org/www-community/Threat_Modeling' },
-    { title: 'Threat modeling', provider: 'Microsoft', description: 'Microsoft guidance on the STRIDE model, with worked examples.', url: 'https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool' },
+    { title: 'Microsoft Threat Modeling Tool', provider: 'Microsoft', description: 'Microsoft\'s free tool for drawing a system and finding threats with STRIDE.', url: 'https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool' },
   ],
 }
 

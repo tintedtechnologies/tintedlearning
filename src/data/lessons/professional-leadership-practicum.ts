@@ -2,7 +2,7 @@ import type { StructuredLesson } from '../../types/lesson'
 import { code } from './helpers'
 
 const lesson: StructuredLesson = {
-  assumes: 'All fifteen earlier lessons in Technical Leadership & Communication. This practicum brings them together on the Riverside Community College scenario, and it works best after you have written at least one artifact from each part of the section.',
+  assumes: 'All of the earlier lessons in Technical Leadership & Communication. This practicum brings them together on the Riverside Community College scenario, and it works best after you have written at least one artifact from each part of the section.',
   goals: [
     'Produce the full Riverside package: discovery notes, stakeholder map, proposal, plan, decision record and status update',
     'Review each artifact against a rubric that names what good looks like, and revise where it falls short',
@@ -143,7 +143,7 @@ const lesson: StructuredLesson = {
   takeaway: 'Produce the Riverside package as one story whose artifacts agree at every join, review each against a rubric and walk the sponsor through it so every challenge changes the package for the better.',
   resources: [
     { title: 'Reflective practice', provider: 'Wikipedia', description: 'Learning from experience by examining what happened and why.', url: 'https://en.wikipedia.org/wiki/Reflective_practice' },
-    { title: 'Service manual: service assessments', provider: 'UK Government Digital Service', description: 'Public-sector guidance on assessing a service against clear criteria before it goes live.', url: 'https://www.gov.uk/service-manual' },
+    { title: 'The Service Manual', provider: 'UK Government Digital Service', description: 'Public-sector guidance on assessing a service against clear criteria before it goes live.', url: 'https://www.gov.uk/service-manual' },
   ],
   underTheHood: {
     heading: 'Why a rubric makes review fair',

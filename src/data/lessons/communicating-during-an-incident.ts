@@ -96,7 +96,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Write a status update for a fictional outage using the three parts: known, unknown, and next update time.',
-      'Change the second update in the seItInAction example so that its unknown part is filled in, and predict the new status. Run it to check.',
+      'Change the second update in the seeItInAction example so that its unknown part is filled in, and predict the new status. Run it to check.',
       'Write the three questions you would answer in a review after an outage you have experienced or imagined.',
     ],
   },

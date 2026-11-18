@@ -138,7 +138,7 @@ const lesson: StructuredLesson = {
   takeaway: 'Plan in checkable milestones, give each estimate as a range with its driver named and keep a weekly risk list with owners and responses, so the sponsor sees the uncertainty early enough to plan for it.',
   resources: [
     { title: 'Project management', provider: 'Wikipedia', description: 'Planning and tracking work, including how to handle uncertainty.', url: 'https://en.wikipedia.org/wiki/Project_management' },
-    { title: 'Service manual: managing a digital service', provider: 'UK Government Digital Service', description: 'Public-sector guidance on planning, reviewing and managing risk across a digital service.', url: 'https://www.gov.uk/service-manual' },
+    { title: 'The Service Manual', provider: 'UK Government Digital Service', description: 'Public-sector guidance on planning, reviewing and managing risk across a digital service.', url: 'https://www.gov.uk/service-manual' },
   ],
   underTheHood: {
     heading: 'Why ranges beat single estimates',

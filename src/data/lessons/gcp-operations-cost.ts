@@ -17,7 +17,7 @@ const lesson: StructuredLesson = {
       paragraphs: [
         "Everything Study Tracker prints arrives in Cloud Logging as log entries, each tagged with the resource that wrote it, here a `cloud_run_revision` named `study-tracker`. Cloud Run also writes a request log entry for every request, with its status code and how long it took.",
         "`gcloud logging read` searches with the Logging query language. `resource.labels.service_name=\"study-tracker\"` keeps only this service, and `textPayload:\"WARNING\"` keeps lines containing that word, which Study Tracker's log format includes for warnings.",
-        "Logs are kept in a log bucket, by default for 30 days, then deleted. You pay for the amount of log data stored beyond a monthly free allotment, so leave DEBUG logging off in the cloud.",
+        "Logs are kept in a log bucket, by default for 30 days, then deleted. You pay for the log data you ingest beyond a monthly free allotment, and for keeping logs longer than 30 days, so leave DEBUG logging off in the cloud.",
       ],
       example: {
         language: 'text',

@@ -31,7 +31,7 @@ const lesson: StructuredLesson = {
       heading: 'Installing GitHub Copilot in VS Code',
       paragraphs: [
         'Open the Extensions view from the Activity Bar, or press Cmd+Shift+X on macOS or Ctrl+Shift+X on Windows and Linux. Search for "GitHub Copilot" and install the extension published by GitHub. Also install "GitHub Copilot Chat," which adds the chat view where you will give instructions.',
-        'Sign in from the Copilot menu in the status bar, or run "GitHub Copilot: Sign in" from the Command Palette. Your browser opens so you can approve the sign-in. If you do not have a plan, the sign-in enrolls an eligible account in the free plan. Before you send work code to any assistant, read the data handling notes and your organization\'s policy.',
+        'Sign in from the Copilot menu in the status bar, or run "GitHub Copilot: Sign in" from the Command Palette. Your browser opens so you can approve the sign-in. If you do not have a paid plan, check on the official page whether your account qualifies for the free plan. Before you send work code to any assistant, read the data handling notes and your organization\'s policy.',
       ],
       example: {
         language: 'text',

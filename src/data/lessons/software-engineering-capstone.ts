@@ -41,7 +41,7 @@ const lesson: StructuredLesson = {
     'Write a README that lets a stranger run your app',
     'Present the finished project as a portfolio piece',
   ],
-  bigIdea: "The capstone turns ten lessons into one finished project: Study Tracker, tested, logged, containerized and documented, in a clean GitHub repository. Finished means someone who has never seen it can clone it, follow the README and have it running in minutes. That is also exactly what makes it worth showing to an employer.",
+  bigIdea: "The capstone turns the lessons of this section into one finished project: Study Tracker, tested, logged, containerized and documented, in a clean GitHub repository. Finished means someone who has never seen it can clone it, follow the README and have it running in minutes. That is also exactly what makes it worth showing to an employer.",
   whyItMatters: "A hiring manager opens two portfolio links. The first is a folder of half-working scripts with no instructions. The second has a one-line description, a README with copy-and-paste setup, passing tests shown by a green CI badge, and a short list of what the author would improve next. The second person gets the interview, because they have shown they can finish something.",
   goalSections: [
     {
@@ -134,7 +134,7 @@ const lesson: StructuredLesson = {
     ],
     project: {
       goal: 'Ship a finished Study Tracker on GitHub: clean commits, configuration, SQLite, tests passing in CI, logging, a Dockerfile and a README that a stranger can follow.',
-      prerequisites: ['All ten earlier Software Engineering lessons.', 'Python 3.12 or newer, Git, a GitHub account and Docker Desktop.'],
+      prerequisites: ['All of the earlier Software Engineering lessons.', 'Python 3.12 or newer, Git, a GitHub account and Docker Desktop.'],
       setup: ['Start from your `study-tracker` repository, or create a new one with `git init -b main`.', 'Create and activate `.venv`, then run `python -m pip install -r requirements.txt`.'],
       files: [
         { path: 'app.py', purpose: 'Endpoints, validation with Pydantic, logging.' },

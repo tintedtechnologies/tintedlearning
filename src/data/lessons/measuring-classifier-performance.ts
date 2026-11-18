@@ -8,7 +8,7 @@ const lesson: StructuredLesson = {
     'Choose the measure that matches the cost of each kind of mistake',
   ],
   bigIdea: 'A classifier can be wrong in two different ways: it can flag something that is not the target, or miss something that is. A confusion matrix counts all four outcomes, and accuracy, precision, and recall each summarize them differently. The right measure depends on which mistake costs more.',
-  whyItMatters: 'A hospital tests a screening model for a rare condition. The model is correct 98 percent of the time, and it misses half the patients who have the condition, because most patients do not have it and a model that always says "no" would also be 95 percent correct. Accuracy alone hides the failure. Recall would have shown it at once, and that number is what the hospital needs to see before deciding.',
+  whyItMatters: 'A hospital tests a screening model for a rare condition. The model is correct 97 percent of the time, and it misses half the patients who have the condition, because most patients do not have it and a model that always says "no" would also be 95 percent correct. Accuracy alone hides the failure. Recall would have shown it at once, and that number is what the hospital needs to see before deciding.',
   goalSections: [
     {
       heading: 'The confusion matrix',
@@ -83,7 +83,7 @@ const lesson: StructuredLesson = {
       code: code`
         truth = [1] * 10 + [0] * 90
         always_no = [0] * 100
-        finds_half = [1] * 5 + [0] * 5 + [0] * 90
+        finds_half = [1] * 5 + [0] * 5 + [1] * 10 + [0] * 80
 
         def report(name, predicted):
             correct = sum(1 for t, p in zip(truth, predicted) if t == p)
@@ -93,7 +93,7 @@ const lesson: StructuredLesson = {
         report("always no", always_no)
         report("finds half", finds_half)
       `,
-      output: 'always no accuracy 0.9 recall 0.0\nfinds half accuracy 0.95 recall 0.5',
+      output: 'always no accuracy 0.9 recall 0.0\nfinds half accuracy 0.85 recall 0.5',
     },
     steps: [
       { code: 'truth = [1] * 10 + [0] * 90', explanation: 'Only one case in ten is real, which is how rare conditions look in practice.' },
@@ -103,7 +103,7 @@ const lesson: StructuredLesson = {
   },
   tryIt: {
     instructions: [
-      'Change the number of real cases in the seItInAction example from 10 to 30 and predict whether the always-no model still has higher accuracy. Run it to check.',
+      'In the seeItInAction example, change truth to 30 real cases out of 100, and predict the always-no model\'s accuracy before you run it. Run it to check.',
       'Write a confusion matrix for a spam filter that caught 80 of 100 spam emails and wrongly hid 5 of 200 real emails. Calculate its precision and recall.',
       'Write one sentence that says which mistake costs more in a system you use, and which measure you would watch.',
     ],

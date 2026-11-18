@@ -121,7 +121,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Take a function from a program you wrote and write its job in one sentence. If the sentence needs "and", split the function.',
-      'Add a test for total_minutes with an empty list in the seeItInAction example. Predict the result, then run the program with that test added.',
+      'Add a case with an empty list to the tests in the "Testing a part without its neighbors" example. Predict the result, then run the program to check.',
       'Change format_csv so that it sorts the sessions by subject. Decide whether the parser or the total needs to change, and explain why not.',
     ],
   },
@@ -170,7 +170,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Give each part of Study Tracker one job, pass in what it needs, and keep the connections between parts visible, so that new requirements add a part instead of a copy.',
   resources: [
-    { title: 'Clean Code: functions', provider: 'Robert C. Martin (book overview)', description: 'Guidance on small functions, single responsibility, and naming, with examples.', url: 'https://en.wikipedia.org/wiki/Clean_Code' },
+    { title: 'Clean Code', provider: 'Wikipedia', description: 'An overview of the book\'s ideas on small functions, single responsibility, and naming.', url: 'https://en.wikipedia.org/wiki/Clean_Code' },
     { title: 'Dependency injection in Python', provider: 'Snyk', description: 'A practical tutorial on passing dependencies into code so it can be tested.', url: 'https://snyk.io/blog/dependency-injection-python/' },
   ],
 }

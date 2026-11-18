@@ -9,7 +9,7 @@ const lesson: StructuredLesson = {
     'Secure your Google account, create a project for Study Tracker and set a budget alert',
     'Install the Google Cloud CLI, sign in and check which account and project your commands will use',
   ],
-  bigIdea: "Google Cloud is Google's cloud. Over these 14 lessons you will run Study Tracker on it as a real production service, with a private database, managed secrets, monitoring, backups and an AI model. On Google Cloud, the project is the main boundary for resources, access and limits, and a billing account pays for it, so before creating anything you protect your Google account, create one project for Study Tracker and set a budget alert.",
+  bigIdea: "Google Cloud is Google's cloud. Over these 16 lessons you will run Study Tracker on it as a real production service, with a private database, managed secrets, monitoring, backups and an AI model. On Google Cloud, the project is the main boundary for resources, access and limits, and a billing account pays for it, so before creating anything you protect your Google account, create one project for Study Tracker and set a budget alert.",
   whyItMatters: "Google Cloud signs you in with an ordinary Google account, the same one that may hold your email and photos. If its password leaks and it has no second factor, someone can create expensive machines billed to your card. And even without an attacker, a test database left running keeps billing every hour. Ten minutes of setup protects you from both: 2-Step Verification, one clearly named project, and a budget that emails you while a mistake is still small.",
   goalSections: [
     {
@@ -27,12 +27,12 @@ const lesson: StructuredLesson = {
               Region us-central1
                 Artifact Registry         the Study Tracker image          lesson 5
                 Cloud Run service         the running API, public HTTPS    lesson 5
-                Cloud SQL for PostgreSQL  sessions and notes, private      lesson 7
+                Cloud SQL for PostgreSQL  sessions and notes, private      lesson 9
                 Cloud Storage bucket      notes files                      lesson 3
-                Secret Manager            secrets                          lesson 7
-                Cloud Logging, Monitoring logs, metrics, alerts            lesson 6
-                Cloud Run function        weekly summary                   lesson 9
-                Agent Platform            the study assistant's model      lesson 13
+                Secret Manager            secrets                          lesson 12
+                Cloud Logging, Monitoring logs, metrics, alerts            lesson 8
+                Cloud Run function        weekly summary                   lesson 11
+                Agent Platform            the study assistant's model      lesson 15
           Resources labeled project=study-tracker
         `,
       },

@@ -83,10 +83,10 @@ const lesson: StructuredLesson = {
         Trust boundaries: note import, the chat message, the model reply, the search results
 
         #  Threat                                          Likelihood  Impact  Score  Defended in
-        1  Instructions hidden in an imported note              4          4     16   AI Security, RAG Security
-        2  Assistant reads another learner's notes              2          5     10   RAG Security, Identity
+        1  Instructions hidden in an imported note              4          4     16   AI Security, RAG and Vector Security
+        2  Assistant reads another learner's notes              2          5     10   RAG and Vector Security, Identity, Access, and Secrets
         3  Model calls log_session with a wrong value          3          3      9   Agent and Tool Security
-        4  Very long input raises the model bill               3          2      6   Availability and Cost
+        4  Very long input raises the model bill               3          2      6   Availability, Denial of Service, and Cost Abuse
         5  Model reply shows an error trace                    2          1      2   Secure Deployment
       `,
     },
@@ -94,7 +94,7 @@ const lesson: StructuredLesson = {
       { code: 'Assets: learners\' notes, session records, the model API key, the assistant\'s tools', explanation: "Start with what would hurt if it leaked or changed. The API key is an asset because a stolen key can be spent by anyone." },
       { code: 'Trust boundaries: note import, the chat message, the model reply, the search results', explanation: "The places where data crosses from one party to another. Each one gets checks in the later lessons." },
       { code: 'Instructions hidden in an imported note: 4 x 4 = 16', explanation: "The highest score. A note is text that the model reads as part of its prompt, so a note can try to give orders. This is the threat the next lesson demonstrates." },
-      { code: 'Defended in: AI Security, RAG Security', explanation: "Each threat names the lesson that will add its defense, so the threat model becomes a plan instead of a list of worries." },
+      { code: 'Defended in: AI Security, RAG and Vector Security', explanation: "Each threat names the lesson that will add its defense, so the threat model becomes a plan instead of a list of worries." },
     ],
   },
   tryIt: {

@@ -100,7 +100,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Write a consent summary for a small study you would run, with the purpose, what participants will do, the risks, the data kept, and how to withdraw. Keep it under 150 words.',
-      'Change MIN_GROUP in the seItInAction example to 1, and predict whether the Year 9 group is reported. Run it to check.',
+      'Change MIN_GROUP in the seeItInAction example to 1, and predict whether the Year 9 group is reported. Run it to check.',
       'List every piece of data you would collect for your study, and cross out any item the question does not need.',
     ],
   },

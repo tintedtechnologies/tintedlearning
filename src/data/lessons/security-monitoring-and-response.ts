@@ -101,7 +101,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Write the list of events you would log for a login system, with the fields each entry needs.',
-      'Change THRESHOLD in the seItInAction example to 3 and predict the alerts. Run it to check.',
+      'Change THRESHOLD in the seeItInAction example to 3 and predict the alerts. Run it to check.',
       'Write the first three actions of your incident response for a leaked API key, in the right order.',
     ],
   },

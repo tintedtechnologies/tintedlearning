@@ -113,7 +113,7 @@ const lesson: StructuredLesson = {
     {
       question: 'In "The trophy did not fit in the suitcase because it was too big", which word should "it" attend to most?',
       options: [
-        { text: 'suitcase', explanation: 'A suitcase that is too big would not stop something fitting. That reading only works with "too small".' },
+        { text: 'suitcase', explanation: 'If the suitcase were too big, it would not explain why the trophy failed to fit. The item that is too big is the trophy.' },
         { text: 'trophy', explanation: 'Something too big fails to fit inside something else, so "it" is the trophy.' },
         { text: 'big', explanation: '"Big" helps decide the answer, but it describes "it". It is not what "it" refers to.' },
         { text: 'fit', explanation: '"It" stands for a thing, and "fit" is an action.' },

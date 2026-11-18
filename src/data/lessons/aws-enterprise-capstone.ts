@@ -17,13 +17,13 @@ const architectureDiagram = code`
 `
 
 const lesson: StructuredLesson = {
-  assumes: 'all 13 earlier AWS lessons, Docker Desktop, and the architecture lessons System Design and Architecture Decision Records. Set the track variables plus `REGISTRY`, `ACCOUNT` and `SERVICE_ARN`.',
+  assumes: 'all 15 earlier AWS lessons, Docker Desktop, and the architecture lessons System Design and Architecture Decision Records. Set the track variables plus `REGISTRY`, `ACCOUNT` and `SERVICE_ARN`.',
   goals: [
     'Describe Study Tracker\'s whole AWS architecture in one diagram and one decision record',
     'Deploy the whole architecture from one CloudFormation template, as many times as you like',
     'Prove the deployment meets its requirements, then remove everything cleanly',
   ],
-  bigIdea: "Infrastructure as code, or IaC, describes every cloud resource in files kept with the app, so the whole system can be created, reviewed, changed and deleted by running them, as the Foundations lesson introduced. The capstone rebuilds the Study Tracker you assembled by hand over 13 lessons from one AWS CloudFormation template, a YAML file that lists every resource. If you can delete everything and recreate it in minutes, you truly own the system.",
+  bigIdea: "Infrastructure as code, or IaC, describes every cloud resource in files kept with the app, so the whole system can be created, reviewed, changed and deleted by running them, as the Foundations lesson introduced. The capstone rebuilds the Study Tracker you assembled by hand in the earlier lessons from one AWS CloudFormation template, a YAML file that lists every resource. If you can delete everything and recreate it in minutes, you truly own the system.",
   whyItMatters: "Ask a team that built its AWS setup by hand to recreate it in a second account for production, and the answer is usually weeks of console screenshots, guessed settings and surprises nobody wrote down. A system described in a template can be rebuilt by anyone, reviewed in a pull request before it changes, and checked for drift against what is actually running. That, with the diagram and decision record, turns a working project into a portfolio piece an employer can trust.",
   goalSections: [
     {
@@ -78,7 +78,7 @@ const lesson: StructuredLesson = {
   ],
   seeItInAction: {
     title: 'Deploying Study Tracker from CloudFormation',
-    intro: "Run these as `studyadmin` from your `study-tracker` folder, with `template.yaml` from Try it yourself, after retiring the hand-built resources as the guide's first step explains. Use your own email address. The tags in the template also satisfy the project tag guardrail from lesson 12.",
+    intro: "Run these as `studyadmin` from your `study-tracker` folder, with `template.yaml` from Try it yourself, after retiring the hand-built resources as the guide's first step explains. Use your own email address. The tags in the template also satisfy the project tag guardrail from lesson 14.",
     example: {
       language: 'bash',
       code: code`
@@ -113,7 +113,7 @@ const lesson: StructuredLesson = {
     files: [{ language: 'text', filename: 'template.yaml', code: cfnTemplate }],
     project: {
       goal: 'Rebuild Study Tracker on AWS from one CloudFormation template, prove every requirement from the track with evidence, document it with a diagram and a decision record, then delete everything.',
-      prerequisites: ['All 13 earlier AWS lessons.', 'The AWS CLI signed in as `studyadmin`, Docker Desktop, and the Study Tracker repository with the code from lesson 13.'],
+      prerequisites: ['All 15 earlier AWS lessons.', 'The AWS CLI signed in as `studyadmin`, Docker Desktop, and the Study Tracker repository with the PostgreSQL-ready code from lesson 9.'],
       setup: ['Set the track variables, plus `REGISTRY`, `ACCOUNT` and `SERVICE_ARN`.', 'Save `template.yaml` in your repository and install cfn-lint with `python -m pip install cfn-lint`.'],
       files: [
         { path: 'template.yaml', purpose: 'Every Study Tracker resource, tagged, in one template.' },
@@ -127,7 +127,7 @@ const lesson: StructuredLesson = {
         { title: 'Check the template', instructions: ['Lint the template and fix anything cfn-lint reports.', 'Read through each resource and match it to the lesson that introduced it.'], commands: ['cfn-lint template.yaml'], checkpoint: 'cfn-lint prints nothing and exits with status 0.' },
         { title: 'First deployment', instructions: ['Create and review a change set, then deploy, as in See it in action.', 'Confirm the SNS subscription email.'], commands: ['aws cloudformation deploy --stack-name study-tracker --template-file template.yaml --capabilities CAPABILITY_IAM --parameter-overrides AlertEmail=you@example.com --tags project=study-tracker'], checkpoint: '`aws cloudformation describe-stacks --stack-name study-tracker --query "Stacks[0].StackStatus"` shows `CREATE_COMPLETE`.' },
         { title: 'Image, notes and second deployment', instructions: ['Push the image to the new repository and deploy again with `DeployApp=true`.', 'Upload your notes to the new bucket, using the bucket name from the stack outputs. Open the app\'s `/docs` and save a session.'], commands: ['docker push $REGISTRY/study-tracker:v4', 'aws cloudformation deploy --stack-name study-tracker --template-file template.yaml --capabilities CAPABILITY_IAM --parameter-overrides DeployApp=true --tags project=study-tracker', 'aws s3 cp notes s3://REPLACE-WITH-NotesBucketName/ --recursive'], checkpoint: 'The app answers at its address, and a saved session is still there after forcing a new deployment.' },
-        { title: 'Collect the evidence', instructions: ['For each requirement in the checklist, run the proving command and paste its output with the date.', 'Trigger the error alarm with repeated 503s, and repeat the restore drill from lesson 11 against the new database.'], checkpoint: 'Every line of the checklist has real evidence.' },
+        { title: 'Collect the evidence', instructions: ['For each requirement in the checklist, run the proving command and paste its output with the date.', 'Trigger the error alarm with repeated 503s, and repeat the restore drill from lesson 13 against the new database.'], checkpoint: 'Every line of the checklist has real evidence.' },
         { title: 'Diagram and decision record', instructions: ['Add the architecture diagram to `docs/architecture.md`, adjusted to what you deployed.', 'Write at least one decision record in `docs/adr/`, with options, consequences and a revisit trigger.'], checkpoint: 'A reviewer could explain the system and one key decision after five minutes of reading.' },
         { title: 'Clean up', instructions: ['Empty the stack\'s notes bucket with Empty in the S3 console, which removes every version, then delete the stack.', 'In the console, delete the old hand-built VPC (Delete VPC removes its subnets, gateway and security groups too), the old buckets after emptying them, the old IAM roles, the resource group and the analyzer.', 'Check Cost Explorer over the next two days to confirm spending stops. Keep the budget and the guardrail if you plan to keep the account.'], commands: ['aws cloudformation delete-stack --stack-name study-tracker', 'aws cloudformation wait stack-delete-complete --stack-name study-tracker'], checkpoint: '`aws resourcegroupstaggingapi get-resources --tag-filters Key=project,Values=study-tracker` lists nothing that still costs money, and Cost Explorer shows no new costs.' },
       ],

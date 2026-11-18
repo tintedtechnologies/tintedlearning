@@ -13,10 +13,10 @@ const plan: ProjectPlan = {
       -> report: the answer, the evidence, the limits and the next check
   `,
   lessons: ['python-data-analysis', 'probability-and-statistics', 'data-collection-and-cleaning', 'reporting-results', 'reading-research-papers'],
-  tools: ['Python 3.12 or newer, with a virtual environment', 'pandas and matplotlib, installed from requirements.txt (optional: the standard library is enough for the first steps)', 'A public dataset in CSV form, from a source that states its licence', 'A text editor for the report'],
+  tools: ['Python 3.12 or newer, with a virtual environment', 'pandas and matplotlib, installed from requirements.txt (optional: the standard library is enough for the first steps)', 'A public dataset in CSV form, from a source that states its license', 'A text editor for the report'],
   time: 'about 6 hours',
   requirements: [
-    'Uses a public dataset, with its source and licence written in the README',
+    'Uses a public dataset, with its source and license written in the README',
     'States one question and a prediction before looking at the data',
     'Checks and cleans the data with written rules, and logs every dropped row',
     'Charts the answer with labeled axes and a title',

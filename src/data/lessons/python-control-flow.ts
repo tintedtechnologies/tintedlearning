@@ -27,7 +27,7 @@ const lesson: StructuredLesson = {
           elif score >= 70:
               print("Grade B")
           else:
-              print("Keep practising")
+              print("Keep practicing")
         `,
         output: 'Grade B',
       },

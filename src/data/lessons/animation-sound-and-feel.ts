@@ -98,7 +98,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Pick one event in your game and write the animation, the sound, and one effect it should have. Keep each one short.',
-      'Add a "coin missed" event with a sound but no screen shake in the seItInAction example. Predict the output, then run it to check.',
+      'Add a "coin missed" event with a sound but no screen shake in the seeItInAction example. Predict the output, then run it to check.',
       'Play a game you enjoy and note three moments where the feel helped you understand what happened. Write what each feedback was.',
     ],
   },

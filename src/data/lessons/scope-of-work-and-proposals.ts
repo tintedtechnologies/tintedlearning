@@ -148,7 +148,7 @@ const lesson: StructuredLesson = {
   takeaway: 'A scope names what is in, what is out and what must be true, gives each deliverable acceptance criteria the customer can check and a proposal asks the decision-maker to approve that specific scope.',
   resources: [
     { title: 'Scope creep', provider: 'Wikipedia', description: 'How unplanned additions grow a project, and how to prevent them.', url: 'https://en.wikipedia.org/wiki/Scope_creep' },
-    { title: 'Service manual: planning a digital service', provider: 'UK Government Digital Service', description: 'Public-sector guidance on defining what a service will deliver and how success is checked.', url: 'https://www.gov.uk/service-manual' },
+    { title: 'The Service Manual', provider: 'UK Government Digital Service', description: 'Public-sector guidance on defining what a digital service will deliver and how success is checked.', url: 'https://www.gov.uk/service-manual' },
   ],
   underTheHood: {
     heading: 'Why exclusions protect everyone',

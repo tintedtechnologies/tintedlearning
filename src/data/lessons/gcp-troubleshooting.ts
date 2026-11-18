@@ -92,7 +92,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Write a Cloud Logging filter that finds errors from one Cloud Run service in the last hour. Run it on a test project if you have one, or write it down.',
-      'Change the sql api timestamp in the seItInAction example and predict the first error. Run it to check.',
+      'Change the sql api timestamp in the seeItInAction example and predict the first error. Run it to check.',
       'Write the note you would leave in the repository after fixing a disabled API, including the log filter that found it.',
     ],
   },

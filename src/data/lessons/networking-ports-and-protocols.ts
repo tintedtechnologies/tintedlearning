@@ -47,7 +47,7 @@ const lesson: StructuredLesson = {
     {
       heading: 'Common ports and checking them',
       paragraphs: [
-        'A firewall decides which ports traffic may use. A rule that allows port 443 lets web traffic in and blocks everything else on that port only if the rule says so. When a service is unreachable, check whether its port is listening on the server and allowed by the firewall.',
+        'A firewall decides which ports traffic may use. A rule that allows port 443 lets web traffic in. Traffic to any port without a matching allow rule is blocked, provided the firewall\'s default is to deny. When a service is unreachable, check whether its port is listening on the server and allowed by the firewall.',
         'Keep a table of the ports your services use. Writing them down makes a firewall review fast, and it reveals services that should not be open.',
         'Ports also have a direction. A client usually picks a temporary high-numbered port for its side of the conversation, while the server listens on a well-known port. When a browser opens a page, the server sees the request arriving at port 443, and the browser replies on the port it chose. Knowing which side listens helps you read firewall logs and connection tests. A firewall rule that names both the port and the source is clearer than one that opens a port to everyone.',
         'Ports below 1024 are often reserved for system services on many operating systems, so a program that needs one may need extra permission. A development server on a higher port, such as 8000 or 5173, avoids that problem. Once a project is shared, the port it uses becomes part of the setup that others must allow through.',

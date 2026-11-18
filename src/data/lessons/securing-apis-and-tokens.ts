@@ -111,7 +111,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Pick an API you use. Find out whether it has a rate limit, and write down the limit it documents.',
-      'Add a request with a count of exactly 5 to the seItInAction example and predict whether it is allowed. Run it to check.',
+      'Add a request with a count of exactly 5 to the seeItInAction example and predict whether it is allowed. Run it to check.',
       'Write the allowlist of fields for one endpoint you would build, and list one field you would refuse to return.',
     ],
   },

@@ -137,7 +137,7 @@ const lesson: StructuredLesson = {
   resources: [
     { title: 'Value proposition', provider: 'Wikipedia', description: 'What a value proposition says to a customer, and why it matters.', url: 'https://en.wikipedia.org/wiki/Value_proposition' },
     { title: 'Business case', provider: 'Wikipedia', description: 'How a business case weighs costs, benefits, and risks.', url: 'https://en.wikipedia.org/wiki/Business_case' },
-    { title: 'Value-based pricing and business cases', provider: 'UK Government Digital Service', description: 'Public-sector guidance on setting out the costs, benefits and risks of a digital service.', url: 'https://www.gov.uk/service-manual' },
+    { title: 'The Service Manual', provider: 'UK Government Digital Service', description: 'Public-sector guidance on setting out the costs, benefits and risks of a digital service.', url: 'https://www.gov.uk/service-manual' },
   ],
   underTheHood: {
     heading: 'Why ranges are more honest than point estimates',

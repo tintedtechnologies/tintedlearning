@@ -100,7 +100,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Write three debt items for a project you know. For each, write the cost it adds and the risk it carries, each on a scale of one to five.',
-      'Change the capacity in the seItInAction example to 25 and predict which items are planned. Run it to check.',
+      'Change the capacity in the seeItInAction example to 25 and predict which items are planned. Run it to check.',
       'Write one sentence that explains a debt item to a non-technical manager in terms of outcome.',
     ],
   },

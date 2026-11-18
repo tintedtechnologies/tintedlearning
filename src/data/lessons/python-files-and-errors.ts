@@ -8,7 +8,7 @@ const lesson: StructuredLesson = {
     'Open files with `with` so they are always closed properly',
   ],
   bigIdea: "Variables disappear when a program ends, but files stay on disk. To use a file, Python needs to know where it is, called its path, and what you want to do with it: read it, overwrite it or add to it. Python's `pathlib` module handles paths, and a `with` block makes sure every file you open gets closed again.",
-  whyItMatters: "Say you write a script that keeps a daily log of your expenses. On your laptop it works. You send it to a friend on Windows, and it crashes because you typed the folder path by hand with forward slashes, and theirs is laid out differently. Building paths properly and opening files safely is what makes a script work on someone else's computer, not just yours.",
+  whyItMatters: "Say you write a script that keeps a daily log of your expenses. On your laptop it works. You send it to a friend on Windows, and it crashes because the folder path was typed for your computer, such as /Users/you/logs, which does not exist on theirs. Building paths properly and opening files safely is what makes a script work on someone else's computer, not just yours.",
   goalSections: [
     {
       heading: 'Paths with pathlib',

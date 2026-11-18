@@ -87,7 +87,7 @@ const lesson: StructuredLesson = {
   ],
   seeItInAction: {
     title: 'Checking spending against a budget',
-    intro: 'The program below tracks daily spending against a monthly budget and flags the day the budget is passed. Real providers do this for you, but the logic is the same. Run it, then change one day\'s cost and predict whether the alert changes.',
+    intro: 'The program below tracks daily spending against a monthly budget and flags the day half of it is spent. Real providers do this for you, but the logic is the same. Run it, then change one day\'s cost and predict whether the alert changes.',
     example: {
       language: 'python',
       runnable: true,

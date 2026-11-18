@@ -38,8 +38,8 @@ const lesson: StructuredLesson = {
         language: 'bash',
         runnable: false,
         code: code`
-          # Show what Python knows about a package before you install it
-          python -m pip show python-dateutil
+          # Open the package's registry page before you install it (macOS; elsewhere, paste the address into a browser)
+          open https://pypi.org/project/python-dateutil/
 
           # Show the registry page details for an npm package
           npm view some-package name version repository.url maintainers
@@ -57,7 +57,7 @@ const lesson: StructuredLesson = {
         runnable: false,
         code: code`
           python3 -m venv .venv
-          source .venv/bin/activate          # on Windows PowerShell: .venv\\Scripts\\Activate.ps1
+          source .venv/bin/activate          # on Windows PowerShell: .venv\Scripts\Activate.ps1
           python -m pip install -r requirements.txt
         `,
       },

@@ -2,7 +2,7 @@ import type { StructuredLesson } from '../../types/lesson'
 import { code } from './helpers'
 
 const lesson: StructuredLesson = {
-  assumes: 'Configuration and Secrets from Software Engineering, Python Packages and Environments, and the earlier lessons in this section. The audit runs on your own copy of Study Tracker.',
+  assumes: 'Configuration and Secrets from Software Engineering, Packages and Environments, and the earlier lessons in this section. The audit runs on your own copy of Study Tracker.',
   goals: [
     'List every part your AI app depends on: packages, models, datasets, plugins and prompt templates',
     'Pin exact versions and verify downloaded files against a checksum from a trusted source',

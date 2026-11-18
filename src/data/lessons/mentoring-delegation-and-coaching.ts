@@ -137,7 +137,7 @@ const lesson: StructuredLesson = {
   resources: [
     { title: 'Mentorship', provider: 'Wikipedia', description: 'What mentoring is, and how it develops the person being mentored.', url: 'https://en.wikipedia.org/wiki/Mentorship' },
     { title: 'Delegation', provider: 'Wikipedia', description: 'How to hand over work and the responsibility that comes with it.', url: 'https://en.wikipedia.org/wiki/Delegation' },
-    { title: 'The Coaching Habit', provider: 'Michael Bungay Stanier', description: 'A practical guide to asking coaching questions that help people think for themselves.', url: 'https://boxofcrayons.com/' },
+    { title: 'Box of Crayons', provider: 'Michael Bungay Stanier', description: 'The author\'s site for The Coaching Habit, with practical guidance on asking coaching questions.', url: 'https://boxofcrayons.com/' },
   ],
   underTheHood: {
     heading: 'Why a little difficulty helps learning',

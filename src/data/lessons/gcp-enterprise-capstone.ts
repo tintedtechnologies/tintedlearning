@@ -17,13 +17,13 @@ const architectureDiagram = code`
 `
 
 const lesson: StructuredLesson = {
-  assumes: 'all 13 earlier Google Cloud lessons, Docker Desktop, and the architecture lessons System Design and Architecture Decision Records. Set the track variables and `BILLING`, your billing account ID.',
+  assumes: 'all 15 earlier Google Cloud lessons, Docker Desktop, and the architecture lessons System Design and Architecture Decision Records. Set the track variables and `BILLING`, your billing account ID.',
   goals: [
     'Describe Study Tracker\'s whole Google Cloud architecture in one diagram and one decision record',
     'Deploy the whole architecture from one Terraform configuration, into a fresh project',
     'Prove the deployment meets its requirements, then remove everything cleanly',
   ],
-  bigIdea: "Infrastructure as code, or IaC, describes every cloud resource in files kept with the app, so the whole system can be created, reviewed, changed and deleted by running them, as the Foundations lesson introduced. The capstone rebuilds the Study Tracker you assembled by hand over 13 lessons from one Terraform configuration, the infrastructure-as-code tool Google documents for Google Cloud, in a brand-new project. If you can delete everything and recreate it in minutes, you truly own the system.",
+  bigIdea: "Infrastructure as code, or IaC, describes every cloud resource in files kept with the app, so the whole system can be created, reviewed, changed and deleted by running them, as the Foundations lesson introduced. The capstone rebuilds the Study Tracker you assembled by hand over 15 lessons from one Terraform configuration, the infrastructure-as-code tool Google documents for Google Cloud, in a brand-new project. If you can delete everything and recreate it in minutes, you truly own the system.",
   whyItMatters: "Ask a team that built its Google Cloud setup by hand to recreate it in a second project for production, and the answer is usually weeks of console screenshots, guessed settings and surprises nobody wrote down. A system described in Terraform can be rebuilt by anyone, reviewed in a pull request before it changes, and compared against what is actually running. That, with the diagram and decision record, turns a working project into a portfolio piece an employer can trust.",
   goalSections: [
     {
@@ -105,7 +105,7 @@ const lesson: StructuredLesson = {
     steps: [
       { code: 'gcloud billing projects link $PROJECT_ID --billing-account $BILLING', explanation: "Links the fresh, empty project to billing, and the next commands give it its own budget. Building into an empty project is the real test that the code describes everything." },
       { code: 'terraform init', explanation: "Downloads the Google and random providers named in `main.tf` into a `.terraform` folder." },
-      { code: 'terraform validate', explanation: "Checks the files for mistakes before anything reaches Google Cloud. The configuration was checked against the provider's documentation while this lesson was written." },
+      { code: 'terraform validate', explanation: "Checks the files for mistakes before anything reaches Google Cloud, such as typos and unknown arguments." },
       { code: 'terraform plan -out base.tfplan', explanation: "Lists every resource that would be created, without creating any. Read it, then apply exactly that plan." },
       { code: 'terraform apply base.tfplan', explanation: "The first pass: APIs, network, private services access, service account, bucket, repository, database, secret and alert channel. The database takes the longest, often ten minutes." },
       { code: 'terraform apply -var deploy_app=true', explanation: "The second pass adds the Cloud Run service, public access and the alert policy. Terraform shows the plan and asks you to type `yes`." },
@@ -125,7 +125,7 @@ const lesson: StructuredLesson = {
     ],
     project: {
       goal: 'Rebuild Study Tracker on Google Cloud from one Terraform configuration in a fresh project, prove every requirement from the track with evidence, document it with a diagram and a decision record, then delete everything.',
-      prerequisites: ['All 13 earlier Google Cloud lessons.', 'The Google Cloud CLI signed in, with application-default credentials, Docker Desktop, Terraform, and the Study Tracker repository with the code from lesson 13.'],
+      prerequisites: ['All 15 earlier Google Cloud lessons.', 'The Google Cloud CLI signed in, with application-default credentials, Docker Desktop, Terraform, and the Study Tracker repository with the PostgreSQL-ready code from lesson 9.'],
       setup: ['Choose a new `SUFFIX` and project ID, and find your `BILLING` account ID with `gcloud billing accounts list`.', 'Save `main.tf` and `terraform.tfvars` in your repository with your values, and add the `.gitignore` lines.'],
       files: [
         { path: 'main.tf', purpose: 'Every Study Tracker resource, labeled, in one configuration.' },
@@ -140,7 +140,7 @@ const lesson: StructuredLesson = {
         { title: 'Create the new project', instructions: ['Create the project, link billing, set it as the default and create its budget, as in See it in action.'], commands: ['gcloud projects create $PROJECT_ID --name "Study Tracker" --labels project=study-tracker', 'gcloud billing projects link $PROJECT_ID --billing-account $BILLING'], checkpoint: '`gcloud billing budgets list --billing-account $BILLING` shows `study-tracker-capstone`.' },
         { title: 'First apply', instructions: ['Initialize, validate, plan and apply.', 'Confirm the alert email channel if Google asks you to verify it.'], commands: ['terraform init', 'terraform validate', 'terraform plan -out base.tfplan', 'terraform apply base.tfplan'], checkpoint: '`terraform state list` shows the network, bucket, repository, database and secret.' },
         { title: 'Image, notes and second apply', instructions: ['Push the image to the new repository and apply again with `deploy_app=true`.', 'Upload your notes to the new bucket and open the app\'s `/docs`. Save a session.'], commands: ['docker push $(terraform output -raw repository)/study-tracker:v4', 'terraform apply -var deploy_app=true', 'gcloud storage rsync notes gs://$(terraform output -raw notes_bucket)'], checkpoint: 'The app answers at its address, and a saved session is still there after the service scales to zero.' },
-        { title: 'Collect the evidence', instructions: ['For each requirement in the checklist, run the proving command and paste its output with the date.', 'Trigger the error alert with repeated 503s, repeat the restore drill from lesson 11 against the new database, and run `check_labels.py` from lesson 12.'], checkpoint: 'Every line of the checklist has real evidence.' },
+        { title: 'Collect the evidence', instructions: ['For each requirement in the checklist, run the proving command and paste its output with the date.', 'Trigger the error alert with repeated 503s, repeat the restore drill from lesson 13 against the new database, and run `check_labels.py` from lesson 14.'], checkpoint: 'Every line of the checklist has real evidence.' },
         { title: 'Diagram and decision record', instructions: ['Add the architecture diagram to `docs/architecture.md`, adjusted to what you deployed.', 'Write at least one decision record in `docs/adr/`, with options, consequences and a revisit trigger.'], checkpoint: 'A reviewer could explain the system and one key decision after five minutes of reading.' },
         { title: 'Clean up', instructions: ['Destroy everything Terraform created, then delete the project.', 'Check Billing reports over the next two days to confirm spending stops. Delete the capstone budget once it does.'], commands: ['terraform destroy -var deploy_app=true', 'gcloud projects delete $PROJECT_ID --quiet'], checkpoint: '`gcloud projects list --filter "labels.project=study-tracker"` shows no active projects, and Billing reports show no new costs.' },
       ],

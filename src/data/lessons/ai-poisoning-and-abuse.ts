@@ -96,7 +96,7 @@ const lesson: StructuredLesson = {
     instructions: [
       'Add a quarantine step to the note import in `notes.py`. Flagged notes are stored with status "quarantined", are not embedded, and are listed in a review endpoint.',
       'Add the refusal rules to the assistant\'s code path. Refuse requests that ask for the system prompt, the tools or another learner\'s data, with the same fixed message each time, and log the category without the message text.',
-      'Add `test_abuse.py`. It should check that an imported note with "ignore previous rules" is not indexed, that the system prompt request gets the fixed refusal, and that the fifth flag in ten minutes pauses the account.',
+      'Add `test_abuse.py`. It should check that an imported note with "ignore previous rules" is not indexed, that the system prompt request gets the fixed refusal, and that the sixth flag in ten minutes pauses the account.',
     ],
   },
   mistakes: [

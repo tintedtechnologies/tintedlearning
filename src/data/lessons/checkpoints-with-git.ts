@@ -55,7 +55,7 @@ const lesson: StructuredLesson = {
     {
       heading: 'Restoring a failed change',
       paragraphs: [
-        '`git restore reading_list.py` puts the file back to the last commit. Every change since that commit is discarded, so only restore when you are sure you do not need those changes. If you want to keep the change for later, save it on a branch first.',
+        '`git restore reading_list.py` puts the file back to the last commit. Every change since that commit is discarded, so only restore when you are sure you do not need those changes. If you want to keep the change for later, commit it on a branch first.',
         'Restoring is safer than editing by hand. Hand edits can miss a line, and the restored file matches the checkpoint exactly.',
         'If you are unsure whether a change is good, create a branch first. The branch keeps the experiment separate, and `main` keeps the checkpoint you trust. Restoring is also the fastest way to compare. Restore, run, then compare the output of the old and new versions, so you can decide which one to keep. Give each checkpoint a message that names the working behavior, so you can find it in the log later.',
       ],
@@ -110,7 +110,7 @@ const lesson: StructuredLesson = {
   mistakes: [
     { mistake: 'Making a request with no checkpoint, then not knowing what the working version looked like.', fix: 'Commit each working step before you ask for the next change.' },
     { mistake: 'Running the code without reading `git diff` first.', fix: 'Read the diff, then run. The diff shows changes you did not ask for.' },
-    { mistake: 'Restoring a file without saving a change you still want.', fix: 'Copy the change to a branch with `git switch -c` before you restore.' },
+    { mistake: 'Restoring a file without saving a change you still want.', fix: 'Commit the change on a new branch, with `git switch -c` and `git commit`, before you restore the file.' },
   ],
   quiz: [
     {

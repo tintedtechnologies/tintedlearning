@@ -67,6 +67,7 @@ const lesson: StructuredLesson = {
         language: 'python',
         runnable: true,
         code: code`
+          # A rule chosen by a person, not a clustering model: the model would find the groups itself
           visits = {"Ana": 2, "Ben": 3, "Cy": 30, "Dee": 28}
           groups = {"regular": [], "occasional": []}
           for name, count in visits.items():

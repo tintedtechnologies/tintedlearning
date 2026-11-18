@@ -100,7 +100,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Write one concept you want to measure in your own study, and two proxies for it. Say what each proxy misses.',
-      'Change one value in round_two of the seItInAction example to 40, and predict whether the verdict changes. Run it to check.',
+      'Change one value in round_two of the seeItInAction example to 40, and predict whether the verdict changes. Run it to check.',
       'Rewrite a survey question you have written so that it asks one thing and uses a neutral wording.',
     ],
   },

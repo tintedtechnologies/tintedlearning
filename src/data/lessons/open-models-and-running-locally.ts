@@ -91,7 +91,7 @@ const lesson: StructuredLesson = {
   },
   tryIt: {
     instructions: [
-      'Change machine_gb in the seItInAction example to 8 and predict which models fit. Run the program to check.',
+      'Change machine_gb in the seeItInAction example to 8 and predict which models fit. Run the program to check.',
       'Read the license of one open model you know, and write down two things it allows and two things it requires.',
       'Write one task where a hosted model is the right choice and one where a self-run model is, with a reason for each.',
     ],

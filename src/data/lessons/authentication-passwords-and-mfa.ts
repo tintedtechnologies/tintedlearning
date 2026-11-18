@@ -104,7 +104,7 @@ const lesson: StructuredLesson = {
   tryIt: {
     instructions: [
       'Check the login settings of one account you use. Write down which second factors it offers, and whether a passkey or security key is among them.',
-      'Change the salt in the seItInAction example and predict whether the first attempt is still accepted. Run it to check.',
+      'Change the salt in the seeItInAction example and predict whether the first attempt is still accepted. Run it to check.',
       'Write the message a login page should show for a wrong password, and one reason it should not say which part was wrong.',
     ],
   },

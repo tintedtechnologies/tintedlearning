@@ -42,7 +42,7 @@ const lesson: StructuredLesson = {
           Principal                         Role                            On                      Lesson
           you                               Owner                           the project             1
           study-tracker (service account)   Storage Object Viewer           the notes bucket only   3
-          study-tracker (service account)   Secret Manager Secret Accessor  one secret only         7
+          study-tracker (service account)   Secret Manager Secret Accessor  one secret only         12
         `,
       },
     },

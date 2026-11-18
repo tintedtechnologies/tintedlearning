@@ -142,7 +142,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Sets describe groups with union, intersection, and difference, and counting uses the multiplication rule for choices in sequence and the addition rule for separate groups, while the inclusion and exclusion rule avoids double counting.',
   resources: [
-    { title: 'Sets and Venn diagrams', provider: 'Khan Academy', description: 'Free lessons on sets, Venn diagrams, and set operations.', url: 'https://www.khanacademy.org/math/precalculus' },
+    { title: 'Precalculus', provider: 'Khan Academy', description: 'Free lessons and practice across precalculus, with the algebra and reasoning that counting problems build on.', url: 'https://www.khanacademy.org/math/precalculus' },
     { title: 'Counting principles', provider: 'Brilliant', description: 'Interactive lessons on the multiplication and addition rules, with worked problems.', url: 'https://brilliant.org/wiki/rule-of-sum-and-rule-of-product-problem-solving/' },
   ],
 }

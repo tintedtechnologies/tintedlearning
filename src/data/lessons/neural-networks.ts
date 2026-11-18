@@ -56,7 +56,7 @@ const lesson: StructuredLesson = {
       paragraphs: [
         "A new network starts with random weights, so its first guesses are poor. Training fixes that with a loop: show it an example, let it guess, compare the guess with the right answer, then nudge each weight in the direction that would have made the guess less wrong.",
         "The size of each nudge is set by the learning rate. Too large and the weights jump past good values. Too small and training takes forever. The example below uses 0.1 and the simplest possible rule: when the guess is too high, lower each weight by 0.1 times its input, and lower the bias by 0.1. This early rule is called the perceptron rule.",
-        "Notice the trade-off at the end. The fixed neuron now says fail for the first student too, who was guessed as pass before. That is why training cycles through thousands of different examples, many times, so that a change helping one example does not quietly break others. Large networks choose each nudge with calculus, using gradients, which the Math lesson Calculus and Gradients explains.",
+        "Notice the trade-off at the end. The fixed neuron now says fail for the first student too, the one who studied 2 hours and had 5 phone pickups, and who was guessed as pass before. That is why training cycles through thousands of different examples, many times, so that a change helping one example does not quietly break others. Large networks choose each nudge with calculus, using gradients, which the Math lesson Calculus and Rates of Change explains.",
       ],
       example: {
         language: 'text',

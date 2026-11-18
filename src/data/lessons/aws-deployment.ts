@@ -33,7 +33,7 @@ const lesson: StructuredLesson = {
       paragraphs: [
         "ECS Express Mode needs only an image and roles, then creates the rest: a Fargate service, an Application Load Balancer, an HTTPS address, scaling and monitoring. AWS's documentation says it costs nothing extra beyond the resources it creates, such as Fargate time and the load balancer, which are charged by the hour.",
         "Three roles have three different jobs. The execution role lets ECS pull the image and write logs. The infrastructure role lets Express Mode create the load balancer and networking on your behalf. The task role, `study-tracker-task-role` from lesson 2, is what the app itself uses, for example to read the notes bucket.",
-        "Given your public subnets, Express Mode creates an internet-facing load balancer and gives tasks public IP addresses, as the networking lesson planned. Adding `sg-study-app` to the service puts the tasks in the group the database will trust in lesson 7.",
+        "Given your public subnets, Express Mode creates an internet-facing load balancer and gives tasks public IP addresses, as the networking lesson planned. Adding `sg-study-app` to the service puts the tasks in the group the database will trust in lesson 9.",
       ],
       example: {
         language: 'text',
@@ -48,16 +48,16 @@ const lesson: StructuredLesson = {
     {
       heading: 'Where the data lives, for now',
       paragraphs: [
-        "Study Tracker still saves sessions to SQLite on the task's own disk, which disappears whenever a task is replaced, such as on a new deployment or when a task fails a health check. Sessions saved now are temporary. Lesson 7 adds a managed database.",
+        "Study Tracker still saves sessions to SQLite on the task's own disk, which disappears whenever a task is replaced, such as on a new deployment or when a task fails a health check. Sessions saved now are temporary. Lesson 9 adds a managed database.",
         "Express Mode keeps at least one task running, plus the load balancer, so unlike the Azure track's scale-to-zero setup this deployment costs money every hour it exists. Plan to delete it the same day unless you continue straight on.",
-        "The AI features have no model yet, so they return the unavailable message from Designing AI Products, while sessions and totals work. Lesson 13 connects Amazon Bedrock.",
+        "The AI features have no model yet, so they return the unavailable message from Designing AI Products, while sessions and totals work. Lesson 15 connects Amazon Bedrock.",
       ],
       example: {
         language: 'text',
         code: code`
           Works now                         Temporary or unavailable until later
-          GET /docs, POST /sessions          sessions lost when a task is replaced (lesson 7)
-          GET /totals                        notes assistant and planner: 503 until lesson 13
+          GET /docs, POST /sessions          sessions lost when a task is replaced (lesson 9)
+          GET /totals                        notes assistant and planner: 503 until lesson 15
           Running cost: one Fargate task and one load balancer, every hour
         `,
       },
@@ -93,7 +93,7 @@ const lesson: StructuredLesson = {
       { code: 'aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $REGISTRY', explanation: "Signs Docker in with a temporary password piped straight into it, so it never appears on screen or in your history." },
       { code: '--policy-arn arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy', explanation: "An AWS managed policy that allows exactly what the execution role needs: pulling images from ECR and writing logs." },
       { code: '--policy-arn arn:aws:iam::aws:policy/service-role/AmazonECSInfrastructureRoleforExpressGatewayServices', explanation: "Lets Express Mode create and manage the load balancer, target groups and related networking for your service." },
-      { code: '"awsLogsConfiguration": { "logGroup": "/ecs/study-tracker", ... }', explanation: "In `express-service.json`. Sends the app's log lines to the log group created just before, kept for 30 days. Lesson 6 searches them." },
+      { code: '"awsLogsConfiguration": { "logGroup": "/ecs/study-tracker", ... }', explanation: "In `express-service.json`. Sends the app's log lines to the log group created just before, kept for 30 days. Lesson 8 searches them." },
       { code: '"scalingTarget": { "minTaskCount": 1, "maxTaskCount": 2 }', explanation: "One task normally, two at most under load. Express Mode does not scale to zero, so the service costs money while it exists." },
       { code: 'st-1a2b3c4d5e.ecs.us-east-1.on.aws', explanation: "Your app's address will look like this. It can take several minutes to start answering. Open it with `https://` and `/docs` on the end." },
     ],
@@ -141,7 +141,7 @@ const lesson: StructuredLesson = {
     {
       question: 'You save sessions in the deployed app, deploy `v2`, and the sessions are gone. Why?',
       options: [
-        { text: 'The new deployment replaced the task, and SQLite\'s file lived on the old task\'s disk', explanation: 'Task storage is temporary. Lesson 7 moves the data to a managed database.' },
+        { text: 'The new deployment replaced the task, and SQLite\'s file lived on the old task\'s disk', explanation: 'Task storage is temporary. Lesson 9 moves the data to a managed database.' },
         { text: 'ECR deleted the old image', explanation: 'Images stay in ECR, and sessions were never in the image.' },
         { text: 'The budget alert reset the app', explanation: 'Budgets only send emails.' },
         { text: 'Express Mode clears databases on every deployment', explanation: 'Express Mode knows nothing about your data. The file was on temporary storage.' },

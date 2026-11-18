@@ -16,8 +16,8 @@ const lesson: StructuredLesson = {
       heading: 'Choosing compute on Google Cloud',
       paragraphs: [
         "Compute Engine rents virtual machines. You choose the operating system, apply updates and handle failures yourself, which suits special software or full control.",
-        "Cloud Run runs a Docker image as a service with its own HTTPS address. It starts copies, called instances, as requests arrive and can scale to zero when nobody is using it, so an idle app costs little. Each instance can handle many requests at once, and Cloud Run adds instances as traffic grows. Lesson 5 deploys Study Tracker there. GKE, Google Kubernetes Engine, offers more control and more to manage, which lesson 8 weighs up.",
-        "Cloud Run functions run a single function when something triggers it, such as a schedule, which suits small jobs like the weekly summary in lesson 9.",
+        "Cloud Run runs a Docker image as a service with its own HTTPS address. It starts copies, called instances, as requests arrive and can scale to zero when nobody is using it, so an idle app costs little. Each instance can handle many requests at once, and Cloud Run adds instances as traffic grows. Lesson 5 deploys Study Tracker there. GKE, Google Kubernetes Engine, offers more control and more to manage, which lesson 10 weighs up.",
+        "Cloud Run functions run a single function when something triggers it, such as a schedule, which suits small jobs like the weekly summary in lesson 11.",
       ],
       example: {
         language: 'text',
@@ -25,17 +25,17 @@ const lesson: StructuredLesson = {
           Option           You manage                     Fits Study Tracker?
           Compute Engine   the operating system, updates  no: more work than needed
           Cloud Run        the image and its settings     yes: the web API
-          GKE              Kubernetes resources, upgrades only to learn Kubernetes (lesson 8)
-          Cloud Run functions  one function's code        yes: the weekly job (lesson 9)
+          GKE              Kubernetes resources, upgrades only to learn Kubernetes (lesson 10)
+          Cloud Run functions  one function's code        yes: the weekly job (lesson 11)
         `,
       },
     },
     {
       heading: 'Choosing storage, and keeping a bucket private',
       paragraphs: [
-        "Cloud Storage keeps files as objects in buckets, reached over HTTPS by name, such as `biology.md`. Persistent Disk provides disks for one Compute Engine machine, and Filestore is a shared file system several machines can mount. Databases are a separate choice, covered in lesson 7.",
+        "Cloud Storage keeps files as objects in buckets, reached over HTTPS by name, such as `biology.md`. Persistent Disk provides disks for one Compute Engine machine, and Filestore is a shared file system several machines can mount. Databases are a separate choice, covered in lesson 9.",
         "Bucket names are unique worldwide, so this track uses `study-notes-` plus your suffix. Two settings keep a bucket private. Uniform bucket-level access means only IAM controls access, with no per-object exceptions. Public access prevention blocks any grant to `allUsers`, the whole internet, even by mistake.",
-        "Cloud Storage encrypts every object at rest automatically, with keys Google manages. Lesson 10 explains the alternatives.",
+        "Cloud Storage encrypts every object at rest automatically, with keys Google manages. Lesson 12 explains the alternatives.",
       ],
       example: {
         language: 'text',

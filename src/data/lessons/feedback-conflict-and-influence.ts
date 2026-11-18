@@ -30,7 +30,7 @@ const lesson: StructuredLesson = {
     {
       heading: 'Receive feedback by asking first',
       paragraphs: [
-        "When someone gives you feedback, your first job is to understand it. Ask what they saw, when, and what they would have wanted instead. Your reply can come after you understand, and it should thank them even when you disagree. Thank the person for the feedback even when you disagree, because people stop giving it when they feel punished for speaking up.",
+        "When someone gives you feedback, your first job is to understand it. Ask what they saw, when, and what they would have wanted instead. Your reply can come after you understand. Thank the person for the feedback even when you disagree, because people stop giving it when they feel punished for speaking up.",
         "Separate the parts you accept from the parts you do not. Accepting the part that is true is a sign of maturity, and it makes the other part easier to discuss. \"You are right that the update was late. I think the blocker was visible in the standup, and I will add it to the written update too\" is an honest reply.",
       ],
       example: {
@@ -46,7 +46,7 @@ const lesson: StructuredLesson = {
       heading: 'Influence people you do not manage',
       paragraphs: [
         "You cannot order the IT manager to change a security plan, so influence must come from elsewhere. Share evidence they care about, connect your request to a goal you both hold, and offer a small agreement they can say yes to. Small agreements build the trust that larger ones need.",
-        "Expect influence to take several conversations. A first request may get a polite no, and a second one that answers the concern usually gets a yes. Keep the record of what was agreed, so both sides can see the progress. Confirm the small agreement in writing afterward, in a short message that repeats what was agreed. Check afterward whether the change happened, and say so when it did.",
+        "Expect influence to take several conversations. A first request may get a polite no, and a second one that answers the concern usually gets a yes. Keep the record of what was agreed, so both sides can see the progress. A short thank-you for each yes makes the next request easier to make.Confirm the small agreement in writing afterward, in a short message that repeats what was agreed. Check afterward whether the change happened, and say so when it did.",
       ],
       example: {
         language: 'text',

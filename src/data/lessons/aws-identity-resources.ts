@@ -46,7 +46,7 @@ const lesson: StructuredLesson = {
         code: code`
           Identity                       Gets                                        Where
           studyadmin (you)               AdministratorAccess permission set          this learning account only
-          study-tracker-task-role (app)  read notes bucket, read its secrets         added in lessons 3 and 7
+          study-tracker-task-role (app)  read notes bucket, read its secrets         added in lessons 3 and 12
           Anyone else                    nothing: AWS denies by default
         `,
       },

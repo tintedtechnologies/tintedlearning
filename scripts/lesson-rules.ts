@@ -11,7 +11,7 @@ const bannedPhrases = [
 ]
 const bannedHeadingWords = ['mechanism', 'lens', 'hypothesis', 'reasoning tool', 'leverage']
 // CLAUDE.md: use US English.
-const britishSpellings = /\b(behaviour|colour|favourite|centre|centres|organis\w*|recognis\w*|analys(e|ed|ing)|catalogue|licence|programme|practis\w*|metres?|kilometres?|travell\w*|labell\w*|modell\w*|cancell(ed|ing)|optimis\w*|summaris\w*|minimis\w*|maximis\w*|prioritis\w*|grey|whilst|towards|maths)\b/i
+const britishSpellings = /\b(behaviour|colour|favourite|centre|centres|organis\w*|recognis\w*|analys(e|ed|ing)|catalogue|licence|programme|practis\w*|metres?|kilometres?|travell\w*|labell\w*|modell\w*|cancell(ed|ing)|optimis(e|es|ed|ing|ation|ations)|summaris\w*|minimis\w*|maximis\w*|prioritis\w*|grey|whilst|towards|maths)\b/i
 
 function allProse(lesson: StructuredLesson) {
   return [

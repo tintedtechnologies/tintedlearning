@@ -47,7 +47,7 @@ const lesson: StructuredLesson = {
       heading: 'Where the data lives, for now',
       paragraphs: [
         "The deployed app still saves sessions in SQLite, inside the instance's own file system. Cloud Run scales to zero when there is no traffic, and every new revision starts fresh instances, so saved sessions disappear surprisingly quickly. Two instances would also each have their own separate database.",
-        "That is acceptable for a first deployment, and lesson 7 fixes it by moving the data to Cloud SQL. The notes are already safe, because they come from the bucket.",
+        "That is acceptable for a first deployment, and lesson 9 fixes it by moving the data to Cloud SQL. The notes are already safe, because they come from the bucket.",
         "Scaling to zero also means an idle app costs very little, and the first request after a quiet period waits a few seconds while an instance starts, called a cold start. `--max-instances 2` caps how far it can scale, which also caps the cost.",
       ],
       example: {
@@ -55,7 +55,7 @@ const lesson: StructuredLesson = {
         code: code`
           Data          Lives in                       Survives a new revision or scale to zero?
           Notes         gs://study-notes-jd4821        yes
-          Sessions      SQLite inside the instance     no: fixed in lesson 7
+          Sessions      SQLite inside the instance     no: fixed in lesson 9
           The image     Artifact Registry              yes
         `,
       },
@@ -100,7 +100,7 @@ const lesson: StructuredLesson = {
     { mistake: 'Deploying without `--service-account`.', fix: 'Always name the app\'s own service account, so it never runs with the default account\'s broad roles.' },
     { mistake: 'Building on an ARM laptop without `--platform linux/amd64`.', fix: 'Add the flag, or Cloud Run rejects the image because it does not support that processor type.' },
     { mistake: 'Reusing the same tag, such as `latest`, for every build.', fix: 'Give each build a new tag, so you know exactly what runs and can roll back to an earlier one.' },
-    { mistake: 'Storing data inside the instance.', fix: 'Instances start and stop freely. Keep data in Cloud SQL or Cloud Storage, which lesson 7 sets up.' },
+    { mistake: 'Storing data inside the instance.', fix: 'Instances start and stop freely. Keep data in Cloud SQL or Cloud Storage, which lesson 9 sets up.' },
   ],
   quiz: [
     {

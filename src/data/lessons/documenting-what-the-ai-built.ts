@@ -94,7 +94,7 @@ const lesson: StructuredLesson = {
     instructions: [
       'Write a README for a tool you have built, with the purpose, setup, one example, and how to run the tests.',
       'Add a limits section to your README, with two things the tool does not handle yet.',
-      'Change the readme_sections set in the seItInAction example to include "limits", and predict the result. Run it to check.',
+      'Change the readme_sections set in the seeItInAction example to include "limits", and predict the result. Run it to check.',
     ],
   },
   mistakes: [

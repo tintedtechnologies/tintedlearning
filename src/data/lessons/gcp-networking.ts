@@ -56,7 +56,7 @@ const lesson: StructuredLesson = {
       heading: 'Public, private and private services access',
       paragraphs: [
         "Cloud Run services get a public HTTPS address from Google's front end, outside your network. Nothing in your VPC needs to be public for that. When the app needs the database, Direct VPC egress sends its private traffic into `snet-apps`.",
-        "Cloud SQL runs in a network Google manages. Private services access connects that network to yours through VPC peering, using the range you reserved, so the database gets an address such as `10.100.0.3` and no public address at all. Only resources connected to `vpc-study-tracker` can reach it, and lesson 7 adds a password and encryption on top.",
+        "Cloud SQL runs in a network Google manages. Private services access connects that network to yours through VPC peering, using the range you reserved, so the database gets an address such as `10.100.0.3` and no public address at all. Only resources connected to `vpc-study-tracker` can reach it, and lesson 9 adds a password and encryption on top.",
         "Private Google Access on the subnet lets resources without public addresses still reach Google APIs, such as Cloud Storage, over Google's network, protected by IAM.",
       ],
       example: {
@@ -68,7 +68,7 @@ const lesson: StructuredLesson = {
           vpc-study-tracker:  snet-apps 10.0.0.0/24, us-central1
                                  | VPC peering (private services access)
                                  v
-          Google-managed:     10.100.0.0/16 -> Cloud SQL, private address only (lesson 7)
+          Google-managed:     10.100.0.0/16 -> Cloud SQL, private address only (lesson 9)
         `,
       },
     },

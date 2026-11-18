@@ -69,10 +69,10 @@ const lesson: StructuredLesson = {
       language: 'text',
       code: code`
         Scores (value, ease, evidence; ease is 6 minus effort, so easier work scores higher)
-          notes search           value 5  effort 3  evidence 5   total 13   build now
-          study reminders        value 4  effort 4  evidence 3   total 11   build now
-          mobile app             value 4  effort 1  evidence 2   total  7   defer
-          teacher dashboard      value 3  effort 2  evidence 1   total  6   test first
+          notes search           value 5  ease 3  evidence 5   total 13   build now
+          study reminders        value 4  ease 4  evidence 3   total 11   build now
+          mobile app             value 4  ease 1  evidence 2   total  7   defer
+          teacher dashboard      value 3  ease 2  evidence 1   total  6   test first
           exam countdown         value 2  ease 4   evidence 1   total  7   stop for now
 
         Summary for the dean: the first release does two things well, and the other three
@@ -81,8 +81,8 @@ const lesson: StructuredLesson = {
     },
     steps: [
       { code: 'Scores (value, ease, evidence; ease is 6 minus effort', explanation: "Ease is effort turned around, so a higher total always means a better option. Two options can share a total. The rule, not the total, separates defer from stop: the mobile app has real value, and the exam countdown does not." },
-      { code: 'notes search           value 5  effort 3  evidence 5   total 13   build now', explanation: "The highest score, with strong evidence from the trial. The total is a guide for the discussion, and the team still checks the result against the milestones." },
-      { code: 'teacher dashboard      value 3  effort 2  evidence 1   total  6   test first', explanation: "A low evidence score sends the feature to research rather than to the build. The team interviews teachers before it commits any effort." },
+      { code: 'notes search           value 5  ease 3  evidence 5   total 13   build now', explanation: "The highest score, with strong evidence from the trial. The total is a guide for the discussion, and the team still checks the result against the milestones." },
+      { code: 'teacher dashboard      value 3  ease 2  evidence 1   total  6   test first', explanation: "A low evidence score sends the feature to research rather than to the build. The team interviews teachers before it commits any effort." },
       { code: 'Summary for the dean: the first release does two things well', explanation: "The summary puts the decision in the sponsor's terms. Two things are built well, and the others have a stated reason and a next step." },
     ],
   },
@@ -133,7 +133,7 @@ const lesson: StructuredLesson = {
   takeaway: 'Score every option on the same criteria, turn the scores into build, defer, test-first and stop decisions and say no with a reason, a trigger and a date so the sponsor can see what moves.',
   resources: [
     { title: 'Decision-making', provider: 'Wikipedia', description: 'How choices are made when options compete for limited resources.', url: 'https://en.wikipedia.org/wiki/Decision-making' },
-    { title: 'Prioritization frameworks', provider: 'UK Government Digital Service', description: 'Public-sector guidance on ordering digital service work by user need, value and risk.', url: 'https://www.gov.uk/service-manual' },
+    { title: 'The Service Manual', provider: 'UK Government Digital Service', description: 'Public-sector guidance on ordering digital service work by user need, value and risk.', url: 'https://www.gov.uk/service-manual' },
   ],
   underTheHood: {
     heading: 'Why simple scores work better than none',

@@ -16,8 +16,8 @@ const lesson: StructuredLesson = {
       heading: 'Choosing compute',
       paragraphs: [
         "A virtual machine, or VM, is a whole computer you rent. You choose the operating system, install updates and fix it when it breaks. Use one when you need full control, such as special software or settings.",
-        "Containers run your Docker image without you managing the machine underneath. Azure Container Apps runs containers, handles HTTPS, scales the number of copies with traffic and can scale to zero when idle. Kubernetes, through AKS, gives far more control at the cost of far more to manage, which lesson 8 weighs up.",
-        "Serverless functions, through Azure Functions, run small pieces of code when something triggers them, such as a timer or a new file, and cost nothing while idle. For Study Tracker: the API runs on Container Apps, because it already has a Docker image, and the weekly summary in lesson 9 uses Functions.",
+        "Containers run your Docker image without you managing the machine underneath. Azure Container Apps runs containers, handles HTTPS, scales the number of copies with traffic and can scale to zero when idle. Kubernetes, through AKS, gives far more control at the cost of far more to manage, which lesson 10 weighs up.",
+        "Serverless functions, through Azure Functions, run small pieces of code when something triggers them, such as a timer or a new file, and cost nothing while idle. For Study Tracker: the API runs on Container Apps, because it already has a Docker image, and the weekly summary in lesson 11 uses Functions.",
       ],
       example: {
         language: 'text',
@@ -33,7 +33,7 @@ const lesson: StructuredLesson = {
     {
       heading: 'Choosing storage',
       paragraphs: [
-        "Object storage keeps whole files, called blobs, reached over HTTPS by name. In Azure it is Blob Storage, organized as storage account, then container, then blob. It suits uploads, backups and Study Tracker's notes. Block storage is a disk attached to one virtual machine: Azure managed disks. File storage, Azure Files, is a shared folder that several machines can mount. Databases are a separate choice, covered in lesson 7.",
+        "Object storage keeps whole files, called blobs, reached over HTTPS by name. In Azure it is Blob Storage, organized as storage account, then container, then blob. It suits uploads, backups and Study Tracker's notes. Block storage is a disk attached to one virtual machine: Azure managed disks. File storage, Azure Files, is a shared folder that several machines can mount. Databases are a separate choice, covered in lesson 9.",
         "Lock a new storage account down from the start. Turn off anonymous public access to blobs, require a modern encryption version for connections, and turn off shared key access. That last setting disables the account's all-powerful access keys, so the only way in is through Microsoft Entra ID and RBAC roles.",
         "Storage account names must be unique across all of Azure, 3 to 24 lowercase letters and digits. That is where your `SUFFIX` comes in.",
       ],
@@ -92,7 +92,7 @@ const lesson: StructuredLesson = {
       `,
     },
     steps: [
-      { code: '--sku Standard_LRS --kind StorageV2', explanation: "Standard performance, with three copies kept in one data center, called locally redundant storage. It is the cheapest option and enough for a learning project. Lesson 11 covers stronger redundancy." },
+      { code: '--sku Standard_LRS --kind StorageV2', explanation: "Standard performance, with three copies kept in one data center, called locally redundant storage. It is the cheapest option and enough for a learning project. Lesson 13 covers stronger redundancy." },
       { code: '--allow-blob-public-access false --min-tls-version TLS1_2 --allow-shared-key-access false', explanation: "Three locks: no anonymous access, only modern encrypted connections, and no access keys. Access now comes only from roles." },
       { code: 'APP_ID=$(az identity show --name id-study-tracker ... --query principalId -o tsv)', explanation: "The managed identity's principal ID, which is what role assignments use." },
       { code: '--assignee-principal-type ServicePrincipal --role "Storage Blob Data Reader"', explanation: "Study Tracker can read notes and nothing else. Naming the principal type avoids a lookup that can fail for brand-new identities." },
