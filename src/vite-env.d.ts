@@ -1,5 +1,8 @@
 /// <reference types="vite/client" />
 
+/** The app version from package.json, injected at build time by vite.config.ts. */
+declare const __APP_VERSION__: string
+
 /**
  * Environment variables the site reads at build time.
  * Vite exposes any variable that starts with VITE_ automatically, so none of them need an entry in vite.config.ts.
