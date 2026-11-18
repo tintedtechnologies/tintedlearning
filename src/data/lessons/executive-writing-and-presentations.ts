@@ -144,6 +144,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Give the answer and the single ask in the first two sentences, support them with three facts and one risk on one page, and present each decision on its own slide with time left for questions.',
   resources: [
+    { title: 'Executive summary', provider: 'Wikipedia', description: 'What a short summary for decision-makers should contain.', url: 'https://en.wikipedia.org/wiki/Executive_summary' },
     { title: 'Plain Language', provider: 'U.S. General Services Administration', description: 'Guidance on writing clear, direct documents that busy readers can use.', url: 'https://www.plainlanguage.gov/' },
   ],
   underTheHood: {

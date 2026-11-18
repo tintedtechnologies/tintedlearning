@@ -149,7 +149,7 @@ const lesson: StructuredLesson = {
   takeaway: 'DHCP gives each device its address and settings when it joins, a 169.254 address means that hand-off failed, and NAT lets many private devices share one public address.',
   resources: [
     { title: 'DHCP overview', provider: 'Cisco Networking Academy', description: 'Free networking courses that explain how DHCP leases and pools work.', url: 'https://www.netacad.com/' },
-    { title: 'Network address translation', provider: 'Cloudflare', description: 'A plain explanation of NAT and why it is used in homes and offices.', url: 'https://www.cloudflare.com/learning/network-layer/what-is-nat/' },
+    { title: 'Network address translation', provider: 'Wikipedia', description: 'A plain explanation of NAT and why it is used in homes and offices.', url: 'https://en.wikipedia.org/wiki/Network_address_translation' },
   ],
 }
 

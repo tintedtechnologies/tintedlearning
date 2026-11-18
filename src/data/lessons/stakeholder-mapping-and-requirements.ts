@@ -134,6 +134,8 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Map every stakeholder by care, authority and power to block, turn what they say into checkable requirements with sources and name conflicts early enough to plan around them.',
   resources: [
+    { title: 'Stakeholder analysis', provider: 'Wikipedia', description: 'Identifying the people affected by a decision and how much influence each has.', url: 'https://en.wikipedia.org/wiki/Stakeholder_analysis' },
+    { title: 'Requirements engineering', provider: 'Wikipedia', description: 'How needs are elicited, written, and checked before building.', url: 'https://en.wikipedia.org/wiki/Requirements_engineering' },
     { title: 'Stakeholder analysis', provider: 'UK Government Digital Service', description: 'Public-sector guidance on identifying and engaging the people who shape a digital service.', url: 'https://www.gov.uk/service-manual' },
   ],
   underTheHood: {

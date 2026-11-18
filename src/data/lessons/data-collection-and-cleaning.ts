@@ -161,6 +161,10 @@ const lesson: StructuredLesson = {
       "The honest first step is always to count the missing values by group. If one group loses many more learners than the other, the comparison itself is at risk, and the report must say so.",
     ],
   },
+  resources: [
+    { title: 'Data cleansing', provider: 'Wikipedia', description: 'Finding and fixing errors, duplicates, and gaps in a dataset.', url: 'https://en.wikipedia.org/wiki/Data_cleansing' },
+    { title: 'Data collection', provider: 'Wikipedia', description: 'The methods for gathering data and the bias each one can introduce.', url: 'https://en.wikipedia.org/wiki/Data_collection' },
+  ],
 }
 
 export default lesson

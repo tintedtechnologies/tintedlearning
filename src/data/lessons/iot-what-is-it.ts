@@ -153,8 +153,8 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'An IoT system runs a loop of reading, deciding, sending, and acting, and the most important decisions belong on the device so they still work when the network does not.',
   resources: [
-    { title: 'What is IoT?', provider: 'Cisco', description: 'An overview of the Internet of Things, its devices, and how data moves through a system.', url: 'https://www.cisco.com/c/en/us/solutions/internet-of-things/what-is-iot.html' },
-    { title: 'Internet of Things', provider: 'Mozilla', description: 'A plain introduction to connected devices and the sensors behind them.', url: 'https://developer.mozilla.org/en-US/docs/Glossary/IoT' },
+    { title: 'What is IoT?', provider: 'Wikipedia', description: 'An overview of the Internet of Things, its devices, and how data moves through a system.', url: 'https://en.wikipedia.org/wiki/Internet_of_things' },
+    { title: 'Internet of Things', provider: 'TechTarget', description: 'A plain introduction to connected devices and the sensors behind them.', url: 'https://www.techtarget.com/news/What-is-IoT-internet-of-things/872137/' },
   ],
 }
 

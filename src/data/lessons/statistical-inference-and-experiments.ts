@@ -168,6 +168,10 @@ const lesson: StructuredLesson = {
       "Both methods depend on the data being a fair picture. If the sample is biased, resampling reproduces the bias with confidence. That is why the earlier lessons on collection and assignment come first. Good statistics cannot rescue a study that was never fair.",
     ],
   },
+  resources: [
+    { title: 'Statistical inference', provider: 'Wikipedia', description: 'How to draw conclusions about a population from a sample.', url: 'https://en.wikipedia.org/wiki/Statistical_inference' },
+    { title: 'Statistical significance', provider: 'Wikipedia', description: 'What a p-value does and does not tell you.', url: 'https://en.wikipedia.org/wiki/Statistical_significance' },
+  ],
 }
 
 export default lesson

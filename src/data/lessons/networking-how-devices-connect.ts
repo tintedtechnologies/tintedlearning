@@ -143,7 +143,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'A switch joins devices inside one network, a router joins networks, and an access point joins wireless devices, so knowing which job each device does tells you where a message can stop.',
   resources: [
-    { title: 'How the internet works', provider: 'Mozilla', description: 'An approachable explanation of networks, routers, and how a request reaches a server.', url: 'https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Environment_setup/Introduction' },
+    { title: 'How the web works', provider: 'Mozilla', description: 'An approachable explanation of networks, routers, and how a request reaches a server.', url: 'https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/How_the_Web_works' },
     { title: 'Networking Basics', provider: 'Cisco Networking Academy', description: 'Free introductory networking courses from Cisco Networking Academy.', url: 'https://www.netacad.com/' },
   ],
 }

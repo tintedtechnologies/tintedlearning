@@ -128,7 +128,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Build a private network, put only the entry point in a public subnet, let each layer accept traffic only from the layer in front of it, and use DNS and a load balancer to reach healthy servers.',
   resources: [
-    { title: 'What is a computer network?', provider: 'Cloudflare', description: 'A beginner explanation of IP addresses, routing and networks.', url: 'https://www.cloudflare.com/learning/network-layer/what-is-a-computer-network/' },
+    { title: 'What is the network layer?', provider: 'Cloudflare', description: 'A beginner explanation of IP addresses, routing and networks.', url: 'https://www.cloudflare.com/learning/network-layer/what-is-the-network-layer/' },
     { title: 'What is DNS?', provider: 'Cloudflare', description: 'How names like example.com become IP addresses, step by step.', url: 'https://www.cloudflare.com/learning/dns/what-is-dns/' },
   ],
   underTheHood: {

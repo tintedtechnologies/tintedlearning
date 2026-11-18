@@ -132,7 +132,8 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Choose the least managed service model that meets your needs, because each step toward control adds patching, monitoring, and recovery work that your team must keep up with.',
   resources: [
-    { title: 'What is cloud computing?', provider: 'Microsoft Learn', description: 'An overview of the cloud service models and the shared responsibility for each layer.', url: 'https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/overview/cloud-computing' },
+    { title: 'Describe cloud service types', provider: 'Microsoft Learn', description: 'Microsoft Learn module on IaaS, PaaS, and SaaS, with the responsibility each one carries.', url: 'https://learn.microsoft.com/en-us/training/modules/describe-cloud-service-types/' },
+    { title: 'Shared responsibility model', provider: 'Microsoft Learn', description: 'How responsibility for each layer changes between IaaS, PaaS, and SaaS.', url: 'https://learn.microsoft.com/en-us/training/modules/describe-cloud-compute/4-describe-shared-responsibility-model' },
   ],
 }
 

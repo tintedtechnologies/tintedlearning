@@ -141,6 +141,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'A research question becomes useful when you name the groups, the measure and the result that would prove your prediction wrong, and you write all of it down before the data arrives.',
   resources: [
+    { title: 'Research question', provider: 'Wikipedia', description: 'What makes a question testable, and how it differs from a topic.', url: 'https://en.wikipedia.org/wiki/Research_question' },
     { title: 'The Turing Way: Project design', provider: 'The Turing Way', description: 'A free guide to planning research so that its questions, data and methods can be checked.', url: 'https://the-turing-way.netlify.app/' },
   ],
   underTheHood: {

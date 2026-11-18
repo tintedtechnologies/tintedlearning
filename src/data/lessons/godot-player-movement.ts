@@ -146,6 +146,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Read input as a direction, set the velocity every physics step, and let `move_and_slide()` move the body and stop it at walls.',
   resources: [
+    { title: 'Physics introduction', provider: 'Godot Engine documentation', description: 'How bodies, velocity, and movement work in Godot\'s physics system.', url: 'https://docs.godotengine.org/en/stable/tutorials/physics/physics_introduction.html' },
     { title: 'Using CharacterBody2D', provider: 'Godot Engine', description: 'The official guide to moving a character body with velocity and collisions.', url: 'https://docs.godotengine.org/en/stable/tutorials/physics/using_character_body_2d.html' },
   ],
 }

@@ -132,6 +132,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Score every option on the same criteria, turn the scores into build, defer, test-first and stop decisions and say no with a reason, a trigger and a date so the sponsor can see what moves.',
   resources: [
+    { title: 'Decision-making', provider: 'Wikipedia', description: 'How choices are made when options compete for limited resources.', url: 'https://en.wikipedia.org/wiki/Decision-making' },
     { title: 'Prioritization frameworks', provider: 'UK Government Digital Service', description: 'Public-sector guidance on ordering digital service work by user need, value and risk.', url: 'https://www.gov.uk/service-manual' },
   ],
   underTheHood: {

@@ -151,6 +151,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Read generated code by tracing its data, watching for shared defaults, and asking for a plain explanation of every line you keep.',
   resources: [
+    { title: 'Code review developer guide', provider: 'Google', description: 'What to check when reading someone else\'s change, including generated code.', url: 'https://google.github.io/eng-practices/review/' },
     { title: 'Python tutorial: More on defining functions', provider: 'Python.org', description: 'The official explanation of default argument values, including the shared default trap.', url: 'https://docs.python.org/3/tutorial/controlflow.html#default-argument-values' },
   ],
 }

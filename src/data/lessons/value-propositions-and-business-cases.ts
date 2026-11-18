@@ -135,6 +135,8 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Connect the solution to an outcome the buyer values, estimate its value as a range with every assumption written down and choose a measurement that could show the case is weaker than expected.',
   resources: [
+    { title: 'Value proposition', provider: 'Wikipedia', description: 'What a value proposition says to a customer, and why it matters.', url: 'https://en.wikipedia.org/wiki/Value_proposition' },
+    { title: 'Business case', provider: 'Wikipedia', description: 'How a business case weighs costs, benefits, and risks.', url: 'https://en.wikipedia.org/wiki/Business_case' },
     { title: 'Value-based pricing and business cases', provider: 'UK Government Digital Service', description: 'Public-sector guidance on setting out the costs, benefits and risks of a digital service.', url: 'https://www.gov.uk/service-manual' },
   ],
   underTheHood: {

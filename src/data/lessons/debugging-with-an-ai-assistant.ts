@@ -133,6 +133,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Read the last line of a traceback, reproduce the bug with the smallest input, and give the assistant the exact error, the input and the expected result.',
   resources: [
+    { title: 'Debugging in VS Code', provider: 'Visual Studio Code documentation', description: 'How to set breakpoints and inspect values while a program runs.', url: 'https://code.visualstudio.com/docs/editor/debugging' },
     { title: 'Python tutorial: Errors and exceptions', provider: 'Python.org', description: 'How Python reports errors, and how exceptions such as KeyError are raised.', url: 'https://docs.python.org/3/tutorial/errors.html' },
   ],
 }

@@ -129,6 +129,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Qualify the problem, the decision-maker and the timing before proposing, end every conversation with a specific next step and say no clearly, with a reason and an alternative, when the work would be wrong for the customer or the team.',
   resources: [
+    { title: 'Needs assessment', provider: 'Wikipedia', description: 'How to identify what a customer needs before proposing a solution.', url: 'https://en.wikipedia.org/wiki/Needs_assessment' },
     { title: 'Harvard Business Review', provider: 'Harvard Business Publishing', description: 'Articles on advising customers and selling by diagnosing their problem first. Search the site for consultative selling.', url: 'https://hbr.org/' },
   ],
   underTheHood: {

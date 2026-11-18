@@ -155,7 +155,8 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Commit working code before every change, read `git diff` before you run, and restore the checkpoint when a change breaks things.',
   resources: [
-    { title: 'Pro Git, chapter 2: Git Basics', provider: 'Git SCM', description: 'The free official book. Chapter 2 covers saving changes, reading status and restoring files.', url: 'https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository' },
+    { title: 'Version control', provider: 'Wikipedia', description: 'What version control records, and why small saved versions make changes safe.', url: 'https://en.wikipedia.org/wiki/Version_control' },
+    { title: 'Git handbook: basics', provider: 'Git SCM', description: 'Commits, status, and history: the basics for saving checkpoints.', url: 'https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository' },
   ],
 }
 

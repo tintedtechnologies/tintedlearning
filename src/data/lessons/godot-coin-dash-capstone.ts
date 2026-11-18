@@ -146,7 +146,8 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'A shipped game combines tested parts, runs as an exported program, and comes with a README that tells a stranger how to play it.',
   resources: [
-    { title: 'Exporting projects', provider: 'Godot Engine', description: 'The official guide to export presets, export templates and running a game outside the editor.', url: 'https://docs.godotengine.org/en/stable/tutorials/export/exporting_projects.html' },
+    { title: 'Game design', provider: 'Wikipedia', description: 'The discipline of defining rules, goals, and player experience for a game.', url: 'https://en.wikipedia.org/wiki/Game_design' },
+    { title: 'Exporting projects', provider: 'Godot Engine documentation', description: 'How to export a finished Godot project for other platforms.', url: 'https://docs.godotengine.org/en/stable/tutorials/export/exporting_projects.html' },
   ],
 }
 

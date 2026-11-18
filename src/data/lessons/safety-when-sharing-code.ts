@@ -157,6 +157,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Keep secrets and personal data out of what you share, avoid running user text as code, and check every input before the program relies on it.',
   resources: [
+    { title: 'OWASP Secrets Management Cheat Sheet', provider: 'OWASP', description: 'How to keep secrets out of code, logs, and shared files.', url: 'https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html' },
     { title: 'OWASP Top 10 for Large Language Model Applications', provider: 'OWASP', description: 'A public list of the most serious security risks in applications built with language models.', url: 'https://owasp.org/www-project-top-10-for-large-language-model-applications/' },
   ],
 }

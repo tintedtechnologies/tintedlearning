@@ -151,6 +151,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Describe inputs, outputs and rules, add examples with exact results, and ask for one change at a time while saying what must stay the same.',
   resources: [
+    { title: 'Prompting best practices', provider: 'Anthropic', description: 'How to give an assistant clear goals, context, and examples.', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview' },
     { title: 'Python documentation: assert statement', provider: 'Python.org', description: 'The official reference for assert, which checks a condition and stops the program if it is false.', url: 'https://docs.python.org/3/reference/simple_stmts.html#the-assert-statement' },
   ],
 }

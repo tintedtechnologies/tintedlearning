@@ -150,7 +150,7 @@ const lesson: StructuredLesson = {
   takeaway: 'Test in order from the device outward, use ping and traceroute to narrow the failing step, and fix the first failure before testing again.',
   resources: [
     { title: 'Troubleshooting network connections', provider: 'Cisco Networking Academy', description: 'Free networking courses that cover troubleshooting with ping and traceroute.', url: 'https://www.netacad.com/' },
-    { title: 'How traceroute works', provider: 'Cloudflare', description: 'An explanation of how traceroute maps the path to a destination.', url: 'https://www.cloudflare.com/learning/network-layer/what-is-a-traceroute/' },
+    { title: 'Traceroute and MTR', provider: 'Cloudflare', description: 'An explanation of how traceroute maps the path to a destination.', url: 'https://www.cloudflare.com/learning/network-layer/what-is-mtr/' },
   ],
 }
 

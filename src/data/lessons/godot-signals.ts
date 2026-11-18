@@ -172,7 +172,8 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'A node emits a signal when something happens, and other nodes connect to that signal and decide how to react.',
   resources: [
-    { title: 'Using signals', provider: 'Godot Engine', description: 'The official guide to declaring, emitting and connecting signals in GDScript.', url: 'https://docs.godotengine.org/en/stable/getting_started/step_by_step/signals.html' },
+    { title: 'Observer pattern', provider: 'Wikipedia', description: 'The design pattern behind signals: one object announces an event, and others react.', url: 'https://en.wikipedia.org/wiki/Observer_pattern' },
+    { title: 'Signals', provider: 'Godot Engine documentation', description: 'How signals connect one node\'s event to another node\'s function.', url: 'https://docs.godotengine.org/en/stable/getting_started/step_by_step/signals.html' },
   ],
 }
 

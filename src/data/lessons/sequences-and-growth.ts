@@ -142,6 +142,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Arithmetic sequences add a fixed amount and grow in a straight line, while geometric sequences multiply by a fixed factor and eventually outgrow any straight line.',
   resources: [
+    { title: 'Sequence', provider: 'Wikipedia', description: 'Ordered lists of numbers, and the patterns that define them.', url: 'https://en.wikipedia.org/wiki/Sequence' },
     { title: 'Sequences', provider: 'Khan Academy', description: 'Practice arithmetic and geometric sequences, with series and growth problems.', url: 'https://www.khanacademy.org/math/algebra2' },
   ],
 }

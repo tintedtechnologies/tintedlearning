@@ -149,6 +149,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'A finished vibe-coded project is a tool you can test, explain and defend, with an honest README that shows how it was built and checked.',
   resources: [
+    { title: 'Make a README', provider: 'makeareadme.com', description: 'A guide to writing a README that explains a small project clearly.', url: 'https://www.makeareadme.com/' },
     { title: 'pytest documentation: How to use pytest', provider: 'pytest', description: 'The pytest guide for running tests across a project, which the capstone uses for its checks.', url: 'https://docs.pytest.org/en/stable/how-to/usage.html' },
   ],
 }

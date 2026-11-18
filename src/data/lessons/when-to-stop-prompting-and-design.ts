@@ -151,6 +151,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'When fixes keep breaking each other, write a one-page design of the data, functions and files, and rebuild from it one part at a time.',
   resources: [
+    { title: 'Architecture decision records', provider: 'ADR GitHub organization', description: 'A lightweight way to record a design decision before building more.', url: 'https://adr.github.io/' },
     { title: 'Python tutorial: Dictionaries', provider: 'Python.org', description: 'How dictionaries store keyed data, which is the shape used for each book in this lesson.', url: 'https://docs.python.org/3/tutorial/datastructures.html#dictionaries' },
   ],
 }

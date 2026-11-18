@@ -138,6 +138,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Start with the decision your listener must make, give each listener the one fact that changes their judgment and confirm understanding by asking them to repeat the plan back.',
   resources: [
+    { title: 'Technical writing', provider: 'Wikipedia', description: 'Principles for writing clear technical documents for specific readers.', url: 'https://en.wikipedia.org/wiki/Technical_writing' },
     { title: 'Plain Language', provider: 'U.S. General Services Administration', description: 'Guidance and examples for writing so that readers can find, understand and use information.', url: 'https://www.plainlanguage.gov/' },
   ],
   underTheHood: {

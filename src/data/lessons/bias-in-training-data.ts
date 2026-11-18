@@ -154,6 +154,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Check the data for missing groups, measurement gaps, and biased labels, then measure results for each group before a model is trusted.',
   resources: [
+    { title: 'Fairness: types of bias', provider: 'Google', description: 'The common kinds of bias that enter machine learning data, with examples.', url: 'https://developers.google.com/machine-learning/crash-course/fairness/types-of-bias' },
     { title: 'Machine Learning Crash Course: Fairness', provider: 'Google for Developers', description: 'An overview of how bias enters a dataset and how to check for it.', url: 'https://developers.google.com/machine-learning/crash-course/fairness/video-lecture' },
   ],
 }

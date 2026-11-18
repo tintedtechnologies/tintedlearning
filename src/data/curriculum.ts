@@ -2,6 +2,7 @@ import type { CurriculumModule, CurriculumStage, Lesson, LearningResource, Portf
 import { advancedProviderCloudLessons } from './advancedProviderCloudLessons'
 import { applyCloudTrackPlan, cloudTrackOrder } from './cloudTrackPlan'
 import { engineeringExpansionLessons } from './engineeringExpansionLessons'
+import { expansionSectionsLessons } from './expansionSectionsLessons'
 import { foundationsExpansionLessons } from './foundationsExpansionLessons'
 import { networkingIotLessons } from './networkingIotLessons'
 import { orientationLessons } from './orientationLessons'
@@ -197,6 +198,7 @@ const lessonCatalog: Lesson[] = [
   ...networkingIotLessons,
   ...foundationsExpansionLessons,
   ...engineeringExpansionLessons,
+  ...expansionSectionsLessons,
   ...providerCloudLessons,
   ...advancedProviderCloudLessons,
 ]
@@ -376,7 +378,7 @@ export const curriculumStages: CurriculumStage[] = [
       moduleWithLessons('scalability', 'Scalability', 'Design for changing traffic, workload shape, throughput, and capacity.', lessonIds('scalability'), sourceMapResources.architecture),
       moduleWithLessons('reliability', 'Reliability', 'Make availability, recovery, graceful degradation, and incident response part of the design.', lessonIds('reliability'), sourceMapResources.architecture),
       moduleWithLessons('distributed-systems', 'Distributed systems', 'Reason about coordination, consistency, queues, retries, and partial failure.', lessonIds('distributed-systems'), sourceMapResources.architecture),
-      moduleWithLessons('security-governance', 'Security and governance', 'Make trust boundaries, privacy, ownership, risk, and change management visible.', lessonsInOrder('authentication-passwords-and-mfa', 'encryption-essentials', 'secure-web-coding', 'phishing-and-social-engineering', 'general-threat-modeling', 'security-monitoring-and-response', 'security-checkpoint').concat(lessons.filter((lesson) => lesson.category === 'AI Security'), lessonIds('ai-governance')), sourceMapResources.security),
+      moduleWithLessons('security-governance', 'Security and governance', 'Make trust boundaries, privacy, ownership, risk, and change management visible.', lessonsInOrder('authentication-passwords-and-mfa', 'securing-cloud-accounts', 'encryption-essentials', 'secure-web-coding', 'securing-apis-and-tokens', 'phishing-and-social-engineering', 'general-threat-modeling', 'security-monitoring-and-response', 'security-checkpoint').concat(lessons.filter((lesson) => lesson.category === 'AI Security'), lessonIds('ai-governance')), sourceMapResources.security),
       moduleWithLessons('architecture-patterns', 'Architecture patterns', 'Choose patterns deliberately for retrieval, eventing, workflows, providers, and human review.', lessonIds('architecture-patterns'), sourceMapResources.architecture),
       moduleWithLessons('enterprise-integration', 'Enterprise integration', 'Connect identity, existing systems, data ownership, and change processes without losing control.', lessonIds('enterprise-integration'), sourceMapResources.architecture),
       moduleWithLessons('cost-optimization', 'Cost optimization', 'Compare quality, latency, infrastructure, model, and operational costs as one system.', lessonIds('cost-optimization'), sourceMapResources.architecture),
@@ -388,7 +390,7 @@ export const curriculumStages: CurriculumStage[] = [
     learnerOutcome: { understand: 'How to ask a testable question, collect clean data, run a fair comparison and state what the evidence shows.', build: 'A written study plan, a cleaned dataset and a short report that anyone can reproduce.', show: 'Clear evidence of a fair comparison, honest uncertainty and limits, and a report that someone else can reproduce.' },
     description: 'Practice collecting evidence, designing fair comparisons, judging uncertainty and reporting findings honestly.',
     modules: [
-      moduleWithLessons('research-methods', 'Research methods', 'Ask a testable question, collect clean data, run a fair comparison and report what the evidence shows.', lessonsInOrder('research-questions', 'data-collection-and-cleaning', 'experiment-design', 'statistical-inference-and-experiments', 'reading-research-papers', 'reporting-results')),
+      moduleWithLessons('research-methods', 'Research methods', 'Ask a testable question, collect clean data, run a fair comparison and report what the evidence shows.', lessonsInOrder('research-questions', 'measuring-what-you-care-about', 'research-ethics-and-consent', 'data-collection-and-cleaning', 'experiment-design', 'statistical-inference-and-experiments', 'reading-research-papers', 'reporting-results', 'research-checkpoint')),
     ],
   },
   {
@@ -401,10 +403,10 @@ export const curriculumStages: CurriculumStage[] = [
       moduleWithLessons('consultative-selling', 'Consultative selling', 'Understand fit, qualify needs, handle objections, and help customers decide without manipulation.', lessonIds('consultative-selling-and-discovery'), sourceMapResources.professional),
       moduleWithLessons('solution-storytelling', 'Solution demos and storytelling', 'Show how a solution changes the customer’s work and make the next step easy to understand.', lessonIds('solution-demos-and-storytelling'), sourceMapResources.professional),
       moduleWithLessons('commercial-practice', 'Commercial negotiation and procurement', 'Navigate budget, terms, risk, procurement, and ethical commitments around technical work.', lessonIds('commercial-negotiation-and-procurement'), sourceMapResources.professional),
-      moduleWithLessons('communication', 'Communication for technical leaders', 'Make complex decisions clear to customers, peers, executives, and partners.', lessonIds('technical-communication', 'executive-writing-and-presentations'), sourceMapResources.professional),
-      moduleWithLessons('planning-and-execution', 'Planning and execution', 'Turn uncertainty into milestones, learning checkpoints, priorities, and explicit tradeoffs.', lessonIds('planning-under-uncertainty', 'prioritization-and-tradeoffs'), sourceMapResources.professional),
-      moduleWithLessons('collaboration-and-influence', 'Feedback, conflict, and influence', 'Build trust, handle disagreement, negotiate constraints, and create alignment.', lessonIds('feedback-conflict-and-influence', 'negotiation-and-conflict-resolution'), sourceMapResources.professional),
-      moduleWithLessons('leadership-systems', 'Developing people and organizations', 'Practice mentoring, delegation, coaching, decision rights, and organizational judgment.', lessonIds('mentoring-delegation-and-coaching', 'decision-making-and-organizational-systems'), sourceMapResources.professional),
+      moduleWithLessons('communication', 'Communication for technical leaders', 'Make complex decisions clear to customers, peers, executives, and partners.', lessonIds('technical-communication', 'executive-writing-and-presentations', 'communicating-during-an-incident'), sourceMapResources.professional),
+      moduleWithLessons('planning-and-execution', 'Planning and execution', 'Turn uncertainty into milestones, learning checkpoints, priorities, and explicit tradeoffs.', lessonIds('planning-under-uncertainty', 'prioritization-and-tradeoffs', 'managing-technical-debt'), sourceMapResources.professional),
+      moduleWithLessons('collaboration-and-influence', 'Feedback, conflict, and influence', 'Build trust, handle disagreement, negotiate constraints, and create alignment.', lessonIds('leading-without-a-title', 'feedback-conflict-and-influence', 'negotiation-and-conflict-resolution'), sourceMapResources.professional),
+      moduleWithLessons('leadership-systems', 'Developing people and organizations', 'Practice mentoring, delegation, coaching, decision rights, and organizational judgment.', lessonIds('mentoring-delegation-and-coaching', 'running-effective-meetings-and-one-to-ones', 'decision-making-and-organizational-systems'), sourceMapResources.professional),
       moduleWithLessons('leadership-practicum', 'Professional leadership practicum', 'Lead an ambiguous initiative and leave behind evidence of your reasoning, communication, and reflection.', lessonIds('professional-leadership-practicum'), sourceMapResources.professional),
     ],
   },
@@ -426,7 +428,7 @@ export const curriculumStages: CurriculumStage[] = [
     learnerOutcome: { understand: 'How a game engine runs its loop, and how scenes, nodes, signals and physics work together.', build: 'A playable 2D game with movement, pickups, a score, a game over screen and saved best scores.', show: 'An exported game with a README that explains the controls, the parts and what you would improve next.' },
     description: 'Make small 2D games with Godot and GDScript, one system at a time, from the first moving character to a shipped build.',
     modules: [
-      moduleWithLessons('game-development', 'Godot and GDScript', 'Build a playable 2D game in Godot, from the game loop to an exported build.', lessonsInOrder('godot-what-is-a-game-engine', 'godot-first-project', 'godot-scenes-and-nodes', 'gdscript-basics', 'godot-player-movement', 'godot-collisions-and-pickups', 'godot-signals', 'godot-ui-and-game-over', 'godot-spawning-and-timers', 'godot-saving-high-scores', 'godot-coin-dash-capstone')),
+      moduleWithLessons('game-development', 'Godot and GDScript', 'Build a playable 2D game in Godot, from the game loop to an exported build.', lessonsInOrder('game-design-basics', 'godot-what-is-a-game-engine', 'godot-first-project', 'godot-scenes-and-nodes', 'gdscript-basics', 'godot-player-movement', 'animation-sound-and-feel', 'godot-collisions-and-pickups', 'godot-signals', 'godot-ui-and-game-over', 'godot-spawning-and-timers', 'godot-saving-high-scores', 'playtesting-and-feedback', 'exporting-and-sharing-a-game', 'godot-coin-dash-capstone')),
     ],
   },
   {
@@ -434,7 +436,7 @@ export const curriculumStages: CurriculumStage[] = [
     learnerOutcome: { understand: 'How to describe software clearly, check generated code, and keep control of the result.', build: 'A small Python tool built in steps, with tests, checkpoints and a clear design.', show: 'A tested tool with a README that explains how it was built and what was checked.' },
     description: 'Build with an AI assistant without giving up control: write clear goals, work in small steps, read and test what is generated, and keep honest records.',
     modules: [
-      moduleWithLessons('vibe-coding', 'Building with an AI assistant', 'Describe, build, read, test and ship small tools with an AI assistant, keeping every step checked.', lessonsInOrder('vibe-coding-what-it-is', 'vscode-setup-walkthrough', 'install-an-ai-assistant', 'project-rules-for-your-assistant', 'describing-a-goal-to-an-ai', 'working-in-small-steps', 'reading-ai-generated-code', 'testing-ai-generated-code', 'debugging-with-an-ai-assistant', 'checkpoints-with-git', 'permissions-and-approvals', 'prompt-injection-and-untrusted-text', 'safety-when-sharing-code', 'checking-packages-before-install', 'when-to-stop-prompting-and-design', 'vibe-coding-capstone')),
+      moduleWithLessons('vibe-coding', 'Building with an AI assistant', 'Describe, build, read, test and ship small tools with an AI assistant, keeping every step checked.', lessonsInOrder('vibe-coding-what-it-is', 'vscode-setup-walkthrough', 'install-an-ai-assistant', 'project-rules-for-your-assistant', 'describing-a-goal-to-an-ai', 'working-in-small-steps', 'managing-long-sessions', 'reading-ai-generated-code', 'testing-ai-generated-code', 'debugging-with-an-ai-assistant', 'checkpoints-with-git', 'refactoring-ai-code-safely', 'permissions-and-approvals', 'prompt-injection-and-untrusted-text', 'safety-when-sharing-code', 'reviewing-ai-code-as-a-team', 'checking-packages-before-install', 'when-to-stop-prompting-and-design', 'documenting-what-the-ai-built', 'vibe-coding-capstone')),
     ],
   },
   {

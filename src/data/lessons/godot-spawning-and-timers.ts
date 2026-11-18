@@ -156,7 +156,8 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Use a timer to spawn copies of a scene with `instantiate()`, and remove each copy when it leaves the screen.',
   resources: [
-    { title: 'Timer node', provider: 'Godot Engine', description: 'The official reference for the Timer node, its wait time and its timeout signal.', url: 'https://docs.godotengine.org/en/stable/classes/class_timer.html' },
+    { title: 'Object pool pattern', provider: 'Wikipedia', description: 'Reusing objects instead of creating and destroying them, which keeps spawning smooth.', url: 'https://en.wikipedia.org/wiki/Object_pool_pattern' },
+    { title: 'Timer node', provider: 'Godot Engine documentation', description: 'The reference for the Timer node, its wait time, and its autostart option.', url: 'https://docs.godotengine.org/en/stable/classes/class_timer.html' },
   ],
 }
 

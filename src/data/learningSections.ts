@@ -39,11 +39,14 @@ const mathLessonIds = [
 
 const researchLessonIds = [
   'research-questions',
+  'measuring-what-you-care-about',
+  'research-ethics-and-consent',
   'data-collection-and-cleaning',
   'experiment-design',
   'statistical-inference-and-experiments',
   'reading-research-papers',
   'reporting-results',
+  'research-checkpoint',
 ]
 
 const securityLessonIds = lessons.filter((lesson) => lesson.category === 'AI Security' || lesson.category === 'Application Security').map((lesson) => lesson.id)
@@ -168,6 +171,7 @@ export const learningSections: LearningSection[] = [
         'python-object-oriented-design',
         'python-iterators-generators',
         'python-typing-and-packages',
+        'reading-code-you-did-not-write',
         'python-developer-capstone',
       ], {
         title: 'Python next steps',

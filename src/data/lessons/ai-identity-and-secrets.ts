@@ -144,6 +144,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Every AI action should carry the signed-in learner\'s rights, checked again inside each tool, and the credentials behind it should be short-lived or scoped so a leak does little harm.',
   resources: [
+    { title: 'OWASP Secrets Management Cheat Sheet', provider: 'OWASP', description: 'How to store and rotate the keys an AI application uses.', url: 'https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html' },
     { title: 'OWASP Top 10 for Large Language Model Applications', provider: 'OWASP GenAI Security Project', description: 'Covers excessive agency and the risks of granting an AI feature more access than it needs.', url: 'https://genai.owasp.org/llm-top-10/' },
   ],
   underTheHood: {

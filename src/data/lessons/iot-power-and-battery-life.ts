@@ -155,7 +155,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Battery life depends on the average current across sleep, reading, and transmitting, so estimate each state, send only what the decision needs, and test at the coldest temperature the device will see.',
   resources: [
-    { title: 'Low power design for IoT', provider: 'Nordic Semiconductor', description: 'Practical guidance on sleep modes, radio timing, and battery estimates for low-power devices.', url: 'https://www.nordicsemi.com/Products' },
+    { title: 'Low-power electronics', provider: 'Wikipedia', description: 'An overview of low-power design: sleep modes, duty cycling, and where a device spends its energy.', url: 'https://en.wikipedia.org/wiki/Low-power_electronics' },
     { title: 'Battery basics for electronics', provider: 'SparkFun', description: 'An introduction to battery capacity, discharge, and how to estimate runtime.', url: 'https://learn.sparkfun.com/tutorials/battery-technologies' },
   ],
 }

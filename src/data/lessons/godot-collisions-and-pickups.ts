@@ -148,6 +148,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Use an `Area2D` with a collision shape to detect a pickup, check which body touched it, and remove the pickup with `queue_free()` after scoring.',
   resources: [
+    { title: 'Using Area2D', provider: 'Godot Engine documentation', description: 'How areas detect overlaps and send signals when a body enters.', url: 'https://docs.godotengine.org/en/stable/tutorials/physics/using_area_2d.html' },
     { title: 'Collision shapes and areas', provider: 'Godot Engine', description: 'The official overview of collision shapes, areas and the physics layers they use.', url: 'https://docs.godotengine.org/en/stable/tutorials/physics/collision_shapes_2d.html' },
   ],
 }

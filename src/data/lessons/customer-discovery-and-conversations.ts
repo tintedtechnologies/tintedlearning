@@ -130,6 +130,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Ask about specific recent situations, separate opinions and wishes from evidence, and end every discovery call with a summary the other person can correct.',
   resources: [
+    { title: 'Customer development', provider: 'Wikipedia', description: 'Learning from customers before building, through structured conversations.', url: 'https://en.wikipedia.org/wiki/Customer_development' },
     { title: 'The Mom Test', provider: 'Rob Fitzpatrick', description: 'A short guide to asking customers questions that reveal real problems instead of polite opinions.', url: 'https://www.momtestbook.com/' },
   ],
   underTheHood: {

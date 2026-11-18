@@ -1,0 +1,17 @@
+import type { Lesson } from '../types/curriculum'
+
+/** Catalog entries for the lessons added to Technical Leadership, Game Development, and Vibe Coding. The lesson text itself lives in src/data/lessons. */
+export const expansionSectionsLessons: Lesson[] = [
+  { id: 'leading-without-a-title', title: 'Leading Without a Title', description: 'Name the gap, propose one next step, keep small promises, and build the trust that makes others follow.', duration: 12, difficulty: 'Beginner', category: 'Professional Practice', order: 40 },
+  { id: 'running-effective-meetings-and-one-to-ones', title: 'Running Effective Meetings and One-to-Ones', description: 'Plan meetings with a purpose and owners, record decisions and actions, and use one-to-ones to build trust.', duration: 12, difficulty: 'Intermediate', category: 'Professional Practice', order: 41 },
+  { id: 'managing-technical-debt', title: 'Managing Technical Debt', description: 'Tell deliberate debt from harmful debt, score it by cost and risk, and pay it down on a steady schedule.', duration: 12, difficulty: 'Intermediate', category: 'Professional Practice', order: 42 },
+  { id: 'communicating-during-an-incident', title: 'Communicating During an Incident', description: 'Name the incident roles, send short honest updates, and run a blame-free review that leads to change.', duration: 12, difficulty: 'Intermediate', category: 'Professional Practice', order: 43 },
+  { id: 'game-design-basics', title: 'Game Design Basics', description: 'Design a core loop and one core mechanic, and cut the idea to the smallest playable version.', duration: 12, difficulty: 'Beginner', category: 'Game Development', order: 20 },
+  { id: 'animation-sound-and-feel', title: 'Animation, Sound, and Feel', description: 'Animate by state, sync sound to each event, and use screen shake and effects sparingly.', duration: 12, difficulty: 'Intermediate', category: 'Game Development', order: 21 },
+  { id: 'playtesting-and-feedback', title: 'Playtesting and Feedback', description: 'Watch what players do, find patterns across players, and rank problems to fix first.', duration: 12, difficulty: 'Intermediate', category: 'Game Development', order: 22 },
+  { id: 'exporting-and-sharing-a-game', title: 'Exporting and Sharing a Game', description: 'Export with presets, test on a clean machine, and share a release note with honest limits.', duration: 12, difficulty: 'Intermediate', category: 'Game Development', order: 23 },
+  { id: 'refactoring-ai-code-safely', title: 'Refactoring AI Code Safely', description: 'Keep behavior the same, test first, and refactor AI-generated code in small, reviewable steps.', duration: 12, difficulty: 'Intermediate', category: 'Vibe Coding', order: 20 },
+  { id: 'reviewing-ai-code-as-a-team', title: 'Reviewing AI Code as a Team', description: 'Check generated code for correctness, invented APIs, permissions, and secrets, and record what was checked.', duration: 12, difficulty: 'Intermediate', category: 'Vibe Coding', order: 21 },
+  { id: 'managing-long-sessions', title: 'Managing Long Sessions', description: 'Keep a short project brief, start fresh when a session tangles, and ask for only the next step.', duration: 12, difficulty: 'Intermediate', category: 'Vibe Coding', order: 22 },
+  { id: 'documenting-what-the-ai-built', title: 'Documenting What the AI Built', description: 'Write a README, a decision log, and an honest account of what was tested and what was not.', duration: 12, difficulty: 'Intermediate', category: 'Vibe Coding', order: 23 },
+]

@@ -1,0 +1,155 @@
+import type { StructuredLesson } from '../../types/lesson'
+import { code } from './helpers'
+
+const lesson: StructuredLesson = {
+  goals: [
+    'Review AI-generated code with the same checklist a teammate would use for any change',
+    'Find the common failure patterns in generated code, such as missing checks and invented APIs',
+    'Explain your review to a teammate, and record what you checked and what you did not',
+  ],
+  bigIdea: 'AI-generated code deserves the same review as any teammate\'s work, and sometimes more. The assistant can sound sure while being wrong, invent a library function that does not exist, or skip a permission check. A review checks correctness, tests, readability, and safety, and it ends with a clear record of what was verified and what remains open.',
+  whyItMatters: 'A small team ships a feature that an assistant wrote. It passes the tests written by the same assistant. A reviewer notices the code calls a function from a library that does not exist in the version the team uses, so the feature would crash in production. The tests never caught it, because they were generated from the same wrong assumption. A human review with a checklist is the step that breaks that loop.',
+  goalSections: [
+    {
+      heading: 'A checklist for generated code',
+      paragraphs: [
+        'Check that the code does what the request said, for normal inputs and for the edge cases. Ask what happens with an empty input, a missing value, and a value that is far too large. Generated code often handles the happy path well and skips the rest.',
+        'Check every function name and library call. Assistants can invent functions that look plausible. Open the official documentation for the version you use, and confirm that each call exists with the arguments given.',
+        'Check the security basics. Does the code validate input, check who may do the action, keep secrets out of logs and prompts, and avoid building commands from user text? These checks are easy to forget when the code was written quickly.',
+      ],
+      example: {
+        language: 'python',
+        runnable: true,
+        code: code`
+          checklist = {
+              "does what was asked": True,
+              "edge cases handled": False,
+              "library calls confirmed in docs": True,
+              "permission checked": False,
+              "no secrets in logs": True,
+          }
+          open_items = [item for item, ok in checklist.items() if not ok]
+          print("open review items:", len(open_items))
+          for item in open_items:
+              print("-", item)
+        `,
+        output: 'open review items: 2\n- edge cases handled\n- permission checked',
+      },
+    },
+    {
+      heading: 'Common failure patterns',
+      paragraphs: [
+        'Invented APIs are the most surprising failure. The code calls a method that sounds right and does not exist. The fix is to check the documentation, and to run the code, because a test that imports the module will fail immediately if the call is wrong.',
+        'Missing permission checks are common in generated web code. The page hides a button for other users, but the server accepts the request anyway. Ask where the check happens, and test it by making the request as a user who should be refused.',
+        'Over-confident error handling is another pattern. The code catches every exception and returns a default value, which hides the failure. Ask whether the default is correct, or whether the error should be visible and logged.',
+      ],
+      example: {
+        language: 'python',
+        runnable: true,
+        code: code`
+          known_bad = {"invented api": "json.parse_text", "missing check": "delete without owner"}
+          print("patterns to look for:", len(known_bad))
+          for kind, example in known_bad.items():
+              print(kind, "example:", example)
+        `,
+        output: 'patterns to look for: 2\ninvented api example: json.parse_text\nmissing check example: delete without owner',
+      },
+    },
+    {
+      heading: 'Reviewing as a team',
+      paragraphs: [
+        'Say in the review that the code was generated, and what prompt produced it. The reviewer then knows where to look hardest, and the team can learn which requests tend to produce problems.',
+        'Write a short record of the review: what was checked, what was run, and what was not checked. A review that says "not checked: behavior under heavy load" is more useful than one that says "looks good".',
+        'Treat the assistant\'s own tests with suspicion. A test generated from the same assumptions as the code will confirm the assumptions. Add at least one test written from the requirement itself, not from the code. Ask the reviewer to write that test, when possible, because a second person sees different gaps.',
+      ],
+      example: {
+        language: 'text',
+        runnable: false,
+        code: code`
+          Generated by: the assistant, from the prompt "add delete for sessions"
+          Checked: correct for an empty list, owner check present, tests run and passing
+          Not checked: behavior under heavy load, the mobile layout
+          Reviewer: Sam, approved with one required change
+        `,
+      },
+    },
+  ],
+  seeItInAction: {
+    title: 'Catching an invented call before it ships',
+    intro: 'The program above checks whether each function a generated module uses is in a list of functions the team has confirmed in the documentation. An unconfirmed call is flagged for review. Run it, then confirm the flagged function in the list and predict the new result.',
+    example: {
+      language: 'python',
+      runnable: true,
+      code: code`
+        used_calls = ["json.loads", "json.parse_text", "os.getenv"]
+        confirmed_in_docs = {"json.loads", "os.getenv"}
+
+        flagged = [call for call in used_calls if call not in confirmed_in_docs]
+        print("confirmed:", len(used_calls) - len(flagged), "of", len(used_calls))
+        print("review before merging:", flagged)
+      `,
+      output: "confirmed: 2 of 3\nreview before merging: ['json.parse_text']",
+    },
+    steps: [
+      { code: 'used_calls = [...]', explanation: 'Lists every library call the generated code makes, so none is overlooked.' },
+      { code: 'flagged = [call for call in used_calls if call not in confirmed_in_docs]', explanation: 'Flags the calls nobody has confirmed. A plausible name is not proof that a function exists.' },
+      { code: 'print("review before merging:", flagged)', explanation: 'Turns an uncertain call into a specific item for the reviewer to check.' },
+    ],
+  },
+  tryIt: {
+    instructions: [
+      'Take a function from a project and check every library call against the official documentation for your version. Write down any call you cannot confirm.',
+      'Add "json.dumps" to the used_calls list and to the confirmed set in the seItInAction example, and predict the result. Run it to check.',
+      'Write a review note for one generated change with what you checked, what you ran, and what you did not check.',
+    ],
+  },
+  mistakes: [
+    { mistake: 'Accepting a library call because it sounds right.', fix: 'Confirm every call in the official documentation and by running the code.' },
+    { mistake: 'Trusting tests generated from the same assumptions as the code.', fix: 'Write at least one test from the requirement, not from the code.' },
+    { mistake: 'Approving generated code with no record of what was checked.', fix: 'Write a short review note with what was checked and what was not.' },
+  ],
+  quiz: [
+    {
+      question: 'Why is a plausible-looking function name not proof that it exists?',
+      options: [
+        { text: 'Assistants can invent names that sound right, so the documentation must confirm them', explanation: 'Yes. Generated code can call functions that do not exist.' },
+        { text: 'Function names are always random', explanation: 'Names are not random, but plausible names can still be wrong.' },
+        { text: 'Libraries never have functions with those names', explanation: 'Some functions do exist. The point is to confirm each one.' },
+        { text: 'Functions must be renamed to be valid', explanation: 'Renaming is not the fix. Confirming the function is.' },
+      ],
+      answer: 0,
+    },
+    {
+      question: 'What does this program print for the open items?',
+      code: { language: 'python', runnable: true, code: code`
+        checks = {"a": True, "b": False, "c": False}
+        print(len([k for k, ok in checks.items() if not ok]))
+      ` },
+      options: [
+        { text: '1', explanation: 'Two items are False, so the count is 2.' },
+        { text: '2', explanation: 'Yes. Items b and c are not confirmed.' },
+        { text: '3', explanation: 'Item a is True, so it is not open.' },
+        { text: 'An error', explanation: 'The code is valid Python and runs without an error.' },
+      ],
+      answer: 1,
+      answerIsOutput: true,
+    },
+    {
+      question: 'Why should at least one test be written from the requirement rather than from the code?',
+      options: [
+        { text: 'A test from the code can confirm the same wrong assumption the code makes', explanation: 'Yes. Requirement-based tests can catch mistakes that code-based tests repeat.' },
+        { text: 'Requirement tests run faster', explanation: 'Speed is not the reason.' },
+        { text: 'Code-based tests are not allowed', explanation: 'Code-based tests are allowed. They just need a second source.' },
+        { text: 'Requirements never change', explanation: 'Requirements do change. The point is an independent check.' },
+      ],
+      answer: 0,
+    },
+  ],
+  takeaway: 'Review AI-generated code with a checklist for correctness, edge cases, confirmed library calls, permissions, and secrets, and record what was checked and what was not.',
+  resources: [
+    { title: 'Code review developer guide', provider: 'Google', description: 'A guide to what reviewers check and how to keep reviews fast and useful.', url: 'https://google.github.io/eng-practices/review/' },
+    { title: 'OWASP Top 10', provider: 'OWASP', description: 'The common web security risks that generated code often misses, such as broken access control.', url: 'https://owasp.org/www-project-top-ten/' },
+  ],
+}
+
+export default lesson

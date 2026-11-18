@@ -140,6 +140,8 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Choose a region near your users that meets your data rules, and measure real response times from where your users are, because distance sets a floor that no setting can remove.',
   resources: [
+    { title: 'AWS Global Infrastructure: Regions and Availability Zones', provider: 'AWS', description: 'How regions and availability zones are organized, and how to choose one.', url: 'https://aws.amazon.com/about-aws/global-infrastructure/regions_az/' },
+    { title: 'Azure regions', provider: 'Microsoft Learn', description: 'How Azure regions are chosen, paired, and used for resilience.', url: 'https://learn.microsoft.com/en-us/azure/reliability/regions-overview' },
     { title: 'Regions and Availability Zones', provider: 'Amazon Web Services', description: 'An explanation of regions, availability zones, and how to choose a location for an application.', url: 'https://docs.aws.amazon.com/whitepapers/latest/aws-fault-isolation-boundaries/regions-and-availability-zones.html' },
   ],
 }

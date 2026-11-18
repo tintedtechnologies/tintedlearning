@@ -148,6 +148,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'An agent is safe only when code limits each tool to its job, holds destructive actions until the learner approves them in the app and stops after a fixed number of steps, whatever the model says.',
   resources: [
+    { title: 'OWASP Top 10 for Large Language Model Applications', provider: 'OWASP', description: 'Risks for tool-using AI systems, including excessive agency.', url: 'https://owasp.org/www-project-top-10-for-large-language-model-applications/' },
     { title: 'OWASP Top 10 for Large Language Model Applications', provider: 'OWASP GenAI Security Project', description: 'Covers excessive agency, where a model is given more permissions than its task needs.', url: 'https://genai.owasp.org/llm-top-10/' },
   ],
   underTheHood: {

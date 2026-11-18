@@ -143,6 +143,8 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Set a recovery point and recovery time for each service, keep backups that a live mistake cannot remove, and prove the plan by restoring from it on a schedule.',
   resources: [
+    { title: 'What is AWS Backup?', provider: 'AWS', description: 'How backup plans, retention, and restores work in AWS.', url: 'https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html' },
+    { title: 'Azure Backup overview', provider: 'Microsoft Learn', description: 'What Azure Backup protects and how recovery points are kept.', url: 'https://learn.microsoft.com/en-us/azure/backup/backup-overview' },
     { title: 'Disaster recovery of workloads on AWS', provider: 'Amazon Web Services', description: 'A whitepaper on recovery objectives, backup strategies, and testing recovery for cloud workloads.', url: 'https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-workloads-on-aws.html' },
   ],
 }

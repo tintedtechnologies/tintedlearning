@@ -141,6 +141,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'A Godot game is a folder with a main scene and a settings file, and Godot starts the main scene every time you press Play.',
   resources: [
+    { title: 'Step by step: your first project', provider: 'Godot Engine documentation', description: 'The official walkthrough for creating a Godot project and running it.', url: 'https://docs.godotengine.org/en/stable/getting_started/step_by_step/index.html' },
     { title: 'Godot documentation: Project organization', provider: 'Godot Engine', description: 'How to structure a Godot project folder and what each file type is for.', url: 'https://docs.godotengine.org/en/stable/tutorials/best_practices/project_organization.html' },
   ],
 }

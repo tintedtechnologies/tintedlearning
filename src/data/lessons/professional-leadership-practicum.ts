@@ -142,6 +142,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Produce the Riverside package as one story whose artifacts agree at every join, review each against a rubric and walk the sponsor through it so every challenge changes the package for the better.',
   resources: [
+    { title: 'Reflective practice', provider: 'Wikipedia', description: 'Learning from experience by examining what happened and why.', url: 'https://en.wikipedia.org/wiki/Reflective_practice' },
     { title: 'Service manual: service assessments', provider: 'UK Government Digital Service', description: 'Public-sector guidance on assessing a service against clear criteria before it goes live.', url: 'https://www.gov.uk/service-manual' },
   ],
   underTheHood: {

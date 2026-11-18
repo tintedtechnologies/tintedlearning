@@ -151,6 +151,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Report the answer with its likely range and limits, draw charts that start at zero, and produce every number from one script that anyone can run again on the same file.',
   resources: [
+    { title: 'Reproducibility', provider: 'Wikipedia', description: 'Why results must be reported in enough detail for others to repeat them.', url: 'https://en.wikipedia.org/wiki/Reproducibility' },
     { title: 'EQUATOR Network reporting guidelines', provider: 'EQUATOR Network', description: 'A library of reporting guidelines that show what a good research report should include.', url: 'https://www.equator-network.org/' },
   ],
   underTheHood: {

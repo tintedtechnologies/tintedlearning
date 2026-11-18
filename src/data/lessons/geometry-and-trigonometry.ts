@@ -139,6 +139,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'The Pythagorean theorem gives distances in right triangles, and sine and cosine turn an angle and a length into the sides of any right triangle.',
   resources: [
+    { title: 'Trigonometry', provider: 'Wikipedia', description: 'An overview of angles, triangles, and the sine, cosine, and tangent functions.', url: 'https://en.wikipedia.org/wiki/Trigonometry' },
     { title: 'Trigonometry', provider: 'Khan Academy', description: 'Practice right triangles, sine and cosine, and the unit circle with guided exercises.', url: 'https://www.khanacademy.org/math/trigonometry' },
   ],
 }

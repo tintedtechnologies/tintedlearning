@@ -147,6 +147,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Filter the search by the learner\'s permissions before ranking, treat retrieved text as untrusted, and remove deleted notes from the index so the assistant cannot quote them.',
   resources: [
+    { title: 'OWASP Top 10 for Large Language Model Applications', provider: 'OWASP', description: 'The main security risks for AI applications, including data and retrieval risks.', url: 'https://owasp.org/www-project-top-10-for-large-language-model-applications/' },
     { title: 'OWASP Top 10 for Large Language Model Applications', provider: 'OWASP GenAI Security Project', description: 'Includes the risks of vector and embedding weaknesses in retrieval systems.', url: 'https://genai.owasp.org/llm-top-10/' },
   ],
   underTheHood: {

@@ -142,6 +142,10 @@ const lesson: StructuredLesson = {
       "A design called blocking goes one step further. Learners are first grouped by a known factor, such as prior score, and then assigned at random within each block. Each group then gets a fair share of strong and weak learners by design, which makes a chance imbalance much less likely.",
     ],
   },
+  resources: [
+    { title: 'Design of experiments', provider: 'Wikipedia', description: 'Randomization, control groups, and replication in experiments.', url: 'https://en.wikipedia.org/wiki/Design_of_experiments' },
+    { title: 'Control group', provider: 'Wikipedia', description: 'Why a comparison group is needed to judge an effect.', url: 'https://en.wikipedia.org/wiki/Control_group' },
+  ],
 }
 
 export default lesson

@@ -136,6 +136,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Build the demo around one task the audience already cares about, tell its problem, change and result, and prepare a recording and a sentence so a failure becomes a short pause.',
   resources: [
+    { title: 'Solution selling', provider: 'Wikipedia', description: 'Selling a solution by showing how it changes a customer\'s work.', url: 'https://en.wikipedia.org/wiki/Solution_selling' },
     { title: 'Handling Overload', provider: 'Google SRE Book', description: 'How services stay usable when demand or failures exceed what they can handle, and why planned responses matter.', url: 'https://sre.google/sre-book/handling-overload/' },
   ],
   underTheHood: {

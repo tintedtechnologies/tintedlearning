@@ -256,6 +256,24 @@ import awsInfrastructureAsCode from './aws-infrastructure-as-code'
 import awsTroubleshooting from './aws-troubleshooting'
 import gcpInfrastructureAsCode from './gcp-infrastructure-as-code'
 import gcpTroubleshooting from './gcp-troubleshooting'
+import leadingWithoutATitle from './leading-without-a-title'
+import runningEffectiveMeetingsAndOneToOnes from './running-effective-meetings-and-one-to-ones'
+import managingTechnicalDebt from './managing-technical-debt'
+import communicatingDuringAnIncident from './communicating-during-an-incident'
+import gameDesignBasics from './game-design-basics'
+import animationSoundAndFeel from './animation-sound-and-feel'
+import playtestingAndFeedback from './playtesting-and-feedback'
+import exportingAndSharingAGame from './exporting-and-sharing-a-game'
+import refactoringAiCodeSafely from './refactoring-ai-code-safely'
+import reviewingAiCodeAsATeam from './reviewing-ai-code-as-a-team'
+import managingLongSessions from './managing-long-sessions'
+import documentingWhatTheAiBuilt from './documenting-what-the-ai-built'
+import securingCloudAccounts from './securing-cloud-accounts'
+import securingApisAndTokens from './securing-apis-and-tokens'
+import researchEthicsAndConsent from './research-ethics-and-consent'
+import measuringWhatYouCareAbout from './measuring-what-you-care-about'
+import researchCheckpoint from './research-checkpoint'
+import readingCodeYouDidNotWrite from './reading-code-you-did-not-write'
 export const structuredLessons: Record<string, StructuredLesson> = {
   'geometry-and-trigonometry': geometryAndTrigonometry,
   'logic-and-proof': logicAndProof,
@@ -519,4 +537,22 @@ export const structuredLessons: Record<string, StructuredLesson> = {
   'aws-troubleshooting': awsTroubleshooting,
   'gcp-infrastructure-as-code': gcpInfrastructureAsCode,
   'gcp-troubleshooting': gcpTroubleshooting,
+  'leading-without-a-title': leadingWithoutATitle,
+  'running-effective-meetings-and-one-to-ones': runningEffectiveMeetingsAndOneToOnes,
+  'managing-technical-debt': managingTechnicalDebt,
+  'communicating-during-an-incident': communicatingDuringAnIncident,
+  'game-design-basics': gameDesignBasics,
+  'animation-sound-and-feel': animationSoundAndFeel,
+  'playtesting-and-feedback': playtestingAndFeedback,
+  'exporting-and-sharing-a-game': exportingAndSharingAGame,
+  'refactoring-ai-code-safely': refactoringAiCodeSafely,
+  'reviewing-ai-code-as-a-team': reviewingAiCodeAsATeam,
+  'managing-long-sessions': managingLongSessions,
+  'documenting-what-the-ai-built': documentingWhatTheAiBuilt,
+  'securing-cloud-accounts': securingCloudAccounts,
+  'securing-apis-and-tokens': securingApisAndTokens,
+  'research-ethics-and-consent': researchEthicsAndConsent,
+  'measuring-what-you-care-about': measuringWhatYouCareAbout,
+  'research-checkpoint': researchCheckpoint,
+  'reading-code-you-did-not-write': readingCodeYouDidNotWrite,
 }

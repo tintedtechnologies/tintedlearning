@@ -138,6 +138,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'A truth table settles a claim about a fixed number of inputs, a counterexample disproves a general claim, and a proof must cover every case with a reason for each step.',
   resources: [
+    { title: 'Mathematical proof', provider: 'Wikipedia', description: 'What a proof is, and the common methods used to establish one.', url: 'https://en.wikipedia.org/wiki/Mathematical_proof' },
     { title: 'Mathematical Reasoning', provider: 'Khan Academy', description: 'Practice logic, truth values, and writing arguments with clear steps.', url: 'https://www.khanacademy.org/math/geometry' },
   ],
 }

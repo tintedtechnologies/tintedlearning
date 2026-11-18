@@ -143,7 +143,8 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Text an assistant reads can contain instructions, so keep its permissions narrow, keep secrets out of the project, and deny any command that sends data off your computer.',
   resources: [
-    { title: 'OWASP Top 10 for Large Language Model Applications', provider: 'OWASP', description: 'A public list of the most serious security risks in applications built with language models, including prompt injection.', url: 'https://owasp.org/www-project-top-10-for-large-language-model-applications/' },
+    { title: 'Prompt injection', provider: 'Wikipedia', description: 'What prompt injection is, and why text from outside can change an assistant\'s behavior.', url: 'https://en.wikipedia.org/wiki/Prompt_injection' },
+    { title: 'OWASP Top 10 for Large Language Model Applications', provider: 'OWASP', description: 'The main security risks for AI applications, including prompt injection.', url: 'https://owasp.org/www-project-top-10-for-large-language-model-applications/' },
   ],
 }
 

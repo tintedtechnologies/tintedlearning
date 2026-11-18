@@ -155,6 +155,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Test normal, empty and bad input with checks that compare against answers you worked out, and fix the code when a trusted test fails.',
   resources: [
+    { title: 'pytest documentation', provider: 'pytest', description: 'Writing and running tests that check the behavior of generated code.', url: 'https://docs.pytest.org/en/stable/' },
     { title: 'pytest documentation: Get started', provider: 'pytest', description: 'How to write a test file, run pytest and read a failure report.', url: 'https://docs.pytest.org/en/stable/getting-started.html' },
   ],
 }

@@ -171,7 +171,7 @@ const lesson: StructuredLesson = {
   takeaway: 'Give each part of Study Tracker one job, pass in what it needs, and keep the connections between parts visible, so that new requirements add a part instead of a copy.',
   resources: [
     { title: 'Clean Code: functions', provider: 'Robert C. Martin (book overview)', description: 'Guidance on small functions, single responsibility, and naming, with examples.', url: 'https://en.wikipedia.org/wiki/Clean_Code' },
-    { title: 'Dependency injection in Python', provider: 'Real Python', description: 'A practical tutorial on passing dependencies into code so it can be tested.', url: 'https://realpython.com/python-dependency-injection/' },
+    { title: 'Dependency injection in Python', provider: 'Snyk', description: 'A practical tutorial on passing dependencies into code so it can be tested.', url: 'https://snyk.io/blog/dependency-injection-python/' },
   ],
 }
 

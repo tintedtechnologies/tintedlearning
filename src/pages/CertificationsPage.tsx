@@ -43,6 +43,7 @@ function CredentialCard({ item }: { item: Certification }) {
     <h3 className="mt-2 font-display text-xl font-bold leading-tight text-teal">{item.name}</h3>
     <p className="mt-2 inline-flex w-fit rounded-full bg-sand px-2.5 py-1 text-xs font-bold text-teal">{item.cost}</p>
     <p className="mt-4 text-sm leading-6 text-muted"><span className="font-bold text-teal">For employers: </span>{item.employerSentence}</p>
+    {item.validity && <p className="mt-3 w-full rounded-xl bg-cream/70 p-3 text-xs leading-5 text-muted"><span className="font-semibold text-ink">Validity and renewal: </span>{item.validity}</p>}
     {item.note && <p className="mt-3 w-full rounded-xl bg-cream/70 p-3 text-xs leading-5 text-muted">{item.note}</p>}
     <div className="mt-4 w-full rounded-xl bg-mist/60 p-4">
       <p className="text-xs font-bold uppercase tracking-widest text-teal">Prepare with Tinted Learning</p>

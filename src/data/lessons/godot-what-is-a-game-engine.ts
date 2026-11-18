@@ -149,7 +149,8 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'A game engine runs the same loop every frame, and multiplying movement by delta keeps the game feeling the same at any frame rate.',
   resources: [
-    { title: 'Godot documentation: Introduction', provider: 'Godot Engine', description: 'The official introduction to nodes, scenes and the basic workflow.', url: 'https://docs.godotengine.org/en/stable/getting_started/introduction/index.html' },
+    { title: 'Game engine', provider: 'Wikipedia', description: 'What a game engine provides: rendering, physics, input, and the game loop.', url: 'https://en.wikipedia.org/wiki/Game_engine' },
+    { title: 'Introduction to Godot', provider: 'Godot Engine documentation', description: 'What Godot is, and how its nodes, scenes, and scripts fit together.', url: 'https://docs.godotengine.org/en/stable/getting_started/introduction/index.html' },
   ],
 }
 

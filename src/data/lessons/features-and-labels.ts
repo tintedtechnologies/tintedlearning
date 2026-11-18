@@ -153,7 +153,8 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Features describe each example before the outcome is known, and the label is the answer the model must learn to predict.',
   resources: [
-    { title: 'Machine Learning Crash Course: Framing', provider: 'Google for Developers', description: 'A practical introduction to features, labels, and how to frame a prediction problem.', url: 'https://developers.google.com/machine-learning/crash-course/framing/ml-terminology' },
+    { title: 'Feature engineering', provider: 'Wikipedia', description: 'How raw data is turned into the inputs a model learns from.', url: 'https://en.wikipedia.org/wiki/Feature_engineering' },
+    { title: 'Machine Learning Crash Course: Framing', provider: 'Google', description: 'How to describe a problem with features and labels for a model.', url: 'https://developers.google.com/machine-learning/crash-course/framing/ml-terminology' },
   ],
 }
 

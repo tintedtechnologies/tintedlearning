@@ -129,6 +129,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Vibe coding turns a clear goal into code quickly, and it still needs your testing and judgment before you trust the result.',
   resources: [
+    { title: 'Claude Code overview', provider: 'Anthropic', description: 'What an AI coding assistant can do in a project, and how it works in the terminal and editor.', url: 'https://docs.anthropic.com/en/docs/claude-code/overview' },
     { title: 'Python tutorial: Using the interpreter and scripts', provider: 'Python.org', description: 'How to run a Python file from the command line, which you need for the reading-list project.', url: 'https://docs.python.org/3/tutorial/interpreter.html' },
   ],
 }

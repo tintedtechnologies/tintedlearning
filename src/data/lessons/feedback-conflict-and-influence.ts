@@ -128,6 +128,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Give feedback about specific behavior, its effect and a next step, receive it by asking questions first and influence people you do not manage through evidence, shared goals and small agreements.',
   resources: [
+    { title: 'Conflict resolution', provider: 'Wikipedia', description: 'Approaches to disagreement that keep relationships and work moving.', url: 'https://en.wikipedia.org/wiki/Conflict_resolution' },
     { title: 'Radical Candor', provider: 'Kim Scott', description: 'A book and website on giving feedback that is both caring and direct.', url: 'https://www.radicalcandor.com/' },
   ],
   underTheHood: {

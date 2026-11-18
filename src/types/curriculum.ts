@@ -121,6 +121,8 @@ export interface Certification {
   lastChecked: string
   /** Version or retirement notes from the official page, when there are any. */
   note?: string
+  /** How long the credential lasts and how it is renewed, as the issuer states it. */
+  validity?: string
 }
 
 export interface LearningSectionModuleReference {

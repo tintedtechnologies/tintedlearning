@@ -145,7 +145,8 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'A score is a ranking of confidence, and the threshold you choose decides which mistakes the model makes, so set it from the cost of each mistake.',
   resources: [
-    { title: 'Classification: Thresholding', provider: 'Google for Developers', description: 'How thresholds turn a classifier score into a decision, and how the threshold changes the errors.', url: 'https://developers.google.com/machine-learning/crash-course/classification/thresholding' },
+    { title: 'Precision and recall', provider: 'Wikipedia', description: 'How precision and recall measure the two kinds of error a classifier makes.', url: 'https://en.wikipedia.org/wiki/Precision_and_recall' },
+    { title: 'Classification: thresholding', provider: 'Google', description: 'How a decision threshold trades false alarms against missed cases.', url: 'https://developers.google.com/machine-learning/crash-course/classification/thresholding' },
   ],
 }
 

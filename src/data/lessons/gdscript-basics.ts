@@ -148,6 +148,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Store state in variables, run rules in functions, and use `if` statements to decide what happens next.',
   resources: [
+    { title: 'GDScript reference', provider: 'Godot Engine documentation', description: 'The language reference for GDScript variables, functions, and control flow.', url: 'https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/index.html' },
     { title: 'GDScript reference', provider: 'Godot Engine', description: 'The official reference for the GDScript language, with every keyword and built-in function.', url: 'https://docs.godotengine.org/en/stable/classes/class_@gdscript.html' },
   ],
 }

@@ -135,6 +135,8 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Delegate an outcome with its decisions and check-ins, coach with questions that help people find the answer and grow junior people through steps a little beyond their current work.',
   resources: [
+    { title: 'Mentorship', provider: 'Wikipedia', description: 'What mentoring is, and how it develops the person being mentored.', url: 'https://en.wikipedia.org/wiki/Mentorship' },
+    { title: 'Delegation', provider: 'Wikipedia', description: 'How to hand over work and the responsibility that comes with it.', url: 'https://en.wikipedia.org/wiki/Delegation' },
     { title: 'The Coaching Habit', provider: 'Michael Bungay Stanier', description: 'A practical guide to asking coaching questions that help people think for themselves.', url: 'https://boxofcrayons.com/' },
   ],
   underTheHood: {

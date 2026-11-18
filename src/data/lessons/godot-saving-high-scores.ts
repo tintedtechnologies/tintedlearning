@@ -147,6 +147,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Save to `user://` with `ConfigFile`, load with a default for the first run, and write only when the player beats the best score.',
   resources: [
+    { title: 'Saving games', provider: 'Godot Engine documentation', description: 'How to save and load data between sessions in Godot.', url: 'https://docs.godotengine.org/en/stable/tutorials/io/saving_games.html' },
     { title: 'ConfigFile', provider: 'Godot Engine', description: 'The official reference for saving and loading named values with ConfigFile.', url: 'https://docs.godotengine.org/en/stable/classes/class_configfile.html' },
   ],
 }

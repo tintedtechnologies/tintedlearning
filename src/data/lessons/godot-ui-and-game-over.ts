@@ -150,6 +150,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Keep the score in a `CanvasLayer`, lay out controls with anchors and containers, and restart the level by reloading its scene.',
   resources: [
+    { title: 'Introduction to user interfaces', provider: 'Godot Engine documentation', description: 'How Control nodes, containers, and layouts build a game\'s interface.', url: 'https://docs.godotengine.org/en/stable/tutorials/ui/index.html' },
     { title: 'Size and anchors for Control nodes', provider: 'Godot Engine', description: 'The official guide to anchors, containers and how Control nodes resize with the window.', url: 'https://docs.godotengine.org/en/stable/tutorials/ui/size_and_anchors.html' },
   ],
 }

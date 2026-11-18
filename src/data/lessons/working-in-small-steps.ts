@@ -155,6 +155,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Make each change small, run the program after each one, and keep a short log so a failure points to one cause.',
   resources: [
+    { title: 'Git handbook', provider: 'Git SCM', description: 'The core workflow for small commits and branches.', url: 'https://git-scm.com/book/en/v2' },
     { title: 'Python tutorial: Lists', provider: 'Python.org', description: 'How lists work in Python, including append and iterating through items.', url: 'https://docs.python.org/3/tutorial/datastructures.html' },
   ],
 }

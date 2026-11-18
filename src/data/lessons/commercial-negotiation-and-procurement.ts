@@ -133,6 +133,8 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Match the pricing approach to how well the scope is defined, trade terms instead of discounting and work with procurement early so every commercial change is fair, recorded and easy to explain.',
   resources: [
+    { title: 'Procurement', provider: 'Wikipedia', description: 'How organizations buy goods and services, and the terms they negotiate.', url: 'https://en.wikipedia.org/wiki/Procurement' },
+    { title: 'Negotiation', provider: 'Wikipedia', description: 'The principles of reaching agreement between parties with different interests.', url: 'https://en.wikipedia.org/wiki/Negotiation' },
     { title: 'Service manual: buying digital services', provider: 'UK Government Digital Service', description: 'Public-sector guidance on procuring and managing digital services, including how buyers and suppliers agree terms.', url: 'https://www.gov.uk/service-manual' },
   ],
   underTheHood: {

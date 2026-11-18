@@ -129,6 +129,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Read a paper by finding its claim and comparison, judging its sample and measure, and checking what it did not test before you repeat any of its results.',
   resources: [
+    { title: 'Peer review', provider: 'Wikipedia', description: 'How papers are checked before publication, and what that check does not guarantee.', url: 'https://en.wikipedia.org/wiki/Peer_review' },
     { title: 'How to Read a Paper', provider: 'S. Keshav, Stanford University', description: 'A short, practical guide to reading a research paper in three passes.', url: 'https://web.stanford.edu/class/ee384m/Handouts/HowtoReadPaper.pdf' },
   ],
   underTheHood: {

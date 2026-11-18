@@ -142,7 +142,7 @@ const lesson: StructuredLesson = {
   takeaway: 'A microcontroller is a small, low-power computer with strict pin limits, so check the datasheet, use a driver for larger loads, and check the wiring before power-up.',
   resources: [
     { title: 'Arduino language and hardware reference', provider: 'Arduino', description: 'Reference for microcontroller pins, voltages, and basic electronics.', url: 'https://docs.arduino.cc/' },
-    { title: 'Raspberry Pi Pico documentation', provider: 'Raspberry Pi', description: 'Hardware and GPIO documentation for a common beginner microcontroller board.', url: 'https://www.raspberrypi.com/documentation/microcontrollers/' },
+    { title: 'MicroPython documentation', provider: 'MicroPython', description: 'Documentation for running Python on small microcontroller boards.', url: 'https://micropython.org/' },
   ],
 }
 

@@ -136,6 +136,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Map who decides each choice, separately from who is consulted or informed, record every important decision with its options, reason and owner on the day, and plan around the organization\'s own calendar.',
   resources: [
+    { title: 'Organizational structure', provider: 'Wikipedia', description: 'How decision rights and reporting lines shape how an organization acts.', url: 'https://en.wikipedia.org/wiki/Organizational_structure' },
     { title: 'Architecture Decision Records', provider: 'ADR GitHub organization', description: 'A lightweight format for recording decisions, their context and their consequences.', url: 'https://adr.github.io/' },
   ],
   underTheHood: {

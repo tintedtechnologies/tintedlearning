@@ -132,7 +132,8 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Build a scene once from a root node and its children, save it, and place it as an instance wherever the game needs it.',
   resources: [
-    { title: 'Godot documentation: Nodes and scenes', provider: 'Godot Engine', description: 'How nodes, scenes and the scene tree work together.', url: 'https://docs.godotengine.org/en/stable/getting_started/step_by_step/nodes_and_scenes.html' },
+    { title: 'Scene graph', provider: 'Wikipedia', description: 'The tree of nodes that many game engines use, and why scenes are built from it.', url: 'https://en.wikipedia.org/wiki/Scene_graph' },
+    { title: 'Using nodes and scenes', provider: 'Godot Engine documentation', description: 'How scenes are built from nodes, and how to reuse them.', url: 'https://docs.godotengine.org/en/stable/getting_started/step_by_step/nodes_and_scenes.html' },
   ],
 }
 

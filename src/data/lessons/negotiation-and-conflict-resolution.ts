@@ -137,6 +137,7 @@ const lesson: StructuredLesson = {
   ],
   takeaway: 'Find the interest behind each position, invent options that serve both interests and write the agreement down with its trade-offs, an owner and a review date.',
   resources: [
+    { title: 'Negotiation', provider: 'Wikipedia', description: 'Interests, options, and agreements in negotiation.', url: 'https://en.wikipedia.org/wiki/Negotiation' },
     { title: 'Getting to Yes', provider: 'Harvard Program on Negotiation', description: 'Guidance from the Harvard Program on Negotiation on separating people from problems and focusing on interests.', url: 'https://www.pon.harvard.edu/' },
   ],
   underTheHood: {
