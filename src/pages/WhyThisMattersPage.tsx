@@ -21,13 +21,13 @@ const courseAccess = [
   {
     figure: '32% (2023-24)',
     text: 'of high schools where Black and Latino students make up more than three-quarters of enrollment offer calculus. Schools with fewer of those students are 18 percentage points more likely to offer it.',
-    source: 'Authors\' calculations from the federal 2023-24 Civil Rights Data Collection (Gopalan and Frankenberg)',
+    source: 'U.S. Department of Education, Office for Civil Rights, 2023-24 Civil Rights Data Collection, analyzed by Gopalan and Frankenberg',
     url: 'https://www.advancedequity.org/briefs/a-second-look-202324crdc',
   },
   {
     figure: '51% and 45% (2023-24)',
     text: 'of all U.S. high schools offered computer science and calculus, respectively, in 2023-24. Nearly half of high schools did not offer computer science.',
-    source: 'Authors\' calculations from the federal 2023-24 Civil Rights Data Collection (Gopalan and Frankenberg)',
+    source: 'U.S. Department of Education, Office for Civil Rights, 2023-24 Civil Rights Data Collection, analyzed by Gopalan and Frankenberg',
     url: 'https://www.advancedequity.org/briefs/a-second-look-202324crdc',
   },
 ]
@@ -41,14 +41,14 @@ const resourceAccess = [
   },
   {
     figure: 'About 1 in 5 (2026)',
-    text: 'teens in households earning under $30,000 a year do all or most of their schoolwork with chatbots\' help. In higher-income households, the figure is 7%.',
-    source: 'Pew Research Center, February 2026, survey of 1,458 teens',
+    text: 'Among teens who use chatbots, about 1 in 5 in households under $30,000 do all or most of their schoolwork with them, compared with 7% in households over $75,000.',
+    source: 'Pew Research Center, 2026 survey of 1,458 teens ages 13 to 17, conducted September 25 to October 9, 2025',
     url: 'https://www.pewresearch.org/internet/2026/02/24/demographic-differences-in-how-teens-use-and-view-ai/',
   },
   {
     figure: 'About 6 in 10 (2026)',
-    text: 'Black or Hispanic teens say they have used chatbots for schoolwork help. Roughly half of White teens say the same.',
-    source: 'Pew Research Center, February 2026',
+    text: 'Black or Hispanic teens have used chatbots for help with schoolwork. This counts any use, not only doing all or most of the work, and it covers Black and Hispanic teens together.',
+    source: 'Pew Research Center, 2026',
     url: 'https://www.pewresearch.org/internet/2026/02/24/demographic-differences-in-how-teens-use-and-view-ai/',
   },
 ]
@@ -59,7 +59,7 @@ const sources = [
     url: 'https://www.rand.org/pubs/commentary/2024/08/five-charts-that-tell-us-about-the-state-of-public.html',
   },
   {
-    text: 'Gopalan and Frankenberg, "A Second Look at the 2023-24 Civil Rights Data Collection," AdvancED Equity',
+    text: 'Gopalan and Frankenberg, "A Second Look at the 2023-24 Civil Rights Data Collection," AdvancED Equity (analysis of the federal data)',
     url: 'https://www.advancedequity.org/briefs/a-second-look-202324crdc',
   },
   {
