@@ -49,20 +49,20 @@ const researchLessonIds = [
   'research-checkpoint',
 ]
 
-const securityLessonIds = lessons.filter((lesson) => lesson.category === 'AI Security' || lesson.category === 'Application Security').map((lesson) => lesson.id)
+const securityLessonIds = (moduleById.get('security-governance')?.lessons ?? []).map((lesson) => lesson.id)
 const providerSecurityLessonIds = ['azure-track', 'aws-track', 'gcp-track']
   .flatMap((moduleId) => moduleById.get(moduleId)?.lessons ?? [])
   .filter((lesson) => lesson.id.includes('security'))
   .map((lesson) => lesson.id)
 
 const professionalPracticeModuleIds = [
+  'communication',
   'customer-discovery',
-  'scope-and-requirements',
   'value-and-business-cases',
   'consultative-selling',
-  'solution-storytelling',
+  'scope-and-requirements',
   'commercial-practice',
-  'communication',
+  'solution-storytelling',
   'planning-and-execution',
   'collaboration-and-influence',
   'leadership-systems',

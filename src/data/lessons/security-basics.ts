@@ -54,7 +54,7 @@ const lesson: StructuredLesson = {
       paragraphs: [
         "The attack surface is the set of places where an outsider can send data into your system or affect what it does. Listing it is the first defensive habit. You cannot protect an entry point you have not noticed, and each one needs its own checks.",
         "Each entry point should get only the access it needs. The endpoint that reads totals has no reason to change data, and a database user for reading does not need permission to delete. Narrow doors make a mistake at one door less costly.",
-        "Write the list down. For each entry point, note what data arrives, what checks it gets, and what it can change. This list becomes the starting point for the threat model in the next lesson.",
+        "Write the list down. For each entry point, note what data arrives, what checks it gets, and what it can change. This list becomes the starting point for the threat model in the Threat Modeling AI Systems lesson.",
       ],
       example: {
         language: 'text',
